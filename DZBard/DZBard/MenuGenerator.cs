@@ -21,6 +21,8 @@ namespace DZBard
             {
                 comboMenu.AddItem(new MenuItem("dz191.bard.combo.useq", "Use Q").SetValue(true));
                 comboMenu.AddItem(new MenuItem("dz191.bard.combo.usew", "Use W").SetValue(true));
+                comboMenu.AddItem(new MenuItem("dz191.bard.combo.qks", "Use Q KS").SetValue(true));
+
                 rootMenu.AddSubMenu(comboMenu);
             }
 

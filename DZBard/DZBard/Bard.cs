@@ -171,7 +171,7 @@ namespace DZBard
                 
                 if (QPrediction.Hitchance >= HitChance.High)
                 {
-                    if (spells[SpellSlot.Q].GetDamage(comboTarget) > comboTarget.Health + 15)
+                    if (spells[SpellSlot.Q].GetDamage(comboTarget) > comboTarget.Health + 15 && GetItemValue<bool>("dz191.bard.combo.qks"))
                     {
                         spells[SpellSlot.Q].Cast(QPrediction.CastPosition);
                         return;
