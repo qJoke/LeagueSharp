@@ -26,6 +26,17 @@ namespace DZBard
 
             var harassMenu = new Menu("Harass", "dz191.bard.mixed");
             {
+                var QMenu = new Menu("Q Targets (Harass Only)", "dz191.bard.mixed");
+                {
+                    foreach (var hero in HeroManager.Allies)
+                    {
+                        QMenu.AddItem(
+                            new MenuItem(string.Format("dz191.bard.qtarget.{0}", hero.ChampionName.ToLower()),
+                                hero.ChampionName).SetValue(true));
+                        
+                    }
+                    harassMenu.AddSubMenu(QMenu);
+                }
                 harassMenu.AddItem(new MenuItem("dz191.bard.mixed.useq", "Use Q").SetValue(true));
                 rootMenu.AddSubMenu(harassMenu);
             }

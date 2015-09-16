@@ -89,7 +89,7 @@ namespace DZBard
                     break;
                 case Orbwalking.OrbwalkingMode.Mixed:
                     if (spells[SpellSlot.Q].IsReady() && GetItemValue<bool>(string.Format("dz191.bard.{0}.useq", BardOrbwalker.ActiveMode.ToString().ToLower())) &&
-                        ComboTarget.IsValidTarget())
+                        ComboTarget.IsValidTarget() && GetItemValue<bool>(string.Format("dz191.bard.qtarget.{0}", ComboTarget.ChampionName.ToLower())))
                     {
                         HandleQ(ComboTarget);
                     }
