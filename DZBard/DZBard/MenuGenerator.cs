@@ -69,6 +69,9 @@ namespace DZBard
                 miscMenu.AddItem(new MenuItem("dz191.bard.misc.sep1", "                     Q - Cosmic Binding          "));
                 miscMenu.AddItem(new MenuItem("dz191.bard.misc.distance", "Calculation distance").SetValue(new Slider(250, 100, 450)));
                 miscMenu.AddItem(new MenuItem("dz191.bard.misc.accuracy", "Accuracy").SetValue(new Slider(20, 1, 50)));
+                miscMenu.AddItem(new MenuItem("dz191.bard.misc.sep2", ""));
+                miscMenu.AddItem(new MenuItem("dz191.bard.misc.attackMinions", "Attack Minions aka Support Mode").SetValue(true));
+                miscMenu.AddItem(new MenuItem("dz191.bard.misc.attackMinionsRange", "Ally Range to not attack Minions").SetValue(new Slider(1200, 700, 2000)));
                 rootMenu.AddSubMenu(miscMenu);
             }
 

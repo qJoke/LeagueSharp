@@ -43,6 +43,20 @@ namespace DZBard
             Game.OnUpdate += Game_OnUpdate;
             GameObject.OnCreate += OnCreate;
             GameObject.OnDelete += OnDelete;
+            Orbwalking.BeforeAttack += OnBeforeAttack;
+        }
+
+        private static void OnBeforeAttack(Orbwalking.BeforeAttackEventArgs args)
+        {
+            if (args.Target.Type == GameObjectType.obj_AI_Minion
+                && (BardOrbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
+                && !GetItemValue<bool>("dz191.bard.misc.attackMinions"))
+            {
+                if (ObjectManager.Player.CountAlliesInRange(GetItemValue<Slider>("dz191.bard.misc.attackMinionRange").Value) > 0)
+                {
+                    args.Process = false;
+                }
+            }
         }
 
         private static void OnDelete(GameObject sender, EventArgs args)
