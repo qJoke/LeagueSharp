@@ -12,6 +12,9 @@ namespace WaifuSharp.ResourceClasses
     {
         public Render.Sprite Sprite { get; set; }
 
-        public bool PlayCondition { get; set; }
+        public bool PlayCondition
+        {
+            get { return true; }
+        }
     }
 }

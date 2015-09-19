@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
+using WaifuSharp.Enums;
+using WaifuSharp.ResourceClasses;
 using WaifuSharp.WaifuHelper;
 
 namespace WaifuSharp.WaifuSelector
@@ -36,6 +41,7 @@ namespace WaifuSharp.WaifuSelector
         public static void OnLoad()
         {
             CheckAndCreateDirectories();
+            LoadWaifus();
             LoadMenu();
         }
 
@@ -53,6 +59,7 @@ namespace WaifuSharp.WaifuSelector
                 {
                     LoadContentToWaifu(file, currentWaifu);
                 }
+                Waifus.Add(currentWaifu);
             }
         }
 
@@ -63,21 +70,88 @@ namespace WaifuSharp.WaifuSelector
 
             if (fileName.Contains("onkill"))
             {
-                OnKillLoad(currentWaifu);
+                OnKillLoad(fileName, FilePath, currentWaifu);
             }
 
             if (fileName.Contains("ondeath"))
             {
-                OnDeathLoad(currentWaifu);
+                OnDeathLoad(fileName, currentWaifu);
             }
         }
 
-        public static void OnKillLoad(Waifu currentWaifu)
+        #region OnKill / OnDeath Load
+        public static void OnKillLoad(String fileName, String filePath, Waifu currentWaifu)
         {
-            
-        }
+            var priority = fileName.ToLower().Replace("onkill", "");
 
-        public static void OnDeathLoad(Waifu currentWaifu)
+            if (priority.Contains("single"))
+            {
+                var currentSprite = GetSpriteFromFile(filePath);
+                if (currentSprite != null)
+                {
+                    currentWaifu.OnKillPics.Add(new OnKillSprite
+                    {
+                        PicPriority = ResourcePriority.SingleKill,
+                        Sprite = GetSpriteFromFile(filePath)
+                    });
+                }
+            }
+
+            if (priority.Contains("double"))
+            {
+                var currentSprite = GetSpriteFromFile(filePath);
+                if (currentSprite != null)
+                {
+                    currentWaifu.OnKillPics.Add(new OnKillSprite
+                    {
+                        PicPriority = ResourcePriority.DoubleKill,
+                        Sprite = GetSpriteFromFile(filePath)
+                    });
+                }
+            }
+
+            if (priority.Contains("triple"))
+            {
+                var currentSprite = GetSpriteFromFile(filePath);
+                if (currentSprite != null)
+                {
+                    currentWaifu.OnKillPics.Add(new OnKillSprite
+                    {
+                        PicPriority = ResourcePriority.TripleKill,
+                        Sprite = GetSpriteFromFile(filePath)
+                    });
+                }
+            }
+
+            if (priority.Contains("quadra"))
+            {
+                var currentSprite = GetSpriteFromFile(filePath);
+                if (currentSprite != null)
+                {
+                    currentWaifu.OnKillPics.Add(new OnKillSprite
+                    {
+                        PicPriority = ResourcePriority.QuadraKill,
+                        Sprite = GetSpriteFromFile(filePath)
+                    });
+                }
+            }
+
+            if (priority.Contains("penta"))
+            {
+                var currentSprite = GetSpriteFromFile(filePath);
+                if (currentSprite != null)
+                {
+                    currentWaifu.OnKillPics.Add(new OnKillSprite
+                    {
+                        PicPriority = ResourcePriority.PentaKill,
+                        Sprite = GetSpriteFromFile(filePath)
+                    });
+                }
+            }
+        }
+        #endregion
+
+        public static void OnDeathLoad(String fileName, Waifu currentWaifu)
         {
 
         }
@@ -91,6 +165,12 @@ namespace WaifuSharp.WaifuSelector
         #endregion
 
         #region Utility Methods
+        private static Render.Sprite GetSpriteFromFile(string filePath)
+        {
+            var sprite = new Render.Sprite(filePath, Vector2.Zero);
+            return sprite;
+        }
+
         private static void CheckAndCreateDirectories()
         {
             if (!Directory.Exists(AssemblyDir))

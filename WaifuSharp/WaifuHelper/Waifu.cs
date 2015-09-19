@@ -15,7 +15,7 @@ namespace WaifuSharp.WaifuHelper
 
         public List<OnKillSprite> OnKillPics { get; set; }
 
-        public List<OnKillSound> OnKillSounds { get; set; } 
+        public List<OnKillSound> OnKillSounds { get; set; }
 
         public List<OnDeathSprite> OnDeathPics { get; set; }
 
