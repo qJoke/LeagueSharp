@@ -12,9 +12,13 @@ namespace WaifuSharp.ResourceClasses
     {
         public Render.Sprite Sprite { get; set; }
 
+        public int MinWaifuLevel { get; set; }
+
         public bool PlayCondition
         {
             get { return true; }
         }
+
+        public bool IsDrawing { get; set; }
     }
 }

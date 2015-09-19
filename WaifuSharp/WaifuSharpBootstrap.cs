@@ -23,6 +23,7 @@ namespace WaifuSharp
         {
             WaifuSharp.Menu = new Menu("Waifu#", "waifusharp");
 
+            WaifuSelector.WaifuSelector.OnLoad();
 
         }
     }

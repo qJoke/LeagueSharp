@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -37,52 +34,123 @@ namespace WaifuSharp.WaifuSelector
         }
 
         public static List<Waifu> Waifus = new List<Waifu>();
- 
+
+        public static bool IsDrawing = false;
+
         public static void OnLoad()
         {
             CheckAndCreateDirectories();
             LoadWaifus();
             LoadMenu();
+            Game.OnInput += Game_OnInput;
+            Drawing.OnDraw += Drawing_OnDraw;
         }
 
+        static void Drawing_OnDraw(EventArgs args)
+        {
+
+        }
+
+        static void Game_OnInput(GameInputEventArgs args)
+        {
+            if (args.Input.StartsWith(".w"))
+            {
+                args.Process = false;
+                if (IsDrawing)
+                {
+                    return;
+                }
+                var waifu = GetCurrentWaifu();
+                if (waifu != null)
+                {
+                    var sprite = waifu.OnKillPics[new Random().Next(0, waifu.OnKillPics.Count())];
+                    if (sprite != null)
+                    {
+                        IsDrawing = true;
+                        sprite.IsDrawing = true;
+                        sprite.Sprite.Visible = true;
+                        sprite.Sprite.Scale = new Vector2(1.0f, 1.0f);
+                        sprite.Sprite.VisibleCondition = delegate
+                        {
+                            return sprite.IsDrawing;
+                        };
+                        sprite.Sprite.Position = new Vector2(200, 200);
+                        sprite.Sprite.Add();
+                        Utility.DelayAction.Add(
+                            3500, () =>
+                            {
+                                IsDrawing = false;
+                                sprite.IsDrawing = true;
+                                sprite.Sprite.Visible = false;
+                                sprite.Sprite.Remove();
+                            });
+                    }
+                }
+            }
+        }
+
+        private static Waifu GetCurrentWaifu()
+        {
+            return Waifus.FirstOrDefault();
+        }
         #region Waifus Loading
         private static void LoadWaifus()
         {
             foreach (var directory in Directory.GetDirectories(WaifusDir))
             {
+                var array = directory.Split(Path.DirectorySeparatorChar);
+                var waifuName = array.Last();
                 var currentWaifu = new Waifu
                 {
-                    Name = directory
+                    Name = waifuName
                 };
-                string[] content = Directory.GetFiles(directory);
-                foreach (var file in content)
+
+                foreach (var d2 in Directory.GetDirectories(directory))
                 {
-                    LoadContentToWaifu(file, currentWaifu);
+                    var a2 = d2.Split(Path.DirectorySeparatorChar);
+                    var d2Name = a2.Last();
+
+                    if (!IsInt(d2Name))
+                    {
+                        continue;
+                    }
+
+                    string[] content = Directory.GetFiles(d2);
+
+                    foreach (var file in content)
+                    {
+                        LoadContentToWaifu(file, d2Name, currentWaifu);
+                    }
                 }
+                Console.WriteLine("Loaded {0}, with {1} pics", currentWaifu.Name, currentWaifu.OnKillPics.Count);
+
                 Waifus.Add(currentWaifu);
             }
         }
 
-        private static void LoadContentToWaifu(String FilePath, Waifu currentWaifu)
+        private static void LoadContentToWaifu(String FilePath, String DirName, Waifu currentWaifu)
         {
             var array = FilePath.Split(Path.DirectorySeparatorChar);
-            var fileName = array.Last().ToLower();
-
-            if (fileName.Contains("onkill"))
+            var fileName = array.Last();
+            Console.WriteLine(fileName);
+            if (fileName.ToLower().Contains("onkill"))
             {
-                OnKillLoad(fileName, FilePath, currentWaifu);
+                OnKillLoad(fileName, FilePath, DirName, currentWaifu);
             }
 
-            if (fileName.Contains("ondeath"))
+            if (fileName.ToLower().Contains("ondeath"))
             {
                 OnDeathLoad(fileName, currentWaifu);
             }
         }
 
         #region OnKill / OnDeath Load
-        public static void OnKillLoad(String fileName, String filePath, Waifu currentWaifu)
+        private static void OnKillLoad(String fileName, String filePath, String DirName, Waifu currentWaifu)
         {
-            var priority = fileName.ToLower().Replace("onkill", "");
+            var MinWaifuLevel = Int32.Parse(DirName);
+
+
+            var priority = fileName.Replace("onkill", "");
 
             if (priority.Contains("single"))
             {
@@ -95,9 +163,7 @@ namespace WaifuSharp.WaifuSelector
                         Sprite = GetSpriteFromFile(filePath)
                     });
                 }
-            }
-
-            if (priority.Contains("double"))
+            }else if (priority.Contains("double"))
             {
                 var currentSprite = GetSpriteFromFile(filePath);
                 if (currentSprite != null)
@@ -108,9 +174,7 @@ namespace WaifuSharp.WaifuSelector
                         Sprite = GetSpriteFromFile(filePath)
                     });
                 }
-            }
-
-            if (priority.Contains("triple"))
+            }else if (priority.Contains("triple"))
             {
                 var currentSprite = GetSpriteFromFile(filePath);
                 if (currentSprite != null)
@@ -121,9 +185,7 @@ namespace WaifuSharp.WaifuSelector
                         Sprite = GetSpriteFromFile(filePath)
                     });
                 }
-            }
-
-            if (priority.Contains("quadra"))
+            }else if (priority.Contains("quadra"))
             {
                 var currentSprite = GetSpriteFromFile(filePath);
                 if (currentSprite != null)
@@ -134,27 +196,42 @@ namespace WaifuSharp.WaifuSelector
                         Sprite = GetSpriteFromFile(filePath)
                     });
                 }
-            }
-
-            if (priority.Contains("penta"))
+            }else if (priority.Contains("penta"))
             {
                 var currentSprite = GetSpriteFromFile(filePath);
                 if (currentSprite != null)
                 {
-                    currentWaifu.OnKillPics.Add(new OnKillSprite
-                    {
-                        PicPriority = ResourcePriority.PentaKill,
-                        Sprite = GetSpriteFromFile(filePath)
-                    });
+                    currentWaifu.OnKillPics.Add(
+                        new OnKillSprite
+                        {
+                            PicPriority = ResourcePriority.PentaKill,
+                            Sprite = GetSpriteFromFile(filePath)
+                        });
+                }
+            }
+            else
+            {
+                var currentSprite = GetSpriteFromFile(filePath);
+                if (currentSprite != null)
+                {
+                    currentWaifu.OnKillPics.Add(
+                        new OnKillSprite
+                        {
+                            PicPriority = ResourcePriority.Random,
+                            Sprite = GetSpriteFromFile(filePath)
+                        });
                 }
             }
         }
-        #endregion
 
-        public static void OnDeathLoad(String fileName, Waifu currentWaifu)
+        private static void OnDeathLoad(String fileName, Waifu currentWaifu)
         {
 
         }
+
+        #endregion
+
+        
         #endregion
 
         #region Menu Creation
@@ -169,6 +246,10 @@ namespace WaifuSharp.WaifuSelector
         {
             var sprite = new Render.Sprite(filePath, Vector2.Zero);
             return sprite;
+        }
+        private static bool IsInt(string sVal)
+        {
+            return sVal.Select(c => (int)c).All(iN => (iN <= 57) && (iN >= 48));
         }
 
         private static void CheckAndCreateDirectories()

@@ -9,9 +9,13 @@ namespace WaifuSharp.ResourceClasses
 
         public ResourcePriority SoundPriority { get; set; }
 
+        public int MinWaifuLevel { get; set; }
+
         public bool PlayCondition
         {
             get { return true; }
         }
+
+        public bool IsDrawing { get; set; }
     }
 }

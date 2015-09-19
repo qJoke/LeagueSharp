@@ -13,13 +13,14 @@ namespace WaifuSharp.WaifuHelper
     {
         public String Name { get; set; }
 
-        public List<OnKillSprite> OnKillPics { get; set; }
+        public List<OnKillSprite> OnKillPics = new List<OnKillSprite>();
 
-        public List<OnKillSound> OnKillSounds { get; set; }
+        public List<OnKillSound> OnKillSounds = new List<OnKillSound>();
 
-        public List<OnDeathSprite> OnDeathPics { get; set; }
+        public List<OnDeathSprite> OnDeathPics = new List<OnDeathSprite>();
 
         public bool CurrentLevel { get; set; }
 
+        public bool IsDrawing { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace WaifuSharp.Enums
 {
     enum ResourcePriority
     {
-        SingleKill, DoubleKill, TripleKill, QuadraKill, PentaKill
+        Random = 0, SingleKill = 1, DoubleKill = 2, TripleKill = 3, QuadraKill = 5, PentaKill =6
     }
 
 }
