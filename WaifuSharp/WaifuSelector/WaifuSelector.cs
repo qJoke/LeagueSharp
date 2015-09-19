@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using LeagueSharp;
@@ -40,16 +41,12 @@ namespace WaifuSharp.WaifuSelector
         public static void OnLoad()
         {
             CheckAndCreateDirectories();
+            SaveDefaultWaifus();
             LoadWaifus();
             LoadMenu();
             Game.OnInput += Game_OnInput;
-            Drawing.OnDraw += Drawing_OnDraw;
         }
 
-        static void Drawing_OnDraw(EventArgs args)
-        {
-
-        }
 
         static void Game_OnInput(GameInputEventArgs args)
         {
@@ -122,7 +119,7 @@ namespace WaifuSharp.WaifuSelector
                         LoadContentToWaifu(file, d2Name, currentWaifu);
                     }
                 }
-                Console.WriteLine("Loaded {0}, with {1} pics", currentWaifu.Name, currentWaifu.OnKillPics.Count);
+                Console.WriteLine(@"Loaded {0}, with {1} pics", currentWaifu.Name, currentWaifu.OnKillPics.Count);
 
                 Waifus.Add(currentWaifu);
             }
@@ -242,6 +239,11 @@ namespace WaifuSharp.WaifuSelector
         #endregion
 
         #region Utility Methods
+        private static void SaveDefaultWaifus()
+        {
+
+        }
+
         private static Render.Sprite GetSpriteFromFile(string filePath)
         {
             var sprite = new Render.Sprite(filePath, Vector2.Zero);
