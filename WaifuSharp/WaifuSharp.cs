@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX.Multimedia;
+using WaifuSharp.ResourceClasses;
 using WaifuSharp.WaifuHelper;
 
 namespace WaifuSharp
@@ -14,6 +17,7 @@ namespace WaifuSharp
     {
         public static Menu Menu { get; set; }
 
+        private static SoundPlayer sPlayer = new SoundPlayer();
         public static void OnLoad()
         {
             Game.OnNotify += Game_OnNotify;
@@ -37,8 +41,24 @@ namespace WaifuSharp
                         WaifuSelector.WaifuSelector.InitKillSprite(currentSprite);
                         if (currentSound != null)
                         {
-                            var sPlayer = new SoundPlayer(currentSound.SoundStream);
-                            sPlayer.Play();
+                            var sSound = currentSound;
+                            sPlayer.Stream = new MemoryStream(currentSound.SoundStream, true);
+                            sPlayer.Load();
+                            if (sPlayer.IsLoadCompleted)
+                            {
+                                sPlayer.PlaySync();
+                            }
+                            sPlayer.Dispose();
+                            
+                            var s = GetCurrentWaifu()
+                                .OnKillSounds.FirstOrDefault(m => m.SoundStream == sSound.SoundStream);
+
+                            if (s != null)
+                            {
+                                s.SoundStream = sSound.SoundStream;
+
+                            }
+                            
                         }
                     }
                     break;

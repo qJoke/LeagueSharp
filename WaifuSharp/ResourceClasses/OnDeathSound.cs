@@ -4,7 +4,7 @@ using WaifuSharp.Enums;
 
 namespace WaifuSharp.ResourceClasses
 {
-    class OnKillSound
+    class OnDeathSound
     {
         public byte[] SoundStream { get; set; }
 

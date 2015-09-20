@@ -57,6 +57,8 @@ namespace WaifuSharp.WaifuSelector
 
         private static Render.Sprite CurrentSprite;
 
+        private static SoundPlayer sPlayer = new SoundPlayer();
+
         
         public static void OnLoad()
         {
@@ -85,8 +87,13 @@ namespace WaifuSharp.WaifuSelector
 
                     if (currentSound != null)
                     {
-                        var sPlayer = new SoundPlayer(currentSound.SoundStream);
-                        sPlayer.Play();
+                            sPlayer.Stream = new MemoryStream(currentSound.SoundStream, true);
+                            sPlayer.Load();
+                            if (sPlayer.IsLoadCompleted)
+                            {
+                                sPlayer.Play();
+                            }
+                            sPlayer.Dispose();
                     }
 
                     var sprite = waifu.OnKillPics[new Random().Next(0, waifu.OnKillPics.Count())];
@@ -177,7 +184,7 @@ namespace WaifuSharp.WaifuSelector
                 OnKillLoad(fileName, FilePath, DirName, currentWaifu);
             }else if (fileName.ToLower().Contains("ondeath"))
             {
-                OnDeathLoad(fileName, currentWaifu);
+                OnDeathLoad(fileName, FilePath, DirName, currentWaifu);
             }
         }
 
@@ -207,9 +214,8 @@ namespace WaifuSharp.WaifuSelector
                         }
                     break;
                 case ".wav":
-                case ".mp3":
                         var currentSound = GetSoundStreamFromFile(filePath);
-                        if (currentSound != Stream.Null)
+                        if (currentSound.Any())
                         {
                             currentWaifu.OnKillSounds.Add(new OnKillSound
                             {
@@ -223,9 +229,43 @@ namespace WaifuSharp.WaifuSelector
             
         }
 
-        private static void OnDeathLoad(String fileName, Waifu currentWaifu)
+        private static void OnDeathLoad(String fileName, String filePath, String DirName, Waifu currentWaifu)
         {
+            var MinWaifuLevel = Int32.Parse(DirName);
 
+
+            var priority = fileName.Replace("onkill", "");
+
+            switch (fileName.GetLast(4))
+            {
+                case ".png":
+                case ".jpg":
+                case "jpeg":
+                    var currentSprite = GetSpriteFromFile(filePath);
+                    if (currentSprite != null)
+                    {
+                        currentWaifu.OnDeathPics.Add(
+                            new OnDeathSprite()
+                            {
+                                PicPriority = GetResourcePriority(priority),
+                                MinWaifuLevel = MinWaifuLevel,
+                                Sprite = currentSprite
+                            });
+                    }
+                    break;
+                case ".wav":
+                    var currentSound = GetSoundStreamFromFile(filePath);
+                    if (currentSound.Any())
+                    {
+                        currentWaifu.OnDeathSounds.Add(new OnDeathSound()
+                        {
+                            SoundPriority = GetResourcePriority(priority),
+                            MinWaifuLevel = MinWaifuLevel,
+                            SoundStream = currentSound
+                        });
+                    }
+                    break;
+            }
         }
 
         #endregion
@@ -346,11 +386,10 @@ namespace WaifuSharp.WaifuSelector
         {
 
         }
-        private static FileStream GetSoundStreamFromFile(string filePath)
+        private static byte[] GetSoundStreamFromFile(string filePath)
         {
-            var fs = new FileStream(filePath, FileMode.OpenOrCreate);
             //var soundStream = new SoundStream(fs);
-            return fs;
+            return File.ReadAllBytes(filePath);
         }
 
         private static Render.Sprite GetSpriteFromFile(string filePath)

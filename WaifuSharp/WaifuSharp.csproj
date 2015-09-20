@@ -67,6 +67,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ResourceClasses\OnDeathSound.cs" />
     <Compile Include="ResourceClasses\OnDeathSprite.cs" />
     <Compile Include="ResourceClasses\OnKillSound.cs" />
     <Compile Include="ResourceClasses\OnKillSprite.cs" />

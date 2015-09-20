@@ -19,6 +19,8 @@ namespace WaifuSharp.WaifuHelper
 
         public List<OnDeathSprite> OnDeathPics = new List<OnDeathSprite>();
 
+        public List<OnDeathSound> OnDeathSounds = new List<OnDeathSound>();
+
         public int CurrentLevel = 1;
 
         public int CurrentExp = 0;
