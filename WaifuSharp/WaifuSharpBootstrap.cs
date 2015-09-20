@@ -21,7 +21,7 @@ namespace WaifuSharp
         //Waifu# - Asuna & Blacky powered by Fukas/OutRageOusMe
         internal static void OnLoad()
         {
-            WaifuSharp.Menu = new Menu("Waifu#", "waifusharp");
+            WaifuSharp.Menu = new Menu("Waifu#", "waifusharp", true);
 
             WaifuSelector.WaifuSelector.OnLoad();
 

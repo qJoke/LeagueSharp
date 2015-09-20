@@ -38,6 +38,23 @@ namespace WaifuSharp.WaifuSelector
 
         public static bool IsDrawing = false;
 
+        public static int X
+        {
+            get { return WaifuSharp.Menu.Item("waifusharp.options.x").GetValue<Slider>().Value; }
+        }
+
+        public static int Y
+        {
+            get { return WaifuSharp.Menu.Item("waifusharp.options.y").GetValue<Slider>().Value; }
+        }
+
+        public static float Scale
+        {
+            get { return WaifuSharp.Menu.Item("waifusharp.options.scale").GetValue<Slider>().Value / 100f; }
+        }
+
+        private static Render.Sprite CurrentSprite;
+
         public static void OnLoad()
         {
             CheckAndCreateDirectories();
@@ -66,12 +83,13 @@ namespace WaifuSharp.WaifuSelector
                         IsDrawing = true;
                         sprite.IsDrawing = true;
                         sprite.Sprite.Visible = true;
-                        sprite.Sprite.Scale = new Vector2(1.0f, 1.0f);
+                        sprite.Sprite.Scale = new Vector2(Scale, Scale);
                         sprite.Sprite.VisibleCondition = delegate
                         {
                             return sprite.IsDrawing;
                         };
-                        sprite.Sprite.Position = new Vector2(200, 200);
+                        sprite.Sprite.Position = new Vector2(X, Y);
+                        sprite.Sprite.PositionUpdate += () => new Vector2(X, Y);
                         sprite.Sprite.Add();
                         Utility.DelayAction.Add(
                             3500, () =>
@@ -88,8 +106,21 @@ namespace WaifuSharp.WaifuSelector
 
         private static Waifu GetCurrentWaifu()
         {
+            var menuItem = WaifuSharp.Menu.Item("waifusharp.options.waifus");
+
+            if (menuItem != null)
+            {
+                return GetWaifuByName(menuItem.GetValue<StringList>().SelectedValue);
+            }
+
             return Waifus.FirstOrDefault();
         }
+
+        private static Waifu GetWaifuByName(String name)
+        {
+            return Waifus.FirstOrDefault(w => w.Name.ToLower() == name.ToLower());
+        }
+
         #region Waifus Loading
         private static void LoadWaifus()
         {
@@ -119,7 +150,7 @@ namespace WaifuSharp.WaifuSelector
                         LoadContentToWaifu(file, d2Name, currentWaifu);
                     }
                 }
-                Console.WriteLine(@"Loaded {0}, with {1} pics", currentWaifu.Name, currentWaifu.OnKillPics.Count);
+                Game.PrintChat(string.Format("<b><font color='#FF0000'>Waifu#:</font></b> Loaded <b><font color='#7A6EFF'>{0}</font></b>", currentWaifu.Name));
 
                 Waifus.Add(currentWaifu);
             }
@@ -129,13 +160,10 @@ namespace WaifuSharp.WaifuSelector
         {
             var array = FilePath.Split(Path.DirectorySeparatorChar);
             var fileName = array.Last();
-            Console.WriteLine(fileName);
             if (fileName.ToLower().Contains("onkill"))
             {
                 OnKillLoad(fileName, FilePath, DirName, currentWaifu);
-            }
-
-            if (fileName.ToLower().Contains("ondeath"))
+            }else if (fileName.ToLower().Contains("ondeath"))
             {
                 OnDeathLoad(fileName, currentWaifu);
             }
@@ -234,11 +262,84 @@ namespace WaifuSharp.WaifuSelector
         #region Menu Creation
         private static void LoadMenu()
         {
+
+            var OptionsMenu = new Menu("Waifu# Options","waifusharp.options");
+            {
+                var stringListContainer = new MenuItem("waifusharp.options.waifus", "Current Waifu: ");
+                var WaifuNames = Waifus.Select(w => w.Name);
+                stringListContainer.SetValue(new StringList(WaifuNames.ToArray()));
+                OptionsMenu.AddItem(stringListContainer);
+
+                OptionsMenu.AddItem(
+                    new MenuItem("waifusharp.options.x", "X Coordinate").SetValue(
+                        new Slider(200, 0, Drawing.Direct3DDevice.Viewport.Width)));
+                OptionsMenu.AddItem(
+                    new MenuItem("waifusharp.options.y", "Y Coordinate").SetValue(
+                        new Slider(200, 0, Drawing.Direct3DDevice.Viewport.Height)));
+                OptionsMenu.AddItem(new MenuItem("waifusharp.options.scale", "Image Scale %").SetValue(new Slider(50))).ValueChanged +=
+                    (sender, args) =>
+                    {
+                        if (CurrentSprite != null)
+                        {
+                            CurrentSprite.Scale = new Vector2(Scale, Scale);
+                        } 
+                    };
+                OptionsMenu.AddItem(new MenuItem("waifusharp.options.testwaifu", "Show Test Waifu").SetValue(false))
+                    .ValueChanged += (sender, args) =>
+                    {
+                        var waifu = GetCurrentWaifu();
+                        if (waifu != null)
+                        {
+                            var sprite = waifu.OnKillPics[new Random().Next(0, waifu.OnKillPics.Count())];
+                            if (sprite != null)
+                            {
+                                if (args.GetNewValue<bool>())
+                                {
+                                    InitKillSprite(sprite);
+                                }
+                                else
+                                {
+                                    if (CurrentSprite != null)
+                                    {
+                                        IsDrawing = false;
+                                        CurrentSprite.Visible = false;
+                                        CurrentSprite.Remove();
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    };
+                WaifuSharp.Menu.AddSubMenu(OptionsMenu);
+            }
             
+            WaifuSharp.Menu.Item("waifusharp.options.testwaifu").SetValue(false);
+
+            WaifuSharp.Menu.AddToMainMenu();
         }
         #endregion
 
         #region Utility Methods
+
+        private static void InitKillSprite(OnKillSprite sprite)
+        {
+            if (IsDrawing)
+            {
+                return;
+            }
+
+            IsDrawing = true;
+            sprite.IsDrawing = true;
+            sprite.Sprite.Visible = true;
+            sprite.Sprite.Scale = new Vector2(Scale, Scale);
+            sprite.Sprite.VisibleCondition = delegate
+            { return sprite.IsDrawing; };
+            sprite.Sprite.Position = new Vector2(X, Y);
+            sprite.Sprite.PositionUpdate += () => new Vector2(X, Y);
+            CurrentSprite = sprite.Sprite;
+            sprite.Sprite.Add();
+        }
+
         private static void SaveDefaultWaifus()
         {
 

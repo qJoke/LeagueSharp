@@ -10,9 +10,15 @@ namespace WaifuSharp
 {
     class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
+        {
+            CustomEvents.Game.OnGameLoad += Game_OnLoad;
+        }
+
+        private static void Game_OnLoad(EventArgs args)
         {
             WaifuSharpBootstrap.OnLoad();
         }
+        
     }
 }
