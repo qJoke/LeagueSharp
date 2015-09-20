@@ -70,6 +70,7 @@
     <Compile Include="ResourceClasses\OnDeathSprite.cs" />
     <Compile Include="ResourceClasses\OnKillSound.cs" />
     <Compile Include="ResourceClasses\OnKillSprite.cs" />
+    <Compile Include="WaifuExtensions.cs" />
     <Compile Include="WaifuSelector\WaifuSelector.cs" />
     <Compile Include="WaifuSharp.cs" />
     <Compile Include="WaifuSharpBootstrap.cs" />

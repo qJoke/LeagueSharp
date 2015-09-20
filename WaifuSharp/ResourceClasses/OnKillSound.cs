@@ -1,11 +1,12 @@
-﻿using SharpDX.Multimedia;
+﻿using System.IO;
+using SharpDX.Multimedia;
 using WaifuSharp.Enums;
 
 namespace WaifuSharp.ResourceClasses
 {
     class OnKillSound
     {
-        public SoundStream SoundStream { get; set; }
+        public FileStream SoundStream { get; set; }
 
         public ResourcePriority SoundPriority { get; set; }
 

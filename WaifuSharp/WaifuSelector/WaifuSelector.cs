@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Media;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using SharpDX.Multimedia;
 using WaifuSharp.Enums;
 using WaifuSharp.ResourceClasses;
 using WaifuSharp.WaifuHelper;
@@ -78,6 +80,15 @@ namespace WaifuSharp.WaifuSelector
                 var waifu = GetCurrentWaifu();
                 if (waifu != null)
                 {
+                    var currentSound = GetCurrentWaifu().OnKillSounds.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
+                            .ToArray()[new Random().Next(0, GetCurrentWaifu().OnKillSounds.Count())];
+
+                    if (currentSound != null)
+                    {
+                        var sPlayer = new SoundPlayer(currentSound.SoundStream);
+                        sPlayer.Play();
+                    }
+
                     var sprite = waifu.OnKillPics[new Random().Next(0, waifu.OnKillPics.Count())];
                     if (sprite != null)
                     {
@@ -178,76 +189,38 @@ namespace WaifuSharp.WaifuSelector
 
             var priority = fileName.Replace("onkill", "");
 
-            if (priority.Contains("single"))
+            switch (fileName.GetLast(4))
             {
-                var currentSprite = GetSpriteFromFile(filePath);
-                if (currentSprite != null)
-                {
-                    currentWaifu.OnKillPics.Add(new OnKillSprite
-                    {
-                        PicPriority = ResourcePriority.SingleKill,
-                        Sprite = GetSpriteFromFile(filePath)
-                    });
-                }
-            }else if (priority.Contains("double"))
-            {
-                var currentSprite = GetSpriteFromFile(filePath);
-                if (currentSprite != null)
-                {
-                    currentWaifu.OnKillPics.Add(new OnKillSprite
-                    {
-                        PicPriority = ResourcePriority.DoubleKill,
-                        Sprite = GetSpriteFromFile(filePath)
-                    });
-                }
-            }else if (priority.Contains("triple"))
-            {
-                var currentSprite = GetSpriteFromFile(filePath);
-                if (currentSprite != null)
-                {
-                    currentWaifu.OnKillPics.Add(new OnKillSprite
-                    {
-                        PicPriority = ResourcePriority.TripleKill,
-                        Sprite = GetSpriteFromFile(filePath)
-                    });
-                }
-            }else if (priority.Contains("quadra"))
-            {
-                var currentSprite = GetSpriteFromFile(filePath);
-                if (currentSprite != null)
-                {
-                    currentWaifu.OnKillPics.Add(new OnKillSprite
-                    {
-                        PicPriority = ResourcePriority.QuadraKill,
-                        Sprite = GetSpriteFromFile(filePath)
-                    });
-                }
-            }else if (priority.Contains("penta"))
-            {
-                var currentSprite = GetSpriteFromFile(filePath);
-                if (currentSprite != null)
-                {
-                    currentWaifu.OnKillPics.Add(
-                        new OnKillSprite
+                case ".png":
+                case ".jpg":
+                case "jpeg":
+                        var currentSprite = GetSpriteFromFile(filePath);
+                        if (currentSprite != null)
                         {
-                            PicPriority = ResourcePriority.PentaKill,
-                            Sprite = GetSpriteFromFile(filePath)
-                        });
-                }
-            }
-            else
-            {
-                var currentSprite = GetSpriteFromFile(filePath);
-                if (currentSprite != null)
-                {
-                    currentWaifu.OnKillPics.Add(
-                        new OnKillSprite
+                            currentWaifu.OnKillPics.Add(
+                                new OnKillSprite
+                                {
+                                    PicPriority = GetResourcePriority(priority),
+                                    MinWaifuLevel = MinWaifuLevel,
+                                    Sprite = currentSprite
+                                });
+                        }
+                    break;
+                case ".wav":
+                case ".mp3":
+                        var currentSound = GetSoundStreamFromFile(filePath);
+                        if (currentSound != Stream.Null)
                         {
-                            PicPriority = ResourcePriority.Random,
-                            Sprite = GetSpriteFromFile(filePath)
-                        });
-                }
+                            currentWaifu.OnKillSounds.Add(new OnKillSound
+                            {
+                                SoundPriority = GetResourcePriority(priority),
+                                MinWaifuLevel = MinWaifuLevel,
+                                SoundStream = currentSound
+                            });
+                        }
+                    break;
             }
+            
         }
 
         private static void OnDeathLoad(String fileName, Waifu currentWaifu)
@@ -341,9 +314,43 @@ namespace WaifuSharp.WaifuSelector
             sprite.Sprite.Add();
         }
 
+        public static ResourcePriority GetResourcePriority(string priority)
+        {
+            if (priority.Contains("single"))
+            {
+                return ResourcePriority.SingleKill;
+            }
+            
+            if (priority.Contains("double"))
+            {
+                return ResourcePriority.DoubleKill;
+            }
+
+            if (priority.Contains("triple"))
+            {
+                return ResourcePriority.TripleKill;
+            }
+
+            if (priority.Contains("quadra"))
+            {
+                return ResourcePriority.QuadraKill;
+            }
+
+            if (priority.Contains("penta"))
+            {
+                return ResourcePriority.PentaKill;   
+            }
+            return ResourcePriority.Random;
+        }
         private static void SaveDefaultWaifus()
         {
 
+        }
+        private static FileStream GetSoundStreamFromFile(string filePath)
+        {
+            var fs = new FileStream(filePath, FileMode.OpenOrCreate);
+            //var soundStream = new SoundStream(fs);
+            return fs;
         }
 
         private static Render.Sprite GetSpriteFromFile(string filePath)
@@ -370,6 +377,5 @@ namespace WaifuSharp.WaifuSelector
             }
         }
         #endregion
-
     }
 }

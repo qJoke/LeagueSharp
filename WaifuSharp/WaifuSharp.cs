@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
@@ -30,7 +31,15 @@ namespace WaifuSharp
                             GetCurrentWaifu()
                                 .OnKillPics.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
                                 .ToArray()[new Random().Next(0, GetCurrentWaifu().OnKillPics.Count())];
+                        var currentSound = GetCurrentWaifu().OnKillSounds.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
+                            .ToArray()[new Random().Next(0, GetCurrentWaifu().OnKillSounds.Count())];
+
                         WaifuSelector.WaifuSelector.InitKillSprite(currentSprite);
+                        if (currentSound != null)
+                        {
+                            var sPlayer = new SoundPlayer(currentSound.SoundStream);
+                            sPlayer.Play();
+                        }
                     }
                     break;
             }
