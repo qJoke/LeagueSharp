@@ -19,9 +19,9 @@ namespace WaifuSharp.WaifuHelper
 
         public List<OnDeathSprite> OnDeathPics = new List<OnDeathSprite>();
 
-        public int CurrentLevel { get; set; }
+        public int CurrentLevel = 1;
 
-        public int CurrentExp { get; set; }
+        public int CurrentExp = 0;
 
         public bool IsDrawing { get; set; }
     }
