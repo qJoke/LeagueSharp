@@ -50,7 +50,7 @@ namespace DZBard
         {
             if (args.Target.Type == GameObjectType.obj_AI_Minion
                 && (BardOrbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
-                && !GetItemValue<bool>("dz191.bard.misc.attackMinions"))
+                && GetItemValue<bool>("dz191.bard.misc.attackMinions"))
             {
                 if (ObjectManager.Player.CountAlliesInRange(GetItemValue<Slider>("dz191.bard.misc.attackMinionRange").Value) > 0)
                 {
