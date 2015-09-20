@@ -24,7 +24,7 @@ namespace WaifuSharp
             WaifuSharp.Menu = new Menu("Waifu#", "waifusharp", true);
 
             WaifuSelector.WaifuSelector.OnLoad();
-
+            WaifuSharp.OnLoad();
         }
     }
 }

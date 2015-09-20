@@ -24,37 +24,38 @@ namespace WaifuSharp.WaifuSelector
             }
         }
 
-        public static String AssemblyDir
+        private static String AssemblyDir
         {
             get { return Path.Combine(LeagueSharpAppData, "WaifuSharp"); }
         }
 
-        public static String WaifusDir
+        private static String WaifusDir
         {
             get { return Path.Combine(AssemblyDir, "WaifusDir"); }
         }
 
         public static List<Waifu> Waifus = new List<Waifu>();
 
-        public static bool IsDrawing = false;
+        private static bool IsDrawing = false;
 
-        public static int X
+        private static int X
         {
             get { return WaifuSharp.Menu.Item("waifusharp.options.x").GetValue<Slider>().Value; }
         }
 
-        public static int Y
+        private static int Y
         {
             get { return WaifuSharp.Menu.Item("waifusharp.options.y").GetValue<Slider>().Value; }
         }
 
-        public static float Scale
+        private static float Scale
         {
             get { return WaifuSharp.Menu.Item("waifusharp.options.scale").GetValue<Slider>().Value / 100f; }
         }
 
         private static Render.Sprite CurrentSprite;
 
+        
         public static void OnLoad()
         {
             CheckAndCreateDirectories();
@@ -65,7 +66,7 @@ namespace WaifuSharp.WaifuSelector
         }
 
 
-        static void Game_OnInput(GameInputEventArgs args)
+        private static void Game_OnInput(GameInputEventArgs args)
         {
             if (args.Input.StartsWith(".w"))
             {
@@ -321,7 +322,7 @@ namespace WaifuSharp.WaifuSelector
 
         #region Utility Methods
 
-        private static void InitKillSprite(OnKillSprite sprite)
+        public static void InitKillSprite(OnKillSprite sprite)
         {
             if (IsDrawing)
             {
@@ -350,6 +351,7 @@ namespace WaifuSharp.WaifuSelector
             var sprite = new Render.Sprite(filePath, Vector2.Zero);
             return sprite;
         }
+
         private static bool IsInt(string sVal)
         {
             return sVal.Select(c => (int)c).All(iN => (iN <= 57) && (iN >= 48));
