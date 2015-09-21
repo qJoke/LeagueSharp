@@ -31,12 +31,15 @@ namespace WaifuSharp
                     var currentWaifu = GetCurrentWaifu();
                     if (currentWaifu != null)
                     {
-                        var currentSprite =
-                            GetCurrentWaifu()
+                        var spriteList = GetCurrentWaifu()
                                 .OnKillPics.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
-                                .ToArray()[new Random().Next(0, GetCurrentWaifu().OnKillPics.Count())];
-                        var currentSound = GetCurrentWaifu().OnKillSounds.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
-                            .ToArray()[new Random().Next(0, GetCurrentWaifu().OnKillSounds.Count())];
+                                .ToArray();
+                        var currentSprite = spriteList[new Random().Next(0, spriteList.Count())];
+                        var soundList =
+                            GetCurrentWaifu()
+                                .OnKillSounds.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
+                                .ToArray();
+                        var currentSound = soundList[new Random().Next(0, GetCurrentWaifu().OnKillSounds.Count())];
 
                         WaifuSelector.WaifuSelector.InitKillSprite(currentSprite);
                         if (currentSound != null)

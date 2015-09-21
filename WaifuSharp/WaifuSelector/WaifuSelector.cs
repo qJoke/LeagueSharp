@@ -82,8 +82,11 @@ namespace WaifuSharp.WaifuSelector
                 var waifu = GetCurrentWaifu();
                 if (waifu != null)
                 {
-                    var currentSound = GetCurrentWaifu().OnKillSounds.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
-                            .ToArray()[new Random().Next(0, GetCurrentWaifu().OnKillSounds.Count())];
+                    var soundList =
+                            GetCurrentWaifu()
+                                .OnKillSounds.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
+                                .ToArray();
+                    var currentSound = soundList[new Random().Next(0, soundList.Count())];
 
                     if (currentSound != null)
                     {
@@ -96,7 +99,10 @@ namespace WaifuSharp.WaifuSelector
                             sPlayer.Dispose();
                     }
 
-                    var sprite = waifu.OnKillPics[new Random().Next(0, waifu.OnKillPics.Count())];
+                    var spriteList = GetCurrentWaifu()
+                                .OnKillPics.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
+                                .ToArray();
+                    var sprite = spriteList[new Random().Next(0, spriteList.Count())];
                     if (sprite != null)
                     {
                         IsDrawing = true;
@@ -111,7 +117,7 @@ namespace WaifuSharp.WaifuSelector
                         sprite.Sprite.PositionUpdate += () => new Vector2(X, Y);
                         sprite.Sprite.Add();
                         Utility.DelayAction.Add(
-                            3500, () =>
+                            2000, () =>
                             {
                                 IsDrawing = false;
                                 sprite.IsDrawing = true;
@@ -120,6 +126,11 @@ namespace WaifuSharp.WaifuSelector
                             });
                     }
                 }
+            }
+            if (args.Input.StartsWith(".l"))
+            {
+                args.Process = false;
+                GetCurrentWaifu().CurrentLevel += 1;
             }
         }
 
@@ -169,10 +180,11 @@ namespace WaifuSharp.WaifuSelector
                         LoadContentToWaifu(file, d2Name, currentWaifu);
                     }
                 }
-                Game.PrintChat(string.Format("<b><font color='#FF0000'>Waifu#:</font></b> Loaded <b><font color='#7A6EFF'>{0}</font></b>", currentWaifu.Name));
+                //Game.PrintChat(string.Format("<b><font color='#FF0000'>Waifu#:</font></b> Loaded <b><font color='#7A6EFF'>{0}</font></b>", currentWaifu.Name));
 
                 Waifus.Add(currentWaifu);
             }
+            Game.PrintChat(string.Format("<b><font color='#FF0000'>Waifu#:</font></b> Loaded <b><font color='#FF0000'>{0}</font></b> waifus", Waifus.Count));
         }
 
         private static void LoadContentToWaifu(String FilePath, String DirName, Waifu currentWaifu)
