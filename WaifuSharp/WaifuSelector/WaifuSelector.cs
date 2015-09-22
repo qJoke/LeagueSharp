@@ -134,7 +134,7 @@ namespace WaifuSharp.WaifuSelector
             }
         }
 
-        private static Waifu GetCurrentWaifu()
+        public static Waifu GetCurrentWaifu()
         {
             var menuItem = WaifuSharp.Menu.Item("waifusharp.options.waifus");
 
