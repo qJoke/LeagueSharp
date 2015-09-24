@@ -39,47 +39,54 @@ namespace WaifuSharp.Levelmanager
         public static void Onload()
         {
             LoadWaifuLevels();
+
             LoadMenu(WaifuSharp.Menu);
-            UpdateWaifuStatistics(false);
+            UpdateWaifuStatistics();
         }
 
         private static void LoadMenu(Menu RootMenu)
         {
             var currentWaifu = WaifuSelector.WaifuSelector.GetCurrentWaifu();
 
-            var LevelMenu = new Menu("Waifu# Level","dz191.waifusharp.level");
-            {
-                LevelMenu.AddItem(
+            //var LevelMenu = new Menu("Waifu# Level","dz191.waifusharp.level");
+            //{
+                RootMenu.AddItem(
                     new MenuItem(
                         "dz191.waifusharp.level.currentlevel",
                         string.Format("Level: {0}", currentWaifu != null ? currentWaifu.CurrentLevel : 0)));
-                LevelMenu.AddItem(
+                RootMenu.AddItem(
                     new MenuItem(
                         "dz191.waifusharp.level.exp",
                         string.Format("Exp: {0} / {1}", currentWaifu != null ? currentWaifu.CurrentExp : 0, baseExp * (currentWaifu != null ? currentWaifu.CurrentLevel : 1) * Step)));
-                LevelMenu.AddItem(
+                RootMenu.AddItem(
                     new MenuItem(
                         "dz191.waifusharp.level.progress",
                         string.Format("Progress: {0} %", currentWaifu != null ? currentWaifu.CurrentExp / (baseExp * currentWaifu.CurrentLevel * Step) : 0)));
-                RootMenu.AddSubMenu(LevelMenu);
+               // RootMenu.AddSubMenu(LevelMenu);
 
-            }
+            //}
         }
 
-        public static void UpdateWaifuStatistics(bool save = true)
+        public static void UpdateWaifuStatistics(String WaifuName = "", bool save = true)
         {
             var RootMenu = WaifuSharp.Menu;
-            var currentWaifu = WaifuSelector.WaifuSelector.GetCurrentWaifu();
-
-            RootMenu.Item("dz191.waifusharp.level.currentlevel").DisplayName = string.Format("Level: {0}", currentWaifu != null ? currentWaifu.CurrentLevel : 0);
-            RootMenu.Item("dz191.waifusharp.level.exp").DisplayName = string.Format(
-                "Exp: {0} / {1}", currentWaifu != null ? currentWaifu.CurrentExp : 0,
-                baseExp * (currentWaifu != null ? currentWaifu.CurrentLevel : 1) * Step);
-            RootMenu.Item("dz191.waifusharp.level.progress").DisplayName = string.Format("Progress: {0} %", currentWaifu != null ? (float)Math.Round(currentWaifu.CurrentExp / (baseExp * currentWaifu.CurrentLevel * Step) * 100, 2) : 0);
-            if (save)
+            var currentWaifu = WaifuName != "" ? WaifuSelector.WaifuSelector.GetWaifuByName(WaifuName) : WaifuSelector.WaifuSelector.GetCurrentWaifu();
+            if (currentWaifu != null)
             {
-                SaveWaifuLevels();
+                RootMenu.Item("dz191.waifusharp.level.currentlevel").DisplayName = string.Format(
+                    "Level: {0}", currentWaifu.CurrentLevel);
+                RootMenu.Item("dz191.waifusharp.level.exp").DisplayName = string.Format(
+                    "Exp: {0} / {1}", currentWaifu.CurrentExp,
+                    baseExp * currentWaifu.CurrentLevel * Step);
+                RootMenu.Item("dz191.waifusharp.level.progress").DisplayName = string.Format(
+                    "Progress: {0} %",(float)
+                            Math.Round(currentWaifu.CurrentExp / (baseExp * currentWaifu.CurrentLevel * Step) * 100, 2));
+                if (save)
+                {
+                    SaveWaifuLevels();
+                }
             }
+
         }
 
         public static void RaiseWaifuEXP(ResourcePriority Kill)

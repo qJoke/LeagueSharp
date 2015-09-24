@@ -86,10 +86,13 @@ namespace WaifuSharp.WaifuSelector
                             GetCurrentWaifu()
                                 .OnKillSounds.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
                                 .ToArray();
-                    var currentSound = soundList[new Random().Next(0, soundList.Count())];
+                    if (soundList.Any())
 
-                    if (currentSound != null)
                     {
+                        var currentSound = soundList[new Random().Next(0, soundList.Count())];
+
+                        if (currentSound != null)
+                        {
                             sPlayer.Stream = new MemoryStream(currentSound.SoundStream, true);
                             sPlayer.Load();
                             if (sPlayer.IsLoadCompleted)
@@ -97,34 +100,40 @@ namespace WaifuSharp.WaifuSelector
                                 sPlayer.Play();
                             }
                             sPlayer.Dispose();
+                        }
                     }
+                    
 
                     var spriteList = GetCurrentWaifu()
                                 .OnKillPics.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
                                 .ToArray();
-                    var sprite = spriteList[new Random().Next(0, spriteList.Count())];
-                    if (sprite != null)
+                    if (spriteList.Any())
                     {
-                        IsDrawing = true;
-                        sprite.IsDrawing = true;
-                        sprite.Sprite.Visible = true;
-                        sprite.Sprite.Scale = new Vector2(Scale, Scale);
-                        sprite.Sprite.VisibleCondition = delegate
+                        var sprite = spriteList[new Random().Next(0, spriteList.Count())];
+                        if (sprite != null)
                         {
-                            return sprite.IsDrawing;
-                        };
-                        sprite.Sprite.Position = new Vector2(X, Y);
-                        sprite.Sprite.PositionUpdate += () => new Vector2(X, Y);
-                        sprite.Sprite.Add();
-                        Utility.DelayAction.Add(
-                            2000, () =>
+                            IsDrawing = true;
+                            sprite.IsDrawing = true;
+                            sprite.Sprite.Visible = true;
+                            sprite.Sprite.Scale = new Vector2(Scale, Scale);
+                            sprite.Sprite.VisibleCondition = delegate
                             {
-                                IsDrawing = false;
-                                sprite.IsDrawing = true;
-                                sprite.Sprite.Visible = false;
-                                sprite.Sprite.Remove();
-                            });
+                                return sprite.IsDrawing;
+                            };
+                            sprite.Sprite.Position = new Vector2(X, Y);
+                            sprite.Sprite.PositionUpdate += () => new Vector2(X, Y);
+                            sprite.Sprite.Add();
+                            Utility.DelayAction.Add(
+                                2000, () =>
+                                {
+                                    IsDrawing = false;
+                                    sprite.IsDrawing = true;
+                                    sprite.Sprite.Visible = false;
+                                    sprite.Sprite.Remove();
+                                });
+                        }
                     }
+                    
                 }
             }
             if (args.Input.StartsWith(".l"))
@@ -301,11 +310,18 @@ namespace WaifuSharp.WaifuSelector
 
             var OptionsMenu = new Menu("Waifu# Options","waifusharp.options");
             {
-                var stringListContainer = new MenuItem("waifusharp.options.waifus", "Current Waifu: ");
-                var WaifuNames = Waifus.Select(w => w.Name);
-                stringListContainer.SetValue(new StringList(WaifuNames.ToArray()));
-                OptionsMenu.AddItem(stringListContainer);
+                //var stringListContainer = new MenuItem("waifusharp.options.waifus", "Current Waifu: ");
+                var WaifuNames = Waifus.Select(w => w.Name).ToArray();
+                //stringListContainer.SetValue(new StringList(WaifuNames.ToArray()));
+                //OptionsMenu.AddItem(stringListContainer);
 
+                OptionsMenu.AddItem(
+                    new MenuItem("waifusharp.options.waifus", "Current Waifu: ").SetValue(
+                        new StringList(WaifuNames, 0))).ValueChanged += (sender, args) =>
+                        {
+                            var newWaifu = args.GetNewValue<StringList>().SelectedValue;
+                            Levelmanager.LevelManager.UpdateWaifuStatistics(newWaifu);
+                        };
                 OptionsMenu.AddItem(
                     new MenuItem("waifusharp.options.x", "X Coordinate").SetValue(
                         new Slider(200, 0, Drawing.Direct3DDevice.Viewport.Width)));
