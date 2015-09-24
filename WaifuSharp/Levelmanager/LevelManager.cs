@@ -97,7 +97,12 @@ namespace WaifuSharp.Levelmanager
                 var currentExperience = currentWaifu.CurrentExp;
                 var currentLevel = currentWaifu.CurrentLevel;
                 var killNumbers = (int) Kill;
-                var killExp = KillExp * killNumbers + (MultiKillAward * killNumbers - MultiKillAward);
+                var killExp = KillExp + (MultiKillAward * killNumbers - MultiKillAward);
+                if (Game.Time - WaifuSharp.LastEventTick > 15000)
+                {
+                    //To Award correct EXP to insta multikills
+                    killExp = KillExp * killNumbers + (MultiKillAward * killNumbers - MultiKillAward);
+                }
                 var nextLevelExp = baseExp * currentLevel * Step;
                 if (currentExperience + killExp >= nextLevelExp)
                 {

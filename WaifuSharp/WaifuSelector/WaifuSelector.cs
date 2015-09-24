@@ -55,7 +55,7 @@ namespace WaifuSharp.WaifuSelector
             get { return WaifuSharp.Menu.Item("waifusharp.options.scale").GetValue<Slider>().Value / 100f; }
         }
 
-        private static Render.Sprite CurrentSprite;
+        public static Render.Sprite CurrentSprite;
 
         private static SoundPlayer sPlayer = new SoundPlayer();
 
@@ -390,6 +390,17 @@ namespace WaifuSharp.WaifuSelector
             sprite.Sprite.PositionUpdate += () => new Vector2(X, Y);
             CurrentSprite = sprite.Sprite;
             sprite.Sprite.Add();
+
+            Utility.DelayAction.Add(
+                               2000, () =>
+                               {
+                                   CurrentSprite = null;
+
+                                   IsDrawing = false;
+                                   sprite.IsDrawing = true;
+                                   sprite.Sprite.Visible = false;
+                                   sprite.Sprite.Remove();
+                               });
         }
 
         public static ResourcePriority GetResourcePriority(string priority)
