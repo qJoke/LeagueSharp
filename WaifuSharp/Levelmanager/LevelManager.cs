@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using LeagueSharp;
+using LeagueSharp.Common;
+using Newtonsoft.Json;
 using WaifuSharp.Enums;
 
 namespace WaifuSharp.Levelmanager
@@ -18,18 +24,65 @@ namespace WaifuSharp.Levelmanager
         public static int KillExp = 50;
 
         public static int MultiKillAward = 25;
-        
+
+        public static int DeathPenalty = KillExp / 2;
+
+        public static int extraPenalty = 5;
+
+        public static List<WaifuExpWrapper> Exps = new List<WaifuExpWrapper>();
+
+        private static String FilePath
+        {
+            get { return Path.Combine(WaifuSelector.WaifuSelector.AssemblyDir, "Levels.json"); }
+        }
+
         public static void Onload()
         {
-            
+            LoadWaifuLevels();
+            LoadMenu(WaifuSharp.Menu);
+            UpdateWaifuStatistics(false);
         }
 
-        private static void LoadMenu()
+        private static void LoadMenu(Menu RootMenu)
         {
-            
+            var currentWaifu = WaifuSelector.WaifuSelector.GetCurrentWaifu();
+
+            var LevelMenu = new Menu("Waifu# Level","dz191.waifusharp.level");
+            {
+                LevelMenu.AddItem(
+                    new MenuItem(
+                        "dz191.waifusharp.level.currentlevel",
+                        string.Format("Level: {0}", currentWaifu != null ? currentWaifu.CurrentLevel : 0)));
+                LevelMenu.AddItem(
+                    new MenuItem(
+                        "dz191.waifusharp.level.exp",
+                        string.Format("Exp: {0} / {1}", currentWaifu != null ? currentWaifu.CurrentExp : 0, baseExp * (currentWaifu != null ? currentWaifu.CurrentLevel : 1) * Step)));
+                LevelMenu.AddItem(
+                    new MenuItem(
+                        "dz191.waifusharp.level.progress",
+                        string.Format("Progress: {0} %", currentWaifu != null ? currentWaifu.CurrentExp / (baseExp * currentWaifu.CurrentLevel * Step) : 0)));
+                RootMenu.AddSubMenu(LevelMenu);
+
+            }
         }
 
-        private static void RaiseWaifuEXP(ResourcePriority Kill)
+        public static void UpdateWaifuStatistics(bool save = true)
+        {
+            var RootMenu = WaifuSharp.Menu;
+            var currentWaifu = WaifuSelector.WaifuSelector.GetCurrentWaifu();
+
+            RootMenu.Item("dz191.waifusharp.level.currentlevel").DisplayName = string.Format("Level: {0}", currentWaifu != null ? currentWaifu.CurrentLevel : 0);
+            RootMenu.Item("dz191.waifusharp.level.exp").DisplayName = string.Format(
+                "Exp: {0} / {1}", currentWaifu != null ? currentWaifu.CurrentExp : 0,
+                baseExp * (currentWaifu != null ? currentWaifu.CurrentLevel : 1) * Step);
+            RootMenu.Item("dz191.waifusharp.level.progress").DisplayName = string.Format("Progress: {0} %", currentWaifu != null ? (float)Math.Round(currentWaifu.CurrentExp / (baseExp * currentWaifu.CurrentLevel * Step) * 100, 2) : 0);
+            if (save)
+            {
+                SaveWaifuLevels();
+            }
+        }
+
+        public static void RaiseWaifuEXP(ResourcePriority Kill)
         {
             var currentWaifu = WaifuSelector.WaifuSelector.GetCurrentWaifu();
             if (currentWaifu != null)
@@ -37,25 +90,98 @@ namespace WaifuSharp.Levelmanager
                 var currentExperience = currentWaifu.CurrentExp;
                 var currentLevel = currentWaifu.CurrentLevel;
                 var killNumbers = (int) Kill;
-                var killExp = KillExp * killNumbers + MultiKillAward * killNumbers;
+                var killExp = KillExp * killNumbers + (MultiKillAward * killNumbers - MultiKillAward);
                 var nextLevelExp = baseExp * currentLevel * Step;
-
                 if (currentExperience + killExp >= nextLevelExp)
                 {
-                    var remainingExp = currentWaifu.CurrentLevel + KillExp - nextLevelExp;
+                    var remainingExp = currentWaifu.CurrentExp + killExp - nextLevelExp;
                     currentWaifu.CurrentExp = (int) remainingExp;
                     currentWaifu.CurrentLevel += 1;
                 }
                 else
                 {
-                    currentWaifu.CurrentExp = (int)killExp;
+                    currentWaifu.CurrentExp += killExp;
                 }
+
+                UpdateWaifuStatistics();
+
+            }
+        }
+        public static void DecreaseWaifuExp()
+        {
+            var currentWaifu = WaifuSelector.WaifuSelector.GetCurrentWaifu();
+            if (currentWaifu != null)
+            {
+                var currentExperience = currentWaifu.CurrentExp;
+                var currentLevel = currentWaifu.CurrentLevel;
+                var deathExp = DeathPenalty;
+                var lostExp = deathExp + (ObjectManager.Player.Deaths * extraPenalty);
+                var prevLevelExp = baseExp * (currentLevel - 1) * Step;
+
+                if (currentExperience - lostExp < 0)
+                {
+                    if (prevLevelExp > 0)
+                    {
+                        var remainingExp = prevLevelExp + (currentExperience - lostExp) + 1;
+                        currentWaifu.CurrentExp = (int)remainingExp;
+                        currentWaifu.CurrentLevel -= 1;
+                    }
+                }
+                else
+                {
+                    currentWaifu.CurrentExp -= deathExp;
+                }
+
+                UpdateWaifuStatistics();
             }
         }
 
-        public static void SaveWaifuLevel()
+        //fromBehind(); xdxd
+        [SecurityPermission(SecurityAction.Assert, Unrestricted = true)]
+        public static void SaveWaifuLevels()
         {
-            //TODO Save level and EXP
+            var wList = WaifuSelector.WaifuSelector.Waifus.Select(waifu => new WaifuExpWrapper { CurrentLevel = waifu.CurrentLevel, CurrentExp = waifu.CurrentExp, WaifuName = waifu.Name }).ToList();
+            var serializedObject = JsonConvert.SerializeObject(wList, Formatting.Indented);
+            using (StreamWriter sw = new StreamWriter(@FilePath))
+            {
+                sw.Write(serializedObject);
+            }
         }
+
+        [SecurityPermission(SecurityAction.Assert, Unrestricted = true)]
+        public static void LoadWaifuLevels()
+        {
+            if (!File.Exists(@FilePath))
+            {
+                SaveWaifuLevels();
+                return;
+            }
+
+            var text = File.ReadAllText(@FilePath);
+            var WaifusExps = JsonConvert.DeserializeObject<List<WaifuExpWrapper>>(text);
+            foreach (var waifuExp in WaifusExps)
+            {
+                var waifu = WaifuSelector.WaifuSelector.GetWaifuByName(waifuExp.WaifuName);
+                if (waifu != null)
+                {
+                    waifu.CurrentExp = waifuExp.CurrentExp;
+                    waifu.CurrentLevel = waifuExp.CurrentLevel;
+                }
+            }
+        }
+            
+    }
+
+    internal class WaifuExpWrapper
+    {
+        [JsonProperty(PropertyName = "WaifuName")]
+        public string WaifuName { get; set; }
+
+        [JsonProperty(PropertyName = "CurrentLevel")]
+        public int CurrentLevel { get; set; }
+
+        [JsonProperty(PropertyName = "CurrentExp")]
+        public int CurrentExp { get; set; }
+
     }
 }

@@ -26,7 +26,7 @@ namespace WaifuSharp.WaifuSelector
             }
         }
 
-        private static String AssemblyDir
+        public static String AssemblyDir
         {
             get { return Path.Combine(LeagueSharpAppData, "WaifuSharp"); }
         }
@@ -132,6 +132,16 @@ namespace WaifuSharp.WaifuSelector
                 args.Process = false;
                 GetCurrentWaifu().CurrentLevel += 1;
             }
+            if (args.Input.StartsWith(".e"))
+            {
+                args.Process = false;
+                Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.SingleKill);
+            }
+            if (args.Input.StartsWith(".d"))
+            {
+                args.Process = false;
+                Levelmanager.LevelManager.DecreaseWaifuExp();
+            }
         }
 
         public static Waifu GetCurrentWaifu()
@@ -146,7 +156,7 @@ namespace WaifuSharp.WaifuSelector
             return Waifus.FirstOrDefault();
         }
 
-        private static Waifu GetWaifuByName(String name)
+        public static Waifu GetWaifuByName(String name)
         {
             return Waifus.FirstOrDefault(w => w.Name.ToLower() == name.ToLower());
         }
