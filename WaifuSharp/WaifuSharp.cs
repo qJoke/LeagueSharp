@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Media;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
 using SharpDX.Multimedia;
 using WaifuSharp.Enums;
 using WaifuSharp.ResourceClasses;
@@ -28,56 +30,62 @@ namespace WaifuSharp
             Game.OnNotify += Game_OnNotify;
         }
 
+        private static int delay = 125;
         private static void Game_OnNotify(GameNotifyEventArgs args)
         {
             
                 switch (args.EventId)
                 {
                     case GameEventId.OnChampionKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy)
                         {
                             Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.SingleKill);
                             LastEventTick = Game.Time;
-                            ShowOnKillWaifu();
+                            Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                        }
+                        else if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        {
+                            Levelmanager.LevelManager.DecreaseWaifuExp();
+                            Utility.DelayAction.Add(delay, ShowOnDeathWaifu);
                         }
                         break;
                     case GameEventId.OnChampionDoubleKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy)
                         {
                         Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.DoubleKill);
                         LastEventTick = Game.Time;
-                        ShowOnKillWaifu();
+                        Utility.DelayAction.Add(delay, ShowOnKillWaifu);
                         }
                         break;
                     case GameEventId.OnChampionTripleKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy)
                         {
                             Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.TripleKill);
                             LastEventTick = Game.Time;
-                            ShowOnKillWaifu();
+                            Utility.DelayAction.Add(delay, ShowOnKillWaifu);
                         }
                         break;
                     case GameEventId.OnChampionQuadraKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy)
                         {
                             Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.QuadraKill);
                             LastEventTick = Game.Time;
-                            ShowOnKillWaifu();
+                            Utility.DelayAction.Add(delay, ShowOnKillWaifu);
                         }
                         break;
 
                     case GameEventId.OnChampionPentaKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy)
                         {
                             Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.PentaKill);
                             LastEventTick = Game.Time;
-                            ShowOnKillWaifu();
+                            Utility.DelayAction.Add(delay, ShowOnKillWaifu);
                         }
                         break;
             }
         }
-    
 
+         [SecurityPermission(SecurityAction.Assert, Unrestricted = true)]
         private static void ShowOnKillWaifu()
         {
             if (WaifuSelector.WaifuSelector.CurrentSprite != null)
@@ -87,43 +95,93 @@ namespace WaifuSharp
             }
             sPlayer.Stop();
 
-            var currentWaifu = GetCurrentWaifu();
-            if (currentWaifu != null)
+            var waifu = GetCurrentWaifu();
+            if (waifu != null)
             {
-                var spriteList = GetCurrentWaifu()
-                        .OnKillPics.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
-                        .ToArray();
-                var currentSprite = spriteList[new Random().Next(0, spriteList.Count())];
                 var soundList =
-                    GetCurrentWaifu()
-                        .OnKillSounds.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
-                        .ToArray();
-                var currentSound = soundList[new Random().Next(0, GetCurrentWaifu().OnKillSounds.Count())];
-
-                WaifuSelector.WaifuSelector.InitKillSprite(currentSprite);
-                if (currentSound != null)
+                        GetCurrentWaifu()
+                            .OnKillSounds.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
+                            .ToArray();
+                if (soundList.Any())
                 {
-                    var sSound = currentSound;
-                    sPlayer.Stream = new MemoryStream(currentSound.SoundStream, true);
-                    sPlayer.Load();
-                    if (sPlayer.IsLoadCompleted)
+                    var currentSound = soundList[new Random().Next(0, soundList.Count())];
+
+                    if (currentSound != null)
                     {
-                        sPlayer.PlaySync();
+                        sPlayer.Stream = new MemoryStream(currentSound.SoundStream, true);
+                        sPlayer.Load();
+                        if (sPlayer.IsLoadCompleted)
+                        {
+                            sPlayer.Play();
+                        }
+                        sPlayer.Dispose();
                     }
-                    sPlayer.Dispose();
-
-                    var s = GetCurrentWaifu()
-                        .OnKillSounds.FirstOrDefault(m => m.SoundStream == sSound.SoundStream);
-
-                    if (s != null)
-                    {
-                        s.SoundStream = sSound.SoundStream;
-
-                    }
-
                 }
+
+
+                var spriteList = GetCurrentWaifu()
+                            .OnKillPics.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
+                            .ToArray();
+                if (spriteList.Any())
+                {
+                    var sprite = spriteList[new Random().Next(0, spriteList.Count())];
+                    if (sprite != null)
+                    {
+                        WaifuSelector.WaifuSelector.InitKillSprite(sprite);
+                    }
+                }
+
             }
         }
+
+         [SecurityPermission(SecurityAction.Assert, Unrestricted = true)]
+         private static void ShowOnDeathWaifu()
+         {
+             if (WaifuSelector.WaifuSelector.CurrentSprite != null)
+             {
+                 WaifuSelector.WaifuSelector.CurrentSprite.Visible = false;
+                 WaifuSelector.WaifuSelector.CurrentSprite.Remove();
+             }
+             sPlayer.Stop();
+
+             var waifu = GetCurrentWaifu();
+             if (waifu != null)
+             {
+                 var soundList =
+                         GetCurrentWaifu()
+                             .OnDeathSounds.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
+                             .ToArray();
+                 if (soundList.Any())
+                 {
+                     var currentSound = soundList[new Random().Next(0, soundList.Count())];
+
+                     if (currentSound != null)
+                     {
+                         sPlayer.Stream = new MemoryStream(currentSound.SoundStream, true);
+                         sPlayer.Load();
+                         if (sPlayer.IsLoadCompleted)
+                         {
+                             sPlayer.Play();
+                         }
+                         sPlayer.Dispose();
+                     }
+                 }
+
+
+                 var spriteList = GetCurrentWaifu()
+                             .OnDeathPics.Where(m => m.MinWaifuLevel <= GetCurrentWaifu().CurrentLevel)
+                             .ToArray();
+                 if (spriteList.Any())
+                 {
+                     var sprite = spriteList[new Random().Next(0, spriteList.Count())];
+                     if (sprite != null)
+                     {
+                         WaifuSelector.WaifuSelector.InitDeathSprite(sprite);
+                     }
+                 }
+
+             }
+         }
 
         private static Waifu GetCurrentWaifu()
         {
