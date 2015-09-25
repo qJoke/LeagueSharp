@@ -220,7 +220,8 @@ namespace VayneHunter_Reborn
             ItemManager.OnLoad(Menu);
             ProfileSelector.ProfileSelector.OnLoad(Menu);
             Game.OnUpdate += Game_OnGameUpdate;
-            Orbwalking.AfterAttack += OrbwalkingAfterAttack;
+            //Orbwalking.AfterAttack += OrbwalkingAfterAttack;
+            Obj_AI_Base.OnDoCast += Obj_AI_Base_OnDoCast;
             AntiGP.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
             Stealth.OnStealth += Stealth_OnStealth;
@@ -236,6 +237,46 @@ namespace VayneHunter_Reborn
                 CustomTargetSelector.RegisterEvents();
             }
             //ProfileSelector.ProfileSelector.OnLoad(Menu);
+        }
+
+        static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (!(args.Target is Obj_AI_Base) || !sender.IsMe || !Orbwalking.IsAutoAttack(args.SData.Name))
+            {
+                return;
+            }
+
+
+            var tg = (Obj_AI_Base)args.Target;
+            switch (Orbwalker.ActiveMode)
+            {
+                case Orbwalking.OrbwalkingMode.Combo:
+                    if (_spells[SpellSlot.Q].IsEnabledAndReady(Mode.Combo))
+                    {
+                        CastQ(tg);
+                    }
+                    break;
+                case Orbwalking.OrbwalkingMode.Mixed:
+                    if (_spells[SpellSlot.Q].IsEnabledAndReady(Mode.Harrass) && (tg is Obj_AI_Hero) && ((tg as Obj_AI_Hero).GetWBuff() != null && (tg as Obj_AI_Hero).GetWBuff().Count >= 1 && _spells[SpellSlot.W].Level > 0))
+                    {
+                        CastQ(tg);
+                        harassAACounter = 0;
+                    }
+                    break;
+                case Orbwalking.OrbwalkingMode.LastHit:
+                    Farm();
+                    break;
+                case Orbwalking.OrbwalkingMode.LaneClear:
+                    Farm();
+                    break;
+            }
+
+            if (MenuHelper.getKeybindValue("dz191.vhr.misc.condemn.enextauto") &&
+                _spells[SpellSlot.E].CanCast(tg) && (tg is Obj_AI_Hero))
+            {
+                _spells[SpellSlot.E].Cast(tg);
+                Menu.Item("dz191.vhr.misc.condemn.enextauto").SetValue(new KeyBind("T".ToCharArray()[0], KeyBindType.Toggle));
+            }
         }
 
         #endregion
@@ -459,6 +500,8 @@ namespace VayneHunter_Reborn
             OnUpdateFunctions();
         }
 
+        #region
+
         /// <summary>
         /// Called when an unit finishes the attack.
         /// </summary>
@@ -503,6 +546,7 @@ namespace VayneHunter_Reborn
                 Menu.Item("dz191.vhr.misc.condemn.enextauto").SetValue(new KeyBind("T".ToCharArray()[0], KeyBindType.Toggle));
             }
         }
+        #endregion
 
         /// <summary>
         /// Delegate used for drawings.
