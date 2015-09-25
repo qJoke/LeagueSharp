@@ -220,8 +220,8 @@ namespace VayneHunter_Reborn
             ItemManager.OnLoad(Menu);
             ProfileSelector.ProfileSelector.OnLoad(Menu);
             Game.OnUpdate += Game_OnGameUpdate;
-            //Orbwalking.AfterAttack += OrbwalkingAfterAttack;
-            Obj_AI_Base.OnDoCast += Obj_AI_Base_OnDoCast;
+            Orbwalking.AfterAttack += OrbwalkingAfterAttack;
+            //Obj_AI_Base.OnDoCast += Obj_AI_Base_OnDoCast;
             AntiGP.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
             Stealth.OnStealth += Stealth_OnStealth;

@@ -30,36 +30,50 @@ namespace WaifuSharp
 
         private static void Game_OnNotify(GameNotifyEventArgs args)
         {
-            if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
-            {
+            
                 switch (args.EventId)
                 {
-                    case GameEventId.OnKill:
-                        Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.SingleKill);
-                        LastEventTick = Game.Time;
-                        ShowOnKillWaifu();
+                    case GameEventId.OnChampionKill:
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        {
+                            Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.SingleKill);
+                            LastEventTick = Game.Time;
+                            ShowOnKillWaifu();
+                        }
                         break;
                     case GameEventId.OnChampionDoubleKill:
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        {
                         Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.DoubleKill);
                         LastEventTick = Game.Time;
                         ShowOnKillWaifu();
+                        }
                         break;
                     case GameEventId.OnChampionTripleKill:
-                        Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.TripleKill);
-                        LastEventTick = Game.Time;
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        {
+                            Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.TripleKill);
+                            LastEventTick = Game.Time;
+                            ShowOnKillWaifu();
+                        }
                         break;
                     case GameEventId.OnChampionQuadraKill:
-                        Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.QuadraKill);
-                        LastEventTick = Game.Time;
-                        ShowOnKillWaifu();
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        {
+                            Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.QuadraKill);
+                            LastEventTick = Game.Time;
+                            ShowOnKillWaifu();
+                        }
                         break;
 
                     case GameEventId.OnChampionPentaKill:
-                        Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.PentaKill);
-                        LastEventTick = Game.Time;
-                        ShowOnKillWaifu();
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                        {
+                            Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.PentaKill);
+                            LastEventTick = Game.Time;
+                            ShowOnKillWaifu();
+                        }
                         break;
-                }
             }
         }
     
