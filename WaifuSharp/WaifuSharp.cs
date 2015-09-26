@@ -25,9 +25,20 @@ namespace WaifuSharp
         private static ResourcePriority KillPriority = ResourcePriority.SingleKill;
 
         private static SoundPlayer sPlayer = new SoundPlayer();
+
+        private static float Kills;
+
         public static void OnLoad()
         {
             Game.OnNotify += Game_OnNotify;
+            Game.OnUpdate += Game_OnUpdate;
+            //Obj_AI_Base.OnDamage += Obj_AI_Base_OnDamage;
+        }
+
+        static void Game_OnUpdate(EventArgs args)
+        {
+           // Kills = ObjectManager.Player.Score;
+
         }
 
         private static int delay = 125;
