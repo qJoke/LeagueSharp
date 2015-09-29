@@ -17,17 +17,17 @@ namespace WaifuSharp.Levelmanager
     {
         public delegate void OnWaifuLevelChange(int previousLevel, int currentLevel);
 
-        public static int baseExp = 200;
+        public static int baseExp = 350;
 
-        public static float Step = 1.4f;
+        public static float Step = 2.0f;
 
         public static int KillExp = 50;
 
         public static int MultiKillAward = 25;
 
-        public static int DeathPenalty = KillExp / 2;
+        public static float DeathPenalty = KillExp * 0.75f;
 
-        public static int extraPenalty = 5;
+        public static int extraPenalty = 10;
 
         public static List<WaifuExpWrapper> Exps = new List<WaifuExpWrapper>();
 
@@ -135,13 +135,17 @@ namespace WaifuSharp.Levelmanager
                     if (prevLevelExp > 0)
                     {
                         var remainingExp = prevLevelExp + (currentExperience - lostExp) + 1;
-                        currentWaifu.CurrentExp = (int)remainingExp;
+                        currentWaifu.CurrentExp = (int) remainingExp;
                         currentWaifu.CurrentLevel -= 1;
+                    }
+                    else
+                    {
+                        currentWaifu.CurrentExp = 0;
                     }
                 }
                 else
                 {
-                    currentWaifu.CurrentExp -= deathExp;
+                    currentWaifu.CurrentExp -= (int)deathExp;
                 }
 
                 UpdateWaifuStatistics();

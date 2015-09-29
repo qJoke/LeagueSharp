@@ -336,6 +336,7 @@ namespace WaifuSharp.WaifuSelector
                             CurrentSprite.Scale = new Vector2(Scale, Scale);
                         } 
                     };
+
                 OptionsMenu.AddItem(new MenuItem("waifusharp.options.testwaifu", "Show Test Waifu").SetValue(false))
                     .ValueChanged += (sender, args) =>
                     {
@@ -362,6 +363,11 @@ namespace WaifuSharp.WaifuSelector
                             }
                         }
                     };
+                OptionsMenu.AddItem(
+                    new MenuItem("waifusharp.options.duration", "Duration").SetValue(new Slider(3500, 0, 10000)));
+                
+
+
                 WaifuSharp.Menu.AddSubMenu(OptionsMenu);
             }
             
@@ -377,7 +383,12 @@ namespace WaifuSharp.WaifuSelector
         {
             if (IsDrawing)
             {
-                return;
+                CurrentSprite = null;
+
+                IsDrawing = false;
+                sprite.IsDrawing = true;
+                sprite.Sprite.Visible = false;
+                sprite.Sprite.Remove();
             }
 
             IsDrawing = true;
@@ -392,7 +403,7 @@ namespace WaifuSharp.WaifuSelector
             sprite.Sprite.Add();
 
             Utility.DelayAction.Add(
-                               2000, () =>
+                               WaifuSharp.Menu.Item("waifusharp.options.duration").GetValue<Slider>().Value, () =>
                                {
                                    CurrentSprite = null;
 
@@ -403,6 +414,40 @@ namespace WaifuSharp.WaifuSelector
                                });
         }
 
+        public static void InitDeathSprite(OnDeathSprite sprite)
+        {
+            if (IsDrawing)
+            {
+                CurrentSprite = null;
+
+                IsDrawing = false;
+                sprite.IsDrawing = true;
+                sprite.Sprite.Visible = false;
+                sprite.Sprite.Remove();
+            }
+
+            IsDrawing = true;
+            sprite.IsDrawing = true;
+            sprite.Sprite.Visible = true;
+            sprite.Sprite.Scale = new Vector2(Scale, Scale);
+            sprite.Sprite.VisibleCondition = delegate
+            { return sprite.IsDrawing; };
+            sprite.Sprite.Position = new Vector2(X, Y);
+            sprite.Sprite.PositionUpdate += () => new Vector2(X, Y);
+            CurrentSprite = sprite.Sprite;
+            sprite.Sprite.Add();
+
+            Utility.DelayAction.Add(
+                               WaifuSharp.Menu.Item("waifusharp.options.duration").GetValue<Slider>().Value, () =>
+                               {
+                                   CurrentSprite = null;
+
+                                   IsDrawing = false;
+                                   sprite.IsDrawing = true;
+                                   sprite.Sprite.Visible = false;
+                                   sprite.Sprite.Remove();
+                               });
+        }
         public static ResourcePriority GetResourcePriority(string priority)
         {
             if (priority.Contains("single"))
