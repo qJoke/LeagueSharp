@@ -34,7 +34,7 @@ namespace EnemyHealth
                 return;
             }
 
-            foreach (var enemy in HeroManager.Enemies.Where(h => h.IsVisible && !h.IsDead && h.IsHPBarRendered))
+            foreach (var enemy in HeroManager.Enemies.Where(h => h.IsHPBarRendered))
             {
                 var barPosition = enemy.HPBarPosition;
                 var x = barPosition.X;
