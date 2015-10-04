@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Media;
 using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using SharpDX.Multimedia;
 using WaifuSharp.Enums;
-using WaifuSharp.ResourceClasses;
 using WaifuSharp.WaifuHelper;
 
 namespace WaifuSharp
@@ -48,8 +42,10 @@ namespace WaifuSharp
                 switch (args.EventId)
                 {
                     case GameEventId.OnChampionKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy)
+
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
                         {
+                            Kills = ObjectManager.Player.ChampionsKilled;
                             Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.SingleKill);
                             LastEventTick = Game.Time;
                             Utility.DelayAction.Add(delay, ShowOnKillWaifu);
@@ -61,24 +57,27 @@ namespace WaifuSharp
                         }
                         break;
                     case GameEventId.OnChampionDoubleKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy)
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
                         {
-                        Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.DoubleKill);
-                        LastEventTick = Game.Time;
-                        Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                            Kills = ObjectManager.Player.ChampionsKilled;
+                            Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.DoubleKill);
+                            LastEventTick = Game.Time;
+                            Utility.DelayAction.Add(delay, ShowOnKillWaifu);
                         }
                         break;
                     case GameEventId.OnChampionTripleKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy)
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
                         {
+                            Kills = ObjectManager.Player.ChampionsKilled;
                             Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.TripleKill);
                             LastEventTick = Game.Time;
                             Utility.DelayAction.Add(delay, ShowOnKillWaifu);
                         }
                         break;
                     case GameEventId.OnChampionQuadraKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy)
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
                         {
+                            Kills = ObjectManager.Player.ChampionsKilled;
                             Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.QuadraKill);
                             LastEventTick = Game.Time;
                             Utility.DelayAction.Add(delay, ShowOnKillWaifu);
@@ -86,8 +85,9 @@ namespace WaifuSharp
                         break;
 
                     case GameEventId.OnChampionPentaKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy)
+                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
                         {
+                            Kills = ObjectManager.Player.ChampionsKilled;
                             Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.PentaKill);
                             LastEventTick = Game.Time;
                             Utility.DelayAction.Add(delay, ShowOnKillWaifu);
