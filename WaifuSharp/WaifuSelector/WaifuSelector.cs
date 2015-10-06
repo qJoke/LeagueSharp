@@ -72,6 +72,7 @@ namespace WaifuSharp.WaifuSelector
 
         private static void Game_OnInput(GameInputEventArgs args)
         {
+            return;
             if (args.Input.StartsWith(".w"))
             {
                 args.Process = false;

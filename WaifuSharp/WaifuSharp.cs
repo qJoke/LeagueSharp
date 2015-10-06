@@ -20,7 +20,7 @@ namespace WaifuSharp
 
         private static SoundPlayer sPlayer = new SoundPlayer();
 
-        private static float Kills;
+        private static float Kills = 0;
 
         public static void OnLoad()
         {
@@ -32,7 +32,6 @@ namespace WaifuSharp
         static void Game_OnUpdate(EventArgs args)
         {
            // Kills = ObjectManager.Player.Score;
-
         }
 
         private static int delay = 125;
@@ -42,56 +41,80 @@ namespace WaifuSharp
                 switch (args.EventId)
                 {
                     case GameEventId.OnChampionKill:
-
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
+                        Utility.DelayAction.Add(250, () =>
                         {
-                            Kills = ObjectManager.Player.ChampionsKilled;
-                            Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.SingleKill);
-                            LastEventTick = Game.Time;
-                            Utility.DelayAction.Add(delay, ShowOnKillWaifu);
-                        }
-                        else if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
-                        {
-                            Levelmanager.LevelManager.DecreaseWaifuExp();
-                            Utility.DelayAction.Add(delay, ShowOnDeathWaifu);
-                        }
+                            if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
+                            {
+                                Kills = ObjectManager.Player.ChampionsKilled;
+                                Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.SingleKill);
+                                LastEventTick = Game.Time;
+                                Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                            }
+                            
+                            if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe)
+                            {
+                                Levelmanager.LevelManager.DecreaseWaifuExp();
+                                Utility.DelayAction.Add(delay, ShowOnDeathWaifu);
+                            }
+                        });
+                        
                         break;
                     case GameEventId.OnChampionDoubleKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
-                        {
-                            Kills = ObjectManager.Player.ChampionsKilled;
-                            Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.DoubleKill);
-                            LastEventTick = Game.Time;
-                            Utility.DelayAction.Add(delay, ShowOnKillWaifu);
-                        }
+                        Utility.DelayAction.Add(
+                            250, () =>
+                            {
+                                if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy &&
+                                    ObjectManager.Player.ChampionsKilled > Kills)
+                                {
+                                    Kills = ObjectManager.Player.ChampionsKilled;
+                                    Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.DoubleKill);
+                                    LastEventTick = Game.Time;
+                                    Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                                }
+                            });
                         break;
                     case GameEventId.OnChampionTripleKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
-                        {
-                            Kills = ObjectManager.Player.ChampionsKilled;
-                            Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.TripleKill);
-                            LastEventTick = Game.Time;
-                            Utility.DelayAction.Add(delay, ShowOnKillWaifu);
-                        }
+                        Utility.DelayAction.Add(
+                            250, () =>
+                            {
+                                if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy &&
+                                    ObjectManager.Player.ChampionsKilled > Kills)
+                                {
+                                    Kills = ObjectManager.Player.ChampionsKilled;
+                                    Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.TripleKill);
+                                    LastEventTick = Game.Time;
+                                    Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                                }
+                            });
                         break;
                     case GameEventId.OnChampionQuadraKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
-                        {
-                            Kills = ObjectManager.Player.ChampionsKilled;
-                            Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.QuadraKill);
-                            LastEventTick = Game.Time;
-                            Utility.DelayAction.Add(delay, ShowOnKillWaifu);
-                        }
+                        Utility.DelayAction.Add(
+                            250, () =>
+                            {
+                                if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy &&
+                                    ObjectManager.Player.ChampionsKilled > Kills)
+                                {
+                                    Kills = ObjectManager.Player.ChampionsKilled;
+                                    Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.QuadraKill);
+                                    LastEventTick = Game.Time;
+                                    Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                                }
+                            });
                         break;
 
                     case GameEventId.OnChampionPentaKill:
-                        if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy && ObjectManager.Player.ChampionsKilled > Kills)
-                        {
-                            Kills = ObjectManager.Player.ChampionsKilled;
-                            Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.PentaKill);
-                            LastEventTick = Game.Time;
-                            Utility.DelayAction.Add(delay, ShowOnKillWaifu);
-                        }
+                        Utility.DelayAction.Add(
+                            250, () =>
+                            {
+                                if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsEnemy &&
+                                    ObjectManager.Player.ChampionsKilled > Kills)
+                                {
+                                    Kills = ObjectManager.Player.ChampionsKilled;
+                                    Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.PentaKill);
+                                    LastEventTick = Game.Time;
+                                    Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                                }
+                            });
                         break;
             }
         }
