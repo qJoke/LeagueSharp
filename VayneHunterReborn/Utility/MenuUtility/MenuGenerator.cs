@@ -62,7 +62,6 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
 
                 harassMenu.AddBool("dz191.vhr.mixed.q.2wstacks", "Only Q if 2W Stacks on Target");
                 harassMenu.AddBool("dz191.vhr.mixed.ethird", "Use E for Third Proc");
-                harassMenu.AddBool("dz191.vhr.mixed.mirinQ","Q to Wall when Possible (Mirin Mode)", true);
 
                 RootMenu.AddSubMenu(harassMenu);
             }
@@ -83,6 +82,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                 var miscQMenu = new Menu("Misc - Q (Tumble)", "dz191.vhr.misc.tumble");
                 {
                     miscQMenu.AddStringList("dz191.vhr.misc.condemn.qlogic", "Q Logic", new[] {"Normal", "Kite melees", "Kurisu"});
+                    miscQMenu.AddBool("dz191.vhr.mixed.mirinQ", "Q to Wall when Possible (Mirin Mode)", true);
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.smartq", "Try to QE when possible"); //Done
                     miscQMenu.AddKeybind("dz191.vhr.misc.tumble.noaastealth", "Don't AA while stealthed", new Tuple<uint, KeyBindType>('K', KeyBindType.Toggle)); //Done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.noqenemies", "Don't Q into enemies"); //done
