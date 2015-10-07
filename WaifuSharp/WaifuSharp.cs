@@ -26,15 +26,42 @@ namespace WaifuSharp
         {
             Game.OnNotify += Game_OnNotify;
             Game.OnUpdate += Game_OnUpdate;
+            Obj_AI_Base.OnBuffUpdateCount += Obj_AI_Base_OnBuffUpdateCount;
+            Obj_AI_Base.OnBuffAdd += Obj_AI_Base_OnBuffAdd;
             //Obj_AI_Base.OnDamage += Obj_AI_Base_OnDamage;
         }
+
+       
+
+
 
         static void Game_OnUpdate(EventArgs args)
         {
            // Kills = ObjectManager.Player.Score;
         }
 
+        static void Obj_AI_Base_OnBuffUpdateCount(Obj_AI_Base sender, Obj_AI_BaseBuffUpdateCountEventArgs args)
+        {
+            if (sender.IsMe && args.Buff.Name == "s5test_dragonslayerbuff")
+            {
+                Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.DragonKill);
+                LastEventTick = Game.Time;
+                Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+            }
+        }
+
+        static void Obj_AI_Base_OnBuffAdd(Obj_AI_Base sender, Obj_AI_BaseBuffAddEventArgs args)
+        {
+            if (sender.IsMe && (args.Buff.DisplayName.ToLower().Contains("Hand of Baron") || args.Buff.Name.ToLower().Contains("baron") || args.Buff.Name.ToLower().Contains("worm")))
+            {
+                Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.BaronKill);
+                LastEventTick = Game.Time;
+                Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+            }
+        }
+
         private static int delay = 125;
+
         private static void Game_OnNotify(GameNotifyEventArgs args)
         {
             
