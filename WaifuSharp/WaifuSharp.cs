@@ -22,6 +22,8 @@ namespace WaifuSharp
 
         private static float Kills = 0;
 
+        private static int delay = 125;
+
         public static void OnLoad()
         {
             Game.OnNotify += Game_OnNotify;
@@ -44,9 +46,13 @@ namespace WaifuSharp
         {
             if (sender.IsMe && args.Buff.Name == "s5test_dragonslayerbuff")
             {
-                Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.DragonKill);
-                LastEventTick = Game.Time;
-                Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                Utility.DelayAction.Add(
+                    250, () =>
+                    {
+                        Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.DragonKill);
+                        LastEventTick = Game.Time;
+                        Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                    });
             }
         }
 
@@ -54,13 +60,16 @@ namespace WaifuSharp
         {
             if (sender.IsMe && (args.Buff.DisplayName.ToLower().Contains("hand of baron") || args.Buff.Name.ToLower().Contains("baron") || args.Buff.Name.ToLower().Contains("worm")))
             {
-                Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.BaronKill);
-                LastEventTick = Game.Time;
-                Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                Utility.DelayAction.Add(
+                    250, () =>
+                    {
+                        Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.BaronKill);
+                        LastEventTick = Game.Time;
+                        Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                    });
             }
         }
 
-        private static int delay = 125;
 
         private static void Game_OnNotify(GameNotifyEventArgs args)
         {
