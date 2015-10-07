@@ -89,7 +89,7 @@ namespace WaifuSharp.Levelmanager
 
         }
 
-        public static void RaiseWaifuEXP(ResourcePriority Kill)
+        public static void RaiseWaifuEXP(ResourcePriority Kill, bool isAssist = false)
         {
             var currentWaifu = WaifuSelector.WaifuSelector.GetCurrentWaifu();
             if (currentWaifu != null)
@@ -103,6 +103,12 @@ namespace WaifuSharp.Levelmanager
                     //To Award correct EXP to insta multikills
                     killExp = KillExp * killNumbers + (MultiKillAward * killNumbers - MultiKillAward);
                 }
+
+                if (isAssist)
+                {
+                    killExp = (int)(KillExp * 0.20f);
+                }
+
                 var nextLevelExp = baseExp * currentLevel * Step;
                 if (currentExperience + killExp >= nextLevelExp)
                 {

@@ -22,6 +22,8 @@ namespace WaifuSharp
 
         private static float Kills = 0;
 
+        private static float Assists = 0;
+
         private static int delay = 125;
 
         public static void OnLoad()
@@ -152,10 +154,24 @@ namespace WaifuSharp
                                 }
                             });
                         break;
-            }
+                    case GameEventId.OnDeathAssist:
+                        Utility.DelayAction.Add(
+                            250, () =>
+                            {
+                                if (ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe &&
+                                    ObjectManager.Player.Assists > Assists)
+                                {
+                                    Assists = ObjectManager.Player.Assists;
+                                    Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.SingleKill, true);
+                                    LastEventTick = Game.Time;
+                                    Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                                }
+                            });
+                        break;
+                }
         }
 
-         [SecurityPermission(SecurityAction.Assert, Unrestricted = true)]
+        [SecurityPermission(SecurityAction.Assert, Unrestricted = true)]
         private static void ShowOnKillWaifu()
         {
             if (WaifuSelector.WaifuSelector.CurrentSprite != null)
