@@ -84,7 +84,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscQMenu.AddStringList("dz191.vhr.misc.condemn.qlogic", "Q Logic", new[] {"Normal", "Kite melees", "Kurisu"});
                     miscQMenu.AddBool("dz191.vhr.mixed.mirinQ", "Q to Wall when Possible (Mirin Mode)", true);
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.smartq", "Try to QE when possible"); //Done
-                    miscQMenu.AddKeybind("dz191.vhr.misc.tumble.noaastealth", "Don't AA while stealthed", new Tuple<uint, KeyBindType>('K', KeyBindType.Toggle)); //Done
+                    miscQMenu.AddKeybind("dz191.vhr.misc.tumble.noaastealthex", "Don't AA while stealthed", new Tuple<uint, KeyBindType>('K', KeyBindType.Toggle)); //Done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.noqenemies", "Don't Q into enemies"); //done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.dynamicqsafety", "Use dynamic Q Safety Distance"); //done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.qspam", "Ignore Q checks"); //Done

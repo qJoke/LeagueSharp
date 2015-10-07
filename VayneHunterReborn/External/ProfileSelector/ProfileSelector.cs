@@ -329,12 +329,12 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Tumble,
-                    MinorCategory = MinorCategories.NoAAStealth,
+                    MinorCategory = MinorCategories.NoAAStealthEx,
                     ValueType = ValueTypes.Keybind,
                     KeybindValue =
                         new Tuple<uint, KeyBindType>(
-                            GetItemValue<KeyBind>("dz191.vhr.misc.tumble.noaastealth").Key,
-                            GetItemValue<KeyBind>("dz191.vhr.misc.tumble.noaastealth").Type)
+                            GetItemValue<KeyBind>("dz191.vhr.misc.tumble.noaastealthex").Key,
+                            GetItemValue<KeyBind>("dz191.vhr.misc.tumble.noaastealthex").Type)
                 },
                 new ProfileOption
                 {

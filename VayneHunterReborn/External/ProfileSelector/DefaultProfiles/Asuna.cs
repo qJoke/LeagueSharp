@@ -45,9 +45,9 @@ namespace VayneHunter_Reborn.External.ProfileSelector.DefaultProfiles
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Tumble,
-                    MinorCategory = MinorCategories.NoAAStealth,
-                    ValueType = ValueTypes.Boolean,
-                    BoolValue = false
+                    MinorCategory = MinorCategories.NoAAStealthEx,
+                    ValueType = ValueTypes.Keybind,
+                    KeybindValue = new Tuple<uint, KeyBindType>('K', KeyBindType.Toggle)
                 },
                 new ProfileOption
                 {

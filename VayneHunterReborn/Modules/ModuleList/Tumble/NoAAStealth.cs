@@ -23,7 +23,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
 
         public bool ShouldGetExecuted()
         {
-            return MenuExtensions.GetItemValue<KeyBind>("dz191.vhr.misc.tumble.noaastealth").Active;
+            return MenuExtensions.GetItemValue<KeyBind>("dz191.vhr.misc.tumble.noaastealthex").Active;
         }
 
         public ModuleType GetModuleType()
