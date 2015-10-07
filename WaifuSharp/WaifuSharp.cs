@@ -52,7 +52,7 @@ namespace WaifuSharp
 
         static void Obj_AI_Base_OnBuffAdd(Obj_AI_Base sender, Obj_AI_BaseBuffAddEventArgs args)
         {
-            if (sender.IsMe && (args.Buff.DisplayName.ToLower().Contains("Hand of Baron") || args.Buff.Name.ToLower().Contains("baron") || args.Buff.Name.ToLower().Contains("worm")))
+            if (sender.IsMe && (args.Buff.DisplayName.ToLower().Contains("hand of baron") || args.Buff.Name.ToLower().Contains("baron") || args.Buff.Name.ToLower().Contains("worm")))
             {
                 Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.BaronKill);
                 LastEventTick = Game.Time;
