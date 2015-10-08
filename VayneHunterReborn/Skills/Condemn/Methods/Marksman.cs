@@ -18,12 +18,12 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
                 var targetPosition = Variables.spells[SpellSlot.E].GetPrediction(target).UnitPosition;
                 var finalPosition = targetPosition.Extend(fromPosition, -pushDistance);
                 var finalPosition2 = targetPosition.Extend(fromPosition, -(pushDistance / 2f));
-                var underTurret = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnturret") && (finalPosition.UnderTurret(false));
+                var underTurret = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnturret") && (finalPosition.UnderTurret(true));
                 var j4Flag = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnflag") && (finalPosition.IsJ4Flag(target) || finalPosition2.IsJ4Flag(target));
                 if (finalPosition.IsWall() || finalPosition2.IsWall() || underTurret || j4Flag)
                 {
                     if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent") &&
-                            !target.Equals(Variables.Orbwalker.GetTarget()))
+                            !target.NetworkId.Equals(Variables.Orbwalker.GetTarget().NetworkId))
                     {
                         return null;
                     }
