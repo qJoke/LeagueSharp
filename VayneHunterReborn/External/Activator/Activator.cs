@@ -76,7 +76,7 @@ namespace VayneHunter_Reborn.External.Activator
                 }
 
                 ActivatorMenu.AddKeybind("dz191.vhr.activator.onkey","Activator Key", new Tuple<uint, KeyBindType>(32, KeyBindType.Press));
-                ActivatorMenu.AddBool("dz191.vhr.activator.always", "Always Enabled");
+                ActivatorMenu.AddBool("dz191.vhr.activator.always", "Always Enabled", true);
 
                 RootMenu.AddSubMenu(ActivatorMenu);
             }
@@ -84,12 +84,6 @@ namespace VayneHunter_Reborn.External.Activator
 
         public static void OnUpdate()
         {
-            if ((Utils.GameTimeTickCount - _lastCycle) * 1000f < 100)
-            {
-                return;
-            }
-
-            _lastCycle = Utils.GameTimeTickCount;
 
             if (!MenuExtensions.GetItemValue<KeyBind>("dz191.vhr.activator.onkey").Active &&
                 !MenuExtensions.GetItemValue<bool>("dz191.vhr.activator.always"))
