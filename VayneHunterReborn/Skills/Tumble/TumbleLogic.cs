@@ -37,8 +37,13 @@ namespace VayneHunter_Reborn.Skills.Tumble
                 switch (Variables.Orbwalker.ActiveMode)
                 {
                     case Orbwalking.OrbwalkingMode.Combo:
-                    case Orbwalking.OrbwalkingMode.Mixed:
                         TumbleMethods.PreCastTumble(target);
+                        break;
+                    case Orbwalking.OrbwalkingMode.Mixed:
+                        if (target is Obj_AI_Hero)
+                        {
+                            TumbleMethods.PreCastTumble(target);
+                        }
                         break;
                     case Orbwalking.OrbwalkingMode.LaneClear:
                     case Orbwalking.OrbwalkingMode.LastHit:

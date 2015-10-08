@@ -61,7 +61,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
             if (minionsInRange.Count() > 1)
             {
                 var firstMinion = minionsInRange.OrderBy(m => m.HealthPercent).First();
-                CastQ(firstMinion.ServerPosition);
+                OnCastTumble(firstMinion, Game.CursorPos);
                 Variables.Orbwalker.ForceTarget(firstMinion);
             }
 
@@ -112,6 +112,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                         var range = Orbwalking.GetRealAutoAttackRange(target);
                         var path = LeagueSharp.Common.Geometry.CircleCircleIntersection(ObjectManager.Player.ServerPosition.To2D(),
                             Prediction.GetPrediction(target, 0.25f).UnitPosition.To2D(), Variables.spells[SpellSlot.Q].Range, range);
+
                         if (path.Count() > 0)
                         {
                             var TumblePosition = path.MinOrDefault(x => x.Distance(Game.CursorPos)).To3D();
