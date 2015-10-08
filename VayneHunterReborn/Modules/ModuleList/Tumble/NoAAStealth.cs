@@ -2,6 +2,7 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 using VayneHunter_Reborn.Modules.ModuleHelpers;
+using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
 namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
@@ -23,7 +24,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
 
         public bool ShouldGetExecuted()
         {
-            return MenuExtensions.GetItemValue<KeyBind>("dz191.vhr.misc.tumble.noaastealthex").Active;
+            return Variables.Menu.Item("dz191.vhr.misc.tumble.noaastealthex") != null && Variables.Menu.Item("dz191.vhr.misc.tumble.noaastealthex").GetValue<KeyBind>().Active;
         }
 
         public ModuleType GetModuleType()

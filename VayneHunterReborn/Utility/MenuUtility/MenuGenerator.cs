@@ -151,7 +151,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
             CustomAntigapcloser.BuildMenu(RootMenu);
             Activator.LoadMenu();
             Cleanser.LoadMenu(RootMenu);
-            ProfileSelector.LoadMenu(RootMenu);
+            ProfileSelector.OnLoad(RootMenu);
 
             RootMenu.AddToMainMenu();
         }

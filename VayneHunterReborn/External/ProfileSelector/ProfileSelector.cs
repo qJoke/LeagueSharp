@@ -78,7 +78,7 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                     new MenuItem("dz191.vhr.ps.profile", "Profile: ").SetValue(
                         new StringList(stringListItems, 0))).ValueChanged += (sender, args) =>
                         {
-                            CurrentlySelected = args.GetNewValue<StringList>().SelectedValue;
+                           CurrentlySelected = args.GetNewValue<StringList>().SelectedValue;
                            SaveCurrentlySelected();
                         };
 
