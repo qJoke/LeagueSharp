@@ -112,8 +112,9 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscEMenu.AddSlider("dz191.vhr.misc.condemn.accuracy", "Accuracy (Revolution Only)",
                         new Tuple<int, int, int>(33, 1, 100));
 
-                    miscEMenu.AddKeybind("dz191.vhr.misc.condemn.enextauto", "E Next Auto",
-                        new Tuple<uint, KeyBindType>('T', KeyBindType.Toggle));
+                    miscEMenu.AddItem(
+                        new MenuItem("dz191.vhr.misc.condemn.enextauto", "E Next Auto").SetValue(
+                            new KeyBind('T', KeyBindType.Toggle)));
 
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.onlystuncurrent", "Only stun current target"); //done
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.autoe", "Auto E"); //Done

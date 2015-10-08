@@ -14,8 +14,9 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 
         public bool ShouldGetExecuted()
         {
-            return MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.enextauto") &&
-                   Variables.spells[SpellSlot.E].IsReady();}
+            return MenuExtensions.GetItemValue<KeyBind>("dz191.vhr.misc.condemn.enextauto").Active &&
+                   Variables.spells[SpellSlot.E].IsReady();
+        }
 
         public ModuleType GetModuleType()
         {
