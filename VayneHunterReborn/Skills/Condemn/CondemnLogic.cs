@@ -34,12 +34,12 @@ namespace VayneHunter_Reborn.Skills.Condemn
             var CondemnTarget = GetCondemnTarget(ObjectManager.Player.ServerPosition);
             if (CondemnTarget.IsValidTarget())
             {
-                var AAForE = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.noeaa").Value;
+               // var AAForE = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.noeaa").Value;
 
-                if (CondemnTarget.Health / ObjectManager.Player.GetAutoAttackDamage(CondemnTarget, true) < AAForE)
-                {
-                    return;
-                }
+               // if (CondemnTarget.Health / ObjectManager.Player.GetAutoAttackDamage(CondemnTarget, true) < AAForE)
+               // {
+               //     return;
+               // }
 
                 E.Cast(CondemnTarget);
                 TrinketBush(CondemnTarget.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -450f));
