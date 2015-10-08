@@ -1,4 +1,5 @@
-﻿using VayneHunter_Reborn.External.Activator;
+﻿using LeagueSharp;
+using VayneHunter_Reborn.External.Activator;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
 namespace VayneHunter_Reborn.Utility
@@ -12,6 +13,7 @@ namespace VayneHunter_Reborn.Utility
             MenuGenerator.OnLoad();
             Activator.OnLoad();
             VHR.OnLoad();
+            DrawManager.OnLoad();
         }
     }
 }
