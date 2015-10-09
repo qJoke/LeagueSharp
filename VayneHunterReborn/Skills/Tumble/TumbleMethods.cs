@@ -61,8 +61,12 @@ namespace VayneHunter_Reborn.Skills.Tumble
             if (minionsInRange.Count() > 1)
             {
                 var firstMinion = minionsInRange.OrderBy(m => m.HealthPercent).First();
-                OnCastTumble(firstMinion, Game.CursorPos);
-                Variables.Orbwalker.ForceTarget(firstMinion);
+                var afterTumblePosition = PlayerHelper.GetAfterTumblePosition(Game.CursorPos);
+                if (afterTumblePosition.Distance(firstMinion.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(null))
+                {
+                    OnCastTumble(firstMinion, Game.CursorPos);
+                    Variables.Orbwalker.ForceTarget(firstMinion);
+                }
             }
 
         }
@@ -111,7 +115,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                         //Credits to Kurisu's Graves!
                         var range = Orbwalking.GetRealAutoAttackRange(target);
                         var path = LeagueSharp.Common.Geometry.CircleCircleIntersection(ObjectManager.Player.ServerPosition.To2D(),
-                            Prediction.GetPrediction(target, 0.25f).UnitPosition.To2D(), Variables.spells[SpellSlot.Q].Range, range);
+                            Prediction.GetPrediction(target, 0.25f).UnitPosition.To2D(), 300f, range);
 
                         if (path.Count() > 0)
                         {

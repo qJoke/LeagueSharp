@@ -28,6 +28,7 @@ namespace VayneHunter_Reborn.Utility.Helpers
             LastMoveC = Environment.TickCount;
             ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, where);
         }
+        
         public static bool IsSummonersRift()
         {
             var map = LeagueSharp.Common.Utility.Map.GetMap();
@@ -38,5 +39,9 @@ namespace VayneHunter_Reborn.Utility.Helpers
             return false;
         }
 
+        public static Vector3 GetAfterTumblePosition(Vector3 endPosition)
+        {
+            return ObjectManager.Player.ServerPosition.Extend(endPosition, 300f);
+        }
     }
 }
