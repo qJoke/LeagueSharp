@@ -15,6 +15,7 @@ namespace VayneHunter_Reborn.External
 
         private static void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
+            return;
             if (!(sender is Obj_AI_Hero) || !(args.Target is Obj_AI_Hero))
                 return;
             var senderH = sender as Obj_AI_Hero;
@@ -32,7 +33,6 @@ namespace VayneHunter_Reborn.External
 
         static float GetDamage(Obj_AI_Hero hero, Obj_AI_Hero target, SpellSlot slot)
         {
-            return 0f;
             return (float)hero.GetSpellDamage(target, slot);
         }
     }
