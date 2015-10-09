@@ -32,6 +32,7 @@ namespace VayneHunter_Reborn.External
 
         static float GetDamage(Obj_AI_Hero hero, Obj_AI_Hero target, SpellSlot slot)
         {
+            return 0f;
             return (float)hero.GetSpellDamage(target, slot);
         }
     }

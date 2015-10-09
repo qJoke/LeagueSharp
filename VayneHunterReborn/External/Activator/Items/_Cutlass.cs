@@ -41,7 +41,7 @@ namespace VayneHunter_Reborn.External.Activator.Items
         {
             var currentMenuItem =
                 Variables.Menu.Item(
-                    string.Format("dz191.vhr.activator.offensive.cutlass.{0}", Variables.Orbwalker.ActiveMode));
+                    string.Format("dz191.vhr.activator.offensive.cutlass.{0}", Variables.Orbwalker.ActiveMode.ToString().ToLower()));
             var currentValue = currentMenuItem != null ? currentMenuItem.GetValue<bool>() : false;
 
 
