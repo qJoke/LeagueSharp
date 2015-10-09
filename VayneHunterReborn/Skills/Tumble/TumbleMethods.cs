@@ -64,7 +64,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                 var afterTumblePosition = PlayerHelper.GetAfterTumblePosition(Game.CursorPos);
                 if (afterTumblePosition.Distance(firstMinion.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(null))
                 {
-                    OnCastTumble(firstMinion, Game.CursorPos);
+                    DefaultQCast(Game.CursorPos, firstMinion);
                     Variables.Orbwalker.ForceTarget(firstMinion);
                 }
             }
@@ -82,10 +82,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                 {
                     case 0:
                         //To mouse
-                        if (position.IsSafe(true))
-                        {
-                            CastQ(position);
-                        }
+                        DefaultQCast(position, target);
                         break;
 
                     case 1:
@@ -105,10 +102,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                         }
                         else
                         {
-                            if (position.IsSafe(true))
-                            {
-                                CastQ(position);
-                            }
+                            DefaultQCast(position, target);
                         }
                         break;
                     case 2:
@@ -127,12 +121,22 @@ namespace VayneHunter_Reborn.Skills.Tumble
                         }
                         else
                         {
-                            if (position.IsSafe(true))
-                            {
-                                CastQ(position);
-                            }
+                            DefaultQCast(position, target);
                         }
                         break;
+                }
+            }
+        }
+
+        private static void DefaultQCast(Vector3 position, Obj_AI_Base Target)
+        {
+            if (position.IsSafe(true))
+            {
+                var afterTumblePosition = PlayerHelper.GetAfterTumblePosition(Game.CursorPos);
+
+                if (afterTumblePosition.Distance(Target.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(Target))
+                {
+                    CastQ(position);
                 }
             }
         }
