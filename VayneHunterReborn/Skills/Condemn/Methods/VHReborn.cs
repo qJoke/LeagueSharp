@@ -27,8 +27,8 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
                 var numberOfChecks = (float)Math.Ceiling(pushDistance / 30f);
 
 
-                if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent") &&
-                            !target.Equals(Variables.Orbwalker.GetTarget()))
+                if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent") && Variables.Orbwalker.GetTarget() != null &&
+                            !target.NetworkId.Equals(Variables.Orbwalker.GetTarget().NetworkId))
                 {
                     continue;
                 }

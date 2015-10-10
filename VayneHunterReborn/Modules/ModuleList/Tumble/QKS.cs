@@ -38,9 +38,10 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
                     return;
                 }
 
-                if (currentTarget.Health + 15 <
+                if (HealthPrediction.GetHealthPrediction(currentTarget, (int) (250 + Game.Ping / 2f)) <
                     ObjectManager.Player.GetAutoAttackDamage(currentTarget) +
-                    Variables.spells[SpellSlot.Q].GetDamage(currentTarget))
+                    Variables.spells[SpellSlot.Q].GetDamage(currentTarget)
+                    && HealthPrediction.GetHealthPrediction(currentTarget, (int)(250 + Game.Ping / 2f)) > 0)
                 {
                     var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
                         currentTarget.ServerPosition, 300f);

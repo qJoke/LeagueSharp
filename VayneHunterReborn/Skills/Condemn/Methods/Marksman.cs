@@ -22,7 +22,7 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
                 var j4Flag = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnflag") && (finalPosition.IsJ4Flag(target) || finalPosition2.IsJ4Flag(target));
                 if (finalPosition.IsWall() || finalPosition2.IsWall() || underTurret || j4Flag)
                 {
-                    if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent") &&
+                    if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent") && Variables.Orbwalker.GetTarget() != null &&
                             !target.NetworkId.Equals(Variables.Orbwalker.GetTarget().NetworkId))
                     {
                         return null;
