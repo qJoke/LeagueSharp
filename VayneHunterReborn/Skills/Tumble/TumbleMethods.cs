@@ -134,7 +134,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
             var CursorPos = Game.CursorPos;
             var EnemyPoints = TumblePositioning.GetEnemyPoints();
 
-            if (afterTumblePosition.IsSafe(true) || !(EnemyPoints.Contains(Game.CursorPos.To2D())))
+            if (afterTumblePosition.IsSafe(true) || (!EnemyPoints.Contains(Game.CursorPos.To2D())) || (Variables.EnemiesClose.Count() == 1))
             {
                 if (afterTumblePosition.Distance(Target.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(Target))
                 {
