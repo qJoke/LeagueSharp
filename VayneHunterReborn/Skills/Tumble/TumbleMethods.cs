@@ -131,8 +131,10 @@ namespace VayneHunter_Reborn.Skills.Tumble
         private static void DefaultQCast(Vector3 position, Obj_AI_Base Target)
         {
             var afterTumblePosition = PlayerHelper.GetAfterTumblePosition(Game.CursorPos);
+            var CursorPos = Game.CursorPos;
+            var EnemyPoints = TumblePositioning.GetEnemyPoints();
 
-            if (afterTumblePosition.IsSafe(true))
+            if (afterTumblePosition.IsSafe(true) || !(EnemyPoints.Contains(Game.CursorPos.To2D())))
             {
                 if (afterTumblePosition.Distance(Target.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(Target))
                 {
