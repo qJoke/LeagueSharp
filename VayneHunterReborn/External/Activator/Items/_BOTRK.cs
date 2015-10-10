@@ -47,15 +47,17 @@ namespace VayneHunter_Reborn.External.Activator.Items
 
             if (currentValue || MenuExtensions.GetItemValue<bool>("dz191.vhr.activator.offensive.botrk.always"))
             {
-                var target = TargetSelector.GetTarget(450f, TargetSelector.DamageType.True);
-                if (target.IsValidTarget())
+                var target = Variables.Orbwalker.GetTarget();
+
+                if (target.IsValidTarget() && (target is Obj_AI_Hero))
                 {
+                    var tg = target as Obj_AI_Hero;
                     if (ObjectManager.Player.HealthPercent <=
                         MenuExtensions.GetItemValue<Slider>("dz191.vhr.activator.offensive.botrk.my").Value &&
                         target.HealthPercent >=
                         MenuExtensions.GetItemValue<Slider>("dz191.vhr.activator.offensive.botrk.enemy").Value)
                     {
-                        LeagueSharp.Common.Items.UseItem(3153, target);
+                        LeagueSharp.Common.Items.UseItem(3153, tg);
                     }
                 }
             }
