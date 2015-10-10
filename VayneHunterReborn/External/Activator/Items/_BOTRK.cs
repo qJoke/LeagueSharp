@@ -49,7 +49,7 @@ namespace VayneHunter_Reborn.External.Activator.Items
             {
                 var target = Variables.Orbwalker.GetTarget();
 
-                if (target.IsValidTarget() && (target is Obj_AI_Hero))
+                if (target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) && (target is Obj_AI_Hero))
                 {
                     var tg = target as Obj_AI_Hero;
                     if (ObjectManager.Player.HealthPercent <=
