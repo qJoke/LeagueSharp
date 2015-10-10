@@ -54,7 +54,7 @@ namespace VayneHunter_Reborn.External.Activator.Items
                     var tg = target as Obj_AI_Hero;
                     if (ObjectManager.Player.HealthPercent <=
                         MenuExtensions.GetItemValue<Slider>("dz191.vhr.activator.offensive.botrk.my").Value &&
-                        target.HealthPercent >=
+                        tg.HealthPercent >=
                         MenuExtensions.GetItemValue<Slider>("dz191.vhr.activator.offensive.botrk.enemy").Value)
                     {
                         LeagueSharp.Common.Items.UseItem(3153, tg);
