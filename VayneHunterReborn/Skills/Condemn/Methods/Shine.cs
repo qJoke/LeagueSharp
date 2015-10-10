@@ -22,9 +22,8 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
                 {
                     Vector3 finalPosition = targetPosition + (pushDirection * checkDistance * i);
                     var collFlags = NavMesh.GetCollisionFlags(finalPosition);
-                    var underTurret = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnturret") && (finalPosition.UnderTurret(false));
                     var j4Flag = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnflag") && (finalPosition.IsJ4Flag(target));
-                    if (collFlags == CollisionFlags.Wall || collFlags == CollisionFlags.Building || underTurret || j4Flag) //not sure about building, I think its turrets, nexus etc
+                    if (collFlags == CollisionFlags.Wall || collFlags == CollisionFlags.Building || j4Flag) //not sure about building, I think its turrets, nexus etc
                     {
                         if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent") &&
                                         !target.Equals(Variables.Orbwalker.GetTarget()))
