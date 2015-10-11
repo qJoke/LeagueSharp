@@ -65,6 +65,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
             if (MobNames.Contains(target.CharData.BaseSkinName))
             {
                 DefaultQCast(Game.CursorPos, target);
+                return;
             }
 
             var minionsInRange = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, ObjectManager.Player.AttackRange + 65)
