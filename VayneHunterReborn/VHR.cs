@@ -5,6 +5,7 @@ using VayneHunter_Reborn.External.Cleanser;
 using VayneHunter_Reborn.Modules.ModuleHelpers;
 using VayneHunter_Reborn.Skills.Condemn;
 using VayneHunter_Reborn.Skills.Tumble;
+using VayneHunter_Reborn.Skills.Tumble.VHRQ;
 using VayneHunter_Reborn.Utility;
 using Activator = VayneHunter_Reborn.External.Activator.Activator;
 

@@ -121,6 +121,7 @@
     <Compile Include="Skills\Tumble\TumbleLogic.cs" />
     <Compile Include="Skills\Tumble\TumbleMethods.cs" />
     <Compile Include="Skills\Tumble\TumblePositioning.cs" />
+    <Compile Include="Skills\Tumble\VHRQ\VHRQLogic.cs" />
     <Compile Include="Utility\DrawManager.cs" />
     <Compile Include="Utility\Enumerations\Enums.cs" />
     <Compile Include="Utility\Helpers\Extensions.cs" />

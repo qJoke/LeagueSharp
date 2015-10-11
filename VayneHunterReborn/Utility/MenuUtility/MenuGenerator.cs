@@ -81,7 +81,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
             {
                 var miscQMenu = new Menu("Misc - Q (Tumble)", "dz191.vhr.misc.tumble");
                 {
-                    miscQMenu.AddStringList("dz191.vhr.misc.condemn.qlogic", "Q Logic", new[] {"Normal", "Kite melees", "Kurisu"});
+                    miscQMenu.AddStringList("dz191.vhr.misc.condemn.qlogic", "Q Logic", new[] { "Reborn", "Normal", "Kite melees", "Kurisu"});
                     miscQMenu.AddBool("dz191.vhr.mixed.mirinQ", "Q to Wall when Possible (Mirin Mode)", true);
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.smartq", "Try to QE when possible"); //Done
                     miscQMenu.AddKeybind("dz191.vhr.misc.tumble.noaastealthex", "Don't AA while stealthed", new Tuple<uint, KeyBindType>('K', KeyBindType.Toggle)); //Done
@@ -147,6 +147,15 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                 }
 
                 RootMenu.AddSubMenu(miscMenu);
+            }
+
+            var drawMenu = new Menu("[VHR] Drawings", "dz191.vhr.draw");
+            {
+                drawMenu.AddBool("dz191.vhr.draw.spots", "Draw Spots", true);
+                drawMenu.AddBool("dz191.vhr.draw.range", "Draw Enemy Ranges", true);
+                drawMenu.AddBool("dz191.vhr.draw.qpos", "Reborn Q Position (Debug)");
+
+                RootMenu.AddSubMenu(drawMenu);
             }
 
             CustomAntigapcloser.BuildMenu(RootMenu);

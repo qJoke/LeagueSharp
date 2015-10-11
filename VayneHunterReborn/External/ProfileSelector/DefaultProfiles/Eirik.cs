@@ -33,7 +33,7 @@ namespace VayneHunter_Reborn.External.ProfileSelector.DefaultProfiles
                     ValueType = ValueTypes.Stringlist,
                     StringListValue =
                         new Tuple<string[], int>(
-                            new[] { "Normal", "Kite melees" },0)
+                            new[] { "Reborn", "Normal", "Kite melees", "Kurisu" },0)
                 },
                 new ProfileOption
                 {

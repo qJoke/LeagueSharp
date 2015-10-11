@@ -3,6 +3,7 @@ using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using VayneHunter_Reborn.Skills.Tumble.VHRQ;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.Helpers;
 using VayneHunter_Reborn.Utility.MenuUtility;
@@ -39,7 +40,6 @@ namespace VayneHunter_Reborn.Skills.Tumble
                     return;
                 }
             }
-
             var smartQPosition = TumblePositioning.GetSmartQPosition();
             var smartQCheck =  smartQPosition != Vector3.Zero;
             var QPosition = smartQCheck ? smartQPosition : Game.CursorPos;
@@ -81,11 +81,19 @@ namespace VayneHunter_Reborn.Skills.Tumble
                 switch (MenuExtensions.GetItemValue<StringList>("dz191.vhr.misc.condemn.qlogic").SelectedIndex)
                 {
                     case 0:
+                        var smartQPosition = TumblePositioning.GetSmartQPosition();
+                        var smartQCheck =  smartQPosition != Vector3.Zero;
+                        var QPosition = smartQCheck ? smartQPosition : Game.CursorPos;
+                        var QPosition2 = VHRQLogic.GetVHRQPosition() != Vector3.Zero ? VHRQLogic.GetVHRQPosition() : QPosition;
+                        
+                        CastQ(QPosition2);
+                        break;
+                    case 1:
                         //To mouse
                         DefaultQCast(position, target);
                         break;
 
-                    case 1:
+                    case 2:
                         //Away from melee enemies
                         if (Variables.MeleeEnemiesTowardsMe.Any() &&
                             !Variables.MeleeEnemiesTowardsMe.All(m => m.HealthPercent <= 15))
@@ -105,7 +113,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                             DefaultQCast(position, target);
                         }
                         break;
-                    case 2:
+                    case 3:
                         //Credits to Kurisu's Graves!
                         var range = Orbwalking.GetRealAutoAttackRange(target);
                         var path = LeagueSharp.Common.Geometry.CircleCircleIntersection(ObjectManager.Player.ServerPosition.To2D(),
@@ -133,7 +141,6 @@ namespace VayneHunter_Reborn.Skills.Tumble
             var afterTumblePosition = PlayerHelper.GetAfterTumblePosition(Game.CursorPos);
             var CursorPos = Game.CursorPos;
             var EnemyPoints = TumblePositioning.GetEnemyPoints();
-
             if (afterTumblePosition.IsSafe(true) || (!EnemyPoints.Contains(Game.CursorPos.To2D())) || (Variables.EnemiesClose.Count() == 1))
             {
                 if (afterTumblePosition.Distance(Target.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(Target))
