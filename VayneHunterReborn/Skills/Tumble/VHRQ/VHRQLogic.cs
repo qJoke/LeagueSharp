@@ -93,10 +93,20 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
             var numberOfEnemies = from.CountEnemiesInRange(1000f);
             if (numberOfEnemies != 0)
             {
-                var totalDistance =
-                    HeroManager.Enemies.Where(en => en.IsValidTarget(1000f, true, from)
-                    && en.Health > ObjectManager.Player.GetAutoAttackDamage(en) * 3 + Variables.spells[SpellSlot.W].GetDamage(en) + Variables.spells[SpellSlot.Q].GetDamage(en))
-                    .Sum(en => en.Distance(ObjectManager.Player.ServerPosition));
+                var enemies = HeroManager.Enemies.Where(en => en.IsValidTarget(1000f, true, from)
+                                                    &&
+                                                    en.Health >
+                                                    ObjectManager.Player.GetAutoAttackDamage(en)*3 +
+                                                    Variables.spells[SpellSlot.W].GetDamage(en) +
+                                                    Variables.spells[SpellSlot.Q].GetDamage(en)).ToList();
+                var enemiesEx = HeroManager.Enemies.Where(en => en.IsValidTarget(1000f, true, from)).ToList();
+                var LHEnemies = enemiesEx.Count() - enemies.Count();
+                var totalDistance = 0f;
+
+                totalDistance = (LHEnemies > 1 && enemiesEx.Count() > 2) ? 
+                    enemiesEx.Sum(en => en.Distance(ObjectManager.Player.ServerPosition)) : 
+                    enemies.Sum(en => en.Distance(ObjectManager.Player.ServerPosition));
+
                 return totalDistance / numberOfEnemies;
             }
             return -1;
