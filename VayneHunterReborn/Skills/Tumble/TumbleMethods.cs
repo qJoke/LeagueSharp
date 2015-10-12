@@ -163,7 +163,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                 }
             }
             
-            if (Variables.spells[SpellSlot.R].IsEnabledAndReady(Orbwalking.OrbwalkingMode.Combo))
+            if (Variables.spells[SpellSlot.R].IsEnabledAndReady(Orbwalking.OrbwalkingMode.Combo) && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
                 if (ObjectManager.Player.CountEnemiesInRange(750f) >=
                     MenuExtensions.GetItemValue<Slider>("dz191.vhr.combo.r.minenemies").Value)
