@@ -17,6 +17,14 @@ namespace VayneHunter_Reborn.Skills.Tumble
             get { return Variables.spells[SpellSlot.Q]; }
         }
 
+        private static readonly string[] MobNames =
+            {
+                "SRU_Red", "SRU_Blue", "SRU_Gromp", "SRU_Murkwolf",
+                "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
+                "TT_Spiderboss", "TTNGolem", "TTNWolf",
+                "TTNWraith"
+            };
+
         public static void PreCastTumble(Obj_AI_Base target)
         {
             if (!target.IsValidTarget(ObjectManager.Player.AttackRange + 65f + 65f + 300f))
@@ -51,6 +59,12 @@ namespace VayneHunter_Reborn.Skills.Tumble
         {
             if (!Variables.spells[SpellSlot.Q].IsEnabledAndReady(Variables.Orbwalker.ActiveMode))
             {
+                return;
+            }
+
+            if (MobNames.Contains(target.CharData.BaseSkinName))
+            {
+                DefaultQCast(Game.CursorPos, target);
                 return;
             }
 
