@@ -258,7 +258,10 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                         switch (option.ValueType)
                         {
                             case ValueTypes.Boolean:
-                                menuItem.SetValue(option.BoolValue);
+                                if (!option.getMenuName().ToLower().Contains("dz191.vhr.misc.tumble.noaastealth"))
+                                {
+                                    menuItem.SetValue(option.BoolValue);
+                                }
                                 break;
                             case ValueTypes.Keybind:
                                 if (option.KeybindValue != null)

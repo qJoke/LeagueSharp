@@ -24,7 +24,8 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
 
         public bool ShouldGetExecuted()
         {
-            return Variables.Menu.Item("dz191.vhr.misc.tumble.noaastealthex") != null && Variables.Menu.Item("dz191.vhr.misc.tumble.noaastealthex").GetValue<KeyBind>().Active;
+            return Variables.Menu.Item("dz191.vhr.misc.tumble.noaastealthex") != null 
+                && Variables.Menu.Item("dz191.vhr.misc.tumble.noaastealthex").GetValue<KeyBind>().Active;
         }
 
         public ModuleType GetModuleType()
