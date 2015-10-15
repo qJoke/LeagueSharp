@@ -22,7 +22,7 @@ namespace VayneHunter_Reborn.Utility.Helpers
         public static bool IsJ4Flag(this Vector3 endPosition, Obj_AI_Base target)
         {
             return MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnflag")
-                && ObjectManager.Get<Obj_AI_Base>().Any(m => m.Distance(endPosition) <= target.BoundingRadius && m.Name == "Beacon"); ;
+                && ObjectManager.Get<Obj_AI_Base>().Any(m => m.Distance(endPosition) <= target.BoundingRadius && m.Name == "Beacon");
         }
 
         public static bool Has2WStacks(this Obj_AI_Hero target)
@@ -34,6 +34,5 @@ namespace VayneHunter_Reborn.Utility.Helpers
         {
             return target.Buffs.FirstOrDefault(bu => bu.Name == "vaynesilvereddebuff");
         }
-
     }
 }
