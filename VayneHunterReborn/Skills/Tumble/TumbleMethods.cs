@@ -18,12 +18,12 @@ namespace VayneHunter_Reborn.Skills.Tumble
         }
 
         private static readonly string[] MobNames =
-            {
-                "SRU_Red", "SRU_Blue", "SRU_Gromp", "SRU_Murkwolf",
-                "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
-                "TT_Spiderboss", "TTNGolem", "TTNWolf",
-                "TTNWraith"
-            };
+        {
+            "SRU_Red", "SRU_Blue", "SRU_Gromp", "SRU_Murkwolf",
+            "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
+            "TT_Spiderboss", "TTNGolem", "TTNWolf",
+            "TTNWraith"
+        };
 
         public static void PreCastTumble(Obj_AI_Base target)
         {
@@ -61,8 +61,8 @@ namespace VayneHunter_Reborn.Skills.Tumble
             {
                 return;
             }
-
-            if (MobNames.Contains(target.CharData.BaseSkinName))
+            
+            if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.qjungle") && MobNames.Contains(target.CharData.BaseSkinName))
             {
                 DefaultQCast(Game.CursorPos, target);
                 return;
