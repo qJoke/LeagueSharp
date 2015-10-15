@@ -57,14 +57,14 @@ namespace VayneHunter_Reborn.Skills.Tumble
 
         public static void HandleFarmTumble(Obj_AI_Base target)
         {
-            if (!Variables.spells[SpellSlot.Q].IsEnabledAndReady(Variables.Orbwalker.ActiveMode))
+            if (MobNames.Contains(target.CharData.BaseSkinName) && MenuExtensions.GetItemValue<bool>("dz191.vhr.farm.qjungle"))
             {
+                DefaultQCast(Game.CursorPos, target);
                 return;
             }
             
-            if (MenuExtensions.GetItemValue<bool>("dz191.vhr.farm.qjungle") && MobNames.Contains(target.CharData.BaseSkinName))
+            if (!Variables.spells[SpellSlot.Q].IsEnabledAndReady(Variables.Orbwalker.ActiveMode))
             {
-                DefaultQCast(Game.CursorPos, target);
                 return;
             }
 
