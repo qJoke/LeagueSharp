@@ -62,7 +62,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                 return;
             }
             
-            if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.qjungle") && MobNames.Contains(target.CharData.BaseSkinName))
+            if (MenuExtensions.GetItemValue<bool>("dz191.vhr.farm.qjungle") && MobNames.Contains(target.CharData.BaseSkinName))
             {
                 DefaultQCast(Game.CursorPos, target);
                 return;
