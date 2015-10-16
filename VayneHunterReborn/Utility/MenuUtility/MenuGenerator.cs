@@ -41,7 +41,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                 comboMenu.AddSkill(Enumerations.Skills.E, Orbwalking.OrbwalkingMode.Combo);
                 comboMenu.AddSkill(Enumerations.Skills.R, Orbwalking.OrbwalkingMode.Combo, false);
                 
-                comboMenu.AddSlider("dz191.vhr.combo.r.minenemies", "Min R Enemies", new Tuple<int, int, int>(2, 1, 5));
+                comboMenu.AddSlider("dz191.vhr.combo.r.minenemies", "Min. R Enemies", new Tuple<int, int, int>(2, 1, 5));
                 comboMenu.AddBool("dz191.vhr.combo.q.2wstacks","Only Q if 2W Stacks on Target");
 
                 RootMenu.AddSubMenu(comboMenu);

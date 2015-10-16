@@ -22,7 +22,7 @@ namespace VayneHunter_Reborn.External.Activator.ActivatorSpells
         {
             var spellMenu = new Menu("Barrier", "dz191.vhr.activator.spells.barrier");
             {
-                spellMenu.AddItem(new MenuItem("dz191.vhr.activator.spells.barrier.onhealth", "On barrierth < %")).SetValue(new Slider(10, 1));
+                spellMenu.AddItem(new MenuItem("dz191.vhr.activator.spells.barrier.onhealth", "On health < %")).SetValue(new Slider(10, 1));
                 spellMenu.AddItem(new MenuItem("dz191.vhr.activator.spells.barrier.ls", "Evade/Damage Prediction integration")).SetValue(true);
 
                 spellMenu.AddItem(new MenuItem("dz191.vhr.activator.spells.barrier.sep11", ">>>         On Mode        <<<"));

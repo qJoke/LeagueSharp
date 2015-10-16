@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
+using VayneHunter_Reborn.External.Translation.Languages;
 using VayneHunter_Reborn.Modules;
 using VayneHunter_Reborn.Modules.ModuleList.Condemn;
 using VayneHunter_Reborn.Modules.ModuleList.Misc;
@@ -39,6 +40,12 @@ namespace VayneHunter_Reborn.Utility
             new Reveal(),
             new DisableMovement(),
             new CondemnJungleMobs()
+        };
+
+        public static List<IVHRLanguage> languageList = new List<IVHRLanguage>()
+        {
+            new English(),
+            new Chinese()
         };
 
         public static IEnumerable<Obj_AI_Hero> MeleeEnemiesTowardsMe
