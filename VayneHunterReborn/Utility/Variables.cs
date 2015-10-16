@@ -45,7 +45,9 @@ namespace VayneHunter_Reborn.Utility
         public static List<IVHRLanguage> languageList = new List<IVHRLanguage>()
         {
             new English(),
-            new Chinese()
+            new Chinese(),
+            new French(),
+            new German()
         };
 
         public static IEnumerable<Obj_AI_Hero> MeleeEnemiesTowardsMe
