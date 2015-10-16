@@ -47,7 +47,8 @@ namespace VayneHunter_Reborn.Utility
             new English(),
             new Chinese(),
             new French(),
-            new German()
+            new German(),
+            new Portuguese()
         };
 
         public static IEnumerable<Obj_AI_Hero> MeleeEnemiesTowardsMe
