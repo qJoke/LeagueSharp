@@ -73,6 +73,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                 farmMenu.AddSkill(Enumerations.Skills.Q, Orbwalking.OrbwalkingMode.LastHit);
                 farmMenu.AddManaLimiter(Enumerations.Skills.Q, Orbwalking.OrbwalkingMode.LastHit, 45, true);
                 farmMenu.AddBool("dz191.vhr.farm.condemnjungle","Use E to condemn jungle mobs", true);
+                farmMenu.AddBool("dz191.vhr.farm.qjungle","Use Q against jungle mobs", true);
 
                 RootMenu.AddSubMenu(farmMenu);
             }

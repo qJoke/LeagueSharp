@@ -31,7 +31,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 
         public ModuleType GetModuleType()
         {
-            return ModuleType.OnUpdate;
+            return ModuleType.OnAfterAA;
         }
 
         public void OnExecute()

@@ -18,12 +18,12 @@ namespace VayneHunter_Reborn.Skills.Tumble
         }
 
         private static readonly string[] MobNames =
-            {
-                "SRU_Red", "SRU_Blue", "SRU_Gromp", "SRU_Murkwolf",
-                "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
-                "TT_Spiderboss", "TTNGolem", "TTNWolf",
-                "TTNWraith"
-            };
+        {
+            "SRU_Red", "SRU_Blue", "SRU_Gromp", "SRU_Murkwolf",
+            "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
+            "TT_Spiderboss", "TTNGolem", "TTNWolf",
+            "TTNWraith"
+        };
 
         public static void PreCastTumble(Obj_AI_Base target)
         {
@@ -57,14 +57,14 @@ namespace VayneHunter_Reborn.Skills.Tumble
 
         public static void HandleFarmTumble(Obj_AI_Base target)
         {
-            if (!Variables.spells[SpellSlot.Q].IsEnabledAndReady(Variables.Orbwalker.ActiveMode))
-            {
-                return;
-            }
-
-            if (MobNames.Contains(target.CharData.BaseSkinName))
+            if (MobNames.Contains(target.CharData.BaseSkinName) && MenuExtensions.GetItemValue<bool>("dz191.vhr.farm.qjungle"))
             {
                 DefaultQCast(Game.CursorPos, target);
+                return;
+            }
+            
+            if (!Variables.spells[SpellSlot.Q].IsEnabledAndReady(Variables.Orbwalker.ActiveMode))
+            {
                 return;
             }
 
