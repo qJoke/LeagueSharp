@@ -96,6 +96,10 @@
     <Compile Include="External\ProfileSelector\Values\IValue.cs" />
     <Compile Include="External\ProfileSelector\Values\SelectorEnums.cs" />
     <Compile Include="External\ProfileSelector\Values\SliderValue.cs" />
+    <Compile Include="External\Translation\Languages\Chinese.cs" />
+    <Compile Include="External\Translation\Languages\English.cs" />
+    <Compile Include="External\Translation\Languages\IVHRLanguage.cs" />
+    <Compile Include="External\Translation\TranslationInterface.cs" />
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="Modules\ModuleHelpers\ModuleEnums.cs" />
     <Compile Include="Modules\ModuleList\Condemn\AutoE.cs" />
