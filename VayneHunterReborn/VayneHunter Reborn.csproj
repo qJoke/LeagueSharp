@@ -98,6 +98,7 @@
     <Compile Include="External\ProfileSelector\Values\SliderValue.cs" />
     <Compile Include="External\Translation\Languages\Chinese.cs" />
     <Compile Include="External\Translation\Languages\English.cs" />
+    <Compile Include="External\Translation\Languages\French_Test.cs" />
     <Compile Include="External\Translation\Languages\German.cs" />
     <Compile Include="External\Translation\Languages\IVHRLanguage.cs" />
     <Compile Include="External\Translation\TranslationInterface.cs" />
