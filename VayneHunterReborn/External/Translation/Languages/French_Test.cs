@@ -10,6 +10,7 @@ namespace VayneHunter_Reborn.External.Translation.Languages
      * French Translation by Koala974
      * https://www.joduska.me/forum/user/19647-koala974/
      */
+
     class French : IVHRLanguage
     {
         public string GetName()

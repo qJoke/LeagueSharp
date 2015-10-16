@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace VayneHunter_Reborn.External.Translation.Languages
 {
+    /**
+     * Portuguese translation by Sapporo
+     * 
+     * https://www.joduska.me/forum/user/99408-sapporo/
+     */
     class Portuguese : IVHRLanguage
     {
         public string GetName()
