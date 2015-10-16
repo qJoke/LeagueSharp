@@ -4,6 +4,7 @@ using LeagueSharp.Common;
 using VayneHunter_Reborn.External;
 using VayneHunter_Reborn.External.Cleanser;
 using VayneHunter_Reborn.External.ProfileSelector;
+using VayneHunter_Reborn.External.Translation;
 using Activator = VayneHunter_Reborn.External.Activator.Activator;
 
 namespace VayneHunter_Reborn.Utility.MenuUtility
@@ -163,6 +164,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
             Activator.LoadMenu();
             Cleanser.LoadMenu(RootMenu);
             ProfileSelector.OnLoad(RootMenu);
+            TranslationInterface.OnLoad(RootMenu);
 
             RootMenu.AddToMainMenu();
         }

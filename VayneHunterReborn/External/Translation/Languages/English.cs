@@ -62,13 +62,6 @@ namespace VayneHunter_Reborn.External.Translation.Languages
                 {"dz191.vhr.activator.spells.heal.onhealth", "On health < %"},
                 {"dz191.vhr.activator.spells.heal.ls", "Evade/Damage Prediction integration"},
                 {" ", " "},
-                {" ", " "},
-                {" ", " "},
-                {" ", " "},
-                {" ", " "},
-                {" ", " "},
-                {" ", " "},
-                {" ", " "},
 
             };
 

@@ -30,6 +30,7 @@ namespace VayneHunter_Reborn.External.Translation
                             { Variables.Menu.Item("dz191.vhr.translations.select").SetValue(false); });
                         } 
                     };
+                RootMenu.AddSubMenu(TranslationsMenu);
             }
         }
 
