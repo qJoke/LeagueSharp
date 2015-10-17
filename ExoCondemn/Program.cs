@@ -59,61 +59,52 @@ namespace ExoCondemn
 
         private static void OnDraw(EventArgs args)
         {
-            if (MyPosition2 != Vector3.Zero)
+
+        }
+        public static List<Vector3> GetRotatedFlashPositions()
+        {
+            const int currentStep = 30;
+            var direction = ObjectManager.Player.Direction.To2D().Perpendicular();
+
+            var list = new List<Vector3>();
+            for (var i = -90; i <= 90; i += currentStep)
             {
-                Render.Circle.DrawCircle(MyPosition2, 65, System.Drawing.Color.Red);
+                var angleRad = Geometry.DegreeToRadian(i);
+                var rotatedPosition = ObjectManager.Player.Position.To2D() + (425f * direction.Rotated(angleRad));
+                list.Add(rotatedPosition.To3D());
             }
+            return list;
         }
 
         private static void Game_OnUpdate(EventArgs args)
         {
-
-            var cPos = Game.CursorPos;
-            for (int i = 65; i < 425; i += (int)ObjectManager.Player.BoundingRadius)
-            {
-                var extended = ObjectManager.Player.ServerPosition.Extend(cPos, i);
-                var possibleUnit = CondemnCheck(extended);
-                if (possibleUnit != null && !extended.UnderTurret(true) && !extended.IsWall() && (extended.Distance(ObjectManager.Player.ServerPosition, true) > ObjectManager.Player.ServerPosition.Distance(possibleUnit.ServerPosition, true)))
-                {
-                    MyPosition2 = extended;
-                }
-            }
-
             if (AssemblyMenu.Item("dz191.exocondemn.execute").GetValue<KeyBind>().Active && (Condemn.IsReady() && ObjectManager.Player.GetSpell(FlashSlot).State == SpellState.Ready))
             {
                 if (CondemnCheck(ObjectManager.Player.ServerPosition) != null)
                 {
                     return;
                 }
+
                 if (AssemblyMenu.Item("dz191.exocondemn.onlyone").GetValue<bool>() &&
                     ObjectManager.Player.CountEnemiesInRange(1200f) > 1)
                 {
                     return;
                 }
 
-                var myPosition = Vector3.Zero;
-                Obj_AI_Hero myUnit = null;
+                var positions = GetRotatedFlashPositions();
 
-                var cursorPos = Game.CursorPos;
-                for (int i = 65; i < 425; i += (int) ObjectManager.Player.BoundingRadius)
+                foreach (var p in positions)
                 {
-                    var extended = ObjectManager.Player.ServerPosition.Extend(cursorPos, i);
-                    var possibleUnit = CondemnCheck(extended);
-                    if (possibleUnit != null && !extended.UnderTurret(true) && !extended.IsWall() && (extended.Distance(ObjectManager.Player.ServerPosition, true) > ObjectManager.Player.ServerPosition.Distance(possibleUnit.ServerPosition, true)))
+                    var condemnUnit = CondemnCheck(p);
+                    if (condemnUnit != null)
                     {
-                        myPosition = extended;
-                        myUnit = possibleUnit;
+                        Condemn.CastOnUnit(condemnUnit);
+
+                        Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + 25), () =>
+                        {
+                            ObjectManager.Player.Spellbook.CastSpell(FlashSlot, p);
+                        });
                     }
-                }
-
-                if (myPosition != Vector3.Zero)
-                {
-                    Condemn.CastOnUnit(myUnit);
-
-                    Utility.DelayAction.Add((int)(250 + Game.Ping/2f +25), () =>
-                    {
-                        ObjectManager.Player.Spellbook.CastSpell(FlashSlot, myPosition);
-                    });
                 }
             }
         }
