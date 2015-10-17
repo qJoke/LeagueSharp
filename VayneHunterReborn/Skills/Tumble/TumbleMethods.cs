@@ -41,7 +41,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
             if (target is Obj_AI_Hero)
             {
                 var tg = target as Obj_AI_Hero;
-                TargetSelector.SetTarget(tg); //<---- TODO
+                //TargetSelector.SetTarget(tg); //<---- TODO
 
                 if (TwoWQ && (tg.GetWBuff() != null && tg.GetWBuff().Count < 1) && Variables.spells[SpellSlot.W].Level > 0)
                 {
