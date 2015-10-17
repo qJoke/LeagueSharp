@@ -140,10 +140,10 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                         new Tuple<int, int, int>(0, 0, 1000));
                         
                     miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.specialfocus", "Focus targets with 2 W marks");
-                    miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.reveal", "Stealth Reveal (Pink Ward / Lens)");
+                    miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.reveal", "Stealth Reveal (Pink Ward / Lens)").SetTooltip("Reveals stealthed champions using Pink Wards / Lenses");
 
-                    miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.disablemovement", "Disable Orbwalker Movement");
-                    miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.disableattk", "Disable Orbwalker Attack");
+                    miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.disablemovement", "Disable Orbwalker Movement").SetTooltip("Disables the Orbwalker movements as long as it's active");
+                    miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.disableattk", "Disable Orbwalker Attack").SetTooltip("Disables the Orbwalker attacks as long as it's active");
 
                     miscMenu.AddSubMenu(miscGeneralSubMenu);
                 }
