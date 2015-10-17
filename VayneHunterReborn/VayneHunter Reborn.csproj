@@ -101,6 +101,7 @@
     <Compile Include="External\Translation\Languages\French_Test.cs" />
     <Compile Include="External\Translation\Languages\German.cs" />
     <Compile Include="External\Translation\Languages\IVHRLanguage.cs" />
+    <Compile Include="External\Translation\Languages\Portuguese.cs" />
     <Compile Include="External\Translation\TranslationInterface.cs" />
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="Modules\ModuleHelpers\ModuleEnums.cs" />

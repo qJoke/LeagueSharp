@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace VayneHunter_Reborn.External.Translation.Languages
 {
+    /**
+    * German Translation by suicidecarl & blacky
+    * 
+    * https://www.joduska.me/forum/user/103503-suicidecarl/
+    * https://www.joduska.me/forum/user/38-blacky/
+    */
+
     class German : IVHRLanguage
     {
-        /**
-         * German Translation by suicidecarl & blacky
-         * 
-         * https://www.joduska.me/forum/user/103503-suicidecarl/
-         * https://www.joduska.me/forum/user/38-blacky/
-         * */
         public string GetName()
         {
             return "German";

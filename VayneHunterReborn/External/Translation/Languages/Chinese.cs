@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace VayneHunter_Reborn.External.Translation.Languages
 {
+    /*
+     * Chinese Translation by Southpaw and MasterLag
+     * 
+     * https://www.joduska.me/forum/user/2503-southpaw/
+     * https://www.joduska.me/forum/user/3600-masterlag/
+     */
+
     class Chinese : IVHRLanguage
     {
         public string GetName()
