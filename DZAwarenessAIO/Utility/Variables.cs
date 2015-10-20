@@ -21,7 +21,7 @@ namespace DZAwarenessAIO.Utility
         public static List<ModuleBase> Modules = new List<ModuleBase>()
         {
             new TrackerBase(),
-            new RangesBase()
+            //new RangesBase()
         };
 
         /// <summary>

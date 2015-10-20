@@ -221,7 +221,6 @@ namespace DZAwarenessAIO.Modules.Tracker
                 try
                 {
                     var player_Ex = player;
-                    Console.WriteLine(player_Ex.Experience);
                     var Summoner1Bitmap =
                         TrackerVariables.summonerSpells[player_Ex.Spellbook.GetSpell(SpellSlot.Summoner1).Name];
                     var Summoner2Bitmap =

@@ -37,7 +37,7 @@
   <ItemGroup>
     <Reference Include="clipper_library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\clipper_library.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\LeagueSharp\System\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp">
       <HintPath>C:\Program Files (x86)\LeagueSharp\System\LeagueSharp.dll</HintPath>
@@ -69,6 +69,8 @@
     <Compile Include="Modules\Tracker\TrackerBase.cs" />
     <Compile Include="Modules\Tracker\TrackerDrawings.cs" />
     <Compile Include="Modules\Tracker\TrackerVariables.cs" />
+    <Compile Include="Modules\WardTracker\WardTrackerBase.cs" />
+    <Compile Include="Modules\WardTracker\WardTrackerVariables.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
