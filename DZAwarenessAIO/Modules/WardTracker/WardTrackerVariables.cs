@@ -25,6 +25,8 @@ namespace DZAwarenessAIO.Modules.WardTracker
 
         public int startTick { get; set; }
 
+        public string SDataName { get; set; }
+
         public WardType WardType { get; set; }
     }
 
