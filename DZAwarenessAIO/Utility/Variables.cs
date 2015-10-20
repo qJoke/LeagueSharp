@@ -21,7 +21,7 @@ namespace DZAwarenessAIO.Utility
         public static List<ModuleBase> Modules = new List<ModuleBase>()
         {
             new TrackerBase(),
-            //new RangesBase()
+            new RangesBase()
         };
 
         /// <summary>
@@ -143,9 +143,8 @@ namespace DZAwarenessAIO.Utility
             {
                 return
                     HeroManager.Allies.Where(
-                        m =>
-                            m.Distance(ObjectManager.Player, true) <= Math.Pow(1000, 2) && m.IsValidTarget(1500, false) &&
-                            m.CountEnemiesInRange(m.IsMelee() ? m.AttackRange * 1.5f : m.AttackRange + 20 * 1.5f) > 0);
+                        m => !m.IsMe &&
+                            m.Distance(ObjectManager.Player, true) <= Math.Pow(1000, 2) && m.IsValidTarget(1000, false));
             }
         }
     }

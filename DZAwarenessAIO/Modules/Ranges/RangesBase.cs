@@ -30,7 +30,7 @@ namespace DZAwarenessAIO.Modules.Ranges
                 {
                     moduleMenu.AddBool("dz191.dza.ranges.ally", "Ally Ranges");
                     moduleMenu.AddBool("dz191.dza.ranges.enemy", "Enemy Ranges", true);
-                    RootMenu.AddSubMenu(RootMenu);
+                    RootMenu.AddSubMenu(moduleMenu);
                 }
             }
             catch (Exception e)
@@ -71,7 +71,7 @@ namespace DZAwarenessAIO.Modules.Ranges
 
                     if (MenuExtensions.GetItemValue<bool>("dz191.dza.ranges.ally"))
                     {
-                        DrawAllyZone();
+                         DrawAllyZone();
                     }
                 }
             }
