@@ -335,7 +335,7 @@ namespace DZAwarenessAIO.Modules.Tracker
                     var Spell1Text = new Render.Text((int)player_Ex.HPBarPosition.X + 16, (int)player_Ex.HPBarPosition.Y + 32, string.Empty, 14, new ColorBGRA(255, 255, 255, 255))
                     {
                         TextUpdate = () => ((player_Ex.Spellbook.GetSpell(slot1).CooldownExpires - Game.Time) > 0 ?
-                            (Truncate((player_Ex.Spellbook.GetSpell(slot1).CooldownExpires - Game.Time).ToString()))
+                            (Truncate((player_Ex.Spellbook.GetSpell(slot1).CooldownExpires - Game.Time)))
                             : string.Empty),
                         PositionUpdate = () => new Vector2((int)player_Ex.HPBarPosition.X + offsetX + 16 * scale, (int)player_Ex.HPBarPosition.Y + offset + 32 * scale),
                         VisibleCondition = sender => player_Ex.IsHPBarRendered && (player_Ex.Spellbook.GetSpell(slot1).CooldownExpires - Game.Time) > 0 && (((player_Ex.IsAlly || player_Ex.IsMe) && TrackerVariables.TrackAllies) || (player_Ex.IsEnemy && TrackerVariables.TrackEnemies))
@@ -363,7 +363,7 @@ namespace DZAwarenessAIO.Modules.Tracker
                     var Spell2Text = new Render.Text((int)player_Ex.HPBarPosition.X + 44, (int)player_Ex.HPBarPosition.Y + 32, string.Empty, 14, new ColorBGRA(255, 255, 255, 255))
                     {
                         TextUpdate = () => ((player_Ex.Spellbook.GetSpell(slot2).CooldownExpires - Game.Time) > 0 ?
-                            (Truncate((player_Ex.Spellbook.GetSpell(slot2).CooldownExpires - Game.Time).ToString()))
+                            (Truncate((player_Ex.Spellbook.GetSpell(slot2).CooldownExpires - Game.Time)))
                             : string.Empty),
                         PositionUpdate = () => new Vector2((int)player_Ex.HPBarPosition.X + offsetX + 43.8f * scale, (int)player_Ex.HPBarPosition.Y + offset + 32 * scale),
                         VisibleCondition = sender => player_Ex.IsHPBarRendered && (player_Ex.Spellbook.GetSpell(slot2).CooldownExpires - Game.Time) > 0 && (((player_Ex.IsAlly || player_Ex.IsMe) && TrackerVariables.TrackAllies) || (player_Ex.IsEnemy && TrackerVariables.TrackEnemies))
@@ -391,7 +391,7 @@ namespace DZAwarenessAIO.Modules.Tracker
                     var Spell3Text = new Render.Text((int)player_Ex.HPBarPosition.X + 44, (int)player_Ex.HPBarPosition.Y + 32, string.Empty, 14, new ColorBGRA(255, 255, 255, 255))
                     {
                         TextUpdate = () => ((player_Ex.Spellbook.GetSpell(slot3).CooldownExpires - Game.Time) > 0 ?
-                            (Truncate((player_Ex.Spellbook.GetSpell(slot3).CooldownExpires - Game.Time).ToString()))
+                            (Truncate((player_Ex.Spellbook.GetSpell(slot3).CooldownExpires - Game.Time)))
                             : string.Empty),
                         PositionUpdate = () => new Vector2((int)player_Ex.HPBarPosition.X + offsetX + 73.8f * scale, (int)player_Ex.HPBarPosition.Y + offset + 32 * scale),
                         VisibleCondition = sender => player_Ex.IsHPBarRendered && (player_Ex.Spellbook.GetSpell(slot3).CooldownExpires - Game.Time) > 0 && (((player_Ex.IsAlly || player_Ex.IsMe) && TrackerVariables.TrackAllies) || (player_Ex.IsEnemy && TrackerVariables.TrackEnemies))
@@ -419,7 +419,7 @@ namespace DZAwarenessAIO.Modules.Tracker
                     var Spell4Text = new Render.Text((int)player_Ex.HPBarPosition.X + 44, (int)player_Ex.HPBarPosition.Y + 32, string.Empty, 14, new ColorBGRA(255, 255, 255, 255))
                     {
                         TextUpdate = () => ((player_Ex.Spellbook.GetSpell(slot4).CooldownExpires - Game.Time) > 0 ?
-                            (Truncate((player_Ex.Spellbook.GetSpell(slot4).CooldownExpires - Game.Time).ToString()))
+                            (Truncate((player_Ex.Spellbook.GetSpell(slot4).CooldownExpires - Game.Time)))
                             : string.Empty),
                         PositionUpdate = () => new Vector2((int)player_Ex.HPBarPosition.X + offsetX + 101f * scale, (int)player_Ex.HPBarPosition.Y + offset + 32 * scale),
                         VisibleCondition = sender => player_Ex.IsHPBarRendered && (player_Ex.Spellbook.GetSpell(slot4).CooldownExpires - Game.Time) > 0 && (((player_Ex.IsAlly || player_Ex.IsMe) && TrackerVariables.TrackAllies) || (player_Ex.IsEnemy && TrackerVariables.TrackEnemies))
@@ -453,7 +453,13 @@ namespace DZAwarenessAIO.Modules.Tracker
         /// <returns></returns>
         private static String Truncate(string s)
         {
-            return s.Length > 4 ? s.Remove(4, (s.Length - 4)).Replace(",", ":") : s;
+            return s.Length > 1 ? s.Remove(1, (s.Length - 1)).Replace(",", ":") : s;
+        }
+
+        private static String Truncate(float s)
+        {
+            var s2 = Math.Ceiling(s).ToString();
+            return s2.Length > 1 ? s2.Remove(1, (s2.Length - 1)).Replace(",", ":") : s2;
         }
 
         /// <summary>
