@@ -127,6 +127,12 @@ namespace DZAwarenessAIO.Utility
             get { return ObjectManager.Player; }
         }
 
+        /// <summary>
+        /// Gets the enemies close.
+        /// </summary>
+        /// <value>
+        /// The enemies close.
+        /// </value>
         public static IEnumerable<Obj_AI_Hero> EnemiesClose
         {
             get
@@ -139,6 +145,12 @@ namespace DZAwarenessAIO.Utility
             }
         }
 
+        /// <summary>
+        /// Gets the allies close.
+        /// </summary>
+        /// <value>
+        /// The allies close.
+        /// </value>
         public static IEnumerable<Obj_AI_Hero> AlliesClose
         {
             get

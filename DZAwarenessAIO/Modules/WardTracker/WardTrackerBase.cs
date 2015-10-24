@@ -8,10 +8,13 @@ using LeagueSharp.Common;
 namespace DZAwarenessAIO.Modules.WardTracker
 {
     /// <summary>
-    /// The Ward Tracker class
+    /// The Ward Tracker base class
     /// </summary>
     class WardTrackerBase : ModuleBase
     {
+        /// <summary>
+        /// Creates the menu.
+        /// </summary>
         public override void CreateMenu()
         {
             try
@@ -20,7 +23,7 @@ namespace DZAwarenessAIO.Modules.WardTracker
                 var moduleMenu = new Menu("Wards Tracker", "dz191.dza.ward");
                 {
                     moduleMenu.AddBool("dz191.dza.ward.track", "Track wards");
-                    moduleMenu.AddKeybind("dz191.dza.ward.test", "Test ward", new Tuple<uint, KeyBindType>('K', KeyBindType.Press));
+                    moduleMenu.AddSlider("dz191.dza.ward.sides", "Sides of Polygon (Higher = Laggier)", new Tuple<int, int, int>(4, 3, 12));
                     RootMenu.AddSubMenu(moduleMenu);
                 }
             }
@@ -30,6 +33,9 @@ namespace DZAwarenessAIO.Modules.WardTracker
             }
         }
 
+        /// <summary>
+        /// Initializes the events.
+        /// </summary>
         public override void InitEvents()
         {
             Obj_AI_Base.OnProcessSpellCast += WardDetector.OnProcessSpellCast;
@@ -37,16 +43,27 @@ namespace DZAwarenessAIO.Modules.WardTracker
             Drawing.OnDraw += WardDetector.OnDraw;
         }
 
+        /// <summary>
+        /// Gets the type of the module.
+        /// </summary>
+        /// <returns></returns>
         public override ModuleTypes GetModuleType()
         {
             return ModuleTypes.OnUpdate;
         }
 
+        /// <summary>
+        /// Determines whether or not the module should run.
+        /// </summary>
+        /// <returns></returns>
         public override bool ShouldRun()
         {
             return MenuExtensions.GetItemValue<bool>("dz191.dza.ward.track");
         }
 
+        /// <summary>
+        /// Called OnUpdate
+        /// </summary>
         public override void OnTick()
         {
             WardDetector.OnTick();
