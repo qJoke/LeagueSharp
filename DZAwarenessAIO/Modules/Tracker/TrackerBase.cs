@@ -17,6 +17,7 @@ namespace DZAwarenessAIO.Modules.Tracker
             {
                 TrackerMenu.AddBool("dz191.dza.tracker.track.allies", "Track Allies", true).SetTooltip("Track allies Cooldowns");
                 TrackerMenu.AddBool("dz191.dza.tracker.track.enemies", "Track Enemies", true).SetTooltip("Track enemies Cooldowns");
+                TrackerMenu.AddBool("dz191.dza.tracker.track.cd", "Show Cooldowns", true).SetTooltip("Track enemies Cooldowns");
                 //TrackerMenu.AddBool("dz191.dza.tracker.track.exp", "Exp Tracker").SetTooltip("Track exp");
                 RootMenu.AddSubMenu(TrackerMenu);
             }
