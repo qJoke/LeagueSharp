@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ClipperLib;
+using DZAwarenessAIO.Utility;
 using DZAwarenessAIO.Utility.Extensions;
 using DZAwarenessAIO.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 using Color = System.Drawing.Color;
+using Geometry = LeagueSharp.Common.Geometry;
 
 namespace DZAwarenessAIO.Modules.WardTracker
 {
@@ -37,6 +40,7 @@ namespace DZAwarenessAIO.Modules.WardTracker
             }
 
             WardTrackerVariables.detectedWards.RemoveAll(s => Environment.TickCount > s.startTick + s.WardTypeW.WardDuration);
+
         }
 
         /// <summary>
@@ -94,34 +98,85 @@ namespace DZAwarenessAIO.Modules.WardTracker
         /// Raises the <see cref="E:Draw" /> event.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        internal static void OnDraw(EventArgs args)
+        public static void OnDraw(EventArgs args)
         {
+            var closeWard =
+                    WardTrackerVariables.detectedWards.FirstOrDefault(
+                        w => w.Position.Distance(Game.CursorPos, true) < 80 * 80);
+
+                if (closeWard != null)
+                {
+                    if (MenuExtensions.GetItemValue<KeyBind>("dz191.dza.ward.extrainfo").Active)
+                    {
+                        var polyPoints = GetWardPolygon(closeWard);
+                        var currentPath = polyPoints.Select(v2 => new IntPoint(v2.X, v2.Y)).ToList();
+                        var currentPoly = Geometry.ToPolygon(currentPath);
+                        currentPoly.Draw(GetWardColor(closeWard.WardTypeW));
+                    }
+                }
             foreach (var ward in WardTrackerVariables.detectedWards)
             {
-                var position = ward.Position;
-                var shape = Helper.GetPolygonVertices(new Vector2(position.X, position.Y + 15.5f).To3D(), MenuExtensions.GetItemValue<Slider>("dz191.dza.ward.sides").Value, 65f, 0);
-                var list = shape.Select(v2 => new IntPoint(v2.X, v2.Y)).ToList();
-                var currentPoly = list.ToPolygon();
-                var colour = Color.Chartreuse;
-                switch (ward.WardTypeW.WardType)
+                if (closeWard != null && ward.Position.Distance(closeWard.Position) < float.Epsilon && MenuExtensions.GetItemValue<KeyBind>("dz191.dza.ward.extrainfo").Active)
                 {
-                    case WardType.Green:
-                        colour = Color.Chartreuse;
-                        break;
-                    case WardType.Pink:
-                        colour= Color.DarkMagenta;
-                        break;
-                    case WardType.Trinket:
-                    case WardType.TrinketUpgrade:
-                        colour = Color.Yellow;
-                        break;
-                    case WardType.TeemoShroom:
-                    case WardType.ShacoBox:
-                        colour = Color.DarkRed;
-                        break;
+                    continue;
                 }
 
+                var position = ward.Position;
+                var shape = Helper.GetPolygonVertices(
+                    new Vector2(position.X, position.Y + 15.5f).To3D(),
+                    MenuExtensions.GetItemValue<Slider>("dz191.dza.ward.sides").Value, 65f, 0);
+                var list = shape.Select(v2 => new IntPoint(v2.X, v2.Y)).ToList();
+                var currentPoly = Geometry.ToPolygon(list);
+                var colour = GetWardColor(ward.WardTypeW);
                 currentPoly.Draw(colour);
+            }
+        }
+
+        private static List<Vector2> GetWardPolygon(Ward w)
+        {
+            var position = w.Position;
+            var closeWards = GetWardsCloseTo(w);
+            var polygonsList = closeWards.Select(enemy => new Utility.Geometry.Circle(position.To2D(), w.WardTypeW.WardVisionRange).ToPolygon()).ToList();
+            var pathList = Utility.Geometry.ClipPolygons(polygonsList);
+            var pointList = pathList.SelectMany(path => path, (path, point) => new Vector2(point.X, point.Y)).Where(currentPoint => !currentPoint.IsWall()).ToList();
+            return pointList;
+        }
+
+        private static List<Ward> GetWardsCloseTo(Ward w)
+        {
+            return WardTrackerVariables.detectedWards.Where(m => m.Position.Distance(w.Position, true) <= Math.Pow(w.WardTypeW.WardVisionRange, 2)).ToList();
+        }
+
+        private static Color GetWardColor(WardTypeWrapper w)
+        {
+            var colour = Color.Chartreuse;
+            switch (w.WardType)
+            {
+                case WardType.Green:
+                    colour = Color.Chartreuse;
+                    break;
+                case WardType.Pink:
+                    colour = Color.DarkMagenta;
+                    break;
+                case WardType.Trinket:
+                case WardType.TrinketUpgrade:
+                    colour = Color.Yellow;
+                    break;
+                case WardType.TeemoShroom:
+                case WardType.ShacoBox:
+                    colour = Color.DarkRed;
+                    break;
+            }
+            return colour;
+        }
+
+        public static void OnDelete(GameObject sender, EventArgs args)
+        {
+            if (sender is Obj_AI_Base && !sender.IsAlly)
+            {
+                var sender_ex = sender as Obj_AI_Base;
+
+                WardTrackerVariables.detectedWards.RemoveAll(s => s.Position.Distance(sender_ex.ServerPosition, true) < 10 * 10);
             }
         }
     }

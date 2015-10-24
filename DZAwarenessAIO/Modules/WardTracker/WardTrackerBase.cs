@@ -23,6 +23,7 @@ namespace DZAwarenessAIO.Modules.WardTracker
                 var moduleMenu = new Menu("Wards Tracker", "dz191.dza.ward");
                 {
                     moduleMenu.AddBool("dz191.dza.ward.track", "Track wards");
+                    moduleMenu.AddKeybind("dz191.dza.ward.extrainfo", "Show Extra informations", new Tuple<uint, KeyBindType>('Z', KeyBindType.Press));
                     moduleMenu.AddSlider("dz191.dza.ward.sides", "Sides of Polygon (Higher = Laggier)", new Tuple<int, int, int>(4, 3, 12));
                     RootMenu.AddSubMenu(moduleMenu);
                 }
@@ -40,6 +41,7 @@ namespace DZAwarenessAIO.Modules.WardTracker
         {
             Obj_AI_Base.OnProcessSpellCast += WardDetector.OnProcessSpellCast;
             GameObject.OnCreate += WardDetector.OnCreate;
+            GameObject.OnDelete += WardDetector.OnDelete;
             Drawing.OnDraw += WardDetector.OnDraw;
         }
 

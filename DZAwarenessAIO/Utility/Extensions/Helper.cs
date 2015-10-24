@@ -36,5 +36,20 @@ namespace DZAwarenessAIO.Utility.Extensions
                 (int)(Math.Cos(angle) * polygonHalfDiagonal + from.X),
                 (int)(Math.Sin(-angle) * polygonHalfDiagonal + from.Y)).To3D();
         }
+
+        public static bool IsOverWall(Vector3 start, Vector3 end)
+        {
+            double distance = Vector3.Distance(start, end);
+            for (uint i = 0; i < distance; i += 10)
+            {
+                var tempPosition = start.Extend(end, i).To2D();
+                if (tempPosition.IsWall() || (!NavMesh.IsWallOfGrass(start, 65) && NavMesh.IsWallOfGrass(tempPosition.To3D(), 65)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
