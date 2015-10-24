@@ -69,6 +69,7 @@
     <Compile Include="Modules\Tracker\TrackerBase.cs" />
     <Compile Include="Modules\Tracker\TrackerDrawings.cs" />
     <Compile Include="Modules\Tracker\TrackerVariables.cs" />
+    <Compile Include="Modules\WardTracker\WardDetector.cs" />
     <Compile Include="Modules\WardTracker\WardTrackerBase.cs" />
     <Compile Include="Modules\WardTracker\WardTrackerVariables.cs" />
     <Compile Include="Program.cs" />

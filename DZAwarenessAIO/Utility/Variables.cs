@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DZAwarenessAIO.Modules;
 using DZAwarenessAIO.Modules.Ranges;
 using DZAwarenessAIO.Modules.Tracker;
+using DZAwarenessAIO.Modules.WardTracker;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -21,7 +22,8 @@ namespace DZAwarenessAIO.Utility
         public static List<ModuleBase> Modules = new List<ModuleBase>()
         {
             new TrackerBase(),
-            new RangesBase()
+            new RangesBase(),
+            new WardTrackerBase()
         };
 
         /// <summary>

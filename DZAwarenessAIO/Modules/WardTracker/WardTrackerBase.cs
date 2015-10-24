@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DZAwarenessAIO.Utility;
 using DZAwarenessAIO.Utility.Logs;
 using DZAwarenessAIO.Utility.MenuUtility;
+using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace DZAwarenessAIO.Modules.WardTracker
@@ -22,9 +19,8 @@ namespace DZAwarenessAIO.Modules.WardTracker
                 var RootMenu = Variables.Menu;
                 var moduleMenu = new Menu("Wards Tracker", "dz191.dza.ward");
                 {
-
                     moduleMenu.AddBool("dz191.dza.ward.track", "Track wards");
-                    RootMenu.AddSubMenu(RootMenu);
+                    RootMenu.AddSubMenu(moduleMenu);
                 }
             }
             catch (Exception e)
@@ -35,22 +31,23 @@ namespace DZAwarenessAIO.Modules.WardTracker
 
         public override void InitEvents()
         {
-            throw new NotImplementedException();
+            Obj_AI_Base.OnProcessSpellCast += WardDetector.OnProcessSpellCast;
+            GameObject.OnCreate += WardDetector.OnCreate;
         }
 
         public override ModuleTypes GetModuleType()
         {
-            throw new NotImplementedException();
+            return ModuleTypes.OnUpdate;
         }
 
         public override bool ShouldRun()
         {
-            throw new NotImplementedException();
+            return MenuExtensions.GetItemValue<bool>("dz191.dza.ward.track");
         }
 
         public override void OnTick()
         {
-            throw new NotImplementedException();
+            WardDetector.OnTick();
         }
     }
 }
