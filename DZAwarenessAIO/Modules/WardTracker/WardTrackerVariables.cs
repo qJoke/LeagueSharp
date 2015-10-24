@@ -12,8 +12,9 @@ namespace DZAwarenessAIO.Modules.WardTracker
     {
         public static Dictionary<WardType, float> wardDurations = new Dictionary<WardType, float>()
         {
-            { WardType.Green, 90 },
-            { WardType.Trinket, 60 },
+            { WardType.Green, 60 * 3 * 1000},
+            { WardType.Trinket, 60 * 1000},
+            { WardType.TrinketUpgrade, 60 * 3 * 1000},
             { WardType.Pink, float.MaxValue }
         };
 
@@ -26,7 +27,49 @@ namespace DZAwarenessAIO.Modules.WardTracker
                 WardType = WardType.Trinket,
                 WardVisionRange = 1100
             },
+            new WardTypeWrapper
+            {
+                ObjectName = "YellowTrinketUpgrade",
+                SpellName = "TrinketTotemLvl2",
+                WardType = WardType.TrinketUpgrade,
+                WardVisionRange = 1100
+            },
+            new WardTypeWrapper
+            {
+                ObjectName = "SightWard",
+                SpellName = "TrinketTotemLvl3",
+                WardType = WardType.Green,
+                WardVisionRange = 1100
+            },
+            new WardTypeWrapper
+            {
+                ObjectName = "SightWard",
+                SpellName = "SightWard",
+                WardType = WardType.Green,
+                WardVisionRange = 1100
+            },
+            new WardTypeWrapper
+            {
+                ObjectName = "SightWard",
+                SpellName = "ItemGhostWard",
+                WardType = WardType.Green,
+                WardVisionRange = 1100
+            },
 
+            new WardTypeWrapper
+            {
+                ObjectName = "VisionWard",
+                SpellName = "VisionWard",
+                WardType = WardType.Pink,
+                WardVisionRange = 1100
+            },
+            new WardTypeWrapper
+            {
+                ObjectName = "VisionWard",
+                SpellName = "TrinketTotemLvl3B",
+                WardType = WardType.Pink,
+                WardVisionRange = 1100
+            },
 
         };
 
@@ -42,8 +85,6 @@ namespace DZAwarenessAIO.Modules.WardTracker
 
         public WardTypeWrapper WardTypeW { get; set; }
 
-        public Render.Rectangle RectangleObject { get; set; }
-
         public Render.Text TextObject { get; set; }
 
         public Ward()
@@ -53,23 +94,17 @@ namespace DZAwarenessAIO.Modules.WardTracker
 
         public void CreateRenderObjects()
         {
-            RectangleObject = new Render.Rectangle((int) Drawing.WorldToScreen(Position).X, (int) Drawing.WorldToScreen(Position).Y, 65, 65, SharpDX.Color.Red)
-            {
-                VisibleCondition = sender => Render.OnScreen(Drawing.WorldToScreen(Position)) && MenuExtensions.GetItemValue<bool>("dz191.dza.ward.track")
-            };
-            RectangleObject.Add(0);
-
-            TextObject = new Render.Text((int)Drawing.WorldToScreen(Position).X, (int)Drawing.WorldToScreen(Position).Y, "", 12, new ColorBGRA(255, 255, 255, 255))
+            TextObject = new Render.Text((int)Drawing.WorldToScreen(Position).X, (int)Drawing.WorldToScreen(Position).Y, "", 17, new ColorBGRA(255, 255, 255, 255))
             {
                 VisibleCondition = sender => Render.OnScreen(Drawing.WorldToScreen(Position)) && MenuExtensions.GetItemValue<bool>("dz191.dza.ward.track"),
-                TextUpdate = () => (Game.Time < startTick + WardTypeW.WardDuration) ? (Utils.FormatTime((startTick + WardTypeW.WardDuration) / 1000f)) : string.Empty
+                PositionUpdate = () => new Vector2(Drawing.WorldToScreen(Position).X, Drawing.WorldToScreen(Position).Y + 12),
+                TextUpdate = () => (Environment.TickCount < startTick + WardTypeW.WardDuration && WardTypeW.WardDuration < float.MaxValue) ? (Utils.FormatTime(Math.Abs(Environment.TickCount - (startTick + WardTypeW.WardDuration)) / 1000f)) : string.Empty
             };
             TextObject.Add(0);
         }
 
         public void RemoveRenderObjects()
         {
-            RectangleObject.Remove();
             TextObject.Remove();
         }
     }
@@ -107,6 +142,6 @@ namespace DZAwarenessAIO.Modules.WardTracker
 
     enum WardType
     {
-        Trinket, Pink, Green
+        Trinket, TrinketUpgrade, Pink, Green
     }
 }

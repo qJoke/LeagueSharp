@@ -24,6 +24,8 @@ namespace DZAwarenessAIO
             }
 
             Variables.Menu.AddToMainMenu();
+
+            DZAwareness.OnLoad();
         }
     }
 }

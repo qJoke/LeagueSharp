@@ -23,7 +23,7 @@ namespace DZAwarenessAIO.Utility
         {
             new TrackerBase(),
             new RangesBase(),
-            //new WardTrackerBase()
+            new WardTrackerBase()
         };
 
         /// <summary>

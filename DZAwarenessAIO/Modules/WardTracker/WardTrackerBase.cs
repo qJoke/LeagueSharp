@@ -20,6 +20,7 @@ namespace DZAwarenessAIO.Modules.WardTracker
                 var moduleMenu = new Menu("Wards Tracker", "dz191.dza.ward");
                 {
                     moduleMenu.AddBool("dz191.dza.ward.track", "Track wards");
+                    moduleMenu.AddKeybind("dz191.dza.ward.test", "Test ward", new Tuple<uint, KeyBindType>('K', KeyBindType.Press));
                     RootMenu.AddSubMenu(moduleMenu);
                 }
             }
@@ -33,6 +34,7 @@ namespace DZAwarenessAIO.Modules.WardTracker
         {
             Obj_AI_Base.OnProcessSpellCast += WardDetector.OnProcessSpellCast;
             GameObject.OnCreate += WardDetector.OnCreate;
+            Drawing.OnDraw += WardDetector.OnDraw;
         }
 
         public override ModuleTypes GetModuleType()
