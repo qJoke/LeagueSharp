@@ -319,5 +319,15 @@ namespace DZAwarenessAIO.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TFHelperBG {
+            get {
+                object obj = ResourceManager.GetObject("TFHelperBG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

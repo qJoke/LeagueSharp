@@ -50,7 +50,21 @@ namespace DZAwarenessAIO.Modules.WardTracker
         /// <param name="args">The <see cref="GameObjectProcessSpellCastEventArgs"/> instance containing the event data.</param>
         public static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-           //TODO See if I will use this eventually
+            if (!sender.IsAlly)
+            {
+                foreach (var wrapperType in WardTrackerVariables.wrapperTypes)
+                {
+                    if (wrapperType.SpellName.ToLower().Equals(args.SData.Name.ToLower()))
+                    {
+                        var wardEndPosition = args.End;
+                        WardTrackerVariables.detectedWards.Add(new Ward(wrapperType)
+                        {
+                            Position = wardEndPosition,
+                            startTick = Environment.TickCount,
+                        });
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -175,6 +189,11 @@ namespace DZAwarenessAIO.Modules.WardTracker
             if (sender is Obj_AI_Base && !sender.IsAlly)
             {
                 var sender_ex = sender as Obj_AI_Base;
+
+                foreach (var s in WardTrackerVariables.detectedWards.Where(s => s.Position.Distance(sender_ex.ServerPosition, true) < 10 * 10))
+                {
+                    s.RemoveRenderObjects();
+                }
 
                 WardTrackerVariables.detectedWards.RemoveAll(s => s.Position.Distance(sender_ex.ServerPosition, true) < 10 * 10);
             }

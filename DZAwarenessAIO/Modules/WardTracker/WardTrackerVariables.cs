@@ -30,7 +30,7 @@ namespace DZAwarenessAIO.Modules.WardTracker
 
 
         /// <summary>
-        /// The wrapper types
+        /// The wards wrappers containing a list of wards.
         /// </summary>
         public static List<WardTypeWrapper> wrapperTypes = new List<WardTypeWrapper>
         {
@@ -97,7 +97,7 @@ namespace DZAwarenessAIO.Modules.WardTracker
         };
 
         /// <summary>
-        /// The detected wards
+        /// The detected wards list
         /// </summary>
         public static List<Ward> detectedWards = new List<Ward>();
 
@@ -261,6 +261,12 @@ namespace DZAwarenessAIO.Modules.WardTracker
         /// </value>
         public float WardVisionRange { get; set; }
 
+        /// <summary>
+        /// Gets or sets the type of the ward.
+        /// </summary>
+        /// <value>
+        /// The type of the ward.
+        /// </value>
         public WardType WardType { get; set; }
 
         /// <summary>

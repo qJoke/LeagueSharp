@@ -66,6 +66,9 @@
     <Compile Include="Modules\ModuleBase.cs" />
     <Compile Include="Modules\Ranges\RangesBase.cs" />
     <Compile Include="Modules\TFHelper\TFHelperBase.cs" />
+    <Compile Include="Modules\TFHelper\TFHelperCalculator.cs" />
+    <Compile Include="Modules\TFHelper\TFHelperDrawings.cs" />
+    <Compile Include="Modules\TFHelper\TFHelperVariables.cs" />
     <Compile Include="Modules\Tracker\TrackerBase.cs" />
     <Compile Include="Modules\Tracker\TrackerDrawings.cs" />
     <Compile Include="Modules\Tracker\TrackerVariables.cs" />
@@ -175,6 +178,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Minimap_Ward_Green_Enemy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TFHelperBG.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
