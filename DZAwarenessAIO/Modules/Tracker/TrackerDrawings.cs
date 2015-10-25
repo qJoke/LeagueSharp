@@ -461,7 +461,7 @@ namespace DZAwarenessAIO.Modules.Tracker
         {
             var s2 = Math.Ceiling(s).ToString();
             return s2;
-            return s2.Length > 2 ? s2.Remove(2, (s2.Length - 2)).Replace(",", ":") : s2;
+            //return s2.Length > 2 ? s2.Remove(2, (s2.Length - 2)).Replace(",", ":") : s2;
         }
 
         /// <summary>
