@@ -17,6 +17,7 @@ namespace DZAwarenessAIO
             Variables.Menu = new Menu("DZAwareness", "dz191.dza", true);
 
             LogHelper.OnLoad();
+            HudDisplay.OnLoad();
 
             foreach (var module in Variables.Modules)
             {

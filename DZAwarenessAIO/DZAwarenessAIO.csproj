@@ -86,6 +86,7 @@
     <Compile Include="Utility\Extensions\Helper.cs" />
     <Compile Include="Utility\Extensions\PlayerExtensions.cs" />
     <Compile Include="Utility\Geometry.cs" />
+    <Compile Include="Utility\HudDisplay.cs" />
     <Compile Include="Utility\Logs\LogEnum.cs" />
     <Compile Include="Utility\Logs\LogHelper.cs" />
     <Compile Include="Utility\Logs\LogItem.cs" />
@@ -181,6 +182,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TFHelperBG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Expand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sharink.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
