@@ -460,6 +460,7 @@ namespace DZAwarenessAIO.Modules.Tracker
         private static String Truncate(float s)
         {
             var s2 = Math.Ceiling(s).ToString();
+            return s2;
             return s2.Length > 2 ? s2.Remove(2, (s2.Length - 2)).Replace(",", ":") : s2;
         }
 
