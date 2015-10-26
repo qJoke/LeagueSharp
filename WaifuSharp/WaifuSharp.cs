@@ -35,9 +35,6 @@ namespace WaifuSharp
             //Obj_AI_Base.OnDamage += Obj_AI_Base_OnDamage;
         }
 
-       
-
-
 
         static void Game_OnUpdate(EventArgs args)
         {
@@ -57,6 +54,8 @@ namespace WaifuSharp
                     });
             }
         }
+
+
 
         static void Obj_AI_Base_OnBuffAdd(Obj_AI_Base sender, Obj_AI_BaseBuffAddEventArgs args)
         {
@@ -168,6 +167,19 @@ namespace WaifuSharp
                                 }
                             });
                         break;
+                case GameEventId.OnTurretKill:
+                    Utility.DelayAction.Add(
+                        250, () =>
+                        {
+                            var KillTurret = ObjectManager.Get<Obj_AI_Turret>().First(turret => ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).IsMe && turret.IsDead && turret.IsEnemy && ObjectManager.GetUnitByNetworkId<Obj_AI_Hero>(args.NetworkId).Distance(turret.Position) < 775f);
+                            if (KillTurret != null)
+                            { 
+                                Levelmanager.LevelManager.RaiseWaifuEXP(ResourcePriority.TowerKill);
+                                LastEventTick = Game.Time;
+                                Utility.DelayAction.Add(delay, ShowOnKillWaifu);
+                            }
+                        });
+                    break;
                 }
         }
 
