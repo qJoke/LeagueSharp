@@ -71,7 +71,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                         using (Graphics g = Graphics.FromImage(img))
                         {
                             g.FillEllipse(tb, 0, 0, srcBitmap.Width, srcBitmap.Width);
-                            var p = new Pen(Color.DarkRed, 10) { Alignment = PenAlignment.Inset };
+                            var p = new Pen(Color.DarkRed, 5) { Alignment = PenAlignment.Inset };
                             g.DrawEllipse(p, 0, 0, srcBitmap.Width, srcBitmap.Width);
                         }
                     }
@@ -105,20 +105,12 @@ namespace DZAwarenessAIO.Utility.HudUtility
         {
             this.HeroSprite = new Render.Sprite(ImageLoader.Load(name), new Vector2(0, 0))
             {
-                Scale = new Vector2(0.4f, 0.4f),
+                Scale = new Vector2(0.38f, 0.38f),
                 Visible = true,
                 VisibleCondition = delegate { return HudDisplay.ShouldBeVisible; },
-                PositionUpdate = () => new Vector2(
-                            HudDisplay.CurrentPosition.X + 20 +
-                            (HeroSprite.Width * HeroSprite.Scale.X) * (ImageLoader.AddedHeroes.Count + 1),
-                            HudDisplay.CurrentPosition.Y + HudDisplay.CroppedHeight / 2f)
             };
 
             //image.GrayScale();
-
-
-            Console.WriteLine("Initted {0}", name);
-            ImageLoader.ListCount++;
             HeroSprite.Add(1);
         }
     }

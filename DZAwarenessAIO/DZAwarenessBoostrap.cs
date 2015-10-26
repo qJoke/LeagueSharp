@@ -24,17 +24,11 @@ namespace DZAwarenessAIO
             LogHelper.OnLoad();
             HudDisplay.OnLoad();
 
-            foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>())
+            foreach (var enemy in HeroManager.Allies)
             {
                 ImageLoader.AddedHeroes.Add(enemy.ChampionName, new HeroHudImage(enemy.ChampionName));
-               // ImageLoader.AddedHeroes.Add("Zyra", new HeroHudImage("Zyra"));
             }
           
-            foreach (var h in ImageLoader.AddedHeroes)
-            {
-                Console.WriteLine(h.Value.HeroSprite.Position);
-            }
-
             foreach (var module in Variables.Modules)
             {
                 module.OnLoad();
