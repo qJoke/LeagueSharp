@@ -97,6 +97,13 @@
   <ItemGroup>
     <None Include="Resources\Kantoku-1-OnKill2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="LeagueSharp.Common.dll" />
+    <Content Include="LeagueSharp.dll" />
+    <Content Include="Newtonsoft.Json.dll" />
+    <Content Include="SharpDX.Direct3D9.dll" />
+    <Content Include="SharpDX.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

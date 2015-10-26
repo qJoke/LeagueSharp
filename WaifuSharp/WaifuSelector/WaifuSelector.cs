@@ -232,7 +232,7 @@ namespace WaifuSharp.WaifuSelector
             {
                 case ".png":
                 case ".jpg":
-                case "jpeg":
+                case ".jpeg":
                         var currentSprite = GetSpriteFromFile(filePath);
                         if (currentSprite != null)
                         {
@@ -272,7 +272,7 @@ namespace WaifuSharp.WaifuSelector
             {
                 case ".png":
                 case ".jpg":
-                case "jpeg":
+                case ".jpeg":
                     var currentSprite = GetSpriteFromFile(filePath);
                     if (currentSprite != null)
                     {
@@ -479,7 +479,7 @@ namespace WaifuSharp.WaifuSelector
         }
         private static void SaveDefaultWaifus()
         {
-
+            //return WaifuSharp.DefaultWaifus;
         }
         private static byte[] GetSoundStreamFromFile(string filePath)
         {
