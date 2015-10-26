@@ -7,7 +7,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 
-namespace DZAwarenessAIO.Utility
+namespace DZAwarenessAIO.Utility.HudUtility
 {
     class HudDisplay
     {
@@ -19,12 +19,13 @@ namespace DZAwarenessAIO.Utility
         {
             get
             {
-                return new Vector2(
+                return IsDragging ? DraggingPosition : new Vector2(
                     MenuExtensions.GetItemValue<Slider>("dz191.dza.hud.x").Value,
                     MenuExtensions.GetItemValue<Slider>("dz191.dza.hud.y").Value
                     );
             }
         }
+        public static Vector2 DraggingPosition = new Vector2();
 
         public static readonly float SpriteWidth = Resources.TFHelperBG.Width;
 
@@ -32,13 +33,14 @@ namespace DZAwarenessAIO.Utility
 
         public static bool IsDragging = false;
 
+        public const int CroppedHeight = 80;
+
         private static Vector2 InitialDragPoint = new Vector2();
 
         private static float XDistanceFromEdge = 0;
 
         private static float YDistanceFromEdge = 0;
 
-        private const int CroppedHeight = 80;
 
         public static bool ShouldBeVisible
         {
@@ -84,10 +86,13 @@ namespace DZAwarenessAIO.Utility
 
             if (IsDragging)
             {
-                Variables.Menu.Item("dz191.dza.hud.x")
-                   .SetValue(new Slider((int)(Utils.GetCursorPos().X - XDistanceFromEdge), 0, Drawing.Direct3DDevice.Viewport.Width));
-                Variables.Menu.Item("dz191.dza.hud.y")
-                    .SetValue(new Slider((int)(Utils.GetCursorPos().Y - YDistanceFromEdge), 0, Drawing.Direct3DDevice.Viewport.Height));
+                DraggingPosition.X = (int) (Utils.GetCursorPos().X - XDistanceFromEdge);
+                DraggingPosition.Y = (int)(Utils.GetCursorPos().Y - YDistanceFromEdge);
+
+               // Variables.Menu.Item("dz191.dza.hud.x")
+                //   .SetValue(new Slider((int)(Utils.GetCursorPos().X - XDistanceFromEdge), 0, Drawing.Direct3DDevice.Viewport.Width));
+               // Variables.Menu.Item("dz191.dza.hud.y")
+                 //   .SetValue(new Slider((int)(Utils.GetCursorPos().Y - YDistanceFromEdge), 0, Drawing.Direct3DDevice.Viewport.Height));
             }
 
             if (IsInside(Utils.GetCursorPos()) && args.Msg == (uint)WindowsMessages.WM_LBUTTONDOWN)
@@ -99,6 +104,10 @@ namespace DZAwarenessAIO.Utility
                         InitialDragPoint = CurrentPosition;
                         XDistanceFromEdge = Math.Abs(InitialDragPoint.X - Utils.GetCursorPos().X);
                         YDistanceFromEdge = Math.Abs(InitialDragPoint.Y - Utils.GetCursorPos().Y);
+
+                        DraggingPosition.X = (int)(Utils.GetCursorPos().X - XDistanceFromEdge);
+                        DraggingPosition.Y = (int)(Utils.GetCursorPos().Y - YDistanceFromEdge);
+
                     }
 
                     IsDragging = true;
@@ -116,6 +125,7 @@ namespace DZAwarenessAIO.Utility
                 InitialDragPoint = new Vector2();
                 XDistanceFromEdge = 0;
                 YDistanceFromEdge = 0;
+                DraggingPosition = new Vector2();
 
                 IsDragging = false;
             }
