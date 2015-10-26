@@ -176,7 +176,7 @@ namespace DZAwarenessAIO.Modules.WardTracker
             MinimapSpriteObject = new Render.Sprite(MinimapBitmap, new Vector2())
             {
                 PositionUpdate =  () => MinimapPosition,
-                VisibleCondition = sender => MenuExtensions.GetItemValue<bool>("dz191.dza.ward.track"),
+                VisibleCondition = sender => MenuExtensions.GetItemValue<bool>("dz191.dza.ward.track") && Environment.TickCount <  this.startTick + this.WardTypeW.WardDuration,
                 Scale = new Vector2(0.7f, 0.7f)
             };
             MinimapSpriteObject.Add(0);
