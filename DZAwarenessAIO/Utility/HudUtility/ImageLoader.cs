@@ -20,7 +20,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
 {
     public class ImageLoader
     {
-        public static List<HeroHudImage> AddedHeroes = new List<HeroHudImage>();
+        public static Dictionary<string, HeroHudImage> AddedHeroes = new Dictionary<string, HeroHudImage>();
 
         public static int ListCount = 1;
 
@@ -38,7 +38,8 @@ namespace DZAwarenessAIO.Utility.HudUtility
             }
             Bitmap finalBitmap = CreateFinalImage(bitmap);
             finalBitmap.Save(cachedPath);
-            return ChangeOpacity(finalBitmap);
+            return finalBitmap;
+            //return ChangeOpacity(finalBitmap);
         }
 
         private static string GetCachedPath(string championName)
@@ -84,7 +85,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
         {
             var bmp = new Bitmap(img.Width, img.Height); // Determining Width and Height of Source Image
             Graphics graphics = Graphics.FromImage(bmp);
-            var colormatrix = new ColorMatrix { Matrix33 = 100 };
+            var colormatrix = new ColorMatrix { Matrix33 = 33 };
             var imgAttribute = new ImageAttributes();
             imgAttribute.SetColorMatrix(colormatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
             graphics.DrawImage(
@@ -102,23 +103,19 @@ namespace DZAwarenessAIO.Utility.HudUtility
 
         public HeroHudImage(string name)
         {
-            HeroSprite = new Render.Sprite(ImageLoader.Load(name), new Vector2(0, 0))
+            this.HeroSprite = new Render.Sprite(ImageLoader.Load(name), new Vector2(0, 0))
             {
                 Scale = new Vector2(0.4f, 0.4f),
                 Visible = true,
-                VisibleCondition = delegate { return HudDisplay.ShouldBeVisible; }
+                VisibleCondition = delegate { return HudDisplay.ShouldBeVisible; },
+                PositionUpdate = () => new Vector2(
+                            HudDisplay.CurrentPosition.X + 20 +
+                            (HeroSprite.Width * HeroSprite.Scale.X) * (ImageLoader.AddedHeroes.Count + 1),
+                            HudDisplay.CurrentPosition.Y + HudDisplay.CroppedHeight / 2f)
             };
 
             //image.GrayScale();
 
-            HeroSprite.PositionUpdate = delegate
-            {
-                 Vector2 v2 = new Vector2(HudDisplay.CurrentPosition.X + 20 + (HeroSprite.Width * HeroSprite.Scale.X) * 1 + 20,
-                    HudDisplay.CurrentPosition.Y + HudDisplay.CroppedHeight / 2f);
-                v2.X -= HeroSprite.Width / 2f;
-                v2.Y -= HeroSprite.Height / 2f;
-                return v2;
-            };
 
             Console.WriteLine("Initted {0}", name);
             ImageLoader.ListCount++;

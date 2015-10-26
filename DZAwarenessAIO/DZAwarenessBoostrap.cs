@@ -26,24 +26,19 @@ namespace DZAwarenessAIO
 
             foreach (var enemy in ObjectManager.Get<Obj_AI_Hero>())
             {
-                ImageLoader.AddedHeroes.Add(new HeroHudImage(enemy.ChampionName));
+                ImageLoader.AddedHeroes.Add(enemy.ChampionName, new HeroHudImage(enemy.ChampionName));
+               // ImageLoader.AddedHeroes.Add("Zyra", new HeroHudImage("Zyra"));
             }
-            ImageLoader.AddedHeroes.Add(new HeroHudImage("Zyra"));
-
-           
-           // ImageLoader.OnEndLoad();
-
+          
             foreach (var h in ImageLoader.AddedHeroes)
             {
-                Console.WriteLine(h.HeroSprite.Position);
+                Console.WriteLine(h.Value.HeroSprite.Position);
             }
-            //Console.WriteLine(ImageLoader.AddedHeroes.Count);
+
             foreach (var module in Variables.Modules)
             {
                 module.OnLoad();
             }
-
-
 
             Variables.Menu.AddToMainMenu();
 
