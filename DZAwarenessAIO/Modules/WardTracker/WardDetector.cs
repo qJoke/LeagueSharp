@@ -146,6 +146,11 @@ namespace DZAwarenessAIO.Modules.WardTracker
             }
         }
 
+        /// <summary>
+        /// Gets the ward polygon.
+        /// </summary>
+        /// <param name="w">The ward.</param>
+        /// <returns></returns>
         private static List<Vector2> GetWardPolygon(Ward w)
         {
             var position = w.Position;
@@ -156,11 +161,21 @@ namespace DZAwarenessAIO.Modules.WardTracker
             return pointList;
         }
 
+        /// <summary>
+        /// Gets the wards close to another ward.
+        /// </summary>
+        /// <param name="w">The ward.</param>
+        /// <returns></returns>
         private static List<Ward> GetWardsCloseTo(Ward w)
         {
             return WardTrackerVariables.detectedWards.Where(m => m.Position.Distance(w.Position, true) <= Math.Pow(w.WardTypeW.WardVisionRange, 2)).ToList();
         }
 
+        /// <summary>
+        /// Gets the color of the ward circle.
+        /// </summary>
+        /// <param name="w">The ward.</param>
+        /// <returns></returns>
         private static Color GetWardColor(WardTypeWrapper w)
         {
             var colour = Color.Chartreuse;
@@ -184,6 +199,11 @@ namespace DZAwarenessAIO.Modules.WardTracker
             return colour;
         }
 
+        /// <summary>
+        /// Called when a game object is deleted.
+        /// </summary>
+        /// <param name="sender">The game object.</param>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnDelete(GameObject sender, EventArgs args)
         {
             if (sender is Obj_AI_Base && !sender.IsAlly)

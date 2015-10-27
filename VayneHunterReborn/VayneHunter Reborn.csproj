@@ -100,6 +100,7 @@
     <Compile Include="External\Translation\Languages\English.cs" />
     <Compile Include="External\Translation\Languages\French_Test.cs" />
     <Compile Include="External\Translation\Languages\German.cs" />
+    <Compile Include="External\Translation\Languages\Italian.cs" />
     <Compile Include="External\Translation\Languages\IVHRLanguage.cs" />
     <Compile Include="External\Translation\Languages\Korean.cs" />
     <Compile Include="External\Translation\Languages\Portuguese.cs" />

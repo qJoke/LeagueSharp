@@ -18,12 +18,21 @@ using Rectangle = System.Drawing.Rectangle;
 
 namespace DZAwarenessAIO.Utility.HudUtility
 {
+    /// <summary>
+    /// The image loading class
+    /// </summary>
     public class ImageLoader
     {
+        /// <summary>
+        /// The dictionary of hero images added to the hud
+        /// </summary>
         public static Dictionary<string, HeroHudImage> AddedHeroes = new Dictionary<string, HeroHudImage>();
 
-        public static int ListCount = 1;
-
+        /// <summary>
+        /// Loads the bitmap for a champion name.
+        /// </summary>
+        /// <param name="championName">Name of the champion.</param>
+        /// <returns></returns>
         public static Bitmap Load(string championName)
         {
             string cachedPath = GetCachedPath(championName);
@@ -42,6 +51,11 @@ namespace DZAwarenessAIO.Utility.HudUtility
             //return ChangeOpacity(finalBitmap);
         }
 
+        /// <summary>
+        /// Gets the cached path for the image.
+        /// </summary>
+        /// <param name="championName">Name of the champion.</param>
+        /// <returns></returns>
         private static string GetCachedPath(string championName)
         {
             string path = Path.Combine(Variables.WorkingDir, "ImageCache");
@@ -57,6 +71,11 @@ namespace DZAwarenessAIO.Utility.HudUtility
             return Path.Combine(path, championName + ".png");
         }
 
+        /// <summary>
+        /// Creates the final image setting it a border.
+        /// </summary>
+        /// <param name="srcBitmap">The source bitmap.</param>
+        /// <returns></returns>
         private static Bitmap CreateFinalImage(Bitmap srcBitmap)
         {
             var img = new Bitmap(srcBitmap.Width, srcBitmap.Width);
@@ -81,6 +100,11 @@ namespace DZAwarenessAIO.Utility.HudUtility
             return img;
         }
 
+        /// <summary>
+        /// Changes the opacity.
+        /// </summary>
+        /// <param name="img">The img.</param>
+        /// <returns></returns>
         private static Bitmap ChangeOpacity(Bitmap img)
         {
             var bmp = new Bitmap(img.Width, img.Height); // Determining Width and Height of Source Image
@@ -97,8 +121,17 @@ namespace DZAwarenessAIO.Utility.HudUtility
         }
     }
 
+    /// <summary>
+    /// The Hero Hud Image class
+    /// </summary>
     public class HeroHudImage
     {
+        /// <summary>
+        /// Gets or sets the hero sprite.
+        /// </summary>
+        /// <value>
+        /// The hero sprite.
+        /// </value>
         public Render.Sprite HeroSprite { get; set; }
 
         public HeroHudImage(string name)
