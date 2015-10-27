@@ -326,7 +326,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                         SSTrackerModule.Trackers.Values.FirstOrDefault(h => h.Hero.ChampionName.ToLower().Equals(name.ToLower()));
                     if (heroTracker != null)
                     {
-                        return HudDisplay.ShouldBeVisible && MenuExtensions.GetItemValue<bool>("dz191.dza.sstracker.hud") && heroTracker.SSTimeFloat >= 0;
+                        return HudDisplay.ShouldBeVisible && MenuExtensions.GetItemValue<bool>("dz191.dza.sstracker.hud") && heroTracker.SSTimeFloat > 0;
                     }
 
                     return false;
