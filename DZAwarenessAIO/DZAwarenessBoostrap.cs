@@ -29,6 +29,7 @@ namespace DZAwarenessAIO
             Variables.Menu.AddToMainMenu();
 
             ImageLoader.InitSprites();
+
             foreach (var element in HudVariables.HudElements)
             {
                 element.OnLoad();

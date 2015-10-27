@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using DZAwarenessAIO.Properties;
 using DZAwarenessAIO.Utility.Extensions;
+using DZAwarenessAIO.Utility.Logs;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -16,7 +16,17 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         /// <summary>
         /// The position of the button
         /// </summary>
-        public Vector2 Position;
+        public Vector2 Position
+        {
+            get
+            {
+                return new Vector2(HudVariables.CurrentPosition.X + this.X, HudVariables.CurrentPosition.Y + this.Y);
+            }
+        }
+
+        public int X;
+
+        public int Y;
 
         /// <summary>
         /// Gets or sets the parent Hud Panel.
@@ -55,38 +65,43 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         /// </value>
         public Bitmap ButtonBitmap { get; set; }
 
+        public string ButtonText { get; set; }
+
+        public Render.Text ButtonTextObject { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HudButton"/> class.
         /// </summary>
+        /// <param name="text">The text of the button</param>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
         /// <param name="Parent">The parent.</param>
         /// <param name="bitmap">The Bitmap for the button</param>
-        /// <param name="disanchor">if set to <c>true</c> it will use absolute positioning.</param>
-        protected HudButton(int x, int y, HudPanel Parent, Bitmap bitmap = null, bool disanchor = false)
+        protected HudButton(string text, int x, int y, HudPanel Parent, Bitmap bitmap = null)
         {
+            this.ButtonText = text;
             this.Parent = Parent;
             this.ButtonBitmap = bitmap;
-            Position = disanchor ? 
-                new Vector2(HudVariables.CurrentPosition.X + x, HudVariables.CurrentPosition.Y + y) : 
-                new Vector2(Parent.Position.X + x, Parent.Position.Y + y);
+            this.X = x;
+            this.Y = y; 
             HudVariables.HudElements.Add(this);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HudButton"/> class.
         /// </summary>
+        /// <param name="text">The text of the button</param>
         /// <param name="position">The position.</param>
         /// <param name="Parent">The parent.</param>
         /// <param name="bitmap">The button bitmap</param>
-        /// <param name="disanchor"></param>
-        protected HudButton(Vector2 position, HudPanel Parent, Bitmap bitmap = null, bool disanchor = false)
+        protected HudButton(string text, Vector2 position, HudPanel Parent, Bitmap bitmap = null)
         {
+            this.ButtonText = text;
             this.Parent = Parent;
             this.ButtonBitmap = bitmap;
-            Position = disanchor ? 
-                new Vector2(HudVariables.CurrentPosition.X + position.X, HudVariables.CurrentPosition.Y + position.Y) : 
-                new Vector2(Parent.Position.X + position.X, Parent.Position.Y + position.Y);
+            this.X = (int) position.X;
+            this.Y = (int)position.Y;
+
             HudVariables.HudElements.Add(this);
         }
 
@@ -112,7 +127,37 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         /// </summary>
         public override void InitDrawings()
         {
+            if (this.ButtonBitmap != null)
+            {
+                this.ButtonSprite = new Render.Sprite(this.ButtonBitmap, this.Position)
+                {
+                    PositionUpdate = () => Position,
+                    VisibleCondition =
+                        delegate
+                        {
+                            return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
+                        }
+                };
+                ButtonSprite.Add(3);
 
+                if (!string.IsNullOrEmpty(this.ButtonText))
+                {
+                    this.ButtonTextObject = new Render.Text(this.ButtonText,
+                        new Vector2(Position.X + this.ButtonSprite.Width/2f, Position.Y + this.ButtonSprite.Height/2f),
+                        26, SharpDX.Color.White)
+                    {
+                        PositionUpdate = () => new Vector2(Position.X + this.ButtonSprite.Width / 2f, Position.Y + this.ButtonSprite.Height / 2f),
+                        VisibleCondition = delegate
+                        {
+                            return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
+                        }
+                    };
+                }
+            }
+            else
+            {
+                LogHelper.AddToLog(new LogItem("Hud_Button","Failed to init: Bitmap is null", LogSeverity.Warning));
+            }
         }
 
         /// <summary>
