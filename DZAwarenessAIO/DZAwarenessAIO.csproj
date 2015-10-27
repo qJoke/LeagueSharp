@@ -65,6 +65,8 @@
     <Compile Include="DZAwarenessBoostrap.cs" />
     <Compile Include="Modules\ModuleBase.cs" />
     <Compile Include="Modules\Ranges\RangesBase.cs" />
+    <Compile Include="Modules\SSTracker\SSTrackerBase.cs" />
+    <Compile Include="Modules\SSTracker\SSTrackerModule.cs" />
     <Compile Include="Modules\TFHelper\TFHelperBase.cs" />
     <Compile Include="Modules\TFHelper\TFHelperCalculator.cs" />
     <Compile Include="Modules\TFHelper\TFHelperDrawings.cs" />
@@ -582,6 +584,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Zilean_Square_0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SSCircle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

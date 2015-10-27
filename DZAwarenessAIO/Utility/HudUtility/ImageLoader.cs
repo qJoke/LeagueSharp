@@ -5,7 +5,10 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using DZAwarenessAIO.Modules.SSTracker;
 using DZAwarenessAIO.Properties;
+using DZAwarenessAIO.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -27,6 +30,57 @@ namespace DZAwarenessAIO.Utility.HudUtility
         /// The dictionary of hero images added to the hud
         /// </summary>
         public static Dictionary<string, HeroHudImage> AddedHeroes = new Dictionary<string, HeroHudImage>();
+
+        /// <summary>
+        /// Initializes the sprites.
+        /// </summary>
+        public static void InitSprites()
+        {
+            foreach (var enemy in HeroManager.Enemies)
+            {
+                AddedHeroes.Add(enemy.ChampionName, new HeroHudImage(enemy.ChampionName));
+            }
+        }
+
+        /// <summary>
+        /// Removes the sprites.
+        /// </summary>
+        public static void RemoveSprites()
+        {
+            foreach (var hero in AddedHeroes)
+            {
+                hero.Value.HeroSprite.Remove();
+                hero.Value.SSText.Remove();
+                hero.Value.SSSprite.Remove();
+            }
+        }
+
+        /// <summary>
+        /// Called when the game updates.
+        /// </summary>
+        public static void OnUpdate()
+        {
+            var k = 0;
+            foreach (var hero in ImageLoader.AddedHeroes)
+            {
+                
+                var sprite = hero.Value.HeroSprite;
+                var circlePosition = new Vector2(
+                        HudDisplay.CurrentPosition.X + 15 + (sprite.Scale.X * (29 + (sprite.Width))) * k +
+                        (sprite.Width * sprite.Scale.X) * (k) - (sprite.Width * sprite.Scale.X) / 2f,
+                        HudDisplay.CurrentPosition.Y + HudDisplay.CroppedHeight - sprite.Height - 6);;
+                sprite.Position = circlePosition;
+
+                var SSSprite = hero.Value.SSSprite;
+                SSSprite.Position = circlePosition;
+
+                var text = hero.Value.SSText;
+                text.X = (int) (sprite.Position.X + (sprite.Width * sprite.Scale.X)) - (int)((TextWidth(text.text, new Font("Calibri", 26)) * sprite.Scale.X) / 2f);
+                text.Y = (int)(sprite.Position.Y + (sprite.Height * sprite.Scale.Y) / 2f + 2);
+
+                k++;
+            }
+        }
 
         /// <summary>
         /// Loads the bitmap for a champion name.
@@ -119,6 +173,88 @@ namespace DZAwarenessAIO.Utility.HudUtility
             img.Dispose();
             return bmp;
         }
+
+        /// <summary>
+        /// Saturates the bitmap.
+        /// </summary>
+        /// <param name="original">The original bitmap.</param>
+        /// <param name="saturation">The saturation.</param>
+        /// <returns>The saturated bitmap</returns>
+        private static Bitmap SaturateBitmap(Image original, float saturation)
+        {
+            const float rWeight = 0.3086f;
+            const float gWeight = 0.6094f;
+            const float bWeight = 0.0820f;
+
+            var a = (1.0f - saturation) * rWeight + saturation;
+            var b = (1.0f - saturation) * rWeight;
+            var c = (1.0f - saturation) * rWeight;
+            var d = (1.0f - saturation) * gWeight;
+            var e = (1.0f - saturation) * gWeight + saturation;
+            var f = (1.0f - saturation) * gWeight;
+            var g = (1.0f - saturation) * bWeight;
+            var h = (1.0f - saturation) * bWeight;
+            var i = (1.0f - saturation) * bWeight + saturation;
+
+            var newBitmap = new Bitmap(original.Width, original.Height);
+            var gr = Graphics.FromImage(newBitmap);
+
+            // ColorMatrix elements
+            float[][] ptsArray =
+                {
+                    new[] { a, b, c, 0, 0 }, new[] { d, e, f, 0, 0 }, new[] { g, h, i, 0, 0 },
+                    new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
+                };
+            // Create ColorMatrix
+            var clrMatrix = new ColorMatrix(ptsArray);
+            // Create ImageAttributes
+            var imgAttribs = new ImageAttributes();
+            // Set color matrix
+            imgAttribs.SetColorMatrix(clrMatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
+            // Draw Image with no effects
+            gr.DrawImage(original, 0, 0, original.Width, original.Height);
+            // Draw Image with image attributes
+            gr.DrawImage(
+                original, new System.Drawing.Rectangle(0, 0, original.Width, original.Height), 0, 0, original.Width,
+                original.Height, GraphicsUnit.Pixel, imgAttribs);
+            gr.Dispose();
+
+            return newBitmap;
+        }
+
+        public static Color ToGrayscaleColor(Color color)
+        {
+            var level = (byte) ((color.R + color.G + color.B) / 3);
+            var result = Color.FromArgb(level, level, level);
+            return result;
+        }
+
+        private static Bitmap ToGrayscale(Bitmap bitmap)
+        {
+            var result = new Bitmap(bitmap.Width, bitmap.Height);
+            for (int x = 0; x < bitmap.Width; x++)
+                for (int y = 0; y < bitmap.Height; y++)
+                {
+                    var grayColor = ToGrayscaleColor(bitmap.GetPixel(x, y));
+                    result.SetPixel(x, y, grayColor);
+                }
+            return result;
+        }
+
+        public static int TextWidth(string text, Font f)
+        {
+            int textWidth;
+
+            using (var bmp = new Bitmap(1, 1))
+            {
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    textWidth = (int)g.MeasureString(text, f).Width;
+                }
+            }
+
+            return textWidth;
+        }
     }
 
     /// <summary>
@@ -134,6 +270,22 @@ namespace DZAwarenessAIO.Utility.HudUtility
         /// </value>
         public Render.Sprite HeroSprite { get; set; }
 
+        /// <summary>
+        /// Gets or sets the SS sprite.
+        /// </summary>
+        /// <value>
+        /// The ss sprite.
+        /// </value>
+        public Render.Sprite SSSprite { get; set; }
+
+        /// <summary>
+        /// Gets or sets the SS time text
+        /// </summary>
+        /// <value>
+        /// The SS time text.
+        /// </value>
+        public Render.Text SSText { get; set; }
+
         public HeroHudImage(string name)
         {
             this.HeroSprite = new Render.Sprite(ImageLoader.Load(name), new Vector2(0, 0))
@@ -143,8 +295,48 @@ namespace DZAwarenessAIO.Utility.HudUtility
                 VisibleCondition = delegate { return HudDisplay.ShouldBeVisible; },
             };
 
+            this.SSSprite = new Render.Sprite(Resources.SSCircle, new Vector2(0, 0))
+            {
+                Scale = new Vector2(0.38f, 0.38f),
+                Visible = true,
+                VisibleCondition = delegate
+                {
+                    var heroTracker =
+                        SSTrackerModule.Trackers.Values.FirstOrDefault(h => h.Hero.ChampionName.ToLower().Equals(name.ToLower()));
+                    if (heroTracker != null)
+                    {
+                        return HudDisplay.ShouldBeVisible && MenuExtensions.GetItemValue<bool>("dz191.dza.sstracker.hud") && heroTracker.SSTimeFloat > 0;
+                    }
+                    return false;
+                },
+            };
+
+            this.SSText = new Render.Text(new Vector2(0, 0), "", 26, SharpDX.Color.White)
+            {
+                Visible = true,
+                TextUpdate = delegate
+                {
+                    var heroTracker =
+                        SSTrackerModule.Trackers.Values.FirstOrDefault(h => h.Hero.ChampionName.ToLower().Equals(name.ToLower())); 
+                    return heroTracker != null ? heroTracker.SSTime : string.Empty;
+                },
+                VisibleCondition = delegate
+                {
+                    var heroTracker =
+                        SSTrackerModule.Trackers.Values.FirstOrDefault(h => h.Hero.ChampionName.ToLower().Equals(name.ToLower()));
+                    if (heroTracker != null)
+                    {
+                        return HudDisplay.ShouldBeVisible && MenuExtensions.GetItemValue<bool>("dz191.dza.sstracker.hud") && heroTracker.SSTimeFloat >= 0;
+                    }
+
+                    return false;
+                },
+            };
+
             //image.GrayScale();
             HeroSprite.Add(1);
+            SSSprite.Add(2);
+            SSText.Add(3);
         }
     }
 }

@@ -110,16 +110,18 @@ namespace DZAwarenessAIO.Utility.HudUtility
             var RootMenu = Variables.Menu;
             var moduleMenu = new Menu("HUD!", "dz191.dza.hud").SetFontStyle(FontStyle.Bold, SharpDX.Color.Red);
             {
-                moduleMenu.AddBool("dz191.dza.hud.show", "Show HUD").SetTooltip("Shows the DZAwareness Helper hud").ValueChanged += (sender, args) =>
+                moduleMenu.AddBool("dz191.dza.hud.show", "Show HUD", true).SetTooltip("Shows the DZAwareness Helper hud").ValueChanged += (sender, args) =>
                 {
                     /**Dispose of the sprites*/ 
                     if (args.GetNewValue<bool>())
                     {
                         InitSprites(true);
+                        ImageLoader.InitSprites();
                     }
                     else
                     {
                         HudSprite.Remove();
+                        ImageLoader.RemoveSprites();
                         ExpandShrinkButton.Remove();
                     }
                 };
