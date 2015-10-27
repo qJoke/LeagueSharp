@@ -141,7 +141,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                         using (Graphics g = Graphics.FromImage(img))
                         {
                             g.FillEllipse(tb, 0, 0, srcBitmap.Width, srcBitmap.Width);
-                            var p = new Pen(Color.DarkRed, 5) { Alignment = PenAlignment.Inset };
+                            var p = new Pen(Color.DodgerBlue, 5) { Alignment = PenAlignment.Inset };
                             g.DrawEllipse(p, 0, 0, srcBitmap.Width, srcBitmap.Width);
                         }
                     }
