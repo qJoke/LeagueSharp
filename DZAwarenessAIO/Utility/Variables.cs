@@ -11,6 +11,7 @@ using DZAwarenessAIO.Modules.SSTracker;
 using DZAwarenessAIO.Modules.TFHelper;
 using DZAwarenessAIO.Modules.Tracker;
 using DZAwarenessAIO.Modules.WardTracker;
+using DZAwarenessAIO.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -164,6 +165,14 @@ namespace DZAwarenessAIO.Utility
                         m => !m.IsMe &&
                             m.Distance(ObjectManager.Player, true) <= Math.Pow(1000, 2) && m.IsValidTarget(1000, false));
             }
+        }
+
+        /// <summary>
+        /// The minimum ss time
+        /// </summary>
+        public static int MinSSTime
+        {
+            get { return MenuExtensions.GetItemValue<Slider>("dz191.dza.sstracker.mintime").Value; }
         }
     }
 }

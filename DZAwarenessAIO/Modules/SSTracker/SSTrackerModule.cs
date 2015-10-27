@@ -43,7 +43,7 @@ namespace DZAwarenessAIO.Modules.SSTracker
                     {
                         hero.LastSeen = Environment.TickCount;
                     }
-                    if (hero.SSTimeFloat > 1 && h.IsVisible)
+                    if (hero.SSTimeFloat > 1 && (h.IsVisible))
                     {
                         hero.LastSeen =  -1;
                     }
@@ -107,7 +107,7 @@ namespace DZAwarenessAIO.Modules.SSTracker
 
         public float SSTimeFloat
         {
-            get { return LastSeen > -1 ? Environment.TickCount - LastSeen : 0; }
+            get { return LastSeen > -1 ? (float) Math.Ceiling((Environment.TickCount - LastSeen) / 1000 + 0.5) : 0; }
         }
 
         public string SSTime
