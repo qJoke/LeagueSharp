@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DZAwarenessAIO.Utility.Logs;
 using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace DZAwarenessAIO.Modules.SSTracker
 {
+
+    /// <summary>
+    /// The missing in action time tracker.
+    /// </summary>
     class SSTrackerModule
     {
-        public static Dictionary<string, HeroTracker> Trackers = new Dictionary<string, HeroTracker>(); 
+        /// <summary>
+        /// The various Hero position trackers.
+        /// </summary>
+        public static Dictionary<string, HeroTracker> Trackers = new Dictionary<string, HeroTracker>();
 
+        /// <summary>
+        /// Init point of the class.
+        /// </summary>
         public static void OnLoad()
         {
             try
@@ -22,8 +30,7 @@ namespace DZAwarenessAIO.Modules.SSTracker
                     Trackers.Add(enemy.ChampionName, new HeroTracker() { Hero = enemy, LastSeen = -1 });
                 }
 
-                AttackableUnit.OnEnterLocalVisiblityClient += OnGainVision;
-                Game.OnUpdate += Game_OnUpdate;
+                Game.OnUpdate += OnUpdate;
             }
             catch (Exception e)
             {
@@ -32,7 +39,11 @@ namespace DZAwarenessAIO.Modules.SSTracker
             
         }
 
-        static void Game_OnUpdate(EventArgs args)
+        /// <summary>
+        /// Raises the <see cref="E:Update" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private static void OnUpdate(EventArgs args)
         {
             foreach (var h in HeroManager.Enemies)
             {
@@ -50,66 +61,46 @@ namespace DZAwarenessAIO.Modules.SSTracker
                 }
             }
         }
-
-        private static void OnGainVision(AttackableUnit sender, EventArgs args)
-        {
-            try
-            {
-                return;
-                if (sender is Obj_AI_Hero && sender.IsEnemy)
-                {
-                    var hero = Trackers.Values.FirstOrDefault(h => h.Hero.NetworkId.Equals(sender.NetworkId));
-
-                    if (hero != null)
-                    {
-                        Console.WriteLine(@"Gained vision of {0}", (hero.Hero).ChampionName);
-
-                        hero.LastSeen = -1;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                LogHelper.AddToLog(new LogItem("SSTracker", e, LogSeverity.Error));
-            }
-            
-        }
-
-        private static void OnLoseVision(AttackableUnit sender, EventArgs args)
-        {
-            try
-            {
-                if (sender is Obj_AI_Hero && sender.IsEnemy)
-                {
-                    var hero = Trackers.Values.FirstOrDefault(h => h.Hero.NetworkId.Equals(sender.NetworkId));
-
-                    if (hero != null)
-                    {
-                        Console.WriteLine(@"Lost vision of {0}", (hero.Hero).ChampionName);
-
-                        hero.LastSeen = Environment.TickCount;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                LogHelper.AddToLog(new LogItem("SSTracker", e, LogSeverity.Error));
-            }
-
-        }
     }
 
+    /// <summary>
+    /// Tracks the enemy missing time.
+    /// </summary>
     public class HeroTracker
     {
+        /// <summary>
+        /// Gets or sets the hero instance.
+        /// </summary>
+        /// <value>
+        /// The hero instance.
+        /// </value>
         public Obj_AI_Hero Hero { get; set; }
 
+        /// <summary>
+        /// Gets or sets the last seen tick.
+        /// </summary>
+        /// <value>
+        /// The last seen tick.
+        /// </value>
         public float LastSeen { get; set; }
 
+        /// <summary>
+        /// Gets the MIA time (float).
+        /// </summary>
+        /// <value>
+        /// The MIA time (float).
+        /// </value>
         public float SSTimeFloat
         {
             get { return LastSeen > -1 ? (float) Math.Ceiling((Environment.TickCount - LastSeen) / 1000 + 0.5) : 0; }
         }
 
+        /// <summary>
+        /// Gets the MIA time.
+        /// </summary>
+        /// <value>
+        /// The MIA time.
+        /// </value>
         public string SSTime
         {
             get { return LastSeen > -1 ? Math.Ceiling((Environment.TickCount - LastSeen)/1000 + 0.5).ToString() : ""; }

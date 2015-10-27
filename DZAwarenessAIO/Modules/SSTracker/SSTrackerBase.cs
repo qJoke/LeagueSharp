@@ -14,6 +14,9 @@ namespace DZAwarenessAIO.Modules.SSTracker
 {
     class SSTrackerBase : ModuleBase
     {
+        /// <summary>
+        /// Creates the menu.
+        /// </summary>
         public override void CreateMenu()
         {
             try
@@ -34,21 +37,35 @@ namespace DZAwarenessAIO.Modules.SSTracker
 
         }
 
+        /// <summary>
+        /// Initializes the events.
+        /// </summary>
         public override void InitEvents()
         {
             SSTrackerModule.OnLoad();
         }
 
+        /// <summary>
+        /// Gets the type of the module.
+        /// </summary>
+        /// <returns></returns>
         public override ModuleTypes GetModuleType()
         {
             return ModuleTypes.General;
         }
 
+        /// <summary>
+        /// Determines whether or not the module should run.
+        /// </summary>
+        /// <returns></returns>
         public override bool ShouldRun()
         {
-            return HudDisplay.ShouldBeVisible;
+            return HudVariables.ShouldBeVisible;
         }
 
+        /// <summary>
+        /// Called On Update
+        /// </summary>
         public override void OnTick(){ }
     }
 }

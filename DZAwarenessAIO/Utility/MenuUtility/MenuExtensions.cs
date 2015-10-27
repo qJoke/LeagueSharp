@@ -1,5 +1,4 @@
 ﻿using System;
-using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace DZAwarenessAIO.Utility.MenuUtility
@@ -30,6 +29,21 @@ namespace DZAwarenessAIO.Utility.MenuUtility
         public static MenuItem AddSlider(this Menu menu, string name, string displayName, Tuple<int, int, int> values)
         {
             return menu.AddItem(new MenuItem(name, displayName).SetValue(new Slider(values.Item1, values.Item2, values.Item3)));
+        }
+
+        /// <summary>
+        /// Adds a slider.
+        /// </summary>
+        /// <param name="menu">The menu.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="displayName">The display name.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="min">The minimum value.</param>
+        /// <param name="max">The maximum value.</param>
+        /// <returns></returns>
+        public static MenuItem AddSlider(this Menu menu, string name, string displayName, int value, int min, int max)
+        {
+            return menu.AddItem(new MenuItem(name, displayName).SetValue(new Slider(value, min, max)));
         }
 
         /// <summary>

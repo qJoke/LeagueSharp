@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using DZAwarenessAIO.Modules.SSTracker;
@@ -61,14 +59,13 @@ namespace DZAwarenessAIO.Utility.HudUtility
         public static void OnUpdate()
         {
             var k = 0;
-            foreach (var hero in ImageLoader.AddedHeroes)
+            foreach (var hero in AddedHeroes)
             {
-                
                 var sprite = hero.Value.HeroSprite;
                 var circlePosition = new Vector2(
-                        HudDisplay.CurrentPosition.X + 15 + (sprite.Scale.X * (29 + (sprite.Width))) * k +
+                        HudVariables.CurrentPosition.X + 15 + (sprite.Scale.X * (29 + (sprite.Width))) * k +
                         (sprite.Width * sprite.Scale.X) * (k) - (sprite.Width * sprite.Scale.X) / 2f,
-                        HudDisplay.CurrentPosition.Y + HudDisplay.CroppedHeight - sprite.Height - 6);;
+                        HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - sprite.Height - 6); ;
                 sprite.Position = circlePosition;
 
                 var SSSprite = hero.Value.SSSprite;
@@ -292,7 +289,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
             {
                 Scale = new Vector2(0.38f, 0.38f),
                 Visible = true,
-                VisibleCondition = delegate { return HudDisplay.ShouldBeVisible; },
+                VisibleCondition = delegate { return HudVariables.ShouldBeVisible; },
             };
 
             this.SSSprite = new Render.Sprite(Resources.SSCircle, new Vector2(0, 0))
@@ -305,7 +302,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                         SSTrackerModule.Trackers.Values.FirstOrDefault(h => h.Hero.ChampionName.ToLower().Equals(name.ToLower()));
                     if (heroTracker != null)
                     {
-                        return HudDisplay.ShouldBeVisible && MenuExtensions.GetItemValue<bool>("dz191.dza.sstracker.hud") && heroTracker.SSTimeFloat >= Variables.MinSSTime;
+                        return HudVariables.ShouldBeVisible && MenuExtensions.GetItemValue<bool>("dz191.dza.sstracker.hud") && heroTracker.SSTimeFloat >= Variables.MinSSTime;
                     }
                     return false;
                 },
@@ -326,7 +323,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                         SSTrackerModule.Trackers.Values.FirstOrDefault(h => h.Hero.ChampionName.ToLower().Equals(name.ToLower()));
                     if (heroTracker != null)
                     {
-                        return HudDisplay.ShouldBeVisible && MenuExtensions.GetItemValue<bool>("dz191.dza.sstracker.hud") && heroTracker.SSTimeFloat >= Variables.MinSSTime;
+                        return HudVariables.ShouldBeVisible && MenuExtensions.GetItemValue<bool>("dz191.dza.sstracker.hud") && heroTracker.SSTimeFloat >= Variables.MinSSTime;
                     }
 
                     return false;

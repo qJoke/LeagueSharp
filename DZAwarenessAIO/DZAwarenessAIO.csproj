@@ -89,6 +89,10 @@
     <Compile Include="Utility\Extensions\PlayerExtensions.cs" />
     <Compile Include="Utility\Geometry.cs" />
     <Compile Include="Utility\HudUtility\HudDisplay.cs" />
+    <Compile Include="Utility\HudUtility\HudElements\HudButton.cs" />
+    <Compile Include="Utility\HudUtility\HudElements\HudElement.cs" />
+    <Compile Include="Utility\HudUtility\HudElements\HudPanel.cs" />
+    <Compile Include="Utility\HudUtility\HudVariables.cs" />
     <Compile Include="Utility\HudUtility\ImageLoader.cs" />
     <Compile Include="Utility\Logs\LogEnum.cs" />
     <Compile Include="Utility\Logs\LogHelper.cs" />

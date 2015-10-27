@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DZAwarenessAIO.Utility.HudUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -50,6 +51,11 @@ namespace DZAwarenessAIO.Utility.Extensions
             }
 
             return false;
+        }
+
+        public static bool IsInside(Vector2 position, int x, int y, int w, int h)
+        {
+            return Utils.IsUnderRectangle(position, x, y, w, h);
         }
     }
 }

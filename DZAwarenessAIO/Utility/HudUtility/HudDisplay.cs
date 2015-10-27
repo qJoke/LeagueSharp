@@ -11,65 +11,6 @@ namespace DZAwarenessAIO.Utility.HudUtility
 {
     class HudDisplay
     {
-
-        /// <summary>
-        /// Gets or sets the hud sprite.
-        /// </summary>
-        /// <value>
-        /// The hud sprite.
-        /// </value>
-        public static Render.Sprite HudSprite { get; set; }
-
-        /// <summary>
-        /// Gets or sets the expand button sprite.
-        /// </summary>
-        /// <value>
-        /// The expand button.
-        /// </value>
-        public static Render.Sprite ExpandShrinkButton { get; set; }
-
-        /// <summary>
-        /// Gets the current position of the HUD.
-        /// </summary>
-        /// <value>
-        /// The current position.
-        /// </value>
-        public static Vector2 CurrentPosition
-        {
-            get
-            {
-                return IsDragging ? DraggingPosition : new Vector2(
-                    MenuExtensions.GetItemValue<Slider>("dz191.dza.hud.x").Value,
-                    MenuExtensions.GetItemValue<Slider>("dz191.dza.hud.y").Value
-                    );
-            }
-        }
-
-        /// <summary>
-        /// The dragging position of the hud
-        /// </summary>
-        public static Vector2 DraggingPosition = new Vector2();
-
-        /// <summary>
-        /// The HUD sprite width
-        /// </summary>
-        public static readonly float SpriteWidth = Resources.TFHelperBG.Width;
-
-        /// <summary>
-        /// The HUD sprite height
-        /// </summary>
-        public static readonly float SpriteHeight = Resources.TFHelperBG.Height;
-
-        /// <summary>
-        /// Indicates whether or not the hud is being dragged
-        /// </summary>
-        public static bool IsDragging = false;
-
-        /// <summary>
-        /// The cropped height of the sprite
-        /// </summary>
-        public const int CroppedHeight = 80;
-
         /// <summary>
         /// The initial drag point
         /// </summary>
@@ -84,23 +25,6 @@ namespace DZAwarenessAIO.Utility.HudUtility
         /// The y distance from the top left edge
         /// </summary>
         private static float YDistanceFromEdge = 0;
-
-
-        /// <summary>
-        /// Gets a value indicating whether the hud should be visible
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if the hud should be visible; otherwise, <c>false</c>.
-        /// </value>
-        public static bool ShouldBeVisible
-        {
-            get { return MenuExtensions.GetItemValue<bool>("dz191.dza.hud.show"); }
-        }
-
-        /// <summary>
-        /// The current status of the hud
-        /// </summary>
-        public static SpriteStatus CurrentStatus = SpriteStatus.Shrinked;
 
         /// <summary>
         /// The init point of the class
@@ -120,9 +44,9 @@ namespace DZAwarenessAIO.Utility.HudUtility
                     }
                     else
                     {
-                        HudSprite.Remove();
+                        HudVariables.HudSprite.Remove();
                         ImageLoader.RemoveSprites();
-                        ExpandShrinkButton.Remove();
+                        HudVariables.ExpandShrinkButton.Remove();
                     }
                 };
                 moduleMenu.AddSlider("dz191.dza.hud.x", "HUD X", new Tuple<int, int, int>(200, 0, Drawing.Direct3DDevice.Viewport.Width)).SetTooltip("Hud X Position (You can drag it)");
@@ -141,43 +65,38 @@ namespace DZAwarenessAIO.Utility.HudUtility
         /// <param name="args">The <see cref="WndEventArgs"/> instance containing the event data.</param>
         private static void OnWndProc(WndEventArgs args)
         {
-            if (HudSprite == null || !ShouldBeVisible)
+            if (HudVariables.HudSprite == null || !HudVariables.ShouldBeVisible)
             {
                 return;
             }
 
-            if (IsDragging)
+            if (HudVariables.IsDragging)
             {
-                DraggingPosition.X = (int) (Utils.GetCursorPos().X - XDistanceFromEdge);
-                DraggingPosition.Y = (int)(Utils.GetCursorPos().Y - YDistanceFromEdge);
-
-               // Variables.Menu.Item("dz191.dza.hud.x")
-                //   .SetValue(new Slider((int)(Utils.GetCursorPos().X - XDistanceFromEdge), 0, Drawing.Direct3DDevice.Viewport.Width));
-               // Variables.Menu.Item("dz191.dza.hud.y")
-                 //   .SetValue(new Slider((int)(Utils.GetCursorPos().Y - YDistanceFromEdge), 0, Drawing.Direct3DDevice.Viewport.Height));
+                HudVariables.DraggingPosition.X = (int)(Utils.GetCursorPos().X - XDistanceFromEdge);
+                HudVariables.DraggingPosition.Y = (int)(Utils.GetCursorPos().Y - YDistanceFromEdge);
             }
 
             if (IsInside(Utils.GetCursorPos()) && args.Msg == (uint)WindowsMessages.WM_LBUTTONDOWN)
             {
-                if (!IsDragging)
+                if (!HudVariables.IsDragging)
                 {
                     if (InitialDragPoint == new Vector2())
                     {
-                        InitialDragPoint = CurrentPosition;
+                        InitialDragPoint = HudVariables.CurrentPosition;
                         XDistanceFromEdge = Math.Abs(InitialDragPoint.X - Utils.GetCursorPos().X);
                         YDistanceFromEdge = Math.Abs(InitialDragPoint.Y - Utils.GetCursorPos().Y);
 
-                        DraggingPosition.X = (int)(Utils.GetCursorPos().X - XDistanceFromEdge);
-                        DraggingPosition.Y = (int)(Utils.GetCursorPos().Y - YDistanceFromEdge);
+                        HudVariables.DraggingPosition.X = (int)(Utils.GetCursorPos().X - XDistanceFromEdge);
+                        HudVariables.DraggingPosition.Y = (int)(Utils.GetCursorPos().Y - YDistanceFromEdge);
 
                     }
 
-                    IsDragging = true;
+                    HudVariables.IsDragging = true;
                 }
             }
-            else if (IsDragging && args.Msg == (uint)WindowsMessages.WM_LBUTTONUP)
+            else if (HudVariables.IsDragging && args.Msg == (uint)WindowsMessages.WM_LBUTTONUP)
             {
-                HudSprite.PositionUpdate = () => CurrentPosition;
+                HudVariables.HudSprite.PositionUpdate = () => HudVariables.CurrentPosition;
 
                 Variables.Menu.Item("dz191.dza.hud.x")
                     .SetValue(new Slider((int)(Utils.GetCursorPos().X - XDistanceFromEdge), 0, Drawing.Direct3DDevice.Viewport.Width));
@@ -187,47 +106,47 @@ namespace DZAwarenessAIO.Utility.HudUtility
                 InitialDragPoint = new Vector2();
                 XDistanceFromEdge = 0;
                 YDistanceFromEdge = 0;
-                DraggingPosition = new Vector2();
+                HudVariables.DraggingPosition = new Vector2();
 
-                IsDragging = false;
+                HudVariables.IsDragging = false;
             }
 
             if (args.Msg == (uint) WindowsMessages.WM_LBUTTONUP)
             {
                 if (
                     Utils.GetCursorPos()
-                        .Distance(new Vector2(CurrentPosition.X + SpriteWidth - 15,
-                            CurrentPosition.Y + CroppedHeight - 15)) < 7)
+                        .Distance(new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 15,
+                            HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - 15)) < 7)
                 {
-                    if (CurrentStatus == SpriteStatus.Shrinked)
+                    if (HudVariables.CurrentStatus == SpriteStatus.Shrinked)
                     {
-                        CurrentStatus = SpriteStatus.Expanded;
-                        HudSprite.Crop(0, 0, (int) SpriteWidth, (int)SpriteHeight);
+                        HudVariables.CurrentStatus = SpriteStatus.Expanded;
+                        HudVariables.HudSprite.Crop(0, 0, (int)HudVariables.SpriteWidth, (int)HudVariables.SpriteHeight);
 
-                        ExpandShrinkButton.Remove();
-                        ExpandShrinkButton = new Render.Sprite(Resources.Shrink, CurrentPosition)
+                        HudVariables.ExpandShrinkButton.Remove();
+                        HudVariables.ExpandShrinkButton = new Render.Sprite(Resources.Shrink, HudVariables.CurrentPosition)
                         {
-                            PositionUpdate = () => new Vector2(CurrentPosition.X + SpriteWidth - 20, CurrentPosition.Y + CroppedHeight - 20),
+                            PositionUpdate = () => new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 20, HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - 20),
                             Scale = new Vector2(0.7f, 0.7f),
-                            VisibleCondition = delegate { return ShouldBeVisible; }
+                            VisibleCondition = delegate { return HudVariables.ShouldBeVisible; }
                         };
 
-                        ExpandShrinkButton.Add(1);
+                        HudVariables.ExpandShrinkButton.Add(1);
                     }
                     else
                     {
-                        CurrentStatus = SpriteStatus.Shrinked;
-                        HudSprite.Crop(0, 0, (int)SpriteWidth, CroppedHeight);
+                        HudVariables.CurrentStatus = SpriteStatus.Shrinked;
+                        HudVariables.HudSprite.Crop(0, 0, (int)HudVariables.SpriteWidth, HudVariables.CroppedHeight);
 
-                        ExpandShrinkButton.Remove();
-                        ExpandShrinkButton = new Render.Sprite(Resources.Expand, CurrentPosition)
+                        HudVariables.ExpandShrinkButton.Remove();
+                        HudVariables.ExpandShrinkButton = new Render.Sprite(Resources.Expand, HudVariables.CurrentPosition)
                         {
-                            PositionUpdate = () => new Vector2(CurrentPosition.X + SpriteWidth - 20, CurrentPosition.Y + CroppedHeight - 20),
+                            PositionUpdate = () => new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 20, HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - 20),
                             Scale = new Vector2(0.7f, 0.7f),
-                            VisibleCondition = delegate { return ShouldBeVisible; }
+                            VisibleCondition = delegate { return HudVariables.ShouldBeVisible; }
                         };
 
-                        ExpandShrinkButton.Add(1);
+                        HudVariables.ExpandShrinkButton.Add(1);
                     }
 
                 }
@@ -247,22 +166,22 @@ namespace DZAwarenessAIO.Utility.HudUtility
                     return;
                 }
 
-                HudSprite = new Render.Sprite(Resources.TFHelperBG, CurrentPosition)
+                HudVariables.HudSprite = new Render.Sprite(Resources.TFHelperBG, HudVariables.CurrentPosition)
                 {
-                    PositionUpdate = () => CurrentPosition,
-                    VisibleCondition = delegate { return ShouldBeVisible; },
+                    PositionUpdate = () => HudVariables.CurrentPosition,
+                    VisibleCondition = delegate { return HudVariables.ShouldBeVisible; },
                 };
-                HudSprite.Crop(0, 0, (int) SpriteWidth, CroppedHeight);
+                HudVariables.HudSprite.Crop(0, 0, (int)HudVariables.SpriteWidth, HudVariables.CroppedHeight);
 
-                ExpandShrinkButton = new Render.Sprite(Resources.Expand, CurrentPosition)
+                HudVariables.ExpandShrinkButton = new Render.Sprite(Resources.Expand, HudVariables.CurrentPosition)
                 {
-                    PositionUpdate = () => new Vector2(CurrentPosition.X + SpriteWidth - 20, CurrentPosition.Y + CroppedHeight - 20),
+                    PositionUpdate = () => new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 20, HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - 20),
                     Scale = new Vector2(0.7f, 0.7f),
-                    VisibleCondition = delegate { return ShouldBeVisible; }
+                    VisibleCondition = delegate { return HudVariables.ShouldBeVisible; }
                 };
 
-                ExpandShrinkButton.Add(1);
-                HudSprite.Add(0);
+                HudVariables.ExpandShrinkButton.Add(1);
+                HudVariables.HudSprite.Add(0);
             }
             catch (Exception ex)
             {
@@ -277,7 +196,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
         /// <returns></returns>
         private static bool IsInside(Vector2 position)
         {
-            return Utils.IsUnderRectangle(position, CurrentPosition.X, CurrentPosition.Y, SpriteWidth, (CurrentStatus == SpriteStatus.Shrinked ? CroppedHeight : SpriteHeight));
+            return Utils.IsUnderRectangle(position, HudVariables.CurrentPosition.X, HudVariables.CurrentPosition.Y, HudVariables.SpriteWidth, (HudVariables.CurrentStatus == SpriteStatus.Shrinked ? HudVariables.CroppedHeight : HudVariables.SpriteHeight));
         }
     }
 

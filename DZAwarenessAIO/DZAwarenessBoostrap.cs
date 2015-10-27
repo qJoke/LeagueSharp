@@ -18,9 +18,6 @@ namespace DZAwarenessAIO
         public static void OnLoad()
         {
             Variables.Menu = new Menu("DZAwareness", "dz191.dza", true);
-
-
-
             LogHelper.OnLoad();
             HudDisplay.OnLoad();
           
@@ -28,9 +25,16 @@ namespace DZAwarenessAIO
             {
                 module.OnLoad();
             }
+
             Variables.Menu.AddToMainMenu();
 
             ImageLoader.InitSprites();
+            foreach (var element in HudVariables.HudElements)
+            {
+                element.OnLoad();
+                element.InitDrawings();
+            }
+
             DZAwareness.OnLoad();
         }
     }
