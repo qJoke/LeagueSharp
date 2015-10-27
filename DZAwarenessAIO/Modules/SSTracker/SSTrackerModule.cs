@@ -43,6 +43,10 @@ namespace DZAwarenessAIO.Modules.SSTracker
                     {
                         hero.LastSeen = Environment.TickCount;
                     }
+                    if (hero.SSTimeFloat > 1 && h.IsVisible)
+                    {
+                        hero.LastSeen =  -1;
+                    }
                 }
             }
         }
@@ -51,6 +55,7 @@ namespace DZAwarenessAIO.Modules.SSTracker
         {
             try
             {
+                return;
                 if (sender is Obj_AI_Hero && sender.IsEnemy)
                 {
                     var hero = Trackers.Values.FirstOrDefault(h => h.Hero.NetworkId.Equals(sender.NetworkId));
