@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using DZAwarenessAIO.Utility;
+using DZAwarenessAIO.Utility.HudUtility;
+using DZAwarenessAIO.Utility.HudUtility.HudElements;
 using DZAwarenessAIO.Utility.Logs;
 using DZAwarenessAIO.Utility.MenuUtility;
 using LeagueSharp.Common;
@@ -26,6 +28,11 @@ namespace DZAwarenessAIO.Modules.TFHelper
                     moduleMenu.AddSlider("dz191.dza.tf.range", "TF Range", 1000, 500, 1800);
                     RootMenu.AddSubMenu(moduleMenu);
                 }
+               // var hudPanel = new HudPanel("Panel", 100, 100, 100, 100);
+               // {
+                    //HudVariables.HudElements.Add(new HudButton("Test", 20, 20, hudPanel));
+                //}
+
             }
             catch (Exception e)
             {

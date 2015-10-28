@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using DZAwarenessAIO.Properties;
 using DZAwarenessAIO.Utility.Extensions;
 using DZAwarenessAIO.Utility.Logs;
 using LeagueSharp;
@@ -11,18 +12,12 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
     /// <summary>
     /// The Hud Button class
     /// </summary>
-    abstract class HudButton : HudElement
+    class HudButton : HudElement
     {
         /// <summary>
         /// The position of the button
         /// </summary>
-        public Vector2 Position
-        {
-            get
-            {
-                return new Vector2(HudVariables.CurrentPosition.X + this.X, HudVariables.CurrentPosition.Y + this.Y);
-            }
-        }
+       public Vector2 Position => new Vector2(Parent.Position.X + this.X, Parent.Position.Y + this.Y);
 
         public int X;
 
@@ -77,14 +72,13 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         /// <param name="y">The y.</param>
         /// <param name="Parent">The parent.</param>
         /// <param name="bitmap">The Bitmap for the button</param>
-        protected HudButton(string text, int x, int y, HudPanel Parent, Bitmap bitmap = null)
+        public HudButton(string text, int x, int y, HudPanel Parent, Bitmap bitmap = null)
         {
             this.ButtonText = text;
             this.Parent = Parent;
-            this.ButtonBitmap = bitmap;
+            this.ButtonBitmap = bitmap ?? Resources.Button;
             this.X = x;
             this.Y = y; 
-            HudVariables.HudElements.Add(this);
         }
 
         /// <summary>
@@ -94,15 +88,13 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         /// <param name="position">The position.</param>
         /// <param name="Parent">The parent.</param>
         /// <param name="bitmap">The button bitmap</param>
-        protected HudButton(string text, Vector2 position, HudPanel Parent, Bitmap bitmap = null)
+        public HudButton(string text, Vector2 position, HudPanel Parent, Bitmap bitmap = null)
         {
             this.ButtonText = text;
             this.Parent = Parent;
-            this.ButtonBitmap = bitmap;
+            this.ButtonBitmap = bitmap??Resources.Button;
             this.X = (int) position.X;
             this.Y = (int)position.Y;
-
-            HudVariables.HudElements.Add(this);
         }
 
         /// <summary>
@@ -160,15 +152,17 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
             }
         }
 
+        public override void RemoveDrawings()
+        {
+            //
+        }
+
         /// <summary>
         /// Raises the events.
         /// </summary>
         public override void RaiseEvents()
         {
-            if (OnButtonClick != null)
-            {
-                OnButtonClick();
-            }
+            OnButtonClick?.Invoke();
         }
 
         /// <summary>
