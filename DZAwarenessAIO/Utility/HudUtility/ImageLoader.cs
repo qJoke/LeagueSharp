@@ -51,6 +51,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                 hero.Value.SSText.Remove();
                 hero.Value.SSSprite.Remove();
             }
+            AddedHeroes.Clear();
         }
 
         /// <summary>
