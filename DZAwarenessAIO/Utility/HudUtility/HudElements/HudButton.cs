@@ -135,15 +135,17 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
                 if (!string.IsNullOrEmpty(this.ButtonText))
                 {
                     this.ButtonTextObject = new Render.Text(this.ButtonText,
-                        new Vector2(Position.X + this.ButtonSprite.Width/2f, Position.Y + this.ButtonSprite.Height/2f),
-                        26, SharpDX.Color.White)
+                        new Vector2(Position.X + this.ButtonSprite.Width/2f - Helper.GetSize(this.ButtonText, 17) , Position.Y + this.ButtonSprite.Height/2f),
+                        17, SharpDX.Color.White)
                     {
-                        PositionUpdate = () => new Vector2(Position.X + this.ButtonSprite.Width / 2f, Position.Y + this.ButtonSprite.Height / 2f),
+                        PositionUpdate = () => new Vector2(Position.X + 2, Position.Y + this.ButtonSprite.Height / 2f - 8),
                         VisibleCondition = delegate
                         {
                             return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
                         }
                     };
+
+                    this.ButtonTextObject.Add(4);
                 }
             }
             else

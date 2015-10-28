@@ -1,4 +1,5 @@
 ﻿using System;
+using DZAwarenessAIO.Utility.Extensions;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -17,11 +18,19 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         /// <value>
         /// The position.
         /// </value>
-        public Vector2 Position => new Vector2(HudVariables.CurrentPosition.X + this.X, HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight + this.Y);
+        public Vector2 Position
+            =>
+                IsDragging
+                    ? DraggingPosition
+                    : new Vector2(
+                        HudVariables.CurrentPosition.X + this.X,
+                        HudVariables.CurrentPosition.Y + HudVariables.SpriteHeight + this.Y);
 
         public int X;
 
         public int Y;
+
+        private Vector2 InitialPosition = new Vector2();
 
         /// <summary>
         /// Gets or sets the name of the panel.
@@ -47,8 +56,46 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         /// </value>
         public int Height { get; set; }
 
+        /// <summary>
+        /// Gets or sets the panel border rectangle.
+        /// </summary>
+        /// <value>
+        /// The rectangle.
+        /// </value>
         public Rectangle_Ex Rectangle { get; set; }
-       
+
+        /// <summary>
+        /// Gets or sets the panel header render object.
+        /// </summary>
+        /// <value>
+        /// The text.
+        /// </value>
+        public Render.Text Text { get; set; }
+
+        /// <summary>
+        /// Tells whether or not the panel is being dragged
+        /// </summary>
+        public bool IsDragging = false;
+
+        /// <summary>
+        /// The x distance from the top left edge
+        /// </summary>
+        private float XDistanceFromEdge = 0;
+
+        /// <summary>
+        /// The y distance from the top left edge
+        /// </summary>
+        private float YDistanceFromEdge = 0;
+
+        /// <summary>
+        /// The initial drag point of the panel
+        /// </summary>
+        private Vector2 InitialDragPoint = new Vector2();
+
+        /// <summary>
+        /// The dragging position
+        /// </summary>
+        public Vector2 DraggingPosition = new Vector2();
         /// <summary>
         /// Initializes a new instance of the <see cref="HudPanel"/> class.
         /// </summary>
@@ -62,8 +109,11 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
             this.Name = name;
             this.Width = width;
             this.Height = height;
-            this.X = x;
-            this.Y = y;
+            this.X = (int) (x);
+            this.Y = (int) (y);
+            InitialPosition = new Vector2(
+                        HudVariables.CurrentPosition.X + x,
+                        HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight + y);
             HudVariables.HudElements.Add(this);
         }
 
@@ -79,14 +129,18 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
             this.Name = name;
             this.Width = width;
             this.Height = height;
-            this.X = (int) Position.X;
-            this.Y = (int) Position.Y;
+            this.X = (int) (Position.X);
+            this.Y = (int) (Position.Y);
+            InitialPosition = new Vector2(
+                        HudVariables.CurrentPosition.X + Position.X,
+                        HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight +  Position.Y);
             HudVariables.HudElements.Add(this);
         }
 
         public override void OnLoad()
         {
             Game.OnUpdate += OnUpdate;
+            Game.OnWndProc += OnWndProc;
         }
 
         private void OnUpdate(System.EventArgs args)
@@ -95,6 +149,60 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
             {
                 this.Rectangle.X = (int) this.Position.X;
                 this.Rectangle.Y = (int) this.Position.Y;
+            }
+
+            if (this.Text != null)
+            {
+                this.Text.X = (int) (this.Position.X + this.Width / 2f - Helper.GetSize(this.Name, 17));
+                this.Text.Y = (int) this.Position.Y - 9;
+            }
+        }
+        
+        private void OnWndProc(WndEventArgs args)
+        {
+            return;
+            if (HudVariables.CurrentStatus != SpriteStatus.Expanded || !HudVariables.ShouldBeVisible)
+            {
+                return;
+            }
+                                    //Console.WriteLine("B4 : " + this.X + " "+ this.Y);
+            if (this.IsDragging)
+            {
+                this.DraggingPosition.X = (int)(Utils.GetCursorPos().X - XDistanceFromEdge);
+                this.DraggingPosition.Y = (int)(Utils.GetCursorPos().Y - YDistanceFromEdge);
+                this.X = (int) this.DraggingPosition.X;
+                this.Y = (int) this.DraggingPosition.Y;
+            }
+
+            if (Helper.IsInside(Utils.GetCursorPos(), (int) this.Position.X, (int) this.Position.Y, this.Width, this.Height) && args.Msg == (uint)WindowsMessages.WM_LBUTTONDOWN)
+            {
+                if (!this.IsDragging)
+                {
+                    if (InitialDragPoint == new Vector2())
+                    {
+                        InitialDragPoint = this.Position;
+                        XDistanceFromEdge = Math.Abs(InitialDragPoint.X - Utils.GetCursorPos().X);
+                        YDistanceFromEdge = Math.Abs(InitialDragPoint.Y - Utils.GetCursorPos().Y);
+
+                        this.DraggingPosition.X = (int)(Utils.GetCursorPos().X - XDistanceFromEdge);
+                        this.DraggingPosition.Y = (int)(Utils.GetCursorPos().Y - YDistanceFromEdge);
+                    }
+
+                    this.IsDragging = true;
+                }
+            }
+            else if (this.IsDragging && args.Msg == (uint)WindowsMessages.WM_LBUTTONUP)
+            {
+                var s = InitialDragPoint.X - this.X;
+                var z = InitialDragPoint.Y - this.Y;
+                this.X = (int) Math.Abs(s);
+                this.Y = (int) Math.Abs(z);
+                InitialDragPoint = new Vector2();
+                XDistanceFromEdge = 0;
+                YDistanceFromEdge = 0;
+                this.DraggingPosition = new Vector2();
+                //Console.WriteLine("After : " + this.X + " "+ this.Y);
+                this.IsDragging = false;
             }
         }
 
@@ -108,18 +216,44 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         /// </summary>
         public override void InitDrawings()
         {
+
             Rectangle = new Rectangle_Ex((int)this.Position.X, (int)this.Position.Y, (int)this.Width, (int)this.Height, Color.Black)
             {
                 VisibleCondition = delegate
                 { return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded; }
             };
-            Rectangle.Add(2);
 
+            Text = new Render.Text(
+                (int) (this.Position.X + this.Width / 2f - Helper.GetSize(this.Name, 17)), (int) this.Position.Y - 9,
+                this.Name, 17, Color.White)
+            {
+                VisibleCondition = delegate
+                {
+                    return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
+                }
+            };
+
+            Rectangle.Add(2);
+            Text.Add(2);
         }
 
         public override void RemoveDrawings()
         {
             //
+        }
+
+        public bool IsInside()
+        {
+            //if ((this.X + this.Width) < (HudVariables.CurrentPosition.X + HudVariables.SpriteWidth) &&
+            //    (this.X) > (HudVariables.CurrentPosition.X) && (this.Y) > (HudVariables.CurrentPosition.Y) &&
+           //     (HudVariables.CurrentPosition.Y + HudVariables.SpriteHeight) > (this.Y + this.Height))
+           // {
+            //    return true;
+           // }
+            //Console.WriteLine(Vector2.DistanceSquared(new Vector2(HudVariables.CurrentPosition.X + this.X, HudVariables.CurrentPosition.Y + this.Y), HudVariables.CurrentPosition) <
+           //        Math.Pow(HudVariables.SpriteWidth, 2) + Math.Pow(HudVariables.SpriteHeight, 2));
+            return Vector2.DistanceSquared(new Vector2(HudVariables.CurrentPosition.X + this.X, HudVariables.CurrentPosition.Y + this.Y), HudVariables.CurrentPosition) <
+                   Math.Pow(HudVariables.SpriteWidth, 2) + Math.Pow(HudVariables.SpriteHeight, 2);
         }
     }
 

@@ -41,16 +41,10 @@ namespace DZAwarenessAIO.Utility.HudUtility
         /// <value>
         /// The current position.
         /// </value>
-        public static Vector2 CurrentPosition
-        {
-            get
-            {
-                return IsDragging ? DraggingPosition : new Vector2(
-                    MenuExtensions.GetItemValue<Slider>("dz191.dza.hud.x").Value,
-                    MenuExtensions.GetItemValue<Slider>("dz191.dza.hud.y").Value
-                    );
-            }
-        }
+        public static Vector2 CurrentPosition => IsDragging ? DraggingPosition : new Vector2(
+            MenuExtensions.GetItemValue<Slider>("dz191.dza.hud.x").Value,
+            MenuExtensions.GetItemValue<Slider>("dz191.dza.hud.y").Value
+            );
 
         /// <summary>
         /// The dragging position of the hud
@@ -83,10 +77,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
         /// <value>
         ///   <c>true</c> if the hud should be visible; otherwise, <c>false</c>.
         /// </value>
-        public static bool ShouldBeVisible
-        {
-            get { return MenuExtensions.GetItemValue<bool>("dz191.dza.hud.show"); }
-        }
+        public static bool ShouldBeVisible => MenuExtensions.GetItemValue<bool>("dz191.dza.hud.show");
 
         /// <summary>
         /// The current status of the hud

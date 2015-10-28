@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,26 @@ namespace DZAwarenessAIO.Utility.Extensions
         public static bool IsInside(Vector2 position, int x, int y, int w, int h)
         {
             return Utils.IsUnderRectangle(position, x, y, w, h);
+        }
+
+        public static int TextWidth(string text, Font f)
+        {
+            int textWidth;
+
+            using (var bmp = new Bitmap(1, 1))
+            {
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    textWidth = (int)g.MeasureString(text, f).Width;
+                }
+            }
+
+            return textWidth;
+        }
+
+        public static int GetSize(string s, int w)
+        {
+            return TextWidth(s, new Font("Calibri", w));
         }
     }
 }

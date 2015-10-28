@@ -28,10 +28,16 @@ namespace DZAwarenessAIO.Modules.TFHelper
                     moduleMenu.AddSlider("dz191.dza.tf.range", "TF Range", 1000, 500, 1800);
                     RootMenu.AddSubMenu(moduleMenu);
                 }
-               // var hudPanel = new HudPanel("Panel", 100, 100, 100, 100);
-               // {
-                    //HudVariables.HudElements.Add(new HudButton("Test", 20, 20, hudPanel));
-                //}
+                var hudPanel = new HudPanel("Test Panel", 10, 10, 200, 200);
+                {
+                   // HudVariables.HudElements.Add(new HudButton("Test Btn.", 10, 10, hudPanel)
+                  //  {
+                  //      OnButtonClick = delegate
+                  //      {
+                  //          Console.WriteLine(@"Clicked!");
+                  //      }
+                  //  });
+                }
 
             }
             catch (Exception e)

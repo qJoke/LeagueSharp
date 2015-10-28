@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using DZAwarenessAIO.Properties;
+using DZAwarenessAIO.Utility.Extensions;
+using DZAwarenessAIO.Utility.HudUtility.HudElements;
 using DZAwarenessAIO.Utility.Logs;
 using DZAwarenessAIO.Utility.MenuUtility;
 using LeagueSharp;
@@ -78,6 +82,21 @@ namespace DZAwarenessAIO.Utility.HudUtility
 
             if (IsInside(Utils.GetCursorPos()) && args.Msg == (uint)WindowsMessages.WM_LBUTTONDOWN)
             {
+                var list = HudVariables.HudElements.Where(el => el.GetType() == typeof(HudPanel)).ToList();
+                if (list.Any())
+                {
+                    var SecondList = list.Cast<HudPanel>().ToList();
+                    if (
+                        SecondList.Any(
+                            panel =>
+                                Helper.IsInside(
+                                    Utils.GetCursorPos(), (int) panel.Position.X, (int) panel.Position.Y, panel.Width,
+                                    panel.Height)))
+                    {
+                        return;
+                    }
+                }
+
                 if (!HudVariables.IsDragging)
                 {
                     if (InitialDragPoint == new Vector2())
