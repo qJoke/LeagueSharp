@@ -6,6 +6,7 @@ using DZAwarenessAIO.Utility.HudUtility;
 using DZAwarenessAIO.Utility.HudUtility.HudElements;
 using DZAwarenessAIO.Utility.Logs;
 using DZAwarenessAIO.Utility.MenuUtility;
+using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace DZAwarenessAIO.Modules.TFHelper
@@ -30,13 +31,13 @@ namespace DZAwarenessAIO.Modules.TFHelper
                 }
                 var hudPanel = new HudPanel("Test Panel", 10, 10, 200, 200);
                 {
-                   // HudVariables.HudElements.Add(new HudButton("Test Btn.", 10, 10, hudPanel)
-                  //  {
-                  //      OnButtonClick = delegate
-                  //      {
-                  //          Console.WriteLine(@"Clicked!");
-                  //      }
-                  //  });
+                    //HudVariables.HudElements.Add(new HudButton("Test Btn.", 10, 10, hudPanel)
+                    //{
+                       // OnButtonClick = delegate
+                      //  {
+                      //      Game.PrintChat("Clicked Test Button!");
+                      //  }
+                   //});
                 }
 
             }

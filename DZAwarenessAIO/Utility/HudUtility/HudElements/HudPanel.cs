@@ -24,11 +24,17 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
                     ? DraggingPosition
                     : new Vector2(
                         HudVariables.CurrentPosition.X + this.X,
-                        HudVariables.CurrentPosition.Y + HudVariables.SpriteHeight + this.Y);
+                        HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight + this.Y);
 
         public int X;
 
         public int Y;
+
+        public int savedX;
+
+        public int savedY;
+                
+        public bool Inside;
 
         private Vector2 InitialPosition = new Vector2();
 
@@ -111,6 +117,9 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
             this.Height = height;
             this.X = (int) (x);
             this.Y = (int) (y);
+            this.savedX = (int) x;
+            this.savedY = (int) y;
+
             InitialPosition = new Vector2(
                         HudVariables.CurrentPosition.X + x,
                         HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight + y);
@@ -131,18 +140,27 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
             this.Height = height;
             this.X = (int) (Position.X);
             this.Y = (int) (Position.Y);
+            this.savedX = (int) (Position.X);
+            this.savedY = (int) (Position.Y);
             InitialPosition = new Vector2(
                         HudVariables.CurrentPosition.X + Position.X,
                         HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight +  Position.Y);
             HudVariables.HudElements.Add(this);
         }
 
+        /// <summary>
+        /// Called when panel is loaded.
+        /// </summary>
         public override void OnLoad()
         {
             Game.OnUpdate += OnUpdate;
             Game.OnWndProc += OnWndProc;
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:Update"/> event.
+        /// </summary>
+        /// <param name="args">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         private void OnUpdate(System.EventArgs args)
         {
             if (this.Rectangle != null)
@@ -160,8 +178,9 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         
         private void OnWndProc(WndEventArgs args)
         {
+            //Fuck this shit.
             return;
-            if (HudVariables.CurrentStatus != SpriteStatus.Expanded || !HudVariables.ShouldBeVisible)
+            if (HudVariables.CurrentStatus != SpriteStatus.Expanded || !HudVariables.ShouldBeVisible || HudVariables.IsDragging)
             {
                 return;
             }
@@ -180,7 +199,10 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
                 {
                     if (InitialDragPoint == new Vector2())
                     {
-                        InitialDragPoint = this.Position;
+                        InitialDragPoint = new Vector2(
+                        HudVariables.CurrentPosition.X + this.X,
+                        HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight + this.Y);
+
                         XDistanceFromEdge = Math.Abs(InitialDragPoint.X - Utils.GetCursorPos().X);
                         YDistanceFromEdge = Math.Abs(InitialDragPoint.Y - Utils.GetCursorPos().Y);
 
@@ -193,16 +215,27 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
             }
             else if (this.IsDragging && args.Msg == (uint)WindowsMessages.WM_LBUTTONUP)
             {
-                var s = InitialDragPoint.X - this.X;
-                var z = InitialDragPoint.Y - this.Y;
-                this.X = (int) Math.Abs(s);
-                this.Y = (int) Math.Abs(z);
+                this.IsDragging = false;
+                if (IsInside(new Vector2(this.X, this.Y)))
+                {
+                    Inside = true;
+                    var position = new Vector2(this.X, this.Y);
+                    var distanceX = position.X - InitialDragPoint.X;
+                    var distanceY = position.Y - InitialDragPoint.Y;
+                    this.X = (int) distanceX;
+                    this.Y = (int) distanceY;
+                    Console.WriteLine("X: {0} Y: {1}", this.X, this.Y);
+                }
+                else
+                {
+                    Inside = false;
+                }
+
                 InitialDragPoint = new Vector2();
                 XDistanceFromEdge = 0;
                 YDistanceFromEdge = 0;
                 this.DraggingPosition = new Vector2();
                 //Console.WriteLine("After : " + this.X + " "+ this.Y);
-                this.IsDragging = false;
             }
         }
 
@@ -242,18 +275,19 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
             //
         }
 
-        public bool IsInside()
+        public bool IsInside(Vector2 EndPos)
         {
-            //if ((this.X + this.Width) < (HudVariables.CurrentPosition.X + HudVariables.SpriteWidth) &&
-            //    (this.X) > (HudVariables.CurrentPosition.X) && (this.Y) > (HudVariables.CurrentPosition.Y) &&
-           //     (HudVariables.CurrentPosition.Y + HudVariables.SpriteHeight) > (this.Y + this.Height))
-           // {
-            //    return true;
-           // }
+            if ((EndPos.X + this.Width) < (HudVariables.CurrentPosition.X + HudVariables.SpriteWidth) &&
+               (EndPos.X) > (HudVariables.CurrentPosition.X) && (EndPos.Y) > (HudVariables.CurrentPosition.Y) &&
+               (HudVariables.CurrentPosition.Y + HudVariables.SpriteHeight) > (EndPos.Y + this.Height))
+           {
+                return true;
+           }
             //Console.WriteLine(Vector2.DistanceSquared(new Vector2(HudVariables.CurrentPosition.X + this.X, HudVariables.CurrentPosition.Y + this.Y), HudVariables.CurrentPosition) <
            //        Math.Pow(HudVariables.SpriteWidth, 2) + Math.Pow(HudVariables.SpriteHeight, 2));
-            return Vector2.DistanceSquared(new Vector2(HudVariables.CurrentPosition.X + this.X, HudVariables.CurrentPosition.Y + this.Y), HudVariables.CurrentPosition) <
-                   Math.Pow(HudVariables.SpriteWidth, 2) + Math.Pow(HudVariables.SpriteHeight, 2);
+            //return Vector2.DistanceSquared(InitialDragPoint, HudVariables.CurrentPosition) <
+           //        Math.Pow(HudVariables.SpriteWidth, 2) + Math.Pow(HudVariables.SpriteHeight, 2);
+            return false;
         }
     }
 
