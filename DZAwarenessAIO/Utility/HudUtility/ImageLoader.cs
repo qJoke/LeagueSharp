@@ -100,7 +100,6 @@ namespace DZAwarenessAIO.Utility.HudUtility
             Bitmap finalBitmap = CreateFinalImage(bitmap);
             finalBitmap.Save(cachedPath);
             return finalBitmap;
-            //return ChangeOpacity(finalBitmap);
         }
 
         /// <summary>

@@ -93,7 +93,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                                     Utils.GetCursorPos(), (int) panel.Position.X, (int) panel.Position.Y, panel.Width,
                                     panel.Height)))
                     {
-                        return;
+                        //return;
                     }
                 }
 
