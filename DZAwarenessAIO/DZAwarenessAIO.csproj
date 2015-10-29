@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DZAwarenessAIO</RootNamespace>
     <AssemblyName>DZAwarenessAIO</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PreBuildEvent />
     <PostBuildEvent />
     <OutputPath>bin\Release</OutputPath>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -64,6 +65,7 @@
     <Compile Include="DZAwareness.cs" />
     <Compile Include="DZAwarenessBoostrap.cs" />
     <Compile Include="Modules\ModuleBase.cs" />
+    <Compile Include="Modules\Ping\PingTrackerBase.cs" />
     <Compile Include="Modules\Ranges\RangesBase.cs" />
     <Compile Include="Modules\SSTracker\SSTrackerBase.cs" />
     <Compile Include="Modules\SSTracker\SSTrackerModule.cs" />

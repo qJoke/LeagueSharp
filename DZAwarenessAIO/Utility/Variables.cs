@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using DZAwarenessAIO.Modules;
+using DZAwarenessAIO.Modules.Ping;
 using DZAwarenessAIO.Modules.Ranges;
 using DZAwarenessAIO.Modules.SSTracker;
 using DZAwarenessAIO.Modules.TFHelper;
@@ -28,7 +29,8 @@ namespace DZAwarenessAIO.Utility
             new RangesBase(),
             new WardTrackerBase(),
             new TFHelperBase(),
-            new SSTrackerBase()
+            new SSTrackerBase(),
+           // new PingTrackerBase()
         };
 
         /// <summary>
