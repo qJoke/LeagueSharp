@@ -30,7 +30,7 @@ namespace DZAwarenessAIO.Utility
             new WardTrackerBase(),
             new TFHelperBase(),
             new SSTrackerBase(),
-           // new PingTrackerBase()
+            new PingTrackerBase()
         };
 
         /// <summary>

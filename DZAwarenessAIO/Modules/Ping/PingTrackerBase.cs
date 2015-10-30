@@ -62,9 +62,20 @@ namespace DZAwarenessAIO.Modules.Ping
                 var srcHero = args.Source as Obj_AI_Hero;
                 if (pingType == PingCategory.Normal)
                 {
-                    var textObject = new Render.Text(srcHero.ChampionName, args.Position, 17, SharpDX.Color.White);
+
+                    var textObject = new Render.Text(
+                        srcHero.ChampionName,
+                        new Vector2(
+                            Drawing.WorldToScreen(args.Position.To3D()).X,
+                            Drawing.WorldToScreen(args.Position.To3D()).Y + 15), 17, SharpDX.Color.White)
+                    {
+                        PositionUpdate = () => new Vector2(
+                            Drawing.WorldToScreen(args.Position.To3D()).X,
+                            Drawing.WorldToScreen(args.Position.To3D()).Y + 30),
+                        Centered = true
+                    };
                     textObject.Add(0);
-                    LeagueSharp.Common.Utility.DelayAction.Add(500, () =>
+                    LeagueSharp.Common.Utility.DelayAction.Add(1000, () =>
                     {
                         textObject.Remove();
                     });
