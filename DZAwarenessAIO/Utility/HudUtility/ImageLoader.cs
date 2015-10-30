@@ -73,9 +73,10 @@ namespace DZAwarenessAIO.Utility.HudUtility
                 SSSprite.Position = circlePosition;
 
                 var text = hero.Value.SSText;
-                text.X = (int) (sprite.Position.X + (sprite.Width * sprite.Scale.X)) - (int)((TextWidth(text.text, new Font("Calibri", 26)) * sprite.Scale.X) / 2f);
-                text.Y = (int)(sprite.Position.Y + (sprite.Height * sprite.Scale.Y) / 2f + 2);
-
+                //text.X = (int) (sprite.Position.X + (sprite.Width * sprite.Scale.X)) - (int)((TextWidth(text.text, new Font("Calibri", 26)) * sprite.Scale.X) / 2f);
+                //text.Y = (int)(sprite.Position.Y + (sprite.Height * sprite.Scale.Y) / 2f + 2);
+                text.X = (int) (sprite.Position.X + (sprite.Width) / 2f);
+                text.Y = (int)(sprite.Position.Y + (sprite.Height) / 2f);
                 k++;
             }
         }
@@ -328,6 +329,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
 
                     return false;
                 },
+                Centered = true
             };
 
             //image.GrayScale();
