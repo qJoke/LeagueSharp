@@ -26,6 +26,7 @@ namespace DZAwarenessAIO.Modules.SSTracker
                 {
                     moduleMenu.AddBool("dz191.dza.sstracker.hud", "Track in Hud", true);
                     //moduleMenu.AddBool("dz191.dza.sstracker.minimap", "Track in minimap", true);
+                    moduleMenu.AddBool("dz191.dza.sstracker.click", "Click on Icons = Local Ping to last position", true);
                     moduleMenu.AddSlider("dz191.dza.sstracker.mintime", "Minimum SS time", new Tuple<int, int, int>(5,1,10));
                     RootMenu.AddSubMenu(moduleMenu);
                 }

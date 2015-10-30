@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DZAwarenessAIO.Utility.HudUtility;
 using DZAwarenessAIO.Utility.Logs;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
 
 namespace DZAwarenessAIO.Modules.SSTracker
 {
@@ -29,7 +31,7 @@ namespace DZAwarenessAIO.Modules.SSTracker
                 {
                     Trackers.Add(enemy.ChampionName, new HeroTracker() { Hero = enemy, LastSeen = -1 });
                 }
-
+                Game.OnWndProc += ImageLoader.OnWndProc;
                 Game.OnUpdate += OnUpdate;
             }
             catch (Exception e)
@@ -53,9 +55,11 @@ namespace DZAwarenessAIO.Modules.SSTracker
                     if (hero.LastSeen < 0 && !h.IsVisible)
                     {
                         hero.LastSeen = Environment.TickCount;
+                        hero.LastPosition = hero.Hero.ServerPosition;
                     }
                     if (hero.SSTimeFloat > 1 && (h.IsVisible))
                     {
+                        hero.LastPosition = Vector3.Zero;
                         hero.LastSeen =  -1;
                     }
                 }
@@ -105,5 +109,7 @@ namespace DZAwarenessAIO.Modules.SSTracker
         {
             get { return LastSeen > -1 ? Math.Ceiling((Environment.TickCount - LastSeen)/1000 + 0.5).ToString() : ""; }
         }
+
+        public Vector3 LastPosition { get; set; } = Vector3.Zero;
     }
 }

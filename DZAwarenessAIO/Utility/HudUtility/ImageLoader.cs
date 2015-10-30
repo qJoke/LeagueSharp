@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -78,6 +79,26 @@ namespace DZAwarenessAIO.Utility.HudUtility
                 text.X = (int) (sprite.Position.X + (sprite.Width) / 2f);
                 text.Y = (int)(sprite.Position.Y + (sprite.Height) / 2f);
                 k++;
+            }
+        }
+
+        internal static void OnWndProc(WndEventArgs args)
+        {
+            if (args.Msg == (uint)WindowsMessages.WM_LBUTTONUP && HudVariables.ShouldBeVisible && MenuExtensions.GetItemValue<bool>("dz191.dza.sstracker.click"))
+            {
+                foreach (var hero in AddedHeroes)
+                {
+                    var sprite = hero.Value.HeroSprite;
+                    if (Utils.GetCursorPos().Distance(new Vector2(sprite.Position.X + sprite.Width / 2f, sprite.Position.Y + sprite.Height / 2f)) <= sprite.Width / 2f)
+                    {
+                        var heroTracker =
+                        SSTrackerModule.Trackers.Values.FirstOrDefault(h => h.Hero.ChampionName.ToLower().Equals(hero.Key.ToLower()));
+                        if (heroTracker != null && heroTracker.LastPosition != Vector3.Zero && heroTracker.SSTimeFloat > Variables.MinSSTime)
+                        {
+                            Game.ShowPing(PingCategory.EnemyMissing, heroTracker.LastPosition, false);
+                        }
+                    }
+                }
             }
         }
 
