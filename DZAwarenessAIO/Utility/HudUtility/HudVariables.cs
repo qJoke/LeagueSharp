@@ -11,6 +11,9 @@ using SharpDX;
 
 namespace DZAwarenessAIO.Utility.HudUtility
 {
+    /// <summary>
+    /// The Hud Variables class
+    /// </summary>
     class HudVariables
     {
 
@@ -27,6 +30,13 @@ namespace DZAwarenessAIO.Utility.HudUtility
         /// </value>
         public static Render.Sprite HudSprite { get; set; }
 
+        /// <summary>
+        /// Gets or sets the hud text.
+        /// </summary>
+        /// <value>
+        /// The hud text.
+        /// </value>
+        public static Render.Text HudText { get; set; }
         /// <summary>
         /// Gets or sets the expand button sprite.
         /// </summary>

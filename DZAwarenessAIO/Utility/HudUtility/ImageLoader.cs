@@ -65,7 +65,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
             {
                 var sprite = hero.Value.HeroSprite;
                 var circlePosition = new Vector2(
-                        HudVariables.CurrentPosition.X + 9 + (sprite.Scale.X * (29 + (sprite.Width))) * k +
+                        HudVariables.CurrentPosition.X + 11 + (sprite.Scale.X * (29 + (sprite.Width))) * k +
                         (sprite.Width * sprite.Scale.X) * (k) - (sprite.Width * sprite.Scale.X) / 2f,
                         HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - sprite.Height - 6); ;
                 sprite.Position = circlePosition;
@@ -95,7 +95,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                         SSTrackerModule.Trackers.Values.FirstOrDefault(h => h.Hero.ChampionName.ToLower().Equals(hero.Key.ToLower()));
                         if (heroTracker != null && heroTracker.LastPosition != Vector3.Zero && heroTracker.SSTimeFloat > Variables.MinSSTime)
                         {
-                            Game.ShowPing(PingCategory.EnemyMissing, heroTracker.LastPosition, false);
+                            Game.ShowPing(PingCategory.EnemyMissing, heroTracker.LastPosition, true);
                         }
                     }
                 }

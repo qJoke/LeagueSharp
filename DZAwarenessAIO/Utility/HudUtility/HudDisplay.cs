@@ -201,6 +201,14 @@ namespace DZAwarenessAIO.Utility.HudUtility
                     VisibleCondition = delegate { return HudVariables.ShouldBeVisible; }
                 };
 
+                HudVariables.HudText = new Render.Text("DZAwareness - HUD", 0, 0, 17, SharpDX.Color.White)
+                {
+                    Centered = true,
+                    PositionUpdate = () => new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth / 2f, HudVariables.CurrentPosition.Y + 10),
+                    VisibleCondition = delegate { return HudVariables.ShouldBeVisible; }
+                };
+
+                HudVariables.HudText.Add(1);
                 HudVariables.ExpandShrinkButton.Add(1);
                 HudVariables.HudSprite.Add(0);
             }

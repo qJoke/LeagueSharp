@@ -171,8 +171,8 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
 
             if (this.Text != null)
             {
-                this.Text.X = (int) (this.Position.X + this.Width / 2f - Helper.GetSize(this.Name, 17));
-                this.Text.Y = (int) this.Position.Y - 9;
+                this.Text.X = (int) (this.Position.X + this.Width / 2f);
+                this.Text.Y = (int) this.Position.Y + 9;
             }
         }
         
@@ -250,7 +250,7 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         public override void InitDrawings()
         {
 
-            Rectangle = new Rectangle_Ex((int)this.Position.X, (int)this.Position.Y, (int)this.Width, (int)this.Height, Color.Black)
+            Rectangle = new Rectangle_Ex((int)this.Position.X, (int)this.Position.Y, (int)this.Width, (int)this.Height, Color.DodgerBlue)
             {
                 VisibleCondition = delegate
                 { return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded; }
@@ -263,7 +263,8 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
                 VisibleCondition = delegate
                 {
                     return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
-                }
+                },
+                Centered = true
             };
 
             Rectangle.Add(2);
@@ -283,10 +284,6 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
            {
                 return true;
            }
-            //Console.WriteLine(Vector2.DistanceSquared(new Vector2(HudVariables.CurrentPosition.X + this.X, HudVariables.CurrentPosition.Y + this.Y), HudVariables.CurrentPosition) <
-           //        Math.Pow(HudVariables.SpriteWidth, 2) + Math.Pow(HudVariables.SpriteHeight, 2));
-            //return Vector2.DistanceSquared(InitialDragPoint, HudVariables.CurrentPosition) <
-           //        Math.Pow(HudVariables.SpriteWidth, 2) + Math.Pow(HudVariables.SpriteHeight, 2);
             return false;
         }
     }
@@ -340,8 +337,8 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
                     }
 
                     _line.Begin();
-                    _line.Draw(new[] { new Vector2(X, Y), new Vector2(X + Width + border, Y) }, Color);
-                    _line.Draw(new[] { new Vector2(X, Y + Height / 2), new Vector2(X + Width - 1, Y + Height / 2) }, Color);
+                    _line.Draw(new[] { new Vector2(X, Y), new Vector2(X + Width, Y) }, Color);
+                    _line.Draw(new[] { new Vector2(X, Y + Height / 2), new Vector2(X + Width, Y + Height / 2) }, Color);
                     _line.Draw(new[] { new Vector2(X, Y), new Vector2(X, Y + Height / 2) }, Color);
                     _line.Draw(new[] { new Vector2(X + Width, Y), new Vector2(X + Width, Y + Height / 2) }, Color);
                     _line.End();
