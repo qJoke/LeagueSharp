@@ -22,7 +22,7 @@ namespace VayneHunter_Reborn
             VHRBootstrap.OnLoad();
 
             Game.PrintChat("<font color='#FF0000'><b>[VHR - Rewrite!]</b></font> By Asuna Loaded!");
-            Game.PrintChat("Also try <font color='#66FF33'><b>Waifu#</b></font>!");
+            Game.PrintChat("Also try <font color='#66FF33'><b>DZAwareness</b></font> for a gamebreaking experience!");
         }
     }
 }
