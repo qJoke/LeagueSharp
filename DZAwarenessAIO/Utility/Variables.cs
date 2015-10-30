@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using DZAwarenessAIO.Modules;
+using DZAwarenessAIO.Modules.LaneStatus;
 using DZAwarenessAIO.Modules.Ping;
 using DZAwarenessAIO.Modules.Ranges;
 using DZAwarenessAIO.Modules.SSTracker;
@@ -30,7 +30,8 @@ namespace DZAwarenessAIO.Utility
             new WardTrackerBase(),
             new TFHelperBase(),
             new SSTrackerBase(),
-            new PingTrackerBase()
+            new PingTrackerBase(),
+            //new LaneStatusBase()
         };
 
         /// <summary>

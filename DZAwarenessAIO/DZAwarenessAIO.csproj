@@ -64,6 +64,8 @@
   <ItemGroup>
     <Compile Include="DZAwareness.cs" />
     <Compile Include="DZAwarenessBoostrap.cs" />
+    <Compile Include="Modules\LaneStatus\LaneStatusBase.cs" />
+    <Compile Include="Modules\LaneStatus\LaneStatusTracker.cs" />
     <Compile Include="Modules\ModuleBase.cs" />
     <Compile Include="Modules\Ping\PingTrackerBase.cs" />
     <Compile Include="Modules\Ranges\RangesBase.cs" />

@@ -194,6 +194,11 @@ namespace DZAwarenessAIO.Utility
                 var to = Drawing.WorldToScreen(end);
                 Drawing.DrawLine(from[0], from[1], to[0], to[1], width, color);
             }
+
+            public IEnumerator<Vector2> GetEnumerator()
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public class Rectangle

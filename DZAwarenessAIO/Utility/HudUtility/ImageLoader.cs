@@ -35,6 +35,8 @@ namespace DZAwarenessAIO.Utility.HudUtility
         /// </summary>
         public static void InitSprites()
         {
+            RemoveSprites();
+
             foreach (var enemy in HeroManager.Enemies)
             {
                 AddedHeroes.Add(enemy.ChampionName, new HeroHudImage(enemy.ChampionName));
