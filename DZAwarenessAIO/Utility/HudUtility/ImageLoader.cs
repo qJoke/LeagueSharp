@@ -65,7 +65,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
             {
                 var sprite = hero.Value.HeroSprite;
                 var circlePosition = new Vector2(
-                        HudVariables.CurrentPosition.X + 15 + (sprite.Scale.X * (29 + (sprite.Width))) * k +
+                        HudVariables.CurrentPosition.X + 9 + (sprite.Scale.X * (29 + (sprite.Width))) * k +
                         (sprite.Width * sprite.Scale.X) * (k) - (sprite.Width * sprite.Scale.X) / 2f,
                         HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - sprite.Height - 6); ;
                 sprite.Position = circlePosition;

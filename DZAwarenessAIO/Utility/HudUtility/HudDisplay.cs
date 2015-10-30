@@ -131,12 +131,13 @@ namespace DZAwarenessAIO.Utility.HudUtility
                 HudVariables.IsDragging = false;
             }
 
+
             if (args.Msg == (uint) WindowsMessages.WM_LBUTTONUP)
             {
                 if (
                     Utils.GetCursorPos()
-                        .Distance(new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 15,
-                            HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - 15)) < 7)
+                        .Distance(new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 15 + (Resources.Expand.Width * 0.7f) / 2f,
+                            HudVariables.CurrentPosition.Y + 3 + (Resources.Expand.Height * 0.7f) / 2f)) < Resources.Expand.Width * 0.7f / 2f)
                 {
                     if (HudVariables.CurrentStatus == SpriteStatus.Shrinked)
                     {
@@ -146,7 +147,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                         HudVariables.ExpandShrinkButton.Remove();
                         HudVariables.ExpandShrinkButton = new Render.Sprite(Resources.Shrink, HudVariables.CurrentPosition)
                         {
-                            PositionUpdate = () => new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 20, HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - 20),
+                            PositionUpdate = () => new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 15, HudVariables.CurrentPosition.Y + 3),
                             Scale = new Vector2(0.7f, 0.7f),
                             VisibleCondition = delegate { return HudVariables.ShouldBeVisible; }
                         };
@@ -161,7 +162,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                         HudVariables.ExpandShrinkButton.Remove();
                         HudVariables.ExpandShrinkButton = new Render.Sprite(Resources.Expand, HudVariables.CurrentPosition)
                         {
-                            PositionUpdate = () => new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 20, HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - 20),
+                            PositionUpdate = () => new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 15, HudVariables.CurrentPosition.Y + 3),
                             Scale = new Vector2(0.7f, 0.7f),
                             VisibleCondition = delegate { return HudVariables.ShouldBeVisible; }
                         };
@@ -195,7 +196,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
 
                 HudVariables.ExpandShrinkButton = new Render.Sprite(Resources.Expand, HudVariables.CurrentPosition)
                 {
-                    PositionUpdate = () => new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 20, HudVariables.CurrentPosition.Y + HudVariables.CroppedHeight - 20),
+                    PositionUpdate = () => new Vector2(HudVariables.CurrentPosition.X + HudVariables.SpriteWidth - 15, HudVariables.CurrentPosition.Y + 3),
                     Scale = new Vector2(0.7f, 0.7f),
                     VisibleCondition = delegate { return HudVariables.ShouldBeVisible; }
                 };
