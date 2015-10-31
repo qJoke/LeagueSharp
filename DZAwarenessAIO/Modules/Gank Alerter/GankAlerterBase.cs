@@ -37,7 +37,7 @@ namespace DZAwarenessAIO.Modules.Gank_Alerter
                             ignoreMenu.AddItem(
                                 new MenuItem(
                                     $"dz191.dza.gank.ignore.{hero.ChampionName.ToLower()}",
-                                    hero.ChampionName));
+                                    hero.ChampionName)).SetValue(false);
                         }
                         moduleMenu.AddSubMenu(ignoreMenu);
                     }
@@ -58,7 +58,7 @@ namespace DZAwarenessAIO.Modules.Gank_Alerter
         {
             try
             {
-                GankAlerterVariables.GankAlertText = new Render.Text("", 0, 0, GankAlerterVariables.TextSize, SharpDX.Color.DarkRed)
+                GankAlerterVariables.GankAlertText = new Render.Text("", 0, 0, GankAlerterVariables.TextSize, SharpDX.Color.Chartreuse)
                 {
                     Visible = false
                 };
@@ -75,7 +75,7 @@ namespace DZAwarenessAIO.Modules.Gank_Alerter
         /// <returns></returns>
         public override ModuleTypes GetModuleType()
         {
-            return ModuleTypes.General;
+            return ModuleTypes.OnUpdate;
         }
 
         /// <summary>
@@ -92,6 +92,7 @@ namespace DZAwarenessAIO.Modules.Gank_Alerter
         /// </summary>
         public override void OnTick()
         {
+            GankAlerterCalculator.GetGankingHero();
         }
     }
 }

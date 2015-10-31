@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Linq;
+using DZAwarenessAIO.Modules.SSTracker;
+using DZAwarenessAIO.Utility;
+using DZAwarenessAIO.Utility.HudUtility;
 using DZAwarenessAIO.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -31,7 +34,7 @@ namespace DZAwarenessAIO.Modules.Gank_Alerter
         /// Gets the ganking hero.
         /// </summary>
         /// <returns>An istance of the enemy who is ganking me</returns>
-        private static Obj_AI_Hero GetGankingHero()
+        public static Obj_AI_Hero GetGankingHero()
         {
             foreach (
                 var hero in
@@ -41,15 +44,11 @@ namespace DZAwarenessAIO.Modules.Gank_Alerter
                 var heroDistance = hero.ServerPosition.Distance(ObjectManager.Player.ServerPosition);
                 if (heroDistance >= GankAlerterVariables.MinDist && heroDistance <= GankAlerterVariables.MaxDist)
                 {
-                    var pathList = hero.Path;
-                    if (pathList.Count() > 1)
-                    {
-                        var secondDistance = pathList[2].Distance(ObjectManager.Player.ServerPosition);
-                        if (secondDistance < heroDistance)
-                        {
-                            return hero;
-                        }
-                    }
+                       var heroTracker = SSTrackerModule.Trackers.Values.FirstOrDefault(h => h.Hero.ChampionName.ToLower().Equals(hero.ChampionName.ToLower()));
+                       if (heroTracker!= null)
+                       {
+                           return hero;
+                      }
                 }
             }
 
