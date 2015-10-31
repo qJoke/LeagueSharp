@@ -98,8 +98,8 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                     {
                         if (args.GetNewValue<bool>())
                         {
-                            try
-                            {
+                           // try
+                           // {
                                 var index = Profiles.Count(m => !m.IsDefault) + 1;
                                 if (index < 6)
                                 {
@@ -124,12 +124,12 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                                 }
                                 
                             }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine("[VHR] Error Saving! " + e.Message);
-                            }
+                           // catch (Exception e)
+                          //  {
+                          //      Console.WriteLine("[VHR] Error Saving! " + e.Message);
+                          //  }
                             
-                        }
+                       // }
                     };
                 profilerMenu.AddItem(
                    new MenuItem("dz191.vhr.ps.savecurrent", "Save to Current Profile").SetValue(false)).ValueChanged += (sender, args) =>
@@ -327,7 +327,7 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                     MajorCategory = MajorCategories.Tumble,
                     MinorCategory = MinorCategories.SmartQ,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.smartq")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.tumble.smartq")
                 },
                 new ProfileOption
                 {
@@ -344,35 +344,28 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                     MajorCategory = MajorCategories.Tumble,
                     MinorCategory = MinorCategories.NoQEnemies,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.noqenemies")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.tumble.noqenemies")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Tumble,
                     MinorCategory = MinorCategories.DynamicQSafety,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.dynamicqsafety")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.tumble.dynamicqsafety")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Tumble,
                     MinorCategory = MinorCategories.QSpam,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.qspam")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.tumble.qspam")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Tumble,
                     MinorCategory = MinorCategories.QInRange,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.qinrange")
-                },
-                new ProfileOption
-                {
-                    MajorCategory = MajorCategories.Tumble,
-                    MinorCategory = MinorCategories.Mirin,
-                    ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.mirin")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.tumble.qinrange")
                 },
                 new ProfileOption
                 {
@@ -431,21 +424,21 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                     MajorCategory = MajorCategories.Condemn,
                     MinorCategory = MinorCategories.OnlyStunCurrent,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Condemn,
                     MinorCategory = MinorCategories.AutoE,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.autoe")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.condemn.autoe")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Condemn,
                     MinorCategory = MinorCategories.EKS,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.eks")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.condemn.eks")
                 },
                 new ProfileOption
                 {
@@ -460,42 +453,42 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                     MajorCategory = MajorCategories.Condemn,
                     MinorCategory = MinorCategories.TrinketBush,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.trinketbush")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.condemn.trinketbush")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Condemn,
                     MinorCategory = MinorCategories.EThird,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.ethird")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.condemn.ethird")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Condemn,
                     MinorCategory = MinorCategories.LowLifePeel,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.lowlifepeel")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.condemn.lowlifepeel")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Condemn,
                     MinorCategory = MinorCategories.CondemnTurret,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnturret")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.condemn.condemnturret")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Condemn,
                     MinorCategory = MinorCategories.CondemnFlag,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnflag")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.condemn.condemnflag")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Condemn,
                     MinorCategory = MinorCategories.NoETurret,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.noeturret")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.condemn.noeturret")
                 },
 
                 #endregion
@@ -506,14 +499,14 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                     MajorCategory = MajorCategories.General,
                     MinorCategory = MinorCategories.AntiGP,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.antigp")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.general.antigp")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.General,
                     MinorCategory = MinorCategories.Interrupt,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.interrupt")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.general.interrupt")
                 },
                 new ProfileOption
                 {
@@ -529,28 +522,28 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                     MajorCategory = MajorCategories.General,
                     MinorCategory = MinorCategories.SpecialFocus,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.specialfocus")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.general.specialfocus")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.General,
                     MinorCategory = MinorCategories.Reveal,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.reveal")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.general.reveal")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.General,
                     MinorCategory = MinorCategories.DisableMovement,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.disablemovement")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.general.disablemovement")
                 },
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.General,
                     MinorCategory = MinorCategories.Permashow,
                     ValueType = ValueTypes.Boolean,
-                    BoolValue = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.permashow")
+                    BoolValue = GetItemValue<bool>("dz191.vhr.misc.general.permashow")
                 },
 
                 #endregion
@@ -592,6 +585,11 @@ namespace VayneHunter_Reborn.External.ProfileSelector
 
         private static T GetItemValue<T>(string item)
         {
+            if (Variables.Menu.Item(item) == null)
+            {
+                return default(T);
+            }
+
             return Variables.Menu.Item(item).GetValue<T>();
         }
 

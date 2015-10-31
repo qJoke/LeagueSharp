@@ -7,12 +7,12 @@
 
     internal enum MajorCategories
     {
-        Tumble, Condemn, General
+        Tumble, Condemn, General, Mixed
     }
 
     internal enum MinorCategories
     {
-        QLogic, SmartQ, NoAAStealthEx, NoQEnemies, DynamicQSafety, QSpam, QInRange, Mirin, WallTumble,
+        QLogic, SmartQ, NoAAStealthEx, NoQEnemies, DynamicQSafety, QSpam, QInRange, MirinQ, WallTumble,
         CondemnMethod, PushDistance, Accuracy, ENextAuto, OnlyStunCurrent, AutoE, EKS, NoEAA, TrinketBush, EThird, LowLifePeel, CondemnTurret, CondemnFlag, NoETurret,
         AntiGP, Interrupt, AntiGPDelay, SpecialFocus, Reveal, DisableMovement, Permashow
         

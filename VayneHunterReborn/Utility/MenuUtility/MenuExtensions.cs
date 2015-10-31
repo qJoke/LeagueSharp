@@ -61,6 +61,11 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
 
         public static T GetItemValue<T>(string item)
         {
+            if (Variables.Menu.Item(item) == null)
+            {
+                return default(T);
+            }
+
             return Variables.Menu.Item(item).GetValue<T>();
         }
     }

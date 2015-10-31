@@ -80,13 +80,6 @@ namespace VayneHunter_Reborn.External.ProfileSelector.DefaultProfiles
                 new ProfileOption
                 {
                     MajorCategory = MajorCategories.Tumble,
-                    MinorCategory = MinorCategories.Mirin,
-                    ValueType = ValueTypes.Boolean,
-                    BoolValue = false
-                },
-                new ProfileOption
-                {
-                    MajorCategory = MajorCategories.Tumble,
                     MinorCategory = MinorCategories.WallTumble,
                     ValueType = ValueTypes.Keybind,
                     KeybindValue =

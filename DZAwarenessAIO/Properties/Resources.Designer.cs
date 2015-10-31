@@ -103,6 +103,16 @@ namespace DZAwarenessAIO.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AllyTeamStrength {
+            get {
+                object obj = ResourceManager.GetObject("AllyTeamStrength", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Amumu_Square_0 {
             get {
                 object obj = ResourceManager.GetObject("Amumu_Square_0", resourceCulture);
@@ -316,6 +326,16 @@ namespace DZAwarenessAIO.Properties {
         internal static System.Drawing.Bitmap empty {
             get {
                 object obj = ResourceManager.GetObject("empty", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EnemyTeamStength {
+            get {
+                object obj = ResourceManager.GetObject("EnemyTeamStength", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

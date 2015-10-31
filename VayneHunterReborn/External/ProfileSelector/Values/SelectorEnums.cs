@@ -6,12 +6,12 @@
         }
         internal enum MajorCategories
         {
-            Tumble, Condemn, General
+            Tumble, Condemn, General, Mixed
         }
 
         internal enum MinorCategories
         {
-            QLogic, SmartQ, NoAAStealth, NoQEnemies, DynamicQSafety, QSpam, QInRange, Mirin, WallTumble
+            QLogic, SmartQ, NoAAStealth, NoQEnemies, DynamicQSafety, QSpam, QInRange, MirinQ, WallTumble
 
         }
 }

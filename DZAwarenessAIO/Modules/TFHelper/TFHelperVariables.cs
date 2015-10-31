@@ -40,9 +40,48 @@ namespace DZAwarenessAIO.Modules.TFHelper
             {
                 return
                     HeroManager.Allies.Where(
-                        m => !m.IsMe &&
-                            m.Distance(ObjectManager.Player, true) <= Math.Pow(1000, 2) && m.IsValidTarget(1000, false));
+                        m => m.Distance(ObjectManager.Player, true) <= Math.Pow(1000, 2) && m.IsValidTarget(1000, false));
             }
         }
+
+        /// <summary>
+        /// Gets or sets the ally bar sprite.
+        /// </summary>
+        /// <value>
+        /// The ally bar sprite.
+        /// </value>
+        public static Render.Sprite AllyBarSprite { get; set; }
+
+        /// <summary>
+        /// Gets or sets the enemy bar sprite.
+        /// </summary>
+        /// <value>
+        /// The enemy bar sprite.
+        /// </value>
+        public static Render.Sprite EnemyBarSprite { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ally strength % text.
+        /// </summary>
+        /// <value>
+        /// The ally strength % text.
+        /// </value>
+        public static Render.Text AllyStrengthText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the enemy strength % text.
+        /// </summary>
+        /// <value>
+        /// The enemy strength % text.
+        /// </value>
+        public static Render.Text EnemyStrengthText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the teams info text.
+        /// </summary>
+        /// <value>
+        /// The teams info text.
+        /// </value>
+        public static Render.Text TeamsVSText { get; set; }
     }
 }

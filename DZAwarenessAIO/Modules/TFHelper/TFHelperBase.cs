@@ -29,16 +29,6 @@ namespace DZAwarenessAIO.Modules.TFHelper
                     moduleMenu.AddSlider("dz191.dza.tf.range", "TF Range", 1000, 500, 1800);
                     RootMenu.AddSubMenu(moduleMenu);
                 }
-                var hudPanel = new HudPanel("Test Panel", 10, 10, 200, 200);
-                {
-                    //HudVariables.HudElements.Add(new HudButton("Test Btn.", 10, 10, hudPanel)
-                    //{
-                       // OnButtonClick = delegate
-                      //  {
-                      //      Game.PrintChat("Clicked Test Button!");
-                      //  }
-                   //});
-                }
 
             }
             catch (Exception e)
@@ -52,7 +42,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
         /// </summary>
         public override void InitEvents()
         {
-            //TFHelperDrawings.OnLoad();
+            TFHelperDrawings.OnLoad();
         }
 
         /// <summary>
