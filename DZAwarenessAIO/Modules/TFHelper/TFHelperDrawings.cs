@@ -98,10 +98,10 @@ namespace DZAwarenessAIO.Modules.TFHelper
             var enemyStrength = TFHelperCalculator.GetEnemyStrength();
 
             TFHelperVariables.AllyBarSprite.Crop(
-                0, 0, (int) (TFHelperVariables.AllyBarSprite.Width * allyStrength), (int) TFHelperVariables.AllyBarSprite.Height);
+                0, 0, (int) (Resources.AllyTeamStrength.Width * allyStrength), (int) TFHelperVariables.AllyBarSprite.Height);
 
             TFHelperVariables.EnemyBarSprite.Crop(
-                0, 0, (int) (TFHelperVariables.EnemyBarSprite.Width * enemyStrength),
+                0, 0, (int) (Resources.EnemyTeamStength.Width * enemyStrength),
                 (int) TFHelperVariables.EnemyBarSprite.Height);
 
         }
