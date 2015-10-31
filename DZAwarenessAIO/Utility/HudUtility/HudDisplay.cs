@@ -54,8 +54,8 @@ namespace DZAwarenessAIO.Utility.HudUtility
                     }
                 };
                 moduleMenu.AddBool("dz191.dza.hud.draggable", "Draggable", true).SetTooltip("If ON = You can Drag the HUD. If OFF = Hud is fixed.");
-                moduleMenu.AddSlider("dz191.dza.hud.x", "HUD X", new Tuple<int, int, int>(200, 0, Drawing.Direct3DDevice.Viewport.Width)).SetTooltip("Hud X Position (You can drag it)");
-                moduleMenu.AddSlider("dz191.dza.hud.y", "HUD Y", new Tuple<int, int, int>(200, 0, Drawing.Direct3DDevice.Viewport.Height)).SetTooltip("Hud Y Position (You can drag it)");
+                moduleMenu.AddSlider("dz191.dza.hud.x", "HUD X", new Tuple<int, int, int>(20, 0, Drawing.Direct3DDevice.Viewport.Width)).SetTooltip("Hud X Position (You can drag it)");
+                moduleMenu.AddSlider("dz191.dza.hud.y", "HUD Y", new Tuple<int, int, int>(Drawing.Direct3DDevice.Viewport.Height - HudVariables.CroppedHeight - 20, 0, Drawing.Direct3DDevice.Viewport.Height)).SetTooltip("Hud Y Position (You can drag it)");
                 RootMenu.AddSubMenu(moduleMenu);
             }
 

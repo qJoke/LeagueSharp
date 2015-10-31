@@ -23,7 +23,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
                 return
                     HeroManager.Enemies.Where(
                         m =>
-                            m.Distance(ObjectManager.Player, true) <= Math.Pow(1000, 2) && m.IsValidTarget(1500, false) &&
+                            m.Distance(ObjectManager.Player, true) <= Math.Pow(1200, 2) && m.IsValidTarget(1200, false) &&
                             m.CountEnemiesInRange(m.IsMelee() ? m.AttackRange * 1.5f : m.AttackRange + 20 * 1.5f) > 0);
             }
         }
@@ -40,7 +40,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
             {
                 return
                     HeroManager.Allies.Where(
-                        m => m.Distance(ObjectManager.Player, true) <= Math.Pow(1000, 2) && m.IsValidTarget(1000, false));
+                        m => m.Distance(ObjectManager.Player, true) <= Math.Pow(1200, 2) && m.IsValidTarget(1200, false));
             }
         }
 
