@@ -64,6 +64,9 @@
   <ItemGroup>
     <Compile Include="DZAwareness.cs" />
     <Compile Include="DZAwarenessBoostrap.cs" />
+    <Compile Include="Modules\Gank Alerter\GankAlerterBase.cs" />
+    <Compile Include="Modules\Gank Alerter\GankAlerterCalculator.cs" />
+    <Compile Include="Modules\Gank Alerter\GankAlerterVariables.cs" />
     <Compile Include="Modules\LaneStatus\LaneStatusBase.cs" />
     <Compile Include="Modules\LaneStatus\LaneStatusTracker.cs" />
     <Compile Include="Modules\ModuleBase.cs" />

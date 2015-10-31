@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using DZAwarenessAIO.Modules;
+using DZAwarenessAIO.Modules.Gank_Alerter;
 using DZAwarenessAIO.Modules.LaneStatus;
 using DZAwarenessAIO.Modules.Ping;
 using DZAwarenessAIO.Modules.Ranges;
@@ -31,7 +32,8 @@ namespace DZAwarenessAIO.Utility
             new TFHelperBase(),
             new SSTrackerBase(),
             new PingTrackerBase(),
-            //new LaneStatusBase()
+            //new LaneStatusBase(),
+            new GankAlerterBase(),
         };
 
         /// <summary>
@@ -130,10 +132,7 @@ namespace DZAwarenessAIO.Utility
         /// <value>
         /// The player instance.
         /// </value>
-        public static Obj_AI_Hero Player
-        {
-            get { return ObjectManager.Player; }
-        }
+        public static Obj_AI_Hero Player => ObjectManager.Player;
 
         /// <summary>
         /// Gets the enemies close.
@@ -173,9 +172,6 @@ namespace DZAwarenessAIO.Utility
         /// <summary>
         /// The minimum ss time
         /// </summary>
-        public static int MinSSTime
-        {
-            get { return MenuExtensions.GetItemValue<Slider>("dz191.dza.sstracker.mintime").Value; }
-        }
+        public static int MinSSTime => MenuExtensions.GetItemValue<Slider>("dz191.dza.sstracker.mintime").Value;
     }
 }

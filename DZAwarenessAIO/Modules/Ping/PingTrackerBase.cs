@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ClipperLib;
 using DZAwarenessAIO.Utility;
 using DZAwarenessAIO.Utility.Logs;
 using DZAwarenessAIO.Utility.MenuUtility;
@@ -14,7 +11,7 @@ using Color = System.Drawing.Color;
 namespace DZAwarenessAIO.Modules.Ping
 {
     /// <summary>
-    /// The Ranges Tracking Class
+    /// The Ping Drawing base Class
     /// </summary>
     class PingTrackerBase : ModuleBase
     {
@@ -54,7 +51,11 @@ namespace DZAwarenessAIO.Modules.Ping
             }
         }
 
-        void OnPing(GamePingEventArgs args)
+        /// <summary>
+        /// Raises the <see cref="E:Ping" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="GamePingEventArgs"/> instance containing the event data.</param>
+        private void OnPing(GamePingEventArgs args)
         {
             if (!args.Source.IsMe && ShouldRun() && (args.Source is Obj_AI_Hero))
             {
