@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DZAwarenessAIO.Utility;
+﻿using DZAwarenessAIO.Utility;
 
 namespace DZAwarenessAIO.Modules
 {
@@ -38,7 +33,7 @@ namespace DZAwarenessAIO.Modules
         public abstract ModuleTypes GetModuleType();
 
         /// <summary>
-        /// Shoulds the module run.
+        /// Should the module run.
         /// </summary>
         /// <returns></returns>
         public abstract bool ShouldRun();

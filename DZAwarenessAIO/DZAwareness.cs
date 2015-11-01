@@ -3,8 +3,6 @@ using System.Linq;
 using DZAwarenessAIO.Utility;
 using DZAwarenessAIO.Utility.HudUtility;
 using LeagueSharp;
-using SharpDX;
-
 
 namespace DZAwarenessAIO
 {

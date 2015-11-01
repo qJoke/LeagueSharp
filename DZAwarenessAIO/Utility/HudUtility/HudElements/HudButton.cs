@@ -17,10 +17,16 @@ namespace DZAwarenessAIO.Utility.HudUtility.HudElements
         /// <summary>
         /// The position of the button
         /// </summary>
-       public Vector2 Position => new Vector2(Parent.Position.X + this.X, Parent.Position.Y + this.Y);
+        public Vector2 Position => new Vector2(Parent.Position.X + this.X, Parent.Position.Y + this.Y);
 
+        /// <summary>
+        /// The x position
+        /// </summary>
         public int X;
 
+        /// <summary>
+        /// The y position.
+        /// </summary>
         public int Y;
 
         /// <summary>

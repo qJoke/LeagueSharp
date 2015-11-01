@@ -94,10 +94,7 @@ namespace DZAwarenessAIO.Modules.SSTracker
         /// <value>
         /// The MIA time (float).
         /// </value>
-        public float SSTimeFloat
-        {
-            get { return LastSeen > -1 ? (float) Math.Ceiling((Environment.TickCount - LastSeen) / 1000 + 0.5) : 0; }
-        }
+        public float SSTimeFloat => LastSeen > -1 ? (float) Math.Ceiling((Environment.TickCount - LastSeen) / 1000 + 0.5) : 0;
 
         /// <summary>
         /// Gets the MIA time.
@@ -105,11 +102,14 @@ namespace DZAwarenessAIO.Modules.SSTracker
         /// <value>
         /// The MIA time.
         /// </value>
-        public string SSTime
-        {
-            get { return LastSeen > -1 ? Math.Ceiling((Environment.TickCount - LastSeen)/1000 + 0.5).ToString() : ""; }
-        }
+        public string SSTime => LastSeen > -1 ? Math.Ceiling((Environment.TickCount - LastSeen)/1000 + 0.5).ToString() : "";
 
+        /// <summary>
+        /// Gets or sets the last position the enemy was seen at.
+        /// </summary>
+        /// <value>
+        /// The last position.
+        /// </value>
         public Vector3 LastPosition { get; set; } = Vector3.Zero;
     }
 }

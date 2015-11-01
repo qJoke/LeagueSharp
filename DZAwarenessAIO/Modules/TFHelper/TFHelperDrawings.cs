@@ -11,10 +11,19 @@ namespace DZAwarenessAIO.Modules.TFHelper
 {
     class TFHelperDrawings
     {
+        /// <summary>
+        /// The previous state of the text
+        /// </summary>
         private static string PrevState = "";
 
+        /// <summary>
+        /// The last tick the calculation was made
+        /// </summary>
         private static float LastTick = 0f;
 
+        /// <summary>
+        /// Called when the module is loaded.
+        /// </summary>
         public static void OnLoad()
         {
             try
@@ -113,6 +122,10 @@ namespace DZAwarenessAIO.Modules.TFHelper
 
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:Update" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         private static void OnUpdate(EventArgs args)
         {
             try
@@ -146,6 +159,11 @@ namespace DZAwarenessAIO.Modules.TFHelper
             }
         }
 
+        /// <summary>
+        /// Rounds the specified number.
+        /// </summary>
+        /// <param name="number">The number.</param>
+        /// <returns></returns>
         private static float Round(float number)
         {
             return (float) Math.Ceiling(number + 0.5);

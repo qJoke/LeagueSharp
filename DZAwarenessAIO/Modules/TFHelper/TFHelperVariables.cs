@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DZAwarenessAIO.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -29,6 +27,9 @@ namespace DZAwarenessAIO.Modules.TFHelper
             }
         }
 
+        /// <summary>
+        /// The teamfight calculation range
+        /// </summary>
         public static int TFRange => MenuExtensions.GetItemValue<Slider>("dz191.dza.tf.range").Value;
 
         /// <summary>

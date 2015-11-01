@@ -10,6 +10,10 @@ namespace DZAwarenessAIO.Modules.TFHelper
 {
     class TFHelperCalculator
     {
+        /// <summary>
+        /// Gets the ally team strength.
+        /// </summary>
+        /// <returns></returns>
         public static float GetAllyStrength()
         {
             if (ObjectManager.Player.IsDead || (TFHelperVariables.AlliesClose.Any() && !TFHelperVariables.EnemiesClose.ToList().Any()))
@@ -20,6 +24,10 @@ namespace DZAwarenessAIO.Modules.TFHelper
             return 1 - GetEnemyStrength();
         }
 
+        /// <summary>
+        /// Gets the enemy team strength.
+        /// </summary>
+        /// <returns></returns>
         public static float GetEnemyStrength()
         {
             var allyDamage = TFHelperVariables.AlliesClose.ToList().Sum(s => GetHeroAvgDamage(s, TFHelperVariables.EnemiesClose.ToList()));
@@ -38,6 +46,10 @@ namespace DZAwarenessAIO.Modules.TFHelper
             return (enemyDamage / allyDamage) <= 1 ? (enemyDamage / allyDamage) : (allyDamage / enemyDamage);
         }
 
+        /// <summary>
+        /// Gets the text to be shown in the hud.
+        /// </summary>
+        /// <returns></returns>
         public static string GetText()
         {
             if ((TFHelperVariables.AlliesClose.Any() && !TFHelperVariables.EnemiesClose.ToList().Any()))
@@ -53,6 +65,12 @@ namespace DZAwarenessAIO.Modules.TFHelper
             return !ObjectManager.Player.IsDead ? string.Format("{0}v{1}: {2} will win", TFHelperVariables.AlliesClose.Count(), TFHelperVariables.EnemiesClose.Count(), GetAllyStrength() > GetEnemyStrength() ? "Ally" : "Enemy") : string.Format("You kinda suck!");
         }
 
+        /// <summary>
+        /// Gets the hero average damage to the opposing team.
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <param name="Enemies">The enemies.</param>
+        /// <returns></returns>
         public static float GetHeroAvgDamage(Obj_AI_Hero player, List<Obj_AI_Hero> Enemies)
         {
             var totalEnemies = Enemies.Count();

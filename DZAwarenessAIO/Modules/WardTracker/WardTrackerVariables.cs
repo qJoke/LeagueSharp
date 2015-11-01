@@ -198,14 +198,8 @@ namespace DZAwarenessAIO.Modules.WardTracker
         /// <value>
         /// The minimap position.
         /// </value>
-        private Vector2 MinimapPosition
-        {
-            get
-            {
-                return Drawing.WorldToMinimap(Position) +
-                       new Vector2(-32 / 2f * 0.7f, -32 / 2f * 0.7f);
-            }
-        }
+        private Vector2 MinimapPosition => Drawing.WorldToMinimap(Position) +
+                                           new Vector2(-32 / 2f * 0.7f, -32 / 2f * 0.7f);
 
 
         /// <summary>
