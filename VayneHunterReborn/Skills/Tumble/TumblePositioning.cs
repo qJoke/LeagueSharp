@@ -46,13 +46,34 @@ namespace VayneHunter_Reborn.Skills.Tumble
 
             if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.noqenemies") && noQIntoEnemiesCheck)
             {
-                var Vector2Position = position.To2D();
-                var enemyPoints = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.dynamicqsafety") ? GetEnemyPoints() : GetEnemyPoints(false);
-                if (enemyPoints.Contains(Vector2Position) &&
-                    !MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.qspam"))
+                if (!MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.noqenemies.old"))
                 {
-                    QEnemiesCheck = false;
+                    var Vector2Position = position.To2D();
+                    var enemyPoints = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.dynamicqsafety")
+                        ? GetEnemyPoints()
+                        : GetEnemyPoints(false);
+                    if (enemyPoints.Contains(Vector2Position) &&
+                        !MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.qspam"))
+                    {
+                        QEnemiesCheck = false;
+                    }
                 }
+                else
+                {
+                    var closeEnemies =
+                    HeroManager.Enemies.FindAll(en => en.IsValidTarget(1500f)).OrderBy(en => en.Distance(position));
+                    if (closeEnemies.Any())
+                    {
+                        QEnemiesCheck =
+                            !closeEnemies.All(
+                                enemy =>
+                                    position.CountEnemiesInRange(
+                                        MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.dynamicqsafety")
+                                            ? enemy.AttackRange
+                                            : 405f) <= 1);
+                    }
+                }
+                
             }
 
             return normalCheck && QEnemiesCheck;

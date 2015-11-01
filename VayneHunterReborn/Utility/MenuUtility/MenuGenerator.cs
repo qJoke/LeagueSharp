@@ -88,6 +88,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.smartq", "Try to QE when possible").SetTooltip("Will try to do the Tumble + Condemn combo when possible"); //Done
                     miscQMenu.AddKeybind("dz191.vhr.misc.tumble.noaastealthex", "Don't AA while stealthed", new Tuple<uint, KeyBindType>('K', KeyBindType.Toggle)).SetTooltip("Will not AA while you are in Ult+Q"); //Done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.noqenemies", "Don't Q into enemies").SetTooltip("If true it will not Q into 2 or more enemies"); //done
+                    miscQMenu.AddBool("dz191.vhr.misc.tumble.noqenemies.old", "Use Old Don't Q into enemies").SetTooltip("Uses the old algorithm."); //done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.dynamicqsafety", "Use dynamic Q Safety Distance").SetTooltip("Use the enemy AA range as the 'Don't Q into enemies' safety distance?"); //done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.qspam", "Ignore Q checks").SetTooltip("Ignores 'Safe Q' and 'Don't Q into enemies' checks"); //Done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.qinrange", "Q For KS", true).SetTooltip("Uses Q to KS by Qing in range if you can kill with Q + AA"); //Done
