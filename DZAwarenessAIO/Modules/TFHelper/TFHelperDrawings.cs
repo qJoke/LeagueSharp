@@ -117,7 +117,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
         {
             try
             {
-                if (Environment.TickCount - LastTick < 2000)
+                if ((Environment.TickCount - LastTick < 2000) || !(HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded))
                 {
                     return;
                 }
