@@ -3,6 +3,7 @@ using System.Linq;
 using DZAwarenessAIO.Modules.SSTracker;
 using DZAwarenessAIO.Utility;
 using DZAwarenessAIO.Utility.HudUtility;
+using DZAwarenessAIO.Utility.Logs;
 using DZAwarenessAIO.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -36,20 +37,31 @@ namespace DZAwarenessAIO.Modules.Gank_Alerter
         /// <returns>An istance of the enemy who is ganking me</returns>
         public static Obj_AI_Hero GetGankingHero()
         {
-            foreach (
-                var hero in
-                    HeroManager.Enemies.Where(
-                        h => !MenuExtensions.GetItemValue<bool>($"dz191.dza.gank.ignore.{h.ChampionName.ToLower()}") && h.IsValidTarget()))
+            try
             {
-                var heroDistance = hero.ServerPosition.Distance(ObjectManager.Player.ServerPosition);
-                if (heroDistance >= GankAlerterVariables.MinDist && heroDistance <= GankAlerterVariables.MaxDist)
+                foreach (
+                    var hero in
+                        HeroManager.Enemies.Where(
+                            h =>
+                                !MenuExtensions.GetItemValue<bool>($"dz191.dza.gank.ignore.{h.ChampionName.ToLower()}") &&
+                                h.IsValidTarget()))
                 {
-                       var heroTracker = SSTrackerModule.Trackers.Values.FirstOrDefault(h => h.Hero.ChampionName.ToLower().Equals(hero.ChampionName.ToLower()));
-                       if (heroTracker!= null)
-                       {
-                           return hero;
-                      }
+                    var heroDistance = hero.ServerPosition.Distance(ObjectManager.Player.ServerPosition);
+                    if (heroDistance >= GankAlerterVariables.MinDist && heroDistance <= GankAlerterVariables.MaxDist)
+                    {
+                        var heroTracker =
+                            SSTrackerModule.Trackers.Values.FirstOrDefault(
+                                h => h.Hero.ChampionName.ToLower().Equals(hero.ChampionName.ToLower()));
+                        if (heroTracker != null)
+                        {
+                            return hero;
+                        }
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                LogHelper.AddToLog(new LogItem("Gank_Alert", e, LogSeverity.Medium));
             }
 
             return null;
