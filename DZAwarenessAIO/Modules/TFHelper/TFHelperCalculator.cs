@@ -12,7 +12,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
     {
         public static float GetAllyStrength()
         {
-            if (ObjectManager.Player.IsDead)
+            if (ObjectManager.Player.IsDead || (TFHelperVariables.AlliesClose.Any() && !TFHelperVariables.EnemiesClose.ToList().Any()))
             {
                 return 0;
             }
@@ -30,7 +30,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
                 return 0;
             }
 
-            if (ObjectManager.Player.IsDead)
+            if (ObjectManager.Player.IsDead || (TFHelperVariables.AlliesClose.Any() && !TFHelperVariables.EnemiesClose.ToList().Any()))
             {
                 return 0;
             }
@@ -40,6 +40,11 @@ namespace DZAwarenessAIO.Modules.TFHelper
 
         public static string GetText()
         {
+            if ((TFHelperVariables.AlliesClose.Any() && !TFHelperVariables.EnemiesClose.ToList().Any()))
+            {
+                return "No enemy around";
+            }
+
             return !ObjectManager.Player.IsDead ? string.Format("{0}v{1}: {2} will win", TFHelperVariables.AlliesClose.Count(), TFHelperVariables.EnemiesClose.Count(), GetAllyStrength() > GetEnemyStrength() ? "Ally" : "Enemy") : string.Format("You kinda suck!");
         }
 
