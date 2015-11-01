@@ -143,6 +143,12 @@ namespace DZAwarenessAIO.Modules.Tracker
                         var spellCooldown = spellInstance.CooldownExpires - Game.Time;
                         var widthDef = 23;
                         var widthCd = spellCooldown > 0 ? widthDef * (spellCooldown / spellInstance.Cooldown) : 0;
+
+                        if (spellInstance.Level == 0)
+                        {
+                            w.Spell1Rectangle.Width = widthDef;
+                        }
+
                         switch (spell)
                         {
                             case SpellSlot.Q:
