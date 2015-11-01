@@ -146,7 +146,7 @@ namespace DZAwarenessAIO.Modules.Tracker
 
                         if (spellInstance.Level == 0)
                         {
-                            w.Spell1Rectangle.Width = widthDef;
+                            widthCd = widthDef;
                         }
 
                         switch (spell)
