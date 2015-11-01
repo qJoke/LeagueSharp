@@ -13,6 +13,8 @@ namespace DZAwarenessAIO.Modules.TFHelper
     {
         private static string PrevState = "";
 
+        private static float LastTick = 0f;
+
         public static void OnLoad()
         {
             try
@@ -115,8 +117,14 @@ namespace DZAwarenessAIO.Modules.TFHelper
         {
             try
             {
+                if (Environment.TickCount - LastTick < 2000)
+                {
+                    return;
+                }
+
+                LastTick = Environment.TickCount;
                 var currentState = TFHelperCalculator.GetText();
-                ;
+                
                 if (currentState != PrevState)
                 {
                     PrevState = currentState;
