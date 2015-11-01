@@ -42,6 +42,11 @@ namespace DZAwarenessAIO.Modules.TFHelper
         {
             if ((TFHelperVariables.AlliesClose.Any() && !TFHelperVariables.EnemiesClose.ToList().Any()))
             {
+                if (ObjectManager.Player.IsDead)
+                {
+                    return "You kinda suck!";
+                }
+
                 return "No enemy around";
             }
 

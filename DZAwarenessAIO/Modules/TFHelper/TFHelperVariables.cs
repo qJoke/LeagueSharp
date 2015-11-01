@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DZAwarenessAIO.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -23,10 +24,12 @@ namespace DZAwarenessAIO.Modules.TFHelper
                 return
                     HeroManager.Enemies.Where(
                         m =>
-                            m.Distance(ObjectManager.Player, true) <= Math.Pow(1200, 2) && m.IsValidTarget(1200, false) &&
+                            m.Distance(ObjectManager.Player, true) <= Math.Pow(TFRange, 2) && m.IsValidTarget(TFRange, false) &&
                             m.CountEnemiesInRange(m.IsMelee() ? m.AttackRange * 1.5f : m.AttackRange + 20 * 1.5f) > 0);
             }
         }
+
+        public static int TFRange => MenuExtensions.GetItemValue<Slider>("dz191.dza.tf.range").Value;
 
         /// <summary>
         /// Gets the allies close.
@@ -40,7 +43,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
             {
                 return
                     HeroManager.Allies.Where(
-                        m => m.Distance(ObjectManager.Player, true) <= Math.Pow(1200, 2) && m.IsValidTarget(1200, false));
+                        m => m.Distance(ObjectManager.Player, true) <= Math.Pow(TFRange, 2) && m.IsValidTarget(TFRange, false));
             }
         }
 
