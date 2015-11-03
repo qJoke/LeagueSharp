@@ -243,6 +243,16 @@ namespace DZAwarenessAIO.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CooldownSprite {
+            get {
+                object obj = ResourceManager.GetObject("CooldownSprite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Corki_Square_0 {
             get {
                 object obj = ResourceManager.GetObject("Corki_Square_0", resourceCulture);

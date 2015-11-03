@@ -155,28 +155,28 @@ namespace DZAwarenessAIO.Modules.Tracker
                                 if (w.Spell1Rectangle != null)
                                 {
                                     w.Spell1Rectangle.Visible = (int)widthCd != 0;
-                                    w.Spell1Rectangle.Width = (int)widthCd;
+                                    w.Spell1Rectangle.Crop(0, 0, (int)widthCd, Resources.CooldownSprite.Height);
                                 }
                                 break;
                             case SpellSlot.W:
                                 if (w.Spell2Rectangle != null)
                                 {
                                     w.Spell2Rectangle.Visible = (int)widthCd != 0;
-                                    w.Spell2Rectangle.Width = (int)widthCd;
+                                    w.Spell2Rectangle.Crop(0, 0, (int)widthCd, Resources.CooldownSprite.Height);
                                 }
                                 break;
                             case SpellSlot.E:
                                 if (w.Spell3Rectangle != null)
                                 {
                                     w.Spell3Rectangle.Visible = (int)widthCd != 0;
-                                    w.Spell3Rectangle.Width = (int)widthCd;
+                                    w.Spell3Rectangle.Crop(0, 0, (int) widthCd, Resources.CooldownSprite.Height);
                                 }
                                 break;
                             case SpellSlot.R:
                                 if (w.Spell4Rectangle != null)
                                 {
                                     w.Spell4Rectangle.Visible = (int)widthCd != 0;
-                                    w.Spell4Rectangle.Width = (int)widthCd;
+                                    w.Spell4Rectangle.Crop(0, 0, (int)widthCd, Resources.CooldownSprite.Height);
                                 }
                                 break;
                         }
@@ -327,13 +327,10 @@ namespace DZAwarenessAIO.Modules.Tracker
                     #region Spell1
                     var slot1 = SpellSlot.Q;
 
-                    var Spell1Rectangle = new Render.Rectangle((int)player_Ex.HPBarPosition.X + 13, (int)player_Ex.HPBarPosition.Y + 30, 23, 6, new ColorBGRA(255, 0, 0, 255))
+                    var Spell1Rectangle = new Render.Sprite(Resources.CooldownSprite, new Vector2((int)player_Ex.HPBarPosition.X + 13, (int)player_Ex.HPBarPosition.Y + 30))
                     {
                         VisibleCondition = sender => player_Ex.IsHPBarRendered && (((player_Ex.IsAlly || player_Ex.IsMe) && TrackerVariables.TrackAllies) || (player_Ex.IsEnemy && TrackerVariables.TrackEnemies)),
-                        PositionUpdate = () => new Vector2(player_Ex.HPBarPosition.X + offsetX + 13.2f * scale, (int)player_Ex.HPBarPosition.Y + offset + 31 * scale),
-                        Width = 23,
-                        Height = 1,
-                        Color = new ColorBGRA(255, 0, 0, 255)
+                        PositionUpdate = () => new Vector2(player_Ex.HPBarPosition.X + offsetX + 13.2f * scale, (int)player_Ex.HPBarPosition.Y + offset + 28 * scale),
                     };
 
                     member.Spell1Rectangle = Spell1Rectangle;
@@ -355,13 +352,10 @@ namespace DZAwarenessAIO.Modules.Tracker
                     #region Spell2
                     var slot2 = SpellSlot.W;
 
-                    var Spell2Rectangle = new Render.Rectangle((int)player_Ex.HPBarPosition.X + 41, (int)player_Ex.HPBarPosition.Y + 30, 23, 6, new ColorBGRA(255, 0, 0, 255))
+                     var Spell2Rectangle = new Render.Sprite(Resources.CooldownSprite, new Vector2((int)player_Ex.HPBarPosition.X + 41, (int)player_Ex.HPBarPosition.Y + 30))
                     {
                         VisibleCondition = sender => player_Ex.IsHPBarRendered && (((player_Ex.IsAlly || player_Ex.IsMe) && TrackerVariables.TrackAllies) || (player_Ex.IsEnemy && TrackerVariables.TrackEnemies)),
-                        PositionUpdate = () => new Vector2(player_Ex.HPBarPosition.X + offsetX + 41f * scale, (int)player_Ex.HPBarPosition.Y + offset + 31 * scale),
-                        Width = 23,
-                        Height = 1,
-                        Color = new ColorBGRA(255, 0, 0, 255)
+                        PositionUpdate = () => new Vector2(player_Ex.HPBarPosition.X + offsetX + 41f * scale, (int)player_Ex.HPBarPosition.Y + offset + 28 * scale),
                     };
 
                     member.Spell2Rectangle = Spell2Rectangle;
@@ -383,13 +377,10 @@ namespace DZAwarenessAIO.Modules.Tracker
                     #region Spell3
                     var slot3 = SpellSlot.E;
 
-                    var Spell3Rectangle = new Render.Rectangle((int)player_Ex.HPBarPosition.X + 41, (int)player_Ex.HPBarPosition.Y + 30, 23, 6, new ColorBGRA(255, 0, 0, 255))
+                     var Spell3Rectangle = new Render.Sprite(Resources.CooldownSprite, new Vector2((int)player_Ex.HPBarPosition.X + 41, (int)player_Ex.HPBarPosition.Y + 30))
                     {
                         VisibleCondition = sender => player_Ex.IsHPBarRendered && (((player_Ex.IsAlly || player_Ex.IsMe) && TrackerVariables.TrackAllies) || (player_Ex.IsEnemy && TrackerVariables.TrackEnemies)),
-                        PositionUpdate = () => new Vector2(player_Ex.HPBarPosition.X + offsetX + 69f * scale, (int)player_Ex.HPBarPosition.Y + offset + 31 * scale),
-                        Width = 23,
-                        Height = 1,
-                        Color = new ColorBGRA(255, 0, 0, 255)
+                        PositionUpdate = () => new Vector2(player_Ex.HPBarPosition.X + offsetX + 69f * scale, (int)player_Ex.HPBarPosition.Y + offset + 28 * scale),
                     };
 
                     member.Spell3Rectangle = Spell3Rectangle;
@@ -411,13 +402,10 @@ namespace DZAwarenessAIO.Modules.Tracker
                     #region Spell4
                     var slot4 = SpellSlot.R;
 
-                    var Spell4Rectangle = new Render.Rectangle((int)player_Ex.HPBarPosition.X + 41, (int)player_Ex.HPBarPosition.Y + 30, 23, 6, new ColorBGRA(255, 0, 0, 255))
+                    var Spell4Rectangle = new Render.Sprite(Resources.CooldownSprite, new Vector2((int)player_Ex.HPBarPosition.X + 41, (int)player_Ex.HPBarPosition.Y + 30))
                     {
                         VisibleCondition = sender => player_Ex.IsHPBarRendered && (((player_Ex.IsAlly || player_Ex.IsMe) && TrackerVariables.TrackAllies) || (player_Ex.IsEnemy && TrackerVariables.TrackEnemies)),
-                        PositionUpdate = () => new Vector2(player_Ex.HPBarPosition.X + offsetX + 96f * scale, (int)player_Ex.HPBarPosition.Y + offset + 31 * scale),
-                        Width = 23,
-                        Height = 1,
-                        Color = new ColorBGRA(255, 0, 0, 255)
+                        PositionUpdate = () => new Vector2(player_Ex.HPBarPosition.X + offsetX + 96f * scale, (int)player_Ex.HPBarPosition.Y + offset + 28 * scale),
                     };
 
                     member.Spell4Rectangle = Spell4Rectangle;
@@ -513,13 +501,13 @@ namespace DZAwarenessAIO.Modules.Tracker
 
         public Render.Sprite Summoner2 { get; set; }
 
-        public Render.Rectangle Spell1Rectangle { get; set; }
+        public Render.Sprite Spell1Rectangle { get; set; }
 
-        public Render.Rectangle Spell2Rectangle { get; set; }
+        public Render.Sprite Spell2Rectangle { get; set; }
 
-        public Render.Rectangle Spell3Rectangle { get; set; }
+        public Render.Sprite Spell3Rectangle { get; set; }
 
-        public Render.Rectangle Spell4Rectangle { get; set; }
+        public Render.Sprite Spell4Rectangle { get; set; }
 
         public Render.Rectangle SummonerSpell1Rectangle { get; set; }
 
