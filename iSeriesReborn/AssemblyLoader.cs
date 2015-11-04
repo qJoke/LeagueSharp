@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using iSeriesReborn.Utility;
 using LeagueSharp;
+using LeagueSharp.Common;
 
 namespace iSeriesReborn
 {
@@ -14,20 +15,35 @@ namespace iSeriesReborn
         {
             BuildDefaultMenu();
             LoadChampion();
+
+            Variables.Menu.AddToMainMenu();
         }
 
         private static void BuildDefaultMenu()
         {
             var defaultMenu = Variables.Menu;
 
+            var OWMenu = new Menu("[iSR] Orbwalker", "iseriesr.orbwalker");
+            {
+                Variables.Orbwalker = new Orbwalking.Orbwalker(OWMenu);
+                defaultMenu.AddSubMenu(OWMenu);
+            }
 
-            defaultMenu.AddToMainMenu();
+            var TSMenu = new Menu("[iSR] TS", "iseriesr.ts");
+            {
+                TargetSelector.AddToMenu(TSMenu);
+                defaultMenu.AddSubMenu(TSMenu);
+            }
         }
 
         private static void LoadChampion()
         {
             var ChampionToLoad = ObjectManager.Player.ChampionName;
 
+            if (Variables.ChampList.ContainsKey(ChampionToLoad))
+            {
+                Variables.ChampList[ChampionToLoad]();
+            }
         }
     }
 }
