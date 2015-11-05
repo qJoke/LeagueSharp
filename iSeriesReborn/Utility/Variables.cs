@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using iSeriesReborn.Champions;
 using iSeriesReborn.Champions.Kalista;
 using LeagueSharp;
@@ -10,6 +8,9 @@ using LeagueSharp.Common;
 
 namespace iSeriesReborn.Utility
 {
+    /// <summary>
+    /// The Variables class.
+    /// </summary>
     class Variables
     {
         /// <summary>
@@ -28,13 +29,25 @@ namespace iSeriesReborn.Utility
         /// </value>
         public static Orbwalking.Orbwalker Orbwalker { get; set; }
 
+        /// <summary>
+        /// The Dictionary containing the champions.
+        /// </summary>
         public static readonly Dictionary<string, Action> ChampList = new Dictionary<string, Action>()
         {
             { "Kalista", () => { CurrentChampion = new Kalista(); CurrentChampion.OnLoad(); } }
         };
 
+        /// <summary>
+        /// Gets or sets the current champion.
+        /// </summary>
+        /// <value>
+        /// The current champion.
+        /// </value>
         public static ChampionBase CurrentChampion { get; set; }
 
+        /// <summary>
+        /// Gets whether a champion assembly is loaded or not.
+        /// </summary>
         public static bool IsLoaded => CurrentChampion != null;
     }
 }

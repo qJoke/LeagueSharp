@@ -23,8 +23,8 @@ namespace iSeriesReborn.Champions
                 { Orbwalking.OrbwalkingMode.None, () => { } }
             };
 
+            OnChampLoad();
             LoadMenu();
-
             Game.OnUpdate += OnUpdate;
         }
 
@@ -38,6 +38,8 @@ namespace iSeriesReborn.Champions
             OnTick();
         }
 
+        protected abstract void OnChampLoad();
+
         protected abstract void LoadMenu();
 
         protected abstract void OnTick();
@@ -50,6 +52,6 @@ namespace iSeriesReborn.Champions
 
         protected abstract void OnLaneClear();
 
-        protected abstract Dictionary<SpellSlot, Spell> GetSpells();
+        public abstract Dictionary<SpellSlot, Spell> GetSpells();
     }
 }

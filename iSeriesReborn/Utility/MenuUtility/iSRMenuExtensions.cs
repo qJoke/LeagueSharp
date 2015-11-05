@@ -51,6 +51,11 @@ namespace iSeriesReborn.Utility.MenuUtility
 
         public static bool IsEnabledAndReady(this Spell Spell, bool checkMana = true)
         {
+            if (!Spell.IsReady())
+            {
+                return false;
+            }
+
             var Mode = Variables.Orbwalker.ActiveMode;
             var slot = Spell.Slot;
             var readyCondition = Spell.IsReady();

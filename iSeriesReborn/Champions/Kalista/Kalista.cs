@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DZLib.Logging;
+using iSeriesReborn.Champions.Kalista.Skills;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
 
 namespace iSeriesReborn.Champions.Kalista
 {
@@ -21,14 +23,25 @@ namespace iSeriesReborn.Champions.Kalista
             { SpellSlot.R, new Spell(SpellSlot.R, 1200) }
         };
 
+        protected override void OnChampLoad()
+        {
+            spells[SpellSlot.Q].SetSkillshot(0.25f, 40f, 1200f, true, SkillshotType.SkillshotLine);
+            spells[SpellSlot.R].SetSkillshot(0.50f, 1500, float.MaxValue, false, SkillshotType.SkillshotCircle);
+            Obj_AI_Base.OnIssueOrder += KalistaHooks.OnIssueOrder;
+            Obj_AI_Base.OnProcessSpellCast += KalistaHooks.OnProcessSpellCast;
+            AntiGapcloser.OnEnemyGapcloser += KalistaHooks.OnGapclose;
+        }
+
         protected override void LoadMenu()
         {
+            
             var defaultMenu = Variables.Menu;
 
             var comboMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.Combo);
             {
                 comboMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Combo, true, 15);
                 comboMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Combo, true, 10);
+                comboMenu.AddSlider("iseriesr.kalista.e.minstacks", "Min Stacks for E (Leave/Expire)", 9, 1, 15).SetTooltip("The min number of stacks to use E when target is about to leave the range or the rend buff is about to expire.");
             }
 
             var mixedMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.Mixed);
@@ -52,10 +65,8 @@ namespace iSeriesReborn.Champions.Kalista
 
         protected override void OnCombo()
         {
-            if (spells[SpellSlot.Q].IsEnabledAndReady())
-            {
-                
-            }
+            KalistaQ.ExecuteComboLogic();
+            KalistaE.ExecuteComboLogic();
         }
 
         protected override void OnMixed()
@@ -73,7 +84,7 @@ namespace iSeriesReborn.Champions.Kalista
 
         }
 
-        protected override Dictionary<SpellSlot, Spell> GetSpells()
+        public override Dictionary<SpellSlot, Spell> GetSpells()
         {
             return spells;
         }
