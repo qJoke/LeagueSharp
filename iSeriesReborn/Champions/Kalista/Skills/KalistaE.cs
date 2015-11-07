@@ -20,7 +20,7 @@ namespace iSeriesReborn.Champions.Kalista.Skills
             {
                 var killableRendTarget= HeroManager.Enemies.FirstOrDefault(CanBeRendKilled);
 
-                if (spells[SpellSlot.E].IsInRange(killableRendTarget))
+                if (killableRendTarget.IsValidTarget(Orbwalking.GetRealAutoAttackRange(killableRendTarget)))
                 {
                     //The target is in E range, let's execute the logic.
                     var heroWithRendStack =

@@ -13,7 +13,7 @@ namespace iSeriesReborn
         {
             LogVariables.AssemblyName = "iSeriesReborn";
             LogHelper.OnLoad();
-
+            
             AssemblyLoader.OnLoad();
         }
     }

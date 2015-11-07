@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DZLib.Logging;
+using iSeriesReborn.Champions.Kalista.Modules;
 using iSeriesReborn.Champions.Kalista.Skills;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
+using iSeriesReborn.Utility.ModuleHelper;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -29,7 +31,7 @@ namespace iSeriesReborn.Champions.Kalista
             spells[SpellSlot.R].SetSkillshot(0.50f, 1500, float.MaxValue, false, SkillshotType.SkillshotCircle);
             Obj_AI_Base.OnIssueOrder += KalistaHooks.OnIssueOrder;
             Obj_AI_Base.OnProcessSpellCast += KalistaHooks.OnProcessSpellCast;
-            AntiGapcloser.OnEnemyGapcloser += KalistaHooks.OnGapclose;
+            AntiGapcloser.OnEnemyGapcloser += KalistaAGP.OnGapclose;
         }
 
         protected override void LoadMenu()
@@ -54,6 +56,12 @@ namespace iSeriesReborn.Champions.Kalista
             {
                 laneclearMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.LaneClear, true, 50);
                 laneclearMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.LaneClear, true, 50);
+            }
+
+            var miscMenu = defaultMenu.AddSubMenu(new Menu("[iSR] Misc", "iseriesr.kalista.misc"));
+            {
+                miscMenu.AddBool("iseriesr.kalista.misc.steale", "Steal Drake / Baron with E");
+                miscMenu.AddBool("iseriesr.kalista.misc.kse", "KS With E");
             }
 
             Console.WriteLine("Kalista Loaded!");
@@ -87,6 +95,15 @@ namespace iSeriesReborn.Champions.Kalista
         public override Dictionary<SpellSlot, Spell> GetSpells()
         {
             return spells;
+        }
+
+        public override List<IModule> GetModules()
+        {
+            return new List<IModule>()
+            {
+                new KalistaMobStealer(),
+                new KalistaEKs(),
+            };
         }
     }
 }

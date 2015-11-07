@@ -49,5 +49,8 @@ namespace iSeriesReborn.Utility
         /// Gets whether a champion assembly is loaded or not.
         /// </summary>
         public static bool IsLoaded => CurrentChampion != null;
+
+        public static Dictionary<SpellSlot, Spell> spells
+            => IsLoaded ? CurrentChampion.GetSpells() : new Dictionary<SpellSlot, Spell>();
     }
 }

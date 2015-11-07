@@ -31,9 +31,5 @@ namespace iSeriesReborn.Champions.Kalista.Skills
             }
         }
 
-        internal static void OnGapclose(ActiveGapcloser gapcloser)
-        {
-           //
-        }
     }
 }
