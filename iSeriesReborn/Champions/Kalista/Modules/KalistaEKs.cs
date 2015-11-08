@@ -31,7 +31,7 @@ namespace iSeriesReborn.Champions.Kalista.Modules
 
         public void Run()
         {
-            var killableRendTarget = HeroManager.Enemies.FirstOrDefault(KalistaE.CanBeRendKilled);
+            var killableRendTarget = HeroManager.Enemies.FirstOrDefault(enemy => enemy.IsValidTarget(Variables.spells[SpellSlot.E].Range) && KalistaE.CanBeRendKilled(enemy));
 
             if (killableRendTarget != null && (Environment.TickCount - LastCastTime > 250))
             {
