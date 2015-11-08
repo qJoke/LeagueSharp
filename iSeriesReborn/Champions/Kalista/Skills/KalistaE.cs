@@ -95,8 +95,7 @@ namespace iSeriesReborn.Champions.Kalista.Skills
 
         public static bool CanBeDamaged(Obj_AI_Base target)
         {
-            //Trynda R, Banshee Veil, Sivir E, Nocturne Spellshield, Poppy Ulti, Zilean R
-            var invulnerable = !target.IsInvulnerable || TargetSelector.IsInvulnerable(target, TargetSelector.DamageType.Physical, false);
+            var invulnerable = !(target.IsInvulnerable || TargetSelector.IsInvulnerable(target, TargetSelector.DamageType.Physical, false));
 
             return invulnerable;
         }
