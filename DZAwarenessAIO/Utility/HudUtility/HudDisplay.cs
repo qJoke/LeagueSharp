@@ -43,14 +43,14 @@ namespace DZAwarenessAIO.Utility.HudUtility
                     /**Dispose of the sprites*/ 
                     if (args.GetNewValue<bool>())
                     {
-                        InitSprites(true);
-                        ImageLoader.InitSprites();
+                        //InitSprites(true);
+                        //ImageLoader.InitSprites();
                     }
                     else
                     {
-                        HudVariables.HudSprite.Remove();
-                        ImageLoader.RemoveSprites();
-                        HudVariables.ExpandShrinkButton.Remove();
+                        //HudVariables.HudSprite.Remove();
+                        //ImageLoader.RemoveSprites();
+                        //HudVariables.ExpandShrinkButton.Remove();
                     }
                 };
                 moduleMenu.AddBool("dz191.dza.hud.draggable", "Draggable", true).SetTooltip("If ON = You can Drag the HUD. If OFF = Hud is fixed.");
