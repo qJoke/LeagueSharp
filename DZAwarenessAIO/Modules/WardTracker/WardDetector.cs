@@ -82,21 +82,24 @@ namespace DZAwarenessAIO.Modules.WardTracker
                 if (ward != null)
                 {
                     var StartTick = Environment.TickCount - (int)((sender_ex.MaxMana - sender_ex.Mana) * 1000);
-                    
-                    var AlreadyDetected =
+
+                    if (WardTrackerVariables.detectedWards.Any())
+                    {
+                        var AlreadyDetected =
                         WardTrackerVariables.detectedWards.FirstOrDefault(
                             w =>
                                 w.Position.Distance(sender_ex.ServerPosition) < 125 &&
                                 (Math.Abs(w.startTick - StartTick) < 800 || w.WardTypeW.WardType != WardType.Green ||
                                  w.WardTypeW.WardType != WardType.Trinket));
-                    if (AlreadyDetected != null)
-                    {
-                        AlreadyDetected.RemoveRenderObjects();
-                        WardTrackerVariables.detectedWards.RemoveAll(
-                            w =>
-                                w.Position.Distance(sender_ex.ServerPosition) < 125 &&
-                                (Math.Abs(w.startTick - StartTick) < 800 || w.WardTypeW.WardType != WardType.Green ||
-                                 w.WardTypeW.WardType != WardType.Trinket));
+                        if (AlreadyDetected != null)
+                        {
+                            AlreadyDetected.RemoveRenderObjects();
+                            WardTrackerVariables.detectedWards.RemoveAll(
+                                w =>
+                                    w.Position.Distance(sender_ex.ServerPosition) < 125 &&
+                                    (Math.Abs(w.startTick - StartTick) < 800 || w.WardTypeW.WardType != WardType.Green ||
+                                     w.WardTypeW.WardType != WardType.Trinket));
+                        }
                     }
 
                     WardTrackerVariables.detectedWards.Add(new Ward(ward)
