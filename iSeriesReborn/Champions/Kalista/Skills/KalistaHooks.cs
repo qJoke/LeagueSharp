@@ -13,7 +13,7 @@ namespace iSeriesReborn.Champions.Kalista.Skills
         {
             if (sender.IsMe && args.Order == GameObjectOrder.MoveTo)
             {
-                Console.WriteLine(@"Movement Order issued!");
+                //Console.WriteLine(@"Movement Order issued!");
             }
         }
 
