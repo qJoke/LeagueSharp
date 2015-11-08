@@ -44,7 +44,6 @@ namespace iSeriesReborn.Champions.Kalista.Skills
                     {
                         if (Environment.TickCount - Variables.spells[SpellSlot.E].LastCastAttemptT >= 500)
                         {
-
                             Variables.spells[SpellSlot.E].Cast();
                             Variables.spells[SpellSlot.E].LastCastAttemptT = Environment.TickCount;
                         }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DZLib.Logging;
 using iSeriesReborn.Champions.Kalista.Modules;
 using iSeriesReborn.Champions.Kalista.Skills;
@@ -11,12 +8,17 @@ using iSeriesReborn.Utility.MenuUtility;
 using iSeriesReborn.Utility.ModuleHelper;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
 
 namespace iSeriesReborn.Champions.Kalista
 {
+    /// <summary>
+    /// Kalista champion main class
+    /// </summary>
     class Kalista : ChampionBase
     {
+        //TODO Damage Bar indicator.
+        //Orbwalk minions to reach target
+
         private Dictionary<SpellSlot, Spell> spells = new Dictionary<SpellSlot, Spell>()
         {
             { SpellSlot.Q, new Spell(SpellSlot.Q, 1150) }, 
@@ -70,7 +72,6 @@ namespace iSeriesReborn.Champions.Kalista
                 miscMenu.AddKeybind("iseriesr.kalista.misc.walljump", "Walljump", new Tuple<uint, KeyBindType>('Z', KeyBindType.Press)).SetTooltip("Will flee to a position and use Q to walljump. Position near the wall and magic will happen.");
             }
 
-            Console.WriteLine("Kalista Loaded!");
         }
 
         protected override void OnTick()
@@ -90,7 +91,7 @@ namespace iSeriesReborn.Champions.Kalista
         }
 
         protected override void OnLastHit(){ }
-        
+
         protected override void OnLaneClear()
         {
 
