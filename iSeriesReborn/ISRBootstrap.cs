@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DZLib.Logging;
+using iSeriesReborn.Utility.Entities;
 
 namespace iSeriesReborn
 {
@@ -13,7 +14,8 @@ namespace iSeriesReborn
         {
             LogVariables.AssemblyName = "iSeriesReborn";
             LogHelper.OnLoad();
-            
+            GameObjects.Initialize();
+
             AssemblyLoader.OnLoad();
         }
     }

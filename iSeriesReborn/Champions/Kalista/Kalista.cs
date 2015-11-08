@@ -31,6 +31,7 @@ namespace iSeriesReborn.Champions.Kalista
             spells[SpellSlot.R].SetSkillshot(0.50f, 1500, float.MaxValue, false, SkillshotType.SkillshotCircle);
             Obj_AI_Base.OnIssueOrder += KalistaHooks.OnIssueOrder;
             Obj_AI_Base.OnProcessSpellCast += KalistaHooks.OnProcessSpellCast;
+            Orbwalking.OnNonKillableMinion += KalistaHooks.OnNonKillableMinion;
             AntiGapcloser.OnEnemyGapcloser += KalistaAGP.OnGapclose;
         }
 
@@ -43,13 +44,15 @@ namespace iSeriesReborn.Champions.Kalista
             {
                 comboMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Combo, true, 15);
                 comboMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Combo, true, 10);
-                comboMenu.AddSlider("iseriesr.kalista.e.minstacks", "Min Stacks for E (Leave/Expire)", 9, 1, 15).SetTooltip("The min number of stacks to use E when target is about to leave the range or the rend buff is about to expire.");
+                comboMenu.AddSlider("iseriesr.kalista.combo.e.minstacks", "Min. Stacks for E (Leave/Expire)", 9, 1, 15).SetTooltip("The min number of stacks to use E when target is about to leave the range or the rend buff is about to expire.");
+                comboMenu.AddBool("iseriesr.kalista.combo.useeslow", "Use E for slow", true).SetTooltip("Will kill enemy minions with E to slow enemy when it's possible to reset E");
             }
 
             var mixedMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.Mixed);
             {
                 mixedMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Mixed, true, 15);
                 mixedMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Mixed, true, 10);
+                mixedMenu.AddSlider("iseriesr.kalista.mixed.e.minstacks", "Min. Stacks for E (Leave/Expire)", 9, 1, 15).SetTooltip("The min number of stacks to use E when target is about to leave the range or the rend buff is about to expire.");
             }
 
             var laneclearMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.LaneClear);
@@ -60,8 +63,11 @@ namespace iSeriesReborn.Champions.Kalista
 
             var miscMenu = defaultMenu.AddSubMenu(new Menu("[iSR] Misc", "iseriesr.kalista.misc"));
             {
-                miscMenu.AddBool("iseriesr.kalista.misc.steale", "Steal Drake / Baron with E");
-                miscMenu.AddBool("iseriesr.kalista.misc.kse", "KS With E");
+                miscMenu.AddBool("iseriesr.kalista.misc.steale", "Steal Drake / Baron with E", true).SetTooltip("Will use E to secure Dragon / Baron.");
+                miscMenu.AddBool("iseriesr.kalista.misc.kse", "KS With E", true).SetTooltip("Will use E to KS enemies.");
+                miscMenu.AddBool("iseriesr.kalista.misc.lhassit", "Last Hit Assist", true).SetTooltip("Will use E to secure minions you can't secure normally.");
+                miscMenu.AddBool("iseriesr.kalista.misc.edeath", "Use E Before Death", true).SetTooltip("Will use E just before death to assure you will not die in vain :roto2:.");
+                miscMenu.AddKeybind("iseriesr.kalista.misc.walljump", "Walljump", new Tuple<uint, KeyBindType>('Z', KeyBindType.Press)).SetTooltip("Will flee to a position and use Q to walljump. Position near the wall and magic will happen.");
             }
 
             Console.WriteLine("Kalista Loaded!");
@@ -79,13 +85,11 @@ namespace iSeriesReborn.Champions.Kalista
 
         protected override void OnMixed()
         {
-
+            KalistaQ.ExecuteComboLogic();
+            KalistaE.ExecuteComboLogic();
         }
 
-        protected override void OnLastHit()
-        {
-
-        }
+        protected override void OnLastHit(){ }
         
         protected override void OnLaneClear()
         {
@@ -103,6 +107,9 @@ namespace iSeriesReborn.Champions.Kalista
             {
                 new KalistaMobStealer(),
                 new KalistaEKs(),
+                new KalistaESlow(),
+                new KalistaEDeath(),
+                new KalistaWalljump()
             };
         }
     }

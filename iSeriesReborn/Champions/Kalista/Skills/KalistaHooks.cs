@@ -1,5 +1,6 @@
 ﻿using System;
 using DZLib.Logging;
+using iSeriesReborn.Utility;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -31,5 +32,29 @@ namespace iSeriesReborn.Champions.Kalista.Skills
             }
         }
 
+        internal static void OnNonKillableMinion(AttackableUnit minion)
+        {
+            try
+            {
+                if (Variables.spells[SpellSlot.E].IsReady() &&
+                    MenuExtensions.GetItemValue<bool>("iseriesr.kalista.misc.lhassit"))
+                {
+                    if (Variables.spells[SpellSlot.E].CanCast((Obj_AI_Base)minion)
+                        && KalistaE.CanBeRendKilled((Obj_AI_Base)minion))
+                    {
+                        if (Environment.TickCount - Variables.spells[SpellSlot.E].LastCastAttemptT >= 500)
+                        {
+
+                            Variables.spells[SpellSlot.E].Cast();
+                            Variables.spells[SpellSlot.E].LastCastAttemptT = Environment.TickCount;
+                        }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                LogHelper.AddToLog(new LogItem("Kalista_OnNonKillableMinion", e, LogSeverity.Error));
+            }
+        }
     }
 }

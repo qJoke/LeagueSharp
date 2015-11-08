@@ -39,7 +39,7 @@ namespace iSeriesReborn.Champions.Kalista.Skills
                     {
                         //We found a target with rend stacks on them.
                         var rendBuffCount = heroWithRendStack.GetRendBuff().Count;
-                        if (rendBuffCount >= MenuExtensions.GetItemValue<Slider>("iseriesr.kalista.e.minstacks").Value)
+                        if (rendBuffCount >= MenuExtensions.GetItemValue<Slider>($"iseriesr.kalista.{Variables.Orbwalker.ActiveMode.ToString().ToLower()}.e.minstacks").Value)
                         {
                             //The target has the minimum required rend buff count.
                             var distance = ObjectManager.Player.Distance(heroWithRendStack);
