@@ -47,7 +47,6 @@ namespace iSeriesReborn.Champions.Kalista
                 comboMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Combo, true, 15);
                 comboMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Combo, true, 10);
                 comboMenu.AddSlider("iseriesr.kalista.combo.e.minstacks", "Min. Stacks for E (Leave/Expire)", 9, 1, 15).SetTooltip("The min number of stacks to use E when target is about to leave the range or the rend buff is about to expire.");
-                comboMenu.AddBool("iseriesr.kalista.combo.useeslow", "Use E for slow", true).SetTooltip("Will kill enemy minions with E to slow enemy when it's possible to reset E");
             }
 
             var mixedMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.Mixed);
@@ -55,6 +54,7 @@ namespace iSeriesReborn.Champions.Kalista
                 mixedMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Mixed, true, 15);
                 mixedMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Mixed, true, 10);
                 mixedMenu.AddSlider("iseriesr.kalista.mixed.e.minstacks", "Min. Stacks for E (Leave/Expire)", 9, 1, 15).SetTooltip("The min number of stacks to use E when target is about to leave the range or the rend buff is about to expire.");
+                mixedMenu.AddBool("iseriesr.kalista.mixed.useeslow", "Use E for slow", true).SetTooltip("Will kill enemy minions with E to slow enemy when it's possible to reset E");
             }
 
             var laneclearMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.LaneClear);

@@ -27,7 +27,7 @@ namespace iSeriesReborn.Champions.Kalista.Modules
         public bool ShouldRun()
         {
             return Variables.spells[SpellSlot.E].IsReady() &&
-                   MenuExtensions.GetItemValue<bool>("iseriesr.kalista.combo.useeslow");
+                   MenuExtensions.GetItemValue<bool>("iseriesr.kalista.mixed.useeslow");
         }
 
         public void Run()
@@ -40,7 +40,7 @@ namespace iSeriesReborn.Champions.Kalista.Modules
             var heroWithRendStack =
                         HeroManager.Enemies.Where(
                             target =>
-                                target.IsValidTarget(Variables.CurrentChampion.GetSpells()[SpellSlot.E].Range) &&
+                                target.IsValidTarget(Variables.spells[SpellSlot.E].Range) &&
                                 target.HasRend()).OrderByDescending(KalistaE.GetRendDamage).FirstOrDefault();
 
             if (heroWithRendStack != null 
