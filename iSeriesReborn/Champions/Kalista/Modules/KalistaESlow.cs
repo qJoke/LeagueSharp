@@ -27,7 +27,7 @@ namespace iSeriesReborn.Champions.Kalista.Modules
         public bool ShouldRun()
         {
             return Variables.spells[SpellSlot.E].IsReady() &&
-                   MenuExtensions.GetItemValue<bool>("iseriesr.kalista.mixed.useeslow");
+                   MenuExtensions.GetItemValue<bool>("iseriesr.kalista.misc.useeslow");
         }
 
         public void Run()

@@ -54,7 +54,6 @@ namespace iSeriesReborn.Champions.Kalista
                 mixedMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Mixed, true, 15);
                 mixedMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Mixed, true, 10);
                 mixedMenu.AddSlider("iseriesr.kalista.mixed.e.minstacks", "Min. Stacks for E (Leave/Expire)", 9, 1, 15).SetTooltip("The min number of stacks to use E when target is about to leave the range or the rend buff is about to expire.");
-                mixedMenu.AddBool("iseriesr.kalista.mixed.useeslow", "Use E for slow", true).SetTooltip("Will kill enemy minions with E to slow enemy when it's possible to reset E");
             }
 
             var laneclearMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.LaneClear);
@@ -69,6 +68,7 @@ namespace iSeriesReborn.Champions.Kalista
                 miscMenu.AddBool("iseriesr.kalista.misc.kse", "KS With E", true).SetTooltip("Will use E to KS enemies.");
                 miscMenu.AddBool("iseriesr.kalista.misc.lhassit", "Last Hit Assist", true).SetTooltip("Will use E to secure minions you can't secure normally.");
                 miscMenu.AddBool("iseriesr.kalista.misc.edeath", "Use E Before Death", true).SetTooltip("Will use E just before death to assure you will not die in vain :roto2:.");
+                miscMenu.AddBool("iseriesr.kalista.misc.useeslow", "Use E for slow", true).SetTooltip("Will kill enemy minions with E to slow enemy when it's possible to reset E");
                 miscMenu.AddKeybind("iseriesr.kalista.misc.walljump", "Walljump", new Tuple<uint, KeyBindType>('Z', KeyBindType.Press)).SetTooltip("Will flee to a position and use Q to walljump. Position near the wall and magic will happen.");
             }
 
