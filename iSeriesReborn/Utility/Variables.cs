@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using iSeriesReborn.Champions;
+using iSeriesReborn.Champions.Jinx;
 using iSeriesReborn.Champions.Kalista;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -34,7 +34,8 @@ namespace iSeriesReborn.Utility
         /// </summary>
         public static readonly Dictionary<string, Action> ChampList = new Dictionary<string, Action>()
         {
-            { "Kalista", () => { CurrentChampion = new Kalista(); CurrentChampion.OnLoad(); } }
+            { "Kalista", () => { CurrentChampion = new Kalista(); CurrentChampion.OnLoad(); } },
+            { "Jinx", () => { CurrentChampion = new Jinx(); CurrentChampion.OnLoad(); } }
         };
 
         /// <summary>

@@ -24,14 +24,20 @@ namespace iSeriesReborn.Champions
                 { Orbwalking.OrbwalkingMode.None, () => { } }
             };
 
-            OnChampLoad();
             LoadMenu();
+            OnChampLoad();
+
             Game.OnUpdate += OnUpdate;
             Obj_AI_Base.OnDoCast += AfterAttack;
         }
 
         private void OnUpdate(EventArgs args)
         {
+            if (ObjectManager.Player.IsDead)
+            {
+                return;
+            }
+
             if (OrbwalkerCallbacks.ContainsKey(Variables.Orbwalker.ActiveMode))
             {
                 OrbwalkerCallbacks[Variables.Orbwalker.ActiveMode]();

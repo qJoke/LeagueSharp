@@ -63,6 +63,7 @@
     <Compile Include="AssemblyLoader.cs" />
     <Compile Include="Champions\ChampionBase.cs" />
     <Compile Include="Champions\Jinx\Jinx.cs" />
+    <Compile Include="Champions\Jinx\JinxUtility.cs" />
     <Compile Include="Champions\Jinx\Skills\JinxE.cs" />
     <Compile Include="Champions\Jinx\Skills\JinxQ.cs" />
     <Compile Include="Champions\Jinx\Skills\JinxR.cs" />

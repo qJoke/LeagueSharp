@@ -88,7 +88,7 @@ namespace iSeriesReborn.Champions.Kalista.Skills
 
             if (target.HasBuff("FerociousHowl"))
             {
-                baseDamage *= 0.7f;
+                baseDamage *= 0.35f;
             }
 
             return baseDamage;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DZLib.Logging;
+using iSeriesReborn.Champions.Jinx.Skills;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
 using iSeriesReborn.Utility.ModuleHelper;
@@ -31,6 +32,7 @@ namespace iSeriesReborn.Champions.Jinx
             spells[SpellSlot.W].SetSkillshot(0.6f, 60f, 3300f, true, SkillshotType.SkillshotLine);
             spells[SpellSlot.E].SetSkillshot(1.2f, 1f, 1750f, false, SkillshotType.SkillshotCircle);
             spells[SpellSlot.R].SetSkillshot(0.6f, 140f, 1700f, false, SkillshotType.SkillshotLine);
+            Orbwalking.BeforeAttack += JinxQ.BeforeAttack;
         }
 
         protected override void LoadMenu()
@@ -55,12 +57,11 @@ namespace iSeriesReborn.Champions.Jinx
             var laneclearMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.LaneClear);
             {
                 laneclearMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.LaneClear, true, 50);
-                laneclearMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.LaneClear, true, 50);
             }
 
             var miscMenu = defaultMenu.AddSubMenu(new Menu("[iSR] Misc", "iseriesr.jinx.misc"));
             {
-                miscMenu.AddBool("iseriesr.jinx.q.switch.lhlc", "Switch to Minigun in Lasthit/Laneclear");
+                miscMenu.AddBool("iseriesr.jinx.q.switch.lhlc", "Always Switch to Minigun in Lasthit/Laneclear");
                 miscMenu.AddBool("iseriesr.jinx.q.switch.noenemies", "Switch to Minigun if no enemies in range");
                 miscMenu.AddBool("iseriesr.jinx.w.auto", "Auto W Slow/Immobile", true);
                 miscMenu.AddBool("iseriesr.jinx.e.auto", "Auto E Slow/Immobile", true);
@@ -77,7 +78,7 @@ namespace iSeriesReborn.Champions.Jinx
 
         protected override void OnCombo()
         {
-            
+            JinxQ.HandleQLogic();
         }
 
         protected override void OnMixed()
@@ -89,7 +90,7 @@ namespace iSeriesReborn.Champions.Jinx
 
         protected override void OnLaneClear()
         {
-
+            JinxQ.QSwapLC();
         }
 
         public override Dictionary<SpellSlot, Spell> GetSpells()
