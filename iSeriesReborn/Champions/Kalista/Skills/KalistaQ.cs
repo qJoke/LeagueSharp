@@ -36,6 +36,15 @@ namespace iSeriesReborn.Champions.Kalista.Skills
                             spells[SpellSlot.Q].Cast(QNormalPrediction.CastPosition);
                             LastCastTick = Environment.TickCount;
                         }
+                    }else if (!TargetHero.IsValidTarget(spells[SpellSlot.E].Range)
+                        && TargetHero.IsValidTarget(spells[SpellSlot.E].Range + 285f) 
+                        && KalistaE.CanBeRendKilled(TargetHero))
+                    {
+                        if (!ObjectManager.Player.IsDashing() && (!ObjectManager.Player.Spellbook.IsAutoAttacking || ObjectManager.Player.IsWindingUp) && (Environment.TickCount - LastCastTick > 500))
+                        {
+                            spells[SpellSlot.Q].Cast(QNormalPrediction.CastPosition);
+                            LastCastTick = Environment.TickCount;
+                        }
                     }
                 }
             }

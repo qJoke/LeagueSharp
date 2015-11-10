@@ -52,7 +52,7 @@ namespace iSeriesReborn.Champions.Kalista.Modules
                      }
                 }
 
-                if (HealthPrediction.GetHealthPrediction(ObjectManager.Player, 350) <= 0 || ObjectManager.Player.HealthPercent < 8)
+                if (HealthPrediction.GetHealthPrediction(ObjectManager.Player, 300) <= 0 || ObjectManager.Player.HealthPercent < 8)
                 {
                     if ((Environment.TickCount - LastCastTime > 250))
                     {

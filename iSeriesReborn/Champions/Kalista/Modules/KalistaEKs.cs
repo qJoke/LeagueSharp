@@ -33,7 +33,7 @@ namespace iSeriesReborn.Champions.Kalista.Modules
         {
             var killableRendTarget = HeroManager.Enemies.FirstOrDefault(enemy => enemy.IsValidTarget(Variables.spells[SpellSlot.E].Range) && KalistaE.CanBeRendKilled(enemy));
 
-            if (killableRendTarget != null && (Environment.TickCount - LastCastTime > 250))
+            if (killableRendTarget != null && (killableRendTarget.NetworkId != Variables.Orbwalker.GetTarget().NetworkId) && (Environment.TickCount - LastCastTime > 250))
             {
                 Variables.spells[SpellSlot.E].Cast();
                 LastCastTime = Environment.TickCount;

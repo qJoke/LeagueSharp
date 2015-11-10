@@ -34,7 +34,7 @@ namespace iSeriesReborn.Champions.Kalista.Modules
         public void Run()
         {
             if ((iSRGeometry.IsOverWall(ObjectManager.Player.ServerPosition, Game.CursorPos)
-                && iSRGeometry.GetWallLength(ObjectManager.Player.ServerPosition, Game.CursorPos) >= (35f)) && (Variables.spells[SpellSlot.Q].IsReady()))
+                && iSRGeometry.GetWallLength(ObjectManager.Player.ServerPosition, Game.CursorPos) >= (35f)))
             {
                 MoveToLimited(iSRGeometry.GetFirstWallPoint(ObjectManager.Player.ServerPosition, Game.CursorPos));
             }
@@ -47,7 +47,8 @@ namespace iSeriesReborn.Champions.Kalista.Modules
                 var oppositeDir = ObjectManager.Player.ServerPosition.To2D() + ObjectManager.Player.Direction.To2D().Perpendicular() * -(ObjectManager.Player.BoundingRadius * 2f);
                 var Extended = ObjectManager.Player.ServerPosition.To2D() + ObjectManager.Player.Direction.To2D().Perpendicular() * (300 + 65f);
             if (dir.IsWall() && iSRGeometry.IsOverWall(ObjectManager.Player.ServerPosition, Extended.To3D())
-                    && Variables.spells[SpellSlot.Q].IsReady()
+                    && Variables.spells[SpellSlot.Q].IsReady() 
+                    && iSRGeometry.IsOverWall(ObjectManager.Player.ServerPosition, Game.CursorPos)
                     && iSRGeometry.GetWallLength(ObjectManager.Player.ServerPosition, Extended.To3D()) <= (280f - 65f / 2f))
                 {
                     Variables.spells[SpellSlot.Q].Cast(oppositeDir);
