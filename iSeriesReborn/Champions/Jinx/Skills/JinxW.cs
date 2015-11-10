@@ -39,7 +39,7 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                         (ObjectManager.Player.HealthPercent * 1.5f <=
                         enemiesAround.Where(m => ProrityHelper.GetPriorityFromDb(m.ChampionName) >= 2)
                             .Average(m => m.HealthPercent)
-                            || enemiesAround.Average(enemy => enemy.GetComboDamage(ObjectManager.Player, spellsList) + enemy.GetAutoAttackDamage(ObjectManager.Player) * 2f) >= ObjectManager.Player.Health * 0.60f))
+                        || enemiesAround.Average(enemy => enemy.GetComboDamage(ObjectManager.Player, spellsList) + enemy.GetAutoAttackDamage(ObjectManager.Player) * 2f) >= ObjectManager.Player.Health * 0.60f))
                     {
                         return;
                     }

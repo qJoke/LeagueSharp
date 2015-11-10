@@ -35,12 +35,9 @@ namespace iSeriesReborn.Champions.Jinx.Skills
 
                     if (JinxUtility.IsFishBone())
                     {
-                        //We don't have more mana then set in the menu.
-                        if (!manaCondition)
-                        {
-                            //If we can kill the target within 3 AAs then don't switch.
-                            //Jinx Q uses 20 mana for each AA. So check if we can do the 3 AAs.
-                            //And also check if the target is not about to escape our AA range.
+                         //If we can kill the target within 3 AAs then don't switch.
+                         //Jinx Q uses 20 mana for each AA. So check if we can do the 3 AAs.
+                         //And also check if the target is not about to escape our AA range.
                             if (selectedTarget.Health + 5 <= ObjectManager.Player.GetAutoAttackDamage(selectedTarget) * 3 
                                 && (ObjectManager.Player.Mana - 20 * 3 > 0)
                                 && !(selectedTarget.Distance(ObjectManager.Player) > JinxUtility.GetFishboneRange() * 0.9f 
@@ -50,7 +47,10 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                                 return;
                             }
 
-                            //Else swap to minigun
+                        //We don't have more mana then set in the menu.
+                        if (!manaCondition)
+                        {
+                            //Swap to minigun
                             Variables.spells[SpellSlot.Q].Cast();
                             return;
                         }
