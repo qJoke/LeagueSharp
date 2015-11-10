@@ -89,6 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Entities\GameObjects.cs" />
     <Compile Include="Utility\Entities\Jungle.cs" />
+    <Compile Include="Utility\Entities\ProrityHelper.cs" />
     <Compile Include="Utility\Evade\Collision.cs" />
     <Compile Include="Utility\Evade\EvadeHelper.cs" />
     <Compile Include="Utility\Evade\EvadeSpellData.cs" />

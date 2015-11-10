@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DZLib.Logging;
+﻿using DZLib.Logging;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.Geometry;
 using iSeriesReborn.Utility.ModuleHelper;
@@ -43,16 +38,16 @@ namespace iSeriesReborn.Champions.Kalista.Modules
                 MoveToLimited(Game.CursorPos);
             }
 
-                var dir = ObjectManager.Player.ServerPosition.To2D() + ObjectManager.Player.Direction.To2D().Perpendicular() * (ObjectManager.Player.BoundingRadius * 1.10f);
-                var oppositeDir = ObjectManager.Player.ServerPosition.To2D() + ObjectManager.Player.Direction.To2D().Perpendicular() * -(ObjectManager.Player.BoundingRadius * 2f);
-                var Extended = ObjectManager.Player.ServerPosition.To2D() + ObjectManager.Player.Direction.To2D().Perpendicular() * (300 + 65f);
+            var dir = ObjectManager.Player.ServerPosition.To2D() + ObjectManager.Player.Direction.To2D().Perpendicular() * (ObjectManager.Player.BoundingRadius * 1.10f);
+            var oppositeDir = ObjectManager.Player.ServerPosition.To2D() + ObjectManager.Player.Direction.To2D().Perpendicular() * -(ObjectManager.Player.BoundingRadius * 2f);
+            var Extended = ObjectManager.Player.ServerPosition.To2D() + ObjectManager.Player.Direction.To2D().Perpendicular() * (300 + 65f);
             if (dir.IsWall() && iSRGeometry.IsOverWall(ObjectManager.Player.ServerPosition, Extended.To3D())
-                    && Variables.spells[SpellSlot.Q].IsReady() 
+                    && Variables.spells[SpellSlot.Q].IsReady()
                     && iSRGeometry.IsOverWall(ObjectManager.Player.ServerPosition, Game.CursorPos)
                     && iSRGeometry.GetWallLength(ObjectManager.Player.ServerPosition, Extended.To3D()) <= (280f - 65f / 2f))
-                {
-                    Variables.spells[SpellSlot.Q].Cast(oppositeDir);
-                }
+            {
+                Variables.spells[SpellSlot.Q].Cast(oppositeDir);
+            }
         }
 
         public void MoveToLimited(Vector3 where)

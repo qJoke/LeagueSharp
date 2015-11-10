@@ -21,7 +21,7 @@ namespace iSeriesReborn.Champions.Jinx.Skills
             {
                 return;
             }
-
+            
             if (Variables.spells[SpellSlot.Q].IsEnabledAndReady(false))
             {
                 var maxAaRange = JinxUtility.GetMinigunRange(null) + JinxUtility.GetFishboneRange() + 25f;

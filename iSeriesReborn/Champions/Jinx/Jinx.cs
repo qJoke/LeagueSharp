@@ -79,11 +79,13 @@ namespace iSeriesReborn.Champions.Jinx
         protected override void OnCombo()
         {
             JinxQ.HandleQLogic();
+            JinxW.HandleWLogic();
         }
 
         protected override void OnMixed()
         {
-            
+            JinxQ.HandleQLogic();
+            JinxW.HandleWLogic();
         }
 
         protected override void OnLastHit() { }
