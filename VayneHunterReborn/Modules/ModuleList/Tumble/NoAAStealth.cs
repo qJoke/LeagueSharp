@@ -22,7 +22,13 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
                 if (target is Obj_AI_Hero)
                 {
                     var tgHero = target as Obj_AI_Hero;
-                    if (ObjectManager.Player.CountEnemiesInRange(1000f) >= 3
+
+                    if (ObjectManager.Player.CountEnemiesInRange(1000f) <= 1)
+                    {
+                        return;
+                    }
+
+                    if (ObjectManager.Player.CountEnemiesInRange(1000f) >= Variables.Menu.Item("dz191.vhr.misc.tumble.noaa.enemies").GetValue<Slider>().Value
                         || tgHero.Health <= ObjectManager.Player.GetAutoAttackDamage(tgHero) * 2)
                     {
                         return;

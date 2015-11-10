@@ -92,6 +92,9 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.dynamicqsafety", "Use dynamic Q Safety Distance").SetTooltip("Use the enemy AA range as the 'Don't Q into enemies' safety distance?"); //done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.qspam", "Ignore Q checks").SetTooltip("Ignores 'Safe Q' and 'Don't Q into enemies' checks"); //Done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.qinrange", "Q For KS", true).SetTooltip("Uses Q to KS by Qing in range if you can kill with Q + AA"); //Done
+                    miscQMenu.AddSlider(
+                        "dz191.vhr.misc.tumble.noaa.enemies", "Min Enemies for No AA Stealth",
+                        new Tuple<int, int, int>(3, 1, 5));
 
                     miscQMenu.AddText("dz191.vhr.misc.tumble.walltumble.warning", "Click and hold Walltumble")
                         .SetFontStyle(FontStyle.Bold, SharpDX.Color.Red);
