@@ -18,6 +18,17 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
         {
             if (ShouldGetExecuted() && ObjectManager.Player.Buffs.Any(m => m.Name.ToLower() == "vaynetumblefade"))
             {
+                var target = Variables.Orbwalker.GetTarget();
+                if (target is Obj_AI_Hero)
+                {
+                    var tgHero = target as Obj_AI_Hero;
+                    if (ObjectManager.Player.CountEnemiesInRange(1000f) >= 3
+                        || tgHero.Health <= ObjectManager.Player.GetAutoAttackDamage(tgHero) * 2)
+                    {
+                        return;
+                    }
+                }
+                
                 args.Process = false;
             }
         }
