@@ -21,6 +21,8 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                 //We only get heroes with a priority of 2 or higher, as they are more likely to do more damage to us.
 
                 var enemiesAround = ObjectManager.Player.GetEnemiesInRange(JinxUtility.GetMinigunRange(null));
+
+
                 if (enemiesAround.Any())
                 {
                     //If the enemies around have more average health percent then we do * 1.5f (Since we are an ADC and there might be tanks)
@@ -33,6 +35,33 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                         SpellSlot.E,
                         SpellSlot.R
                     };
+
+                    if (enemiesAround.Count() == 1)
+                    {
+                        var killableEnemy = enemiesAround.FirstOrDefault(k => k.IsValidTarget());
+                        if (killableEnemy != null)
+                        {
+
+                            //We are lower health than a tankier enemy and enemy is in melee range. Better put some distance before casting W.
+                            if (ObjectManager.Player.Health * 1.4f < killableEnemy.Health && killableEnemy.ServerPosition.Distance(ObjectManager.Player.ServerPosition) <= 350f)
+                            {
+                                return;
+                            }
+
+                            var WPrediction = Variables.spells[SpellSlot.W].GetPrediction(killableEnemy);
+                            //if there is only 1 target and it is killable by W and we are not about to die then shoot W and pew pew mode.
+                            if (WPrediction.Hitchance >= defaultHitchance
+                                && ObjectManager.Player.HealthPercent > 8
+                                && HealthPrediction.GetHealthPrediction(killableEnemy, 300) > 0
+                                && HealthPrediction.GetHealthPrediction(killableEnemy, 300) + 5 < Variables.spells[SpellSlot.W].GetDamage(killableEnemy))
+                            {
+                                Variables.spells[SpellSlot.W].Cast(WPrediction.CastPosition);
+                            }
+
+                            
+                        }
+                        
+                    }
 
                     if (enemiesAround.Count(m => ProrityHelper.GetPriorityFromDb(m.ChampionName) >= 2) > 1
                         &&
@@ -50,7 +79,7 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                         return;
                     }
                 }
-                var selectedTarget = TargetSelector.GetTarget(Variables.spells[SpellSlot.W].Range * 0.75f,
+                var selectedTarget = TargetSelector.GetTarget(Variables.spells[SpellSlot.W].Range * 0.65f,
                     TargetSelector.DamageType.Physical);
 
                 if (selectedTarget.IsValidTarget())
@@ -61,6 +90,13 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                     //Cast the spell using prediction.
                     if (WPrediction.Hitchance >= defaultHitchance)
                     {
+                        //Don't use W to poke under enemy turret unless the target is killable.
+                        if (ObjectManager.Player.UnderTurret(true) 
+                            && HealthPrediction.GetHealthPrediction(selectedTarget, 300) + 5 > Variables.spells[SpellSlot.W].GetDamage(selectedTarget))
+                        {
+                            return;
+                        }
+
                         Variables.spells[SpellSlot.W].Cast(WPrediction.CastPosition);
                     }
                 }
