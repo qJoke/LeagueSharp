@@ -28,7 +28,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
                         return;
                     }
 
-                    if (ObjectManager.Player.CountEnemiesInRange(1000f) >= Variables.Menu.Item("dz191.vhr.misc.tumble.noaa.enemies").GetValue<Slider>().Value
+                    if (ObjectManager.Player.CountEnemiesInRange(1000f) <= Variables.Menu.Item("dz191.vhr.misc.tumble.noaa.enemies").GetValue<Slider>().Value
                         || tgHero.Health <= ObjectManager.Player.GetAutoAttackDamage(tgHero) * 2)
                     {
                         return;
