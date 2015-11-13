@@ -30,12 +30,12 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
             var enemyPositions = TumblePositioning.GetEnemyPoints();
             var safePositions = positions.Where(pos => !enemyPositions.Contains(pos.To2D())).ToList();
             var BestPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
-            var AverageDistanceWeight = .35f;
-            var ClosestDistanceWeight = .65f;
+            var AverageDistanceWeight = .43f;
+            var ClosestDistanceWeight = .57f;
 
             var bestWeightedAvg = 0f;
             
-            if (ObjectManager.Player.CountEnemiesInRange(850) <= 1)
+            if (ObjectManager.Player.CountEnemiesInRange(1300f) <= 1)
             {
                 return ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
             }
