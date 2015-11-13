@@ -5,7 +5,7 @@ using SharpDX;
 
 namespace iSeriesReborn.Utility
 {
-    class PlayerHelper
+    static class PlayerHelper
     {
         private static float LastMoveC;
 
@@ -37,6 +37,17 @@ namespace iSeriesReborn.Utility
                 return true;
             }
             return false;
+        }
+
+        public static Vector3 GetPositionInFront(this Obj_AI_Hero target, float distance, bool addHitBox = true)
+        {
+            return (target.ServerPosition.To2D() + target.Direction.To2D().Perpendicular() * (distance + (addHitBox ? 0 : 65f))).To3D();
+        }
+
+        public static bool IsRunningAway(this Obj_AI_Hero target)
+        {
+            return ObjectManager.Player.Distance(target.GetPositionInFront(300)) >
+                   ObjectManager.Player.Distance(target.ServerPosition) && !target.IsFacing(ObjectManager.Player);
         }
     }
 }

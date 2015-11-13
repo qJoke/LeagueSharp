@@ -11,13 +11,33 @@ namespace iSeriesReborn.Champions.Jinx
     class JinxUtility
     {
         /// <summary>
+        /// Gets a list of Movement Impairing buffs.
+        /// </summary>
+        private static List<BuffType> ImpairedBuffTypes
+        {
+            get
+            {
+                return new List<BuffType>
+                {
+                    BuffType.Stun,
+                    BuffType.Snare,
+                    BuffType.Charm,
+                    BuffType.Fear,
+                    BuffType.Taunt,
+                    BuffType.Slow
+                };
+            }
+        }
+
+
+        /// <summary>
         /// Determines whether or not FishBone is active.
         /// </summary>
         /// <returns>Range > 565</returns>
         internal static bool IsFishBone()
         {
             //return ObjectManager.Player.AttackRange > 565f;
-            return ObjectManager.Player.AttackRange > 525f; // Jinx's AA Range is 525.
+            return ObjectManager.Player.HasBuff("JinxQ"); // Jinx's AA Range is 525.
         }
 
         /// <summary>
@@ -38,6 +58,53 @@ namespace iSeriesReborn.Champions.Jinx
         {
             //return 50f + 25f * Spells[SpellSlot.Q].Level;
             return 75f + 25f * Variables.spells[SpellSlot.Q].Level; //it starts from +75.
+        }
+
+        /// <summary>
+        /// Get the Slow end time
+        /// </summary>
+        /// <param name="target">The enemy</param>
+        /// <returns>Buff end time</returns>
+        public static float GetSlowEndTime(Obj_AI_Base target)
+        {
+            return
+                target.Buffs.OrderByDescending(buff => buff.EndTime - Game.Time)
+                    .Where(buff => buff.Type.Equals(BuffType.Slow))
+                    .Select(buff => buff.EndTime)
+                    .FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Determines if the target is heavily impaired (stunned/rooted)
+        /// </summary>
+        /// <param name="enemy">The target</param>
+        /// <returns>Whether the target is heavily impaired</returns>
+        public static bool IsHeavilyImpaired(Obj_AI_Hero enemy)
+        {
+            return enemy.HasBuffOfType(BuffType.Stun) || enemy.HasBuffOfType(BuffType.Snare) || enemy.HasBuffOfType(BuffType.Charm) || enemy.HasBuffOfType(BuffType.Fear) || enemy.HasBuffOfType(BuffType.Taunt);
+        }
+
+        /// <summary>
+        /// Determines if the target is lightly impaired (slowed)
+        /// </summary>
+        /// <param name="enemy">The target</param>
+        /// <returns>Whether the target is lightly impaired</returns>
+        public static bool IsLightlyImpaired(Obj_AI_Hero enemy)
+        {
+            return enemy.HasBuffOfType(BuffType.Slow);
+        }
+
+        /// <summary>
+        /// Gets the Root/Stun/Immobile buff end time
+        /// </summary>
+        /// <param name="target">The enemy</param>
+        /// <returns>Buff end time</returns>
+        public static float GetImpairedEndTime(Obj_AI_Base target)
+        {
+            return target.Buffs.OrderByDescending(buff => buff.EndTime - Game.Time)
+                    .Where(buff => ImpairedBuffTypes.Contains(buff.Type))
+                    .Select(buff => buff.EndTime)
+                    .FirstOrDefault();
         }
     }
 }
