@@ -99,8 +99,10 @@ namespace VayneHunter_Reborn.Skills.Tumble
                         var smartQCheck =  smartQPosition != Vector3.Zero;
                         var QPosition = smartQCheck ? smartQPosition : Game.CursorPos;
                         var QPosition2 = VHRQLogic.GetVHRQPosition() != Vector3.Zero ? VHRQLogic.GetVHRQPosition() : QPosition;
-                        
-                        CastQ(QPosition2);
+                        if (QPosition2.IsSafe(true))
+                        {
+                            CastQ(QPosition2);
+                        }
                         break;
                     case 1:
                         //To mouse

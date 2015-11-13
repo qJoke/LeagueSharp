@@ -37,7 +37,8 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
             
             if (ObjectManager.Player.CountEnemiesInRange(1300f) <= 1)
             {
-                return ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
+                var position = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
+                return position.IsSafe(true) ? position : Vector3.Zero;
             }
 
             foreach (var position in safePositions)
@@ -67,7 +68,7 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
                 }
             }
 
-            return BestPosition;
+            return BestPosition.IsSafe(true) ? BestPosition : Vector3.Zero;
         }
 
         public static Obj_AI_Hero GetClosestEnemy(Vector3 from)
