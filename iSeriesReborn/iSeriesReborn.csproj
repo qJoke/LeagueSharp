@@ -64,6 +64,8 @@
     <Compile Include="Champions\ChampionBase.cs" />
     <Compile Include="Champions\Jinx\Jinx.cs" />
     <Compile Include="Champions\Jinx\JinxUtility.cs" />
+    <Compile Include="Champions\Jinx\Modules\JinxAutoE.cs" />
+    <Compile Include="Champions\Jinx\Modules\JinxAutoW.cs" />
     <Compile Include="Champions\Jinx\Skills\JinxE.cs" />
     <Compile Include="Champions\Jinx\Skills\JinxQ.cs" />
     <Compile Include="Champions\Jinx\Skills\JinxR.cs" />
@@ -110,9 +112,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Champions\Jinx\Modules\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

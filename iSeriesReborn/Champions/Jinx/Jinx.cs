@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DZLib.Logging;
+using iSeriesReborn.Champions.Jinx.Modules;
 using iSeriesReborn.Champions.Jinx.Skills;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
@@ -106,7 +107,8 @@ namespace iSeriesReborn.Champions.Jinx
         {
             return new List<IModule>()
             {
-                
+                new JinxAutoE(),
+                new JinxAutoW()
             };
         }
     }
