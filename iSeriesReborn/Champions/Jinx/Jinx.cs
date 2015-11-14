@@ -81,6 +81,7 @@ namespace iSeriesReborn.Champions.Jinx
             JinxQ.HandleQLogic();
             JinxW.HandleWLogic();
             JinxE.HandleELogic();
+            JinxR.HandleRLogic();
         }
 
         protected override void OnMixed()
