@@ -79,6 +79,7 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                         return;
                     }
                 }
+
                 var selectedTarget = TargetSelector.GetTarget(Variables.spells[SpellSlot.W].Range * 0.65f,
                     TargetSelector.DamageType.Physical);
 
