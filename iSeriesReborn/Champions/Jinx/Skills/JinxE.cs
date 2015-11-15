@@ -92,7 +92,7 @@ namespace iSeriesReborn.Champions.Jinx.Skills
         {
             if (gapcloser.Sender.IsValidTarget()
                 && Variables.spells[SpellSlot.E].IsReady()
-                && MenuExtensions.GetItemValue<bool>("iseriesr.jinx.e.agp0")
+                && MenuExtensions.GetItemValue<bool>("iseriesr.jinx.e.agp")
                 && ObjectManager.Player.ManaPercent > 30)
             {
                 Variables.spells[SpellSlot.E].Cast(gapcloser.End);

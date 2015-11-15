@@ -44,18 +44,18 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                     {
                         //Else if the target is in range and we are low health and we can kill them.
                         //Cast R without prodiction.
-                        if (ObjectManager.Player.HealthPercent < 15)
+                        if (ObjectManager.Player.HealthPercent < 10)
                         {
                             Variables.spells[SpellSlot.R].Cast(target.ServerPosition);
                             return;
                         }
 
-                        //We can kill the target with W (If we can hit it, using prediction) and 2 AA then return.
-                        if (ObjectManager.Player.GetAutoAttackDamage(target) * 2 +
+                        //We can kill the target with W (If we can hit it, using prediction) and 3 AA then return.
+                        if (ObjectManager.Player.GetAutoAttackDamage(target) * 3 +
                             (Variables.spells[SpellSlot.W].IsEnabledAndReady() &&
                              Variables.spells[SpellSlot.W].GetPrediction(target).Hitchance >= HitChance.VeryHigh
                                 ? Variables.spells[SpellSlot.W].GetDamage(target)
-                                : 0) > target.Health)
+                                : 0) >= target.Health)
                         {
                             return;
                         }

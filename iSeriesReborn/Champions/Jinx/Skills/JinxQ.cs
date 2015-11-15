@@ -120,7 +120,7 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                         }
                     }
                 //If it's enabled and ready.
-                    if (Variables.spells[SpellSlot.Q].IsEnabledAndReady())
+                    if (Variables.spells[SpellSlot.Q].IsEnabledAndReady() && ObjectManager.Player.ManaPercent > 30)
                     {
                         var target = args.Target;
                         if (target is Obj_AI_Minion)

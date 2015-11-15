@@ -40,8 +40,6 @@ namespace iSeriesReborn.Champions
                 return;
             }
 
-           // if (TickCount > 5)
-           // {
                 if (OrbwalkerCallbacks.ContainsKey(Variables.Orbwalker.ActiveMode))
                 {
                     OrbwalkerCallbacks[Variables.Orbwalker.ActiveMode]();
@@ -55,11 +53,7 @@ namespace iSeriesReborn.Champions
                     }
                 }
 
-                OnTick();
-              //  TickCount = 0;
-           // }
-
-          //  TickCount++;            
+                OnTick();   
         }
 
 
