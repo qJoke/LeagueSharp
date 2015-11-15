@@ -32,9 +32,19 @@ namespace iSeriesReborn.Champions.Jinx.Skills
 
                 if (selectedTarget.IsValidTarget())
                 {
-                    //The selected target is valid.
-                    if (selectedTarget.HasBuffOfType(BuffType.Slow) && selectedTarget.Path.Count() > 1)
+                    //The selected target is valid. Is moving and is not coming towards us while we are facing them.
+                    if (selectedTarget.HasBuffOfType(BuffType.Slow) 
+                        && selectedTarget.Path.Count() > 1)
                     {
+                        //We are facing the target, we have a high"ish" health and the target is coming towards us. No point in using E:
+                        if (ObjectManager.Player.IsFacing(selectedTarget) &&
+                            ObjectManager.Player.Distance(selectedTarget) >
+                            ObjectManager.Player.Distance(selectedTarget.GetPositionInFront(300f))
+                            && ObjectManager.Player.HealthPercent > 35)
+                        {
+                            return;
+                        }
+
                         //Target is slowed.
                         var slowEndTime = JinxUtility.GetSlowEndTime(selectedTarget);
                         if (slowEndTime >= ESpell.Delay + 0.5f + Game.Ping / 2f)
