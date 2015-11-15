@@ -16,11 +16,7 @@ namespace iSeriesReborn.Champions.Jinx
     /// </summary>
     class Jinx : ChampionBase
     {
-        //Auto W Slow/Immobile Mana" - 40%
-        //Minimum R Range - Default: Q Fishbone range + bounding box
-        //TODO: Drawings and sprite
-
-        private Dictionary<SpellSlot, Spell> spells = new Dictionary<SpellSlot, Spell>()
+        private readonly Dictionary<SpellSlot, Spell> spells = new Dictionary<SpellSlot, Spell>()
         {
             { SpellSlot.Q, new Spell(SpellSlot.Q) },
             { SpellSlot.W, new Spell(SpellSlot.W, 1450f) },
@@ -34,6 +30,9 @@ namespace iSeriesReborn.Champions.Jinx
             spells[SpellSlot.E].SetSkillshot(1.2f, 1f, 1750f, false, SkillshotType.SkillshotCircle);
             spells[SpellSlot.R].SetSkillshot(0.6f, 140f, 1700f, false, SkillshotType.SkillshotLine);
             Orbwalking.BeforeAttack += JinxQ.BeforeAttack;
+            Obj_AI_Base.OnProcessSpellCast += JinxE.OnProcessSpellCast;
+            Spellbook.OnCastSpell += JinxHumanizer.OnCastSpell;
+            AntiGapcloser.OnEnemyGapcloser += JinxE.OnGapcloser;
         }
 
         protected override void LoadMenu()
@@ -64,8 +63,11 @@ namespace iSeriesReborn.Champions.Jinx
             {
                 miscMenu.AddBool("iseriesr.jinx.q.switch.lhlc", "Always Switch to Minigun in Lasthit/Laneclear");
                 miscMenu.AddBool("iseriesr.jinx.q.switch.noenemies", "Switch to Minigun if no enemies in range");
+                miscMenu.AddBool("iseriesr.jinx.q.humanize", "Humanize Q swap").SetTooltip("Will not switch Q super rapidly to prevent you from getting called out.");
                 miscMenu.AddBool("iseriesr.jinx.w.auto", "Auto W Slow/Immobile", true);
                 miscMenu.AddBool("iseriesr.jinx.e.auto", "Auto E Slow/Immobile", true);
+                miscMenu.AddBool("iseriesr.jinx.e.ops", "E On Process Spell", true).SetTooltip("Will use E on spells such as Thresh Q, Malz R, etc for best hitchance.");
+                miscMenu.AddBool("iseriesr.jinx.e.agp", "Antigapcloser", true).SetTooltip("Will use E as an antigapcloser.");
                 miscMenu.AddKeybind("iseriesr.jinx.r.manual", "Manual R",
                     new Tuple<uint, KeyBindType>('T', KeyBindType.Press));
 

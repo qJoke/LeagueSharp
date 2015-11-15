@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using DZLib.Logging;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.Entities;
 using iSeriesReborn.Utility.MenuUtility;
@@ -61,6 +62,40 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                         }
                     }
                 }
+            }
+        }
+
+        internal static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (sender.IsEnemy && sender.IsValidTarget() 
+                && sender is Obj_AI_Hero 
+                && MenuExtensions.GetItemValue<bool>("iseriesr.jinx.e.ops")
+                && Variables.spells[SpellSlot.E].IsReady())
+            {
+                if (JinxUtility.GetESpellDict().ContainsKey((sender as Obj_AI_Hero).ChampionName))
+                {
+                    if (args.Slot == JinxUtility.GetESpellDict()[(sender as Obj_AI_Hero).ChampionName])
+                    {
+                        const int ESpeed = 2000;
+                        var distance = ObjectManager.Player.Distance(sender);
+                        //Do the calculations for E speed. If it will reach in time then cast E.
+                        if (distance / ESpeed < 0.4f)
+                        {
+                            Variables.spells[SpellSlot.E].Cast(sender.ServerPosition);
+                        }
+                    }
+                }
+            }
+        }
+
+        internal static void OnGapcloser(ActiveGapcloser gapcloser)
+        {
+            if (gapcloser.Sender.IsValidTarget()
+                && Variables.spells[SpellSlot.E].IsReady()
+                && MenuExtensions.GetItemValue<bool>("iseriesr.jinx.e.agp0")
+                && ObjectManager.Player.ManaPercent > 30)
+            {
+                Variables.spells[SpellSlot.E].Cast(gapcloser.End);
             }
         }
     }

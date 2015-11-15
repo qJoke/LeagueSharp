@@ -106,5 +106,24 @@ namespace iSeriesReborn.Champions.Jinx
                     .Select(buff => buff.EndTime)
                     .FirstOrDefault();
         }
+
+        public static Dictionary<string, SpellSlot> GetESpellDict()
+        {
+            var dictionary = new Dictionary<string, SpellSlot>()
+            {
+                {"Caitlyn", SpellSlot.R},
+                {"FiddleSticks", SpellSlot.W},
+                {"Galio", SpellSlot.R},
+                {"Malzahar", SpellSlot.R},
+                {"Thresh", SpellSlot.Q},
+                {"Warwick", SpellSlot.R},
+                {"Xerath", SpellSlot.R},
+                {"Blitzcrank", SpellSlot.Q},
+                {"Lux", SpellSlot.R},
+                {"MissFortune", SpellSlot.R},
+                {"Katarina", SpellSlot.R}
+            };
+            return dictionary;
+        }
     }
 }

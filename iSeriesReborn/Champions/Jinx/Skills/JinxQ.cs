@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DZLib.Logging;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.Entities;
@@ -10,6 +11,7 @@ namespace iSeriesReborn.Champions.Jinx.Skills
 {
     class JinxQ
     {
+
         public static void HandleQLogic()
         {
             if (!Orbwalking.CanMove(80))

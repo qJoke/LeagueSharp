@@ -13,6 +13,8 @@ namespace iSeriesReborn.Champions
 
         private Dictionary<Orbwalking.OrbwalkingMode, OrbwalkerDelegate> OrbwalkerCallbacks;
 
+        private float TickCount = 0;
+
         public void OnLoad()
         {
             OrbwalkerCallbacks = new Dictionary<Orbwalking.OrbwalkingMode, OrbwalkerDelegate>()
@@ -38,20 +40,26 @@ namespace iSeriesReborn.Champions
                 return;
             }
 
-            if (OrbwalkerCallbacks.ContainsKey(Variables.Orbwalker.ActiveMode))
+            if (TickCount > 5)
             {
-                OrbwalkerCallbacks[Variables.Orbwalker.ActiveMode]();
-            }
-
-            foreach (var module in GetModules())
-            {
-                if (module.ShouldRun() && module.GetModuleType() == ModuleType.OnUpdate)
+                if (OrbwalkerCallbacks.ContainsKey(Variables.Orbwalker.ActiveMode))
                 {
-                    module.Run();
+                    OrbwalkerCallbacks[Variables.Orbwalker.ActiveMode]();
                 }
+
+                foreach (var module in GetModules())
+                {
+                    if (module.ShouldRun() && module.GetModuleType() == ModuleType.OnUpdate)
+                    {
+                        module.Run();
+                    }
+                }
+
+                OnTick();
+                TickCount = 0;
             }
 
-            OnTick();
+            TickCount++;            
         }
 
 
