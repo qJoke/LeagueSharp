@@ -17,7 +17,10 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                 if (target.IsValidTarget())
                 {
                     var enemiesAround = target.GetEnemiesInRange(450f);
-                    if (ObjectManager.Player.Distance(target) > JinxUtility.GetFishboneRange())
+                    if (ObjectManager.Player.Distance(target) > JinxUtility.GetFishboneRange() 
+                        && HealthPrediction.GetHealthPrediction(target, 375) > 0 &&
+                             HealthPrediction.GetHealthPrediction(target, 375) + 5 <
+                             Variables.spells[SpellSlot.R].GetDamage(target))
                     {
                         //Target is over the minimum distance.
                         //Check for overkill logics. 

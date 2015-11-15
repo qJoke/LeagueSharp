@@ -75,6 +75,17 @@ namespace iSeriesReborn.Champions.Jinx.Skills
             }
         }
 
+        public static void QSwapNoEnemies()
+        {
+            if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo
+                && JinxUtility.IsFishBone()
+                && MenuExtensions.GetItemValue<bool>("iseriesr.jinx.q.switch.noenemies")
+                && ObjectManager.Player.CountEnemiesInRange(1500) < 1)
+            {
+                Variables.spells[SpellSlot.Q].Cast();
+            }
+        }
+
         public static void QSwapLC()
         {
             //If we are in laneclear or lasthit

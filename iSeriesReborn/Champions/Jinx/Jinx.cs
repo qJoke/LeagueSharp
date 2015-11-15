@@ -108,7 +108,8 @@ namespace iSeriesReborn.Champions.Jinx
             return new List<IModule>()
             {
                 new JinxAutoE(),
-                new JinxAutoW()
+                new JinxAutoW(),
+                new JinxManualR()
             };
         }
     }

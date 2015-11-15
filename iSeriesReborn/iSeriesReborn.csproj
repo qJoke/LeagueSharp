@@ -66,6 +66,7 @@
     <Compile Include="Champions\Jinx\JinxUtility.cs" />
     <Compile Include="Champions\Jinx\Modules\JinxAutoE.cs" />
     <Compile Include="Champions\Jinx\Modules\JinxAutoW.cs" />
+    <Compile Include="Champions\Jinx\Modules\JinxManualR.cs" />
     <Compile Include="Champions\Jinx\Skills\JinxE.cs" />
     <Compile Include="Champions\Jinx\Skills\JinxQ.cs" />
     <Compile Include="Champions\Jinx\Skills\JinxR.cs" />
