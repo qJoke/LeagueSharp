@@ -44,7 +44,7 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                     {
                         //Else if the target is in range and we are low health and we can kill them.
                         //Cast R without prodiction.
-                        if (ObjectManager.Player.HealthPercent < 10)
+                        if (ObjectManager.Player.HealthPercent < 10 && target.HealthPercent > ObjectManager.Player.HealthPercent + 20)
                         {
                             Variables.spells[SpellSlot.R].Cast(target.ServerPosition);
                             return;
