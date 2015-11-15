@@ -50,8 +50,8 @@ namespace iSeriesReborn.Champions.Jinx.Skills
                             return;
                         }
 
-                        //We can kill the target with W (If we can hit it, using prediction) and 3 AA then return.
-                        if (ObjectManager.Player.GetAutoAttackDamage(target) * 3 +
+                        //We can kill the target with W (If we can hit it, using prediction) and 5 AA then return.
+                        if (ObjectManager.Player.GetAutoAttackDamage(target) * 5 +
                             (Variables.spells[SpellSlot.W].IsEnabledAndReady() &&
                              Variables.spells[SpellSlot.W].GetPrediction(target).Hitchance >= HitChance.VeryHigh
                                 ? Variables.spells[SpellSlot.W].GetDamage(target)
