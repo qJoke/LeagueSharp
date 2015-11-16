@@ -25,7 +25,7 @@ namespace iSeriesReborn.Champions.Vayne
 
         protected override void OnChampLoad()
         {
-            spells[SpellSlot.E].SetTargetted(0.25f, 2000f);
+            spells[SpellSlot.E].SetTargetted(0.25f, 1250f);
         }
 
         protected override void LoadMenu()
