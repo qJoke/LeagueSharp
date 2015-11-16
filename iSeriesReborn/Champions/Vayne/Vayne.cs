@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DZLib.Logging;
 using iSeriesReborn.Champions.Vayne.Skills;
+using iSeriesReborn.Champions.Vayne.Utility;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
 using iSeriesReborn.Utility.ModuleHelper;
@@ -26,6 +28,9 @@ namespace iSeriesReborn.Champions.Vayne
         protected override void OnChampLoad()
         {
             spells[SpellSlot.E].SetTargetted(0.25f, 1250f);
+            AntiGapcloser.OnEnemyGapcloser += VayneHooks.OnGapCloser;
+            Interrupter2.OnInterruptableTarget += VayneHooks.OnInterrupt;
+            Orbwalking.BeforeAttack += VayneHooks.BeforeAttack;
         }
 
         protected override void LoadMenu()
@@ -53,13 +58,35 @@ namespace iSeriesReborn.Champions.Vayne
 
             var miscMenu = defaultMenu.AddSubMenu(new Menu("[iSR] Misc", "iseriesr.vayne.misc"));
             {
-
+                miscMenu.AddKeybind("iseriesr.vayne.misc.noaastealthex", "Don't AA while stealthed", new Tuple<uint, KeyBindType>('K', KeyBindType.Toggle)).SetTooltip("Will not AA while you are in Ult+Q"); //Done
+                miscMenu.AddBool("iseriesr.vayne.misc.qinrange", "Q For KS", true).SetTooltip("Uses Q to KS by Qing in range if you can kill with Q + AA"); //Done
+                miscMenu.AddItem(new MenuItem("aaaaasep1", "E Settings").SetFontStyle(FontStyle.Bold, SharpDX.Color.Red));
+                miscMenu.AddSlider("iseriesr.vayne.misc.condemn.acc", "Accuracy", 45, 1, 60);
+                miscMenu.AddSlider("iseriesr.vayne.misc.condemn.pushdist", "Push Distance", 390, 370, 475);
+                miscMenu.AddBool("iseriesr.vayne.misc.condemn.autoe", "Auto E").SetTooltip("Uses E whenever possible"); //Done
+                miscMenu.AddItem(new MenuItem("aaaaasep2", "Misc Settings").SetFontStyle(FontStyle.Bold, SharpDX.Color.Red));
+                miscMenu.AddBool("iseriesr.vayne.misc.general.antigp", "Anti Gapcloser", true).SetTooltip("Uses E to stop gapclosers");
+                miscMenu.AddBool("iseriesr.vayne.misc.general.interrupter", "Anti Gapcloser", true).SetTooltip("Uses E to stop gapclosers");
+                miscMenu.AddBool("iseriesr.vayne.misc.general.focus2w", "Focus 2W Stacks", true).SetTooltip("Focus Targets with 2W marks");
             }
         }
 
         protected override void OnTick()
         {
+            if (MenuExtensions.GetItemValue<bool>("iseriesr.vayne.misc.condemn.autoe"))
+            {
+                VayneE.ECheck();
+            }
 
+            if (MenuExtensions.GetItemValue<bool>("iseriesr.vayne.misc.general.focus2w"))
+            {
+                var target = HeroManager.Enemies.Find(enemy => enemy.IsValidTarget(ObjectManager.Player.AttackRange + 65f + 65f) 
+                    && VayneUtility.Has2WStacks(enemy));
+                if (target != null)
+                {
+                    TargetSelector.SetTarget(target);
+                }
+            }
         }
 
         protected override void OnCombo()

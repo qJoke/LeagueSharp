@@ -20,7 +20,6 @@ namespace iSeriesReborn.Champions.Vayne.Skills
 
                 if (!IsSafe(qEndPosition))
                 {
-                    Game.PrintChat("Unsafe!");
                     return;
                 }
 
