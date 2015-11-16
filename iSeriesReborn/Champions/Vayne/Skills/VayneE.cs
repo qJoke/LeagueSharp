@@ -61,7 +61,7 @@ namespace iSeriesReborn.Champions.Vayne.Skills
             var positions_ex =
             GetWallQPositions(ObjectManager.Player, 70).ToList().OrderBy(pos => pos.Distance(ObjectManager.Player.ServerPosition, true));
 
-            if (positions.Any(p => p.IsWall()) && positions_ex.Any(p => p.IsWall()))
+            if (positions.Any(p => p.IsWall()))
             {
                 return true;
             }
