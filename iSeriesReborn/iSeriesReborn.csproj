@@ -86,7 +86,6 @@
     <Compile Include="Champions\Tristana\Tristana.cs" />
     <Compile Include="Champions\Vayne\Skills\VayneE.cs" />
     <Compile Include="Champions\Vayne\Skills\VayneQ.cs" />
-    <Compile Include="Champions\Vayne\Skills\VayneR.cs" />
     <Compile Include="Champions\Vayne\Utility\VayneHooks.cs" />
     <Compile Include="Champions\Vayne\Utility\VayneUtility.cs" />
     <Compile Include="Champions\Vayne\Vayne.cs" />

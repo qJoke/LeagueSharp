@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using DZLib.Logging;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.Geometry;
 using iSeriesReborn.Utility.MenuUtility;
@@ -37,6 +38,13 @@ namespace iSeriesReborn.Champions.Vayne.Skills
 
         private static void CastQ(Vector3 position)
         {
+            if (Variables.spells[SpellSlot.R].IsEnabledAndReady() &&
+                PositioningVariables.EnemiesClose.Count() >=
+                MenuExtensions.GetItemValue<Slider>("iseriesr.vayne.combo.r.minen").Value)
+            {
+                Variables.spells[SpellSlot.R].Cast();
+            }
+
             LeagueSharp.Common.Utility.DelayAction.Add(250, Orbwalking.ResetAutoAttackTimer);
             Variables.spells[SpellSlot.Q].Cast(position);
         }
