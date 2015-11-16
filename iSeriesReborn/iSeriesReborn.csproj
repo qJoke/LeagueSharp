@@ -87,7 +87,6 @@
     <Compile Include="Champions\Tristana\Tristana.cs" />
     <Compile Include="Champions\Vayne\Skills\VayneE.cs" />
     <Compile Include="Champions\Vayne\Skills\VayneQ.cs" />
-    <Compile Include="Champions\Vayne\Skills\VayneR.cs" />
     <Compile Include="Champions\Vayne\Utility\VayneHooks.cs" />
     <Compile Include="Champions\Vayne\Utility\VayneUtility.cs" />
     <Compile Include="Champions\Vayne\Vayne.cs" />
@@ -116,6 +115,7 @@
     <Compile Include="Utility\ModuleHelper\ModuleEnums.cs" />
     <Compile Include="Utility\PlayerHelper.cs" />
     <Compile Include="Utility\Positioning\iSRGeometry.cs" />
+    <Compile Include="Utility\Positioning\Polygon.cs" />
     <Compile Include="Utility\Positioning\PositioningVariables.cs" />
     <Compile Include="Utility\Variables.cs" />
   </ItemGroup>

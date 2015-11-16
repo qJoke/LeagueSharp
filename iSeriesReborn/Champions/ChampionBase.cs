@@ -68,6 +68,8 @@ namespace iSeriesReborn.Champions
                         module.Run();
                     }
                 }
+
+                OnAfterAttack(sender, args);
             }
         }
 
@@ -84,6 +86,8 @@ namespace iSeriesReborn.Champions
         protected abstract void OnLastHit();
 
         protected abstract void OnLaneClear();
+
+        protected abstract void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args);
 
         public abstract Dictionary<SpellSlot, Spell> GetSpells();
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using iSeriesReborn.Champions;
 using iSeriesReborn.Champions.Jinx;
 using iSeriesReborn.Champions.Kalista;
+using iSeriesReborn.Champions.Vayne;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -35,7 +36,8 @@ namespace iSeriesReborn.Utility
         public static readonly Dictionary<string, Action> ChampList = new Dictionary<string, Action>()
         {
             { "Kalista", () => { CurrentChampion = new Kalista(); CurrentChampion.OnLoad(); } },
-            { "Jinx", () => { CurrentChampion = new Jinx(); CurrentChampion.OnLoad(); } }
+            { "Jinx", () => { CurrentChampion = new Jinx(); CurrentChampion.OnLoad(); } },
+            { "Vayne", () => { CurrentChampion = new Vayne(); CurrentChampion.OnLoad(); } }
         };
 
         /// <summary>

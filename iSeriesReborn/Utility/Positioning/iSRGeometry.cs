@@ -18,7 +18,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ClipperLib;
+using iSeriesReborn.Utility.Positioning;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -73,6 +75,16 @@ namespace iSeriesReborn.Utility.Geometry
             }
 
             return Vector3.Zero;
+        }
+
+
+        public static List<Vector2> GetEnemyPoints(bool dynamic = true)
+        {
+            var staticRange = 360f;
+            var polygonsList = PositioningVariables.EnemiesClose.Select(enemy => new iSRGeometry.Circle(enemy.ServerPosition.To2D(), (dynamic ? (enemy.IsMelee ? enemy.AttackRange * 1.5f : enemy.AttackRange) : staticRange) + enemy.BoundingRadius + 20).ToPolygon()).ToList();
+            var pathList = iSRGeometry.ClipPolygons(polygonsList);
+            var pointList = pathList.SelectMany(path => path, (path, point) => new Vector2(point.X, point.Y)).Where(currentPoint => !currentPoint.IsWall()).ToList();
+            return pointList;
         }
 
         public static float GetWallLength(Vector3 start, Vector3 end)

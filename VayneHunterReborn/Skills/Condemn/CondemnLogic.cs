@@ -19,6 +19,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
 
         public static void OnLoad()
         {
+            Variables.spells[SpellSlot.E].SetTargetted(0.25f, 1250f);
             InterrupterGapcloser.OnLoad();
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
         }

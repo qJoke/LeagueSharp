@@ -49,6 +49,11 @@ namespace iSeriesReborn.Champions.Tristana
 
         }
 
+        protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+
+        }
+
         public override Dictionary<SpellSlot, Spell> GetSpells()
         {
             return spells;
