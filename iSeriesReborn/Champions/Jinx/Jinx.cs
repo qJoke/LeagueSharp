@@ -100,6 +100,10 @@ namespace iSeriesReborn.Champions.Jinx
             JinxQ.QSwapLC();
         }
 
+        protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+        }
+
         public override Dictionary<SpellSlot, Spell> GetSpells()
         {
             return spells;

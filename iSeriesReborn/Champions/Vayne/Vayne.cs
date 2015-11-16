@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DZLib.Logging;
+using iSeriesReborn.Champions.Vayne.Skills;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
 using iSeriesReborn.Utility.ModuleHelper;
@@ -18,13 +19,13 @@ namespace iSeriesReborn.Champions.Vayne
         {
             { SpellSlot.Q, new Spell(SpellSlot.Q) },
             { SpellSlot.W, new Spell(SpellSlot.W) },
-            { SpellSlot.E, new Spell(SpellSlot.E) },
+            { SpellSlot.E, new Spell(SpellSlot.E, 590f) },
             { SpellSlot.R, new Spell(SpellSlot.R) }
         };
 
         protected override void OnChampLoad()
         {
-            
+            spells[SpellSlot.E].SetTargetted(0.25f, 2000f);
         }
 
         protected override void LoadMenu()
@@ -63,7 +64,7 @@ namespace iSeriesReborn.Champions.Vayne
 
         protected override void OnCombo()
         {
-
+            VayneE.HandleELogic();
         }
 
         protected override void OnMixed()
@@ -76,6 +77,17 @@ namespace iSeriesReborn.Champions.Vayne
         protected override void OnLaneClear()
         {
 
+        }
+
+        protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            switch (Variables.Orbwalker.ActiveMode)
+            {
+                case Orbwalking.OrbwalkingMode.Combo:
+                case Orbwalking.OrbwalkingMode.Mixed:
+                    VayneQ.HandleQLogic(args.Target as Obj_AI_Base);
+                    break;
+            }
         }
 
         public override Dictionary<SpellSlot, Spell> GetSpells()

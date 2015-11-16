@@ -115,6 +115,7 @@
     <Compile Include="Utility\ModuleHelper\ModuleEnums.cs" />
     <Compile Include="Utility\PlayerHelper.cs" />
     <Compile Include="Utility\Positioning\iSRGeometry.cs" />
+    <Compile Include="Utility\Positioning\Polygon.cs" />
     <Compile Include="Utility\Positioning\PositioningVariables.cs" />
     <Compile Include="Utility\Variables.cs" />
   </ItemGroup>
