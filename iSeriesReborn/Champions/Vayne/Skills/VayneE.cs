@@ -57,7 +57,7 @@ namespace iSeriesReborn.Champions.Vayne.Skills
         private static bool IsBothNearWall(Obj_AI_Base target)
         {
             var positions =
-                GetWallQPositions(target, 150).ToList().OrderBy(pos => pos.Distance(target.ServerPosition, true));
+                GetWallQPositions(target, 110).ToList().OrderBy(pos => pos.Distance(target.ServerPosition, true));
             var positions_ex =
             GetWallQPositions(ObjectManager.Player, 70).ToList().OrderBy(pos => pos.Distance(ObjectManager.Player.ServerPosition, true));
 
