@@ -16,8 +16,10 @@ namespace iSeriesReborn.Champions.Vayne.Skills
             if (Variables.spells[SpellSlot.Q].IsEnabledAndReady() && target.IsValidTarget())
             {
                 var qEndPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 325f);
+
                 if (!IsSafe(qEndPosition))
                 {
+                    Game.PrintChat("Unsafe!");
                     return;
                 }
 
@@ -69,8 +71,12 @@ namespace iSeriesReborn.Champions.Vayne.Skills
 
         private static bool IsSafe(Vector3 Position)
         {
-            return Position.UnderTurret(true) ||
-            (PositioningVariables.EnemiesClose.Count() > 1 && iSRGeometry.GetEnemyPoints().Contains(Position.To2D()));
+            if((Position.UnderTurret(true) && !ObjectManager.Player.UnderTurret(true)) || (PositioningVariables.EnemiesClose.Count() > 1 && iSRGeometry.GetEnemyPoints().Contains(Position.To2D())))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
