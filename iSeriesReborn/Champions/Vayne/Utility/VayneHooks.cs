@@ -5,7 +5,9 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using DZLib.Logging;
+using iSeriesReborn.Champions.Vayne.Skills;
 using iSeriesReborn.Utility;
+using iSeriesReborn.Utility.MenuUtility;
 using iSeriesReborn.Utility.Positioning;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -53,6 +55,29 @@ namespace iSeriesReborn.Champions.Vayne.Utility
                         return;
                     }
                     args.Process = false;
+                }
+            }
+        }
+
+        internal static void OnNonKillableMinion(AttackableUnit minion)
+        {
+            if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                Variables.spells[SpellSlot.Q].IsEnabledAndReady() && (minion is Obj_AI_Base))
+            {
+                var mBase = minion as Obj_AI_Base;
+                if (HealthPrediction.GetHealthPrediction(mBase, 250 + (int)ObjectManager.Player.AttackCastDelay + (int)(Game.Ping / 2f)) > 0
+                    && HealthPrediction.GetHealthPrediction(mBase, 250 + (int)ObjectManager.Player.AttackCastDelay + 75 + (int)(Game.Ping / 2f)) + 5 <
+                    Variables.spells[SpellSlot.Q].GetDamage(mBase) + ObjectManager.Player.GetAutoAttackDamage(mBase))
+                {
+                    var qEndPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 325f);
+
+                    if (!VayneQ.IsSafe(qEndPosition))
+                    {
+                        return;
+                    }
+
+                    LeagueSharp.Common.Utility.DelayAction.Add(250, Orbwalking.ResetAutoAttackTimer);
+                    Variables.spells[SpellSlot.Q].Cast(qEndPosition);
                 }
             }
         }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DZLib.Logging;
+using iSeriesReborn.Champions.Vayne.Modules;
 using iSeriesReborn.Champions.Vayne.Skills;
 using iSeriesReborn.Champions.Vayne.Utility;
 using iSeriesReborn.Utility;
@@ -31,6 +29,7 @@ namespace iSeriesReborn.Champions.Vayne
             AntiGapcloser.OnEnemyGapcloser += VayneHooks.OnGapCloser;
             Interrupter2.OnInterruptableTarget += VayneHooks.OnInterrupt;
             Orbwalking.BeforeAttack += VayneHooks.BeforeAttack;
+            Orbwalking.OnNonKillableMinion += VayneHooks.OnNonKillableMinion;
         }
 
         protected override void LoadMenu()
@@ -41,7 +40,7 @@ namespace iSeriesReborn.Champions.Vayne
             {
                 comboMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Combo, true, 15);
                 comboMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Combo, true, 5);
-                comboMenu.AddSkill(SpellSlot.R, Orbwalking.OrbwalkingMode.Combo, true, 10);
+                comboMenu.AddSkill(SpellSlot.R, Orbwalking.OrbwalkingMode.Combo, false, 10);
                 comboMenu.AddSlider("iseriesr.vayne.combo.r.minen", "Min. Enemies for R", 2, 1, 5);
             }
 
@@ -66,27 +65,13 @@ namespace iSeriesReborn.Champions.Vayne
                 miscMenu.AddBool("iseriesr.vayne.misc.condemn.autoe", "Auto E").SetTooltip("Uses E whenever possible"); //Done
                 miscMenu.AddItem(new MenuItem("aaaaasep2", "Misc Settings").SetFontStyle(FontStyle.Bold, SharpDX.Color.Red));
                 miscMenu.AddBool("iseriesr.vayne.misc.general.antigp", "Anti Gapcloser", true).SetTooltip("Uses E to stop gapclosers");
-                miscMenu.AddBool("iseriesr.vayne.misc.general.interrupter", "Anti Gapcloser", true).SetTooltip("Uses E to stop gapclosers");
+                miscMenu.AddBool("iseriesr.vayne.misc.general.interrupter", "Anti Gapcloser", true).SetTooltip("Uses E to interrupt skills.");
                 miscMenu.AddBool("iseriesr.vayne.misc.general.focus2w", "Focus 2W Stacks", true).SetTooltip("Focus Targets with 2W marks");
             }
         }
 
         protected override void OnTick()
         {
-            if (MenuExtensions.GetItemValue<bool>("iseriesr.vayne.misc.condemn.autoe"))
-            {
-                VayneE.ECheck();
-            }
-
-            if (MenuExtensions.GetItemValue<bool>("iseriesr.vayne.misc.general.focus2w"))
-            {
-                var target = HeroManager.Enemies.Find(enemy => enemy.IsValidTarget(ObjectManager.Player.AttackRange + 65f + 65f) 
-                    && VayneUtility.Has2WStacks(enemy));
-                if (target != null)
-                {
-                    TargetSelector.SetTarget(target);
-                }
-            }
         }
 
         protected override void OnCombo()
@@ -126,7 +111,9 @@ namespace iSeriesReborn.Champions.Vayne
         {
             return new List<IModule>()
             {
-
+                new VayneFocus2W(),
+                new VayneAutoE(),
+                new VayneQKS()
             };
         }
     }

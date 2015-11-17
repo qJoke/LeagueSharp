@@ -45,8 +45,8 @@ namespace iSeriesReborn.Champions.Vayne.Skills
                     return;
                 }
 
-                if (condemnRectangle.Points.Count(point => point.IsWall()) >= condemnRectangle.Points.Count() * accuracy
-                    && condemnRectangle_ex.Points.Count(point => point.IsWall()) >= condemnRectangle_ex.Points.Count() * accuracy)
+                if (condemnRectangle.Points.Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle.Points.Count() * accuracy
+                    && condemnRectangle_ex.Points.Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle_ex.Points.Count() * accuracy)
                 {
                     Variables.spells[SpellSlot.E].Cast(target);
                     return;

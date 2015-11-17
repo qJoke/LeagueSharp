@@ -76,7 +76,7 @@ namespace iSeriesReborn.Champions.Vayne.Skills
             return vList;
         }
 
-        private static bool IsSafe(Vector3 Position)
+        public static bool IsSafe(Vector3 Position)
         {
             if((Position.UnderTurret(true) && !ObjectManager.Player.UnderTurret(true)) || (PositioningVariables.EnemiesClose.Count() > 1 && iSRGeometry.GetEnemyPoints().Contains(Position.To2D())))
             {

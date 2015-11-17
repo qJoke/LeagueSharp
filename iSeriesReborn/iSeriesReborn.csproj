@@ -85,6 +85,9 @@
     <Compile Include="Champions\Kalista\Skills\KalistaHooks.cs" />
     <Compile Include="Champions\Kalista\Skills\KalistaQ.cs" />
     <Compile Include="Champions\Tristana\Tristana.cs" />
+    <Compile Include="Champions\Vayne\Modules\VayneAutoE.cs" />
+    <Compile Include="Champions\Vayne\Modules\VayneFocus2W.cs" />
+    <Compile Include="Champions\Vayne\Modules\VayneQKs.cs" />
     <Compile Include="Champions\Vayne\Skills\VayneE.cs" />
     <Compile Include="Champions\Vayne\Skills\VayneQ.cs" />
     <Compile Include="Champions\Vayne\Utility\VayneHooks.cs" />
@@ -125,7 +128,6 @@
   <ItemGroup>
     <Folder Include="Champions\Tristana\Modules\" />
     <Folder Include="Champions\Tristana\Skills\" />
-    <Folder Include="Champions\Vayne\Modules\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
