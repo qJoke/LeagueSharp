@@ -30,6 +30,12 @@ namespace iSeriesReborn.Champions.Tristana
 
             var comboMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.Combo);
             {
+                var useEOnMenu = new Menu("Use E On", "iseriesr.tristana.combo.eon");
+                {
+                    useEOnMenu.AddChampMenu(true);
+                    comboMenu.AddSubMenu(useEOnMenu);
+                }
+
                 comboMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Combo, true, 15);
                 comboMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Combo, true, 5);
                 comboMenu.AddSkill(SpellSlot.R, Orbwalking.OrbwalkingMode.Combo, true, 10);

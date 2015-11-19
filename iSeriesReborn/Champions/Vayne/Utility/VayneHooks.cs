@@ -37,7 +37,7 @@ namespace iSeriesReborn.Champions.Vayne.Utility
             }
         }
 
-        internal static void BeforeAttack(LeagueSharp.Common.Orbwalking.BeforeAttackEventArgs args)
+        internal static void BeforeAttack(Orbwalking.BeforeAttackEventArgs args)
         {
             if (MenuExtensions.GetItemValue<KeyBind>("iseriesr.vayne.misc.noaastealthex").Active && VayneUtility.IsStealthed())
             {

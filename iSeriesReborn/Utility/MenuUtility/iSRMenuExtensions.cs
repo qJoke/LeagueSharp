@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using DZLib.Logging;
+using iSeriesReborn.Utility.Entities;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -47,6 +49,23 @@ namespace iSeriesReborn.Utility.MenuUtility
                 $"iseriesr.{ObjectManager.Player.ChampionName.ToLower()}.{Mode.ToString().ToLower()}.mm.{slot.ToString().ToLower()}",
                 $"{slot} Mana {Mode}", defMana, 0, 100);
 
+        }
+
+        public static List<MenuItem> AddChampMenu(this Menu mainMenu, bool defValue)
+        {
+            var champsList = new List<MenuItem>();
+            var baseName = mainMenu.Name.ToLower();
+
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var champion in GameObjects.EnemyHeroes)
+            {
+                var champItem = new MenuItem($"{baseName}.{champion.ChampionName.ToLower()}", champion.ChampionName).SetValue(defValue);
+                mainMenu.AddItem(champItem);
+
+                champsList.Add(champItem);
+            }
+
+            return champsList;
         }
 
         public static bool IsEnabledAndReady(this Spell Spell, bool checkMana = true)
