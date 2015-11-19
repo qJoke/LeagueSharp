@@ -70,9 +70,9 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
             var positions =
                 GetWallQPositions(target, 110).ToList().OrderBy(pos => pos.Distance(target.ServerPosition, true));
             var positions_ex =
-            GetWallQPositions(ObjectManager.Player, 70).ToList().OrderBy(pos => pos.Distance(ObjectManager.Player.ServerPosition, true));
+            GetWallQPositions(ObjectManager.Player, 110).ToList().OrderBy(pos => pos.Distance(ObjectManager.Player.ServerPosition, true));
 
-            if (positions.Any(p => p.IsWall()))
+            if (positions.Any(p => p.IsWall()) && positions_ex.Any(p => p.IsWall()))
             {
                 return true;
             }
