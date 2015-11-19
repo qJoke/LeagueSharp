@@ -116,7 +116,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                         new Tuple<int, int, int>(420, 350, 470)).SetTooltip("The E Knockback distance the script uses. Recommended: 400-430");
 
                     miscEMenu.AddSlider("dz191.vhr.misc.condemn.accuracy", "Accuracy (Revolution Only)",
-                        new Tuple<int, int, int>(33, 1, 100)).SetTooltip("The Condemn Accuracy. Recommended value: 25-45");
+                        new Tuple<int, int, int>(45, 1, 65)).SetTooltip("The Condemn Accuracy. Recommended value: 40-45");
 
                     miscEMenu.AddItem(
                         new MenuItem("dz191.vhr.misc.condemn.enextauto", "E Next Auto").SetValue(
