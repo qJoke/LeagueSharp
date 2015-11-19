@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using iSeriesReborn.Utility.Positioning;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -29,8 +30,6 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
 
             foreach (var Hero in HeroList)
             {
-                var prediction = Variables.spells[SpellSlot.E].GetPrediction(Hero);
-
                 if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent") &&
                     Hero.NetworkId != Variables.Orbwalker.GetTarget().NetworkId)
                 {
@@ -44,39 +43,53 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
                     continue;
                 }
 
-                var PredictionsList = new List<Vector3>
-                {
-                    Hero.ServerPosition,
-                    Hero.Position,
-                    prediction.CastPosition,
-                    prediction.UnitPosition
-                };
+                
+                var targetPosition = Variables.spells[SpellSlot.E].GetPrediction(Hero).UnitPosition;
+                var finalPosition = targetPosition.Extend(ObjectManager.Player.ServerPosition, -PushDistance);
+                var finalPosition_ex = Hero.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -PushDistance);
 
-                if (Hero.IsDashing())
+                var condemnRectangle = new VHRPolygon(VHRPolygon.Rectangle(targetPosition.To2D(), finalPosition.To2D(), Hero.BoundingRadius));
+                var condemnRectangle_ex = new VHRPolygon(VHRPolygon.Rectangle(Hero.ServerPosition.To2D(), finalPosition_ex.To2D(), Hero.BoundingRadius));
+
+                if (IsBothNearWall(Hero))
                 {
-                    PredictionsList.Add(Hero.GetDashInfo().EndPos.To3D());
+                    return null;
                 }
 
-                var wallsFound = 0;
-                foreach (var position in PredictionsList)
-                {
-                    for (var i = 0; i < PushDistance; i += (int) Hero.BoundingRadius)
-                    {
-                        var cPos = position.Extend(fromPosition, -i);
-                        if (cPos.IsWall())
-                        {
-                            wallsFound++;
-                            break;
-                        }
-                    }
-                }
-
-                if ((wallsFound/PredictionsList.Count) >= MinChecksPercent/100f)
+                if (condemnRectangle.Points.Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle.Points.Count() * (MinChecksPercent / 100f)
+                    && condemnRectangle_ex.Points.Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle_ex.Points.Count() * (MinChecksPercent / 100f))
                 {
                     return Hero;
                 }
             }
             return null;
         }
+
+        private static bool IsBothNearWall(Obj_AI_Base target)
+        {
+            var positions =
+                GetWallQPositions(target, 110).ToList().OrderBy(pos => pos.Distance(target.ServerPosition, true));
+            var positions_ex =
+            GetWallQPositions(ObjectManager.Player, 70).ToList().OrderBy(pos => pos.Distance(ObjectManager.Player.ServerPosition, true));
+
+            if (positions.Any(p => p.IsWall()))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private static Vector3[] GetWallQPositions(Obj_AI_Base player, float Range)
+        {
+            Vector3[] vList =
+            {
+                (player.ServerPosition.To2D() + Range * player.Direction.To2D()).To3D(),
+                (player.ServerPosition.To2D() - Range * player.Direction.To2D()).To3D()
+
+            };
+
+            return vList;
+        }
     }
+   
 }

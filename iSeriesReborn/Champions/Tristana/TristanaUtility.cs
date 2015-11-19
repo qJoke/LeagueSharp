@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using iSeriesReborn.Utility;
 using LeagueSharp;
 
 namespace iSeriesReborn.Champions.Tristana
@@ -24,10 +25,9 @@ namespace iSeriesReborn.Champions.Tristana
             return GetEBuff(target) != null;
         }
 
-        public static bool CanKillWithER(Obj_AI_Base target)
+        public static float GetRDamage(Obj_AI_Base target)
         {
-            //TODO Execution calculations
-            return false;
+            return (Variables.spells[SpellSlot.E].GetDamage(target) * ((0.30f * GetEBuff(target).Count) + 1f) + Variables.spells[SpellSlot.R].GetDamage(target));
         }
     }
 }

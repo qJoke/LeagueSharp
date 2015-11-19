@@ -37,8 +37,10 @@ namespace iSeriesReborn.Champions.Vayne.Skills
                 var targetPosition = Variables.spells[SpellSlot.E].GetPrediction(target).UnitPosition;
 
                 var finalPosition = targetPosition.Extend(ObjectManager.Player.ServerPosition, -pushDistance);
+                var finalPosition_ex = target.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -pushDistance);
+
                 var condemnRectangle = new iSRPolygon(iSRPolygon.Rectangle(targetPosition.To2D(), finalPosition.To2D(), target.BoundingRadius));
-                var condemnRectangle_ex = new iSRPolygon(iSRPolygon.Rectangle(target.ServerPosition.To2D(), finalPosition.To2D(), target.BoundingRadius));
+                var condemnRectangle_ex = new iSRPolygon(iSRPolygon.Rectangle(target.ServerPosition.To2D(), finalPosition_ex.To2D(), target.BoundingRadius));
 
                 if (IsBothNearWall(target))
                 {

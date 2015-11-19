@@ -21,7 +21,7 @@ namespace iSeriesReborn.Champions.Tristana
 
         protected override void OnChampLoad()
         {
-            throw new NotImplementedException();
+            //
         }
 
         protected override void LoadMenu()
