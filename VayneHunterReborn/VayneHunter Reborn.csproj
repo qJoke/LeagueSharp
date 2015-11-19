@@ -128,6 +128,7 @@
     <Compile Include="Skills\Condemn\Methods\Shine.cs" />
     <Compile Include="Skills\Condemn\Methods\VHReborn.cs" />
     <Compile Include="Skills\Condemn\Methods\VHRevolution.cs" />
+    <Compile Include="Skills\Condemn\Methods\VHRevolution_Old.cs" />
     <Compile Include="Skills\Tumble\TumbleLogic.cs" />
     <Compile Include="Skills\Tumble\TumbleMethods.cs" />
     <Compile Include="Skills\Tumble\TumblePositioning.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Utility\Helpers\PlayerHelper.cs" />
     <Compile Include="Utility\Helpers\StealthHelper.cs" />
     <Compile Include="Utility\Helpers\VHRGeometry.cs" />
+    <Compile Include="Utility\Helpers\VHRPolygon.cs" />
     <Compile Include="Utility\MenuUtility\MenuExtensions.cs" />
     <Compile Include="Utility\MenuUtility\MenuGenerator.cs" />
     <Compile Include="Utility\Variables.cs" />
