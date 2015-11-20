@@ -65,7 +65,7 @@ namespace iSeriesReborn.Champions.Vayne
                 miscMenu.AddBool("iseriesr.vayne.misc.condemn.autoe", "Auto E").SetTooltip("Uses E whenever possible"); //Done
                 miscMenu.AddItem(new MenuItem("aaaaasep2", "Misc Settings").SetFontStyle(FontStyle.Bold, SharpDX.Color.Red));
                 miscMenu.AddBool("iseriesr.vayne.misc.general.antigp", "Anti Gapcloser", true).SetTooltip("Uses E to stop gapclosers");
-                miscMenu.AddBool("iseriesr.vayne.misc.general.interrupter", "Anti Gapcloser", true).SetTooltip("Uses E to interrupt skills.");
+                miscMenu.AddBool("iseriesr.vayne.misc.general.interrupter", "Interrupter", true).SetTooltip("Uses E to interrupt skills.");
                 miscMenu.AddBool("iseriesr.vayne.misc.general.focus2w", "Focus 2W Stacks", true).SetTooltip("Focus Targets with 2W marks");
             }
         }

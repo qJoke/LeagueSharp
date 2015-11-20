@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using iSeriesReborn.Champions;
 using iSeriesReborn.Champions.Jinx;
 using iSeriesReborn.Champions.Kalista;
+using iSeriesReborn.Champions.Tristana;
 using iSeriesReborn.Champions.Vayne;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -37,7 +38,8 @@ namespace iSeriesReborn.Utility
         {
             { "Kalista", () => { CurrentChampion = new Kalista(); CurrentChampion.OnLoad(); } },
             { "Jinx", () => { CurrentChampion = new Jinx(); CurrentChampion.OnLoad(); } },
-            { "Vayne", () => { CurrentChampion = new Vayne(); CurrentChampion.OnLoad(); } }
+            { "Vayne", () => { CurrentChampion = new Vayne(); CurrentChampion.OnLoad(); } },
+            { "Tristana", () => { CurrentChampion = new Tristana(); CurrentChampion.OnLoad(); } }
         };
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using DZLib.Logging;
 using iSeriesReborn.Champions.Tristana.Skills;
 using iSeriesReborn.Utility;
@@ -21,7 +22,8 @@ namespace iSeriesReborn.Champions.Tristana
 
         protected override void OnChampLoad()
         {
-            //
+            AntiGapcloser.OnEnemyGapcloser += TristanaHooks.OnEnemyGapcloser;
+            Interrupter2.OnInterruptableTarget += TristanaHooks.OnInterruptableTarget;
         }
 
         protected override void LoadMenu()
@@ -52,6 +54,12 @@ namespace iSeriesReborn.Champions.Tristana
                 laneclearMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.LaneClear, true, 50);
             }
 
+            var miscMenu = defaultMenu.AddSubMenu(new Menu("[iSR] Misc", "iseriesr.tristana.misc"));
+            {
+                miscMenu.AddBool("iseriesr.tristana.misc.antigp", "Anti Gapcloser", true).SetTooltip("Uses R to stop gapclosers");
+                miscMenu.AddBool("iseriesr.tristana.misc.interrupter", "Interrupter", true).SetTooltip("Uses R to interrupt skills.");
+            }
+
             spells[SpellSlot.E].SetTargetted(0.25f, 2400);
         }
 
@@ -69,7 +77,8 @@ namespace iSeriesReborn.Champions.Tristana
 
         protected override void OnMixed()
         {
-
+            TristanaQ.HandleLogic();
+            TristanaE.HandleLogic();
         }
 
         protected override void OnLastHit() { }
@@ -79,10 +88,7 @@ namespace iSeriesReborn.Champions.Tristana
 
         }
 
-        protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-
-        }
+        protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args){}
 
         public override Dictionary<SpellSlot, Spell> GetSpells()
         {

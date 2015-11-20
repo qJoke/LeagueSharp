@@ -14,7 +14,6 @@ namespace iSeriesReborn.Champions.Tristana.Skills
     {
         internal static void HandleLogic()
         {
-            //
             if (Variables.spells[SpellSlot.Q].IsEnabledAndReady())
             {
                 var target = Variables.Orbwalker.GetTarget();

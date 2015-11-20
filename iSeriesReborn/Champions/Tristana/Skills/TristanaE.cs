@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using DZLib.Logging;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
@@ -16,7 +12,6 @@ namespace iSeriesReborn.Champions.Tristana.Skills
     {
         internal static void HandleLogic()
         {
-            //TODO More Logics in here
             if (Variables.spells[SpellSlot.E].IsEnabledAndReady())
             {
                 var eTarget = TargetSelector.GetTarget(TristanaUtility.GetERRange(), TargetSelector.DamageType.Physical);

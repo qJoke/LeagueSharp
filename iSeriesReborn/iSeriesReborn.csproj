@@ -88,6 +88,7 @@
     <Compile Include="Champions\Tristana\Skills\TristanaQ.cs" />
     <Compile Include="Champions\Tristana\Skills\TristanaR.cs" />
     <Compile Include="Champions\Tristana\Tristana.cs" />
+    <Compile Include="Champions\Tristana\TristanaHooks.cs" />
     <Compile Include="Champions\Tristana\TristanaUtility.cs" />
     <Compile Include="Champions\Vayne\Modules\VayneAutoE.cs" />
     <Compile Include="Champions\Vayne\Modules\VayneFocus2W.cs" />

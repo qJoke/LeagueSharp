@@ -26,7 +26,7 @@ namespace iSeriesReborn.Champions.Vayne.Utility
             }
         }
 
-        internal static void OnInterrupt(LeagueSharp.Obj_AI_Hero sender, LeagueSharp.Common.Interrupter2.InterruptableTargetEventArgs args)
+        internal static void OnInterrupt(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
             if (args.DangerLevel >= Interrupter2.DangerLevel.Medium 
                 && MenuExtensions.GetItemValue<bool>("iseriesr.vayne.misc.general.antigp") 

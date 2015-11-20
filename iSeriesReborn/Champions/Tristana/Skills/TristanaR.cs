@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
 using LeagueSharp;
@@ -14,7 +11,6 @@ namespace iSeriesReborn.Champions.Tristana.Skills
     {
         internal static void HandleLogic()
         {
-            //
             if (Variables.spells[SpellSlot.R].IsEnabledAndReady())
             {
                 var selectedTarget = TargetSelector.GetTarget(
@@ -28,13 +24,26 @@ namespace iSeriesReborn.Champions.Tristana.Skills
                     if (selectedTargetHealth > 0 && selectedTargetHealth < TristanaUtility.GetRDamage(selectedTarget))
                     {
                         Variables.spells[SpellSlot.R].Cast(selectedTarget);
+                        return;
                     }
 
                     var enemiesClose =
-                        ObjectManager.Player.GetEnemiesInRange(250f).OrderBy(m => m.Distance(ObjectManager.Player));
-                    if (selectedTargetHealth > ObjectManager.Player.Health * 1.5f)
+                        ObjectManager.Player.GetEnemiesInRange(250f).Where(m => m.IsValidTarget()).OrderBy(m => m.Distance(ObjectManager.Player)).ThenByDescending(m => m.GetComboDamage(ObjectManager.Player, new List<SpellSlot>{SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R}));
+
+                    var firstEnemy = enemiesClose.FirstOrDefault();
+                    
+                    //There are enemies
+                    //Sort them by combo damage to us
+                    //If we are low health and they have a lot of health
+                    //And they are not killable with R and 4 AA
+                    //Repel them away with R
+
+                    if (firstEnemy != null 
+                        && firstEnemy.Health > ObjectManager.Player.Health * 2.0f 
+                        && ObjectManager.Player.HealthPercent < 8
+                        && !(firstEnemy.Health + 5 < TristanaUtility.GetRDamage(selectedTarget) + ObjectManager.Player.GetAutoAttackDamage(firstEnemy) * 4))
                     {
-                        
+                        Variables.spells[SpellSlot.R].Cast(firstEnemy);
                     }
                 }
             }
