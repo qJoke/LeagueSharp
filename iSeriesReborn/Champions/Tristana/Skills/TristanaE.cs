@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using DZLib.Logging;
 using iSeriesReborn.Utility;
+using iSeriesReborn.Utility.Entities;
 using iSeriesReborn.Utility.MenuUtility;
 using iSeriesReborn.Utility.Positioning;
 using LeagueSharp;
@@ -19,6 +20,25 @@ namespace iSeriesReborn.Champions.Tristana.Skills
                     || PositioningVariables.EnemiesClose.Count() == 1)
                 {
                     Variables.spells[SpellSlot.E].Cast(eTarget);
+                }
+            }
+        }
+    
+        internal static void HandleLaneclear()
+        {
+            if (Variables.spells[SpellSlot.E].IsEnabledAndReady())
+            {
+                var minionsInRange =
+                    GameObjects.EnemyMinions.Where(
+                        m =>
+                            m.IsValidTarget(Variables.spells[SpellSlot.E].Range) &&
+                            GameObjects.EnemyMinions.Count(m_ex => m_ex.Distance(m) < 150f) > 1)
+                .OrderBy(m => m.Health);
+
+                if (minionsInRange.Any())
+                {
+                    var minion = minionsInRange.FirstOrDefault();
+                    Variables.spells[SpellSlot.E].Cast(minion);
                 }
             }
         }

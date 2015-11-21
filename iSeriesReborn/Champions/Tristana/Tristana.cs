@@ -51,7 +51,7 @@ namespace iSeriesReborn.Champions.Tristana
 
             var laneclearMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.LaneClear);
             {
-                laneclearMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.LaneClear, true, 50);
+                laneclearMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.LaneClear, true, 50);
             }
 
             var miscMenu = defaultMenu.AddSubMenu(new Menu("[iSR] Misc", "iseriesr.tristana.misc"));
@@ -59,7 +59,6 @@ namespace iSeriesReborn.Champions.Tristana
                 miscMenu.AddBool("iseriesr.tristana.misc.antigp", "Anti Gapcloser", true).SetTooltip("Uses R to stop gapclosers");
                 miscMenu.AddBool("iseriesr.tristana.misc.interrupter", "Interrupter", true).SetTooltip("Uses R to interrupt skills.");
             }
-
             spells[SpellSlot.E].SetTargetted(0.25f, 2400);
         }
 
@@ -85,7 +84,7 @@ namespace iSeriesReborn.Champions.Tristana
 
         protected override void OnLaneClear()
         {
-
+            TristanaE.HandleLaneclear();
         }
 
         protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args){}
