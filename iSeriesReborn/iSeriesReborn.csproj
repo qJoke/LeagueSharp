@@ -103,6 +103,17 @@
     <Compile Include="DZLib\Logging\LogItem.cs" />
     <Compile Include="DZLib\Logging\LogVariables.cs" />
     <Compile Include="DZLib\Menu\MenuExtensions.cs" />
+    <Compile Include="External\Activator\Activator.cs" />
+    <Compile Include="External\Activator\ActivatorEnums.cs" />
+    <Compile Include="External\Activator\ActivatorSpells\Barrier.cs" />
+    <Compile Include="External\Activator\ActivatorSpells\Heal.cs" />
+    <Compile Include="External\Activator\ActivatorSpells\Ignite.cs" />
+    <Compile Include="External\Activator\ActivatorSpells\ISRSpell.cs" />
+    <Compile Include="External\Activator\DamagePrediction.cs" />
+    <Compile Include="External\Activator\Items\ISRItem.cs" />
+    <Compile Include="External\Activator\Items\_BOTRK.cs" />
+    <Compile Include="External\Activator\Items\_Cutlass.cs" />
+    <Compile Include="External\Activator\Items\_Youmuu.cs" />
     <Compile Include="ISRBootstrap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
