@@ -16,7 +16,7 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
             var direction = ObjectManager.Player.Direction.To2D().Perpendicular();
 
             var list = new List<Vector3>();
-            for (var i = -120; i <= 120; i += currentStep)
+            for (var i = -105; i <= 105; i += currentStep)
             {
                 var angleRad = Geometry.DegreeToRadian(i);
                 var rotatedPosition = ObjectManager.Player.Position.To2D() + (300f * direction.Rotated(angleRad));
