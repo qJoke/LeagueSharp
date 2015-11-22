@@ -159,6 +159,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
             {
                 drawMenu.AddBool("dz191.vhr.draw.spots", "Draw Spots", true);
                 drawMenu.AddBool("dz191.vhr.draw.range", "Draw Enemy Ranges", true);
+                drawMenu.AddBool("dz191.vhr.draw.condemn", "Draw Condemn Rectangles", true);
                 drawMenu.AddBool("dz191.vhr.draw.qpos", "Reborn Q Position (Debug)");
 
                 RootMenu.AddSubMenu(drawMenu);

@@ -23,10 +23,16 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
            var MinChecksPercent = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.accuracy").Value;
            var PushDistance = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.pushdistance").Value;
 
-           if (ObjectManager.Player.ServerPosition.UnderTurret(true))
-           {
-                 return null;
-           }
+            if (PushDistance >= 410)
+            {
+                var PushEx = PushDistance;
+                PushDistance -= (10 + (PushEx - 410)/2);
+            }
+
+            if (ObjectManager.Player.ServerPosition.UnderTurret(true))
+            {
+                    return null;
+            }
 
             foreach (var Hero in HeroList)
             {

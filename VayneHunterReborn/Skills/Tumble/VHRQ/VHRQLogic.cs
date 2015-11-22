@@ -4,6 +4,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 using VayneHunter_Reborn.Utility;
+using VayneHunter_Reborn.Utility.MenuUtility;
 
 namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
 {
@@ -15,7 +16,7 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
             var direction = ObjectManager.Player.Direction.To2D().Perpendicular();
 
             var list = new List<Vector3>();
-            for (var i = -90; i <= 90; i += currentStep)
+            for (var i = -120; i <= 120; i += currentStep)
             {
                 var angleRad = Geometry.DegreeToRadian(i);
                 var rotatedPosition = ObjectManager.Player.Position.To2D() + (300f * direction.Rotated(angleRad));
@@ -30,8 +31,8 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
             var enemyPositions = TumblePositioning.GetEnemyPoints();
             var safePositions = positions.Where(pos => !enemyPositions.Contains(pos.To2D())).ToList();
             var BestPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
-            var AverageDistanceWeight = .43f;
-            var ClosestDistanceWeight = .57f;
+            var AverageDistanceWeight = .65f;
+            var ClosestDistanceWeight = .35f;
 
             var bestWeightedAvg = 0f;
             
@@ -68,7 +69,7 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
                 }
             }
 
-            return BestPosition.IsSafe(true) ? BestPosition : Vector3.Zero;
+            return (BestPosition.IsSafe(true) && IsSafeEx(BestPosition)) ? BestPosition : Vector3.Zero;
         }
 
         public static Obj_AI_Hero GetClosestEnemy(Vector3 from)
@@ -87,6 +88,20 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
             return
                 HeroManager.Enemies
                     .FirstOrDefault(en => en.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null), true, from));
+        }
+
+        public static bool IsSafeEx(Vector3 position)
+        {
+            var closeEnemies =
+                    HeroManager.Enemies.FindAll(en => en.IsValidTarget(1500f) && !(en.Distance(ObjectManager.Player.ServerPosition) < en.AttackRange + 65f))
+                    .OrderBy(en => en.Distance(position));
+
+            return closeEnemies.All(
+                                enemy =>
+                                    position.CountEnemiesInRange(
+                                        MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.dynamicqsafety")
+                                            ? enemy.AttackRange
+                                            : 405f) <= 1);
         }
 
         public static float GetAvgDistance(Vector3 from)

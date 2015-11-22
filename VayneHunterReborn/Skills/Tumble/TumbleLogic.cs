@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using VayneHunter_Reborn.Modules.ModuleHelpers;
@@ -10,6 +11,8 @@ namespace VayneHunter_Reborn.Skills.Tumble
 {
     class TumbleLogic
     {
+        private static float LastCondemnTick = 0f;
+
         private static Spell Q
         {
             get { return Variables.spells[SpellSlot.Q]; }
@@ -24,7 +27,17 @@ namespace VayneHunter_Reborn.Skills.Tumble
         {
             if (sender.IsMe && Orbwalking.IsAutoAttack(args.SData.Name) && (args.Target is Obj_AI_Base))
             {
+                if (Environment.TickCount - LastCondemnTick < 250)
+                {
+                    return;
+                }
+
                 ExecuteAALogic(sender, (Obj_AI_Base) args.Target);
+            }
+
+            if (sender.IsMe && args.Slot == SpellSlot.E)
+            {
+                LastCondemnTick = Environment.TickCount;
             }
         }
 
