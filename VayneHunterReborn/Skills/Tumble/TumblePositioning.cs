@@ -57,6 +57,21 @@ namespace VayneHunter_Reborn.Skills.Tumble
                     {
                         QEnemiesCheck = false;
                     }
+
+                    var closeEnemies =
+                    HeroManager.Enemies.FindAll(en => en.IsValidTarget(1500f) && !(en.Distance(ObjectManager.Player.ServerPosition) < en.AttackRange + 65f))
+                    .OrderBy(en => en.Distance(position));
+
+                    if (
+                        !closeEnemies.All(
+                            enemy =>
+                                position.CountEnemiesInRange(
+                                    MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.dynamicqsafety")
+                                        ? enemy.AttackRange
+                                        : 405f) <= 1))
+                    {
+                        QEnemiesCheck = false;
+                    }
                 }
                 else
                 {
