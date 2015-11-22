@@ -4,6 +4,7 @@ using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.ModuleHelper;
 using LeagueSharp;
 using LeagueSharp.Common;
+using Activator = iSeriesReborn.External.Activator.Activator;
 
 namespace iSeriesReborn.Champions
 {
@@ -40,20 +41,21 @@ namespace iSeriesReborn.Champions
                 return;
             }
 
-                if (OrbwalkerCallbacks.ContainsKey(Variables.Orbwalker.ActiveMode))
-                {
-                    OrbwalkerCallbacks[Variables.Orbwalker.ActiveMode]();
-                }
+            if (OrbwalkerCallbacks.ContainsKey(Variables.Orbwalker.ActiveMode))
+            {
+                OrbwalkerCallbacks[Variables.Orbwalker.ActiveMode]();
+            }
 
-                foreach (var module in GetModules())
+            foreach (var module in GetModules())
+            {
+                if (module.ShouldRun() && module.GetModuleType() == ModuleType.OnUpdate)
                 {
-                    if (module.ShouldRun() && module.GetModuleType() == ModuleType.OnUpdate)
-                    {
-                        module.Run();
-                    }
+                    module.Run();
                 }
+            }
 
-                OnTick();   
+            OnTick();
+            Activator.OnUpdate();
         }
 
 

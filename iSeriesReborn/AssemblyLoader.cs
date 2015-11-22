@@ -1,4 +1,5 @@
-﻿using iSeriesReborn.Utility;
+﻿using iSeriesReborn.External.Activator;
+using iSeriesReborn.Utility;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -38,6 +39,10 @@ namespace iSeriesReborn
             if (Variables.ChampList.ContainsKey(ChampionToLoad))
             {
                 Variables.ChampList[ChampionToLoad]();
+
+                Activator.LoadMenu();
+                Activator.OnLoad();
+
                 Game.PrintChat($"<b><font color='#FF0000'>[iSR]</font></b> {ChampionToLoad} Loaded!");
             }
         }
