@@ -84,6 +84,7 @@
     <Compile Include="Champions\Kalista\Skills\KalistaE.cs" />
     <Compile Include="Champions\Kalista\Skills\KalistaHooks.cs" />
     <Compile Include="Champions\Kalista\Skills\KalistaQ.cs" />
+    <Compile Include="Champions\KogMaw\KogMaw.cs" />
     <Compile Include="Champions\Tristana\Skills\TristanaE.cs" />
     <Compile Include="Champions\Tristana\Skills\TristanaQ.cs" />
     <Compile Include="Champions\Tristana\Skills\TristanaR.cs" />
