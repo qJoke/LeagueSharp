@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net.Configuration;
 using DZLib.Logging;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
@@ -37,19 +38,23 @@ namespace iSeriesReborn.Champions.KogMaw
             var comboMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.Combo);
             {
                 comboMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Combo, true, 15);
-                comboMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Combo, true, 5);
+                comboMenu.AddSkill(SpellSlot.W, Orbwalking.OrbwalkingMode.Combo, true, 5);
+                comboMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Combo, true, 30);
                 comboMenu.AddSkill(SpellSlot.R, Orbwalking.OrbwalkingMode.Combo, false, 10);
+                comboMenu.AddSlider("iseriesr.kogmaw.combo.r.limit", "R Limiter", 3, 2, 7);
             }
 
             var mixedMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.Mixed);
             {
                 mixedMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Mixed, true, 15);
                 mixedMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Mixed, true, 5);
+                mixedMenu.AddSkill(SpellSlot.R, Orbwalking.OrbwalkingMode.Mixed, true, 5);
+                mixedMenu.AddSlider("iseriesr.kogmaw.mixed.r.limit", "R Limiter", 3, 2, 7);
             }
 
             var laneclearMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.LaneClear);
             {
-                laneclearMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.LaneClear, true, 50);
+                laneclearMenu.AddSkill(SpellSlot.W, Orbwalking.OrbwalkingMode.LaneClear, true, 50);
             }
 
             var miscMenu = defaultMenu.AddSubMenu(new Menu("[iSR] Misc", "iseriesr.kogmaw.misc"));
@@ -61,6 +66,9 @@ namespace iSeriesReborn.Champions.KogMaw
                     sMenu.AddBool("iseriesr.kogmaw.misc.w.on.nexus", "Nexus", true);
                 }
 
+                miscMenu.AddBool("iseriesr.kogmaw.misc.q.ks", "Use Q KS");
+                miscMenu.AddBool("iseriesr.kogmaw.misc.r.ks", "Use R KS");
+                miscMenu.AddBool("iseriesr.kogmaw.misc.r.slow", "Auto R Slow/Impaired");
                 miscMenu.AddSubMenu(sMenu);
             }
         }
