@@ -14,15 +14,20 @@ namespace iSeriesReborn.Champions.KogMaw
     {
         private readonly Dictionary<SpellSlot, Spell> spells = new Dictionary<SpellSlot, Spell>()
         {
-            { SpellSlot.Q, new Spell(SpellSlot.Q) },
+            { SpellSlot.Q, new Spell(SpellSlot.Q, 1175f) },
             { SpellSlot.W, new Spell(SpellSlot.W) },
-            { SpellSlot.E, new Spell(SpellSlot.E) },
+            { SpellSlot.E, new Spell(SpellSlot.E, 1280f) },
             { SpellSlot.R, new Spell(SpellSlot.R) }
         };
 
         protected override void OnChampLoad()
         {
-
+            spells[SpellSlot.Q].SetSkillshot(0.25f, 70f, 1650f, true, SkillshotType.SkillshotLine);
+            spells[SpellSlot.E].SetSkillshot(0.50f, 120f, 1350, false, SkillshotType.SkillshotLine);
+            spells[SpellSlot.R].SetSkillshot(1.2f, 120f, float.MaxValue, false, SkillshotType.SkillshotCircle);
+            Orbwalking.BeforeAttack += KogHooks.BeforeAttack;
+            Obj_AI_Base.OnBuffAdd += KogHooks.OnBuffAdd;
+            Obj_AI_Base.OnBuffRemove += KogHooks.OnBuffRemove;
         }
 
         protected override void LoadMenu()
@@ -49,7 +54,14 @@ namespace iSeriesReborn.Champions.KogMaw
 
             var miscMenu = defaultMenu.AddSubMenu(new Menu("[iSR] Misc", "iseriesr.kogmaw.misc"));
             {
-               
+                var sMenu = new Menu("Use W On", "iseriesr.kogmaw.misc.w.on");
+                {
+                    sMenu.AddBool("iseriesr.kogmaw.misc.w.on.tower", "Tower", true);
+                    sMenu.AddBool("iseriesr.kogmaw.misc.w.on.inhib", "Inhib", true);
+                    sMenu.AddBool("iseriesr.kogmaw.misc.w.on.nexus", "Nexus", true);
+                }
+
+                miscMenu.AddSubMenu(sMenu);
             }
         }
 
