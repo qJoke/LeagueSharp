@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Net.Configuration;
 using DZLib.Logging;
+using iSeriesReborn.Champions.KogMaw.Skills;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
 using iSeriesReborn.Utility.ModuleHelper;
@@ -66,7 +67,6 @@ namespace iSeriesReborn.Champions.KogMaw
                     sMenu.AddBool("iseriesr.kogmaw.misc.w.on.nexus", "Nexus", true);
                 }
 
-                miscMenu.AddBool("iseriesr.kogmaw.misc.q.ks", "Use Q KS");
                 miscMenu.AddBool("iseriesr.kogmaw.misc.r.ks", "Use R KS");
                 miscMenu.AddBool("iseriesr.kogmaw.misc.r.slow", "Auto R Slow/Impaired");
                 miscMenu.AddSubMenu(sMenu);
@@ -79,7 +79,7 @@ namespace iSeriesReborn.Champions.KogMaw
 
         protected override void OnCombo()
         {
-
+            KogQ.ExecuteLogic();
         }
 
         protected override void OnMixed()
