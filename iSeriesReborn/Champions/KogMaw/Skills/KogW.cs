@@ -1,5 +1,6 @@
 ﻿using DZLib.Logging;
 using iSeriesReborn.Utility;
+using iSeriesReborn.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -9,7 +10,10 @@ namespace iSeriesReborn.Champions.KogMaw.Skills
     {
         internal static void ExecuteLogic()
         {
-            
+            if (Variables.spells[SpellSlot.W].IsEnabledAndReady())
+            {
+                Variables.spells[SpellSlot.W].Cast();
+            }
         }
 
         internal static void OnBeforeAttack(Orbwalking.BeforeAttackEventArgs args)

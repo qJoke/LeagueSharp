@@ -80,6 +80,7 @@ namespace iSeriesReborn.Champions.KogMaw
         protected override void OnCombo()
         {
             KogQ.ExecuteLogic();
+            KogR.ExecuteLogic();
         }
 
         protected override void OnMixed()
@@ -96,7 +97,8 @@ namespace iSeriesReborn.Champions.KogMaw
 
         protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            
+            KogE.ExecuteLogic();
+            KogW.ExecuteLogic();
         }
 
         public override Dictionary<SpellSlot, Spell> GetSpells()

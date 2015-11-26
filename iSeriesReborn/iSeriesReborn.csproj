@@ -86,6 +86,7 @@
     <Compile Include="Champions\Kalista\Skills\KalistaQ.cs" />
     <Compile Include="Champions\KogMaw\KogHooks.cs" />
     <Compile Include="Champions\KogMaw\KogMaw.cs" />
+    <Compile Include="Champions\KogMaw\KogUtils.cs" />
     <Compile Include="Champions\KogMaw\Skills\KogE.cs" />
     <Compile Include="Champions\KogMaw\Skills\KogQ.cs" />
     <Compile Include="Champions\KogMaw\Skills\KogR.cs" />

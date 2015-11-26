@@ -10,7 +10,7 @@ namespace iSeriesReborn.Champions.KogMaw
 {
     class KogHooks
     {
-        internal static void BeforeAttack(LeagueSharp.Common.Orbwalking.BeforeAttackEventArgs args)
+        internal static void BeforeAttack(Orbwalking.BeforeAttackEventArgs args)
         {
             KogW.OnBeforeAttack(args);
         }
