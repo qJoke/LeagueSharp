@@ -1,5 +1,7 @@
-﻿using DZLib.Logging;
+﻿using System.Linq;
+using DZLib.Logging;
 using iSeriesReborn.Utility;
+using iSeriesReborn.Utility.Entities;
 using iSeriesReborn.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -36,6 +38,18 @@ namespace iSeriesReborn.Champions.KogMaw.Skills
                 }
             }
             
+        }
+
+        public static void ExecuteLaneclear()
+        {
+            if (Variables.spells[SpellSlot.W].IsEnabledAndReady())
+            {
+                var minionsInRange = GameObjects.EnemyMinions.Where(m => m.IsValidTarget(KogUtils.GetWRange()));
+                if (minionsInRange.Count() > 6)
+                {
+                    Variables.spells[SpellSlot.W].Cast();
+                }
+            }
         }
     }
 }

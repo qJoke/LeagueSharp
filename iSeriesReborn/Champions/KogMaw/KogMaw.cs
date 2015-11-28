@@ -28,8 +28,6 @@ namespace iSeriesReborn.Champions.KogMaw
             spells[SpellSlot.E].SetSkillshot(0.50f, 120f, 1350, false, SkillshotType.SkillshotLine);
             spells[SpellSlot.R].SetSkillshot(1.2f, 120f, float.MaxValue, false, SkillshotType.SkillshotCircle);
             Orbwalking.BeforeAttack += KogHooks.BeforeAttack;
-            Obj_AI_Base.OnBuffAdd += KogHooks.OnBuffAdd;
-            Obj_AI_Base.OnBuffRemove += KogHooks.OnBuffRemove;
         }
 
         protected override void LoadMenu()
@@ -92,7 +90,7 @@ namespace iSeriesReborn.Champions.KogMaw
 
         protected override void OnLaneClear()
         {
-
+            KogW.ExecuteLaneclear();
         }
 
         protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)

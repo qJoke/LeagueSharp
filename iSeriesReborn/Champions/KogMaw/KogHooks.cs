@@ -14,15 +14,5 @@ namespace iSeriesReborn.Champions.KogMaw
         {
             KogW.OnBeforeAttack(args);
         }
-
-        internal static void OnBuffAdd(LeagueSharp.Obj_AI_Base sender, LeagueSharp.Obj_AI_BaseBuffAddEventArgs args)
-        {
-            
-        }
-
-        internal static void OnBuffRemove(LeagueSharp.Obj_AI_Base sender, LeagueSharp.Obj_AI_BaseBuffRemoveEventArgs args)
-        {
-            
-        }
     }
 }
