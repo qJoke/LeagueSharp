@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Net.Configuration;
 using DZLib.Logging;
+using iSeriesReborn.Champions.KogMaw.Modules;
 using iSeriesReborn.Champions.KogMaw.Skills;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
@@ -108,7 +109,8 @@ namespace iSeriesReborn.Champions.KogMaw
         {
             return new List<IModule>()
             {
-                
+                new KogRKS(),
+                new KogRSlow()
             };
         }
     }
