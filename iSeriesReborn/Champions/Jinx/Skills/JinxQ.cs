@@ -94,14 +94,27 @@ namespace iSeriesReborn.Champions.Jinx.Skills
             if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear ||
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LastHit)
             {
-                //If there are no minions in our AA range.
-                if (!MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Orbwalking.GetRealAutoAttackRange(null)).Any())
+                if (Variables.spells[SpellSlot.Q].IsEnabledAndReady())
+                {
+                    //If there are no minions in our AA range.
+                    if (
+                        !MinionManager.GetMinions(ObjectManager.Player.ServerPosition,
+                            Orbwalking.GetRealAutoAttackRange(null)).Any())
+                    {
+                        if (JinxUtility.IsFishBone())
+                        {
+                            Variables.spells[SpellSlot.Q].Cast();
+                        }
+                    }
+                }
+                else
                 {
                     if (JinxUtility.IsFishBone())
                     {
                         Variables.spells[SpellSlot.Q].Cast();
                     }
                 }
+                
             }
         }
     
