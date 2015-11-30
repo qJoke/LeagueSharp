@@ -100,6 +100,7 @@
     <Compile Include="Champions\Tristana\Tristana.cs" />
     <Compile Include="Champions\Tristana\TristanaHooks.cs" />
     <Compile Include="Champions\Tristana\TristanaUtility.cs" />
+    <Compile Include="Champions\Twitch\Twitch.cs" />
     <Compile Include="Champions\Vayne\Modules\VayneAutoE.cs" />
     <Compile Include="Champions\Vayne\Modules\VayneFocus2W.cs" />
     <Compile Include="Champions\Vayne\Modules\VayneQKs.cs" />
@@ -154,7 +155,6 @@
   <ItemGroup>
     <Folder Include="Champions\KogMaw\Utility\" />
     <Folder Include="Champions\Tristana\Modules\" />
-    <Folder Include="Champions\Twitch\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

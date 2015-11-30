@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using DZLib.Logging;
+﻿using DZLib.Logging;
 using iSeriesReborn.Champions.Kalista.Skills;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.ModuleHelper;
@@ -11,8 +9,6 @@ namespace iSeriesReborn.Champions.Kalista.Modules
 {
     class KalistaSoulboundSaver : IModule
     {
-        private float LastCastTime = 0f;
-
         public string GetName()
         {
             return "Kalista_SoulboundSaver";
@@ -26,19 +22,19 @@ namespace iSeriesReborn.Champions.Kalista.Modules
         public bool ShouldRun()
         {
             return Variables.spells[SpellSlot.E].IsReady() &&
-                   MenuExtensions.GetItemValue<bool>("iseriesr.kalista.misc.kse");
+                   MenuExtensions.GetItemValue<bool>("iseriesr.kalista.misc.savesoulbound");
         }
 
         public void Run()
         {
-            var killableRendTarget = HeroManager.Enemies.FirstOrDefault(enemy => enemy.IsValidTarget(Variables.spells[SpellSlot.E].Range) && KalistaE.CanBeRendKilled(enemy));
+            //TODO More Advanced logic here with incoming damages. No Time now. Gotta go fast.
+            var SoulBound = KalistaHooks.SoulBound;
 
-            if (killableRendTarget != null && (killableRendTarget.NetworkId != Variables.Orbwalker.GetTarget().NetworkId) && (Environment.TickCount - LastCastTime > 250))
+            if (SoulBound?.HealthPercent < 7
+                && (SoulBound.CountEnemiesInRange(500) > 0))
             {
-                Variables.spells[SpellSlot.E].Cast();
-                LastCastTime = Environment.TickCount;
+                Variables.spells[SpellSlot.R].Cast();
             }
-
         }
     }
 }
