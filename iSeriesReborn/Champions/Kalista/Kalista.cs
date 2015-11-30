@@ -115,7 +115,8 @@ namespace iSeriesReborn.Champions.Kalista
                 new KalistaEKs(),
                 new KalistaESlow(),
                 new KalistaEDeath(),
-                new KalistaWalljump()
+                new KalistaWalljump(),
+                new KalistaSoulboundSaver()
             };
         }
     }

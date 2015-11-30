@@ -79,6 +79,7 @@
     <Compile Include="Champions\Kalista\Modules\KalistaEKs.cs" />
     <Compile Include="Champions\Kalista\Modules\KalistaESlow.cs" />
     <Compile Include="Champions\Kalista\Modules\KalistaMobStealer.cs" />
+    <Compile Include="Champions\Kalista\Modules\KalistaSoulboundSaver.cs" />
     <Compile Include="Champions\Kalista\Modules\KalistaWalljump.cs" />
     <Compile Include="Champions\Kalista\Skills\KalistaAGP.cs" />
     <Compile Include="Champions\Kalista\Skills\KalistaE.cs" />
@@ -153,6 +154,7 @@
   <ItemGroup>
     <Folder Include="Champions\KogMaw\Utility\" />
     <Folder Include="Champions\Tristana\Modules\" />
+    <Folder Include="Champions\Twitch\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

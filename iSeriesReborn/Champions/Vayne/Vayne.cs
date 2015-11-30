@@ -59,10 +59,12 @@ namespace iSeriesReborn.Champions.Vayne
             {
                 miscMenu.AddKeybind("iseriesr.vayne.misc.noaastealthex", "Don't AA while stealthed", new Tuple<uint, KeyBindType>('K', KeyBindType.Toggle)).SetTooltip("Will not AA while you are in Ult+Q"); //Done
                 miscMenu.AddBool("iseriesr.vayne.misc.qinrange", "Q For KS", true).SetTooltip("Uses Q to KS by Qing in range if you can kill with Q + AA"); //Done
+                miscMenu.AddBool("iseriesr.vayne.misc.qe", "QE", true).SetTooltip("Uses Q to get in position for E"); //Done
                 miscMenu.AddItem(new MenuItem("aaaaasep1", "E Settings").SetFontStyle(FontStyle.Bold, SharpDX.Color.Red));
                 miscMenu.AddSlider("iseriesr.vayne.misc.condemn.acc", "Accuracy", 45, 1, 60);
                 miscMenu.AddSlider("iseriesr.vayne.misc.condemn.pushdist", "Push Distance", 390, 370, 475);
                 miscMenu.AddBool("iseriesr.vayne.misc.condemn.autoe", "Auto E").SetTooltip("Uses E whenever possible"); //Done
+                miscMenu.AddBool("iseriesr.vayne.misc.condemn.wardbush", "Ward Bush on Condemn").SetTooltip("Ward Bush when target ends there."); //Done
                 miscMenu.AddItem(new MenuItem("aaaaasep2", "Misc Settings").SetFontStyle(FontStyle.Bold, SharpDX.Color.Red));
                 miscMenu.AddBool("iseriesr.vayne.misc.general.antigp", "Anti Gapcloser", true).SetTooltip("Uses E to stop gapclosers");
                 miscMenu.AddBool("iseriesr.vayne.misc.general.interrupter", "Interrupter", true).SetTooltip("Uses E to interrupt skills.");
