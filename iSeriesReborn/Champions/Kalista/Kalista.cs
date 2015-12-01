@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DZLib.Logging;
 using iSeriesReborn.Champions.Kalista.Modules;
 using iSeriesReborn.Champions.Kalista.Skills;
@@ -69,6 +70,7 @@ namespace iSeriesReborn.Champions.Kalista
                 miscMenu.AddBool("iseriesr.kalista.misc.lhassit", "Last Hit Assist", true).SetTooltip("Will use E to secure minions you can't secure normally.");
                 miscMenu.AddBool("iseriesr.kalista.misc.edeath", "Use E Before Death", true).SetTooltip("Will use E just before death to assure you will not die in vain :roto2:.");
                 miscMenu.AddBool("iseriesr.kalista.misc.useeslow", "Use E for slow", true).SetTooltip("Will kill enemy minions with E to slow enemy when it's possible to reset E");
+                miscMenu.AddBool("iseriesr.kalista.misc.savesoulbound", "Save Soulbound with R", true).SetTooltip("Will use R to save soulbound.");
                 miscMenu.AddKeybind("iseriesr.kalista.misc.walljump", "Walljump", new Tuple<uint, KeyBindType>('Z', KeyBindType.Press)).SetTooltip("Will flee to a position and use Q to walljump. Position near the wall and magic will happen.");
             }
 
@@ -76,6 +78,12 @@ namespace iSeriesReborn.Champions.Kalista
 
         protected override void OnTick()
         {
+            if (KalistaHooks.SoulBound == null)
+            {
+                KalistaHooks.SoulBound =
+                    HeroManager.Allies.Find(
+                        h => h.Buffs.Any(b => b.Caster.IsMe && b.Name.Contains("kalistacoopstrikeally")));
+            }
         }
 
         protected override void OnCombo()
@@ -115,7 +123,8 @@ namespace iSeriesReborn.Champions.Kalista
                 new KalistaEKs(),
                 new KalistaESlow(),
                 new KalistaEDeath(),
-                new KalistaWalljump()
+                new KalistaWalljump(),
+                new KalistaSoulboundSaver()
             };
         }
     }

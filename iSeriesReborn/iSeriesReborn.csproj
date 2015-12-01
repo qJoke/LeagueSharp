@@ -79,6 +79,7 @@
     <Compile Include="Champions\Kalista\Modules\KalistaEKs.cs" />
     <Compile Include="Champions\Kalista\Modules\KalistaESlow.cs" />
     <Compile Include="Champions\Kalista\Modules\KalistaMobStealer.cs" />
+    <Compile Include="Champions\Kalista\Modules\KalistaSoulboundSaver.cs" />
     <Compile Include="Champions\Kalista\Modules\KalistaWalljump.cs" />
     <Compile Include="Champions\Kalista\Skills\KalistaAGP.cs" />
     <Compile Include="Champions\Kalista\Skills\KalistaE.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Champions\Tristana\Tristana.cs" />
     <Compile Include="Champions\Tristana\TristanaHooks.cs" />
     <Compile Include="Champions\Tristana\TristanaUtility.cs" />
+    <Compile Include="Champions\Twitch\Twitch.cs" />
     <Compile Include="Champions\Vayne\Modules\VayneAutoE.cs" />
     <Compile Include="Champions\Vayne\Modules\VayneFocus2W.cs" />
     <Compile Include="Champions\Vayne\Modules\VayneQKs.cs" />

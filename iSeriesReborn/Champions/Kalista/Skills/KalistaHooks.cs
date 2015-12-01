@@ -8,6 +8,7 @@ namespace iSeriesReborn.Champions.Kalista.Skills
 {
     class KalistaHooks
     {
+        public static Obj_AI_Hero SoulBound { get; set; }
 
         internal static void OnIssueOrder(Obj_AI_Base sender, GameObjectIssueOrderEventArgs args)
         {

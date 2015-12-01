@@ -67,7 +67,7 @@ namespace iSeriesReborn.Champions.Kalista.Skills
             return target.HasRend() 
                     && target.IsValidTarget(Variables.CurrentChampion.GetSpells()[SpellSlot.E].Range) &&
                    (HealthPrediction.GetHealthPrediction(target, 250) > 0 &&
-                    HealthPrediction.GetHealthPrediction(target, 250) + 5 <= GetRendDamage(target)) &&
+                    HealthPrediction.GetHealthPrediction(target, 250) + 20 <= GetRendDamage(target)) &&
                    (CanBeDamaged(target));
         }
 
