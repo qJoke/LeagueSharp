@@ -11,8 +11,6 @@ namespace iSeriesReborn.Champions.Jinx.Modules
 {
     class JinxAutoE : IModule
     {
-        private float LastCastTime = 0f;
-
         public string GetName()
         {
             return "Jinx_AutoE";
