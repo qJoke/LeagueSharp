@@ -29,7 +29,7 @@ namespace iSeriesReborn.Champions.Vayne.Modules
 
         public void Run()
         {
-            VayneE.ECheck();
+            VayneE.ECheck(ObjectManager.Player.ServerPosition);
         }
     }
 }
