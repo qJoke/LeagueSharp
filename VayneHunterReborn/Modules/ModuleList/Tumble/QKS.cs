@@ -47,8 +47,8 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
                         currentTarget.ServerPosition, 300f);
                     if (extendedPosition.IsSafe())
                     {
-                        Variables.spells[SpellSlot.Q].Cast(extendedPosition);
                         Orbwalking.ResetAutoAttackTimer();
+                        Variables.spells[SpellSlot.Q].Cast(extendedPosition);
                         TargetSelector.SetTarget(currentTarget);
                     }
                 }
