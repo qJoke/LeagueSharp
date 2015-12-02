@@ -117,6 +117,11 @@ namespace DZAwarenessAIO.Modules.WardTracker
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnDraw(EventArgs args)
         {
+            if (!MenuExtensions.GetItemValue<bool>("dz191.dza.ward.track"))
+            {
+                return;
+            }
+
             var closeWard =
                     WardTrackerVariables.detectedWards.FirstOrDefault(
                         w => w.Position.Distance(Game.CursorPos, true) < 80 * 80);
@@ -137,15 +142,24 @@ namespace DZAwarenessAIO.Modules.WardTracker
                 {
                     continue;
                 }
-
                 var position = ward.Position;
-                var shape = Helper.GetPolygonVertices(
-                    new Vector2(position.X, position.Y + 15.5f).To3D(),
-                    MenuExtensions.GetItemValue<Slider>("dz191.dza.ward.sides").Value, 65f, 0);
-                var list = shape.Select(v2 => new IntPoint(v2.X, v2.Y)).ToList();
-                var currentPoly = Geometry.ToPolygon(list);
-                var colour = GetWardColor(ward.WardTypeW);
-                currentPoly.Draw(colour);
+
+                switch (MenuExtensions.GetItemValue<StringList>("dz191.dza.ward.type").SelectedIndex)
+                {
+                    case 0:
+                            Render.Circle.DrawCircle(position, 125f, GetWardColor(ward.WardTypeW));
+                        break;
+                    case 1:
+                            var shape = Helper.GetPolygonVertices(
+                                new Vector2(position.X, position.Y + 15.5f).To3D(),
+                                MenuExtensions.GetItemValue<Slider>("dz191.dza.ward.sides").Value, 65f, 0);
+                            var list = shape.Select(v2 => new IntPoint(v2.X, v2.Y)).ToList();
+                            var currentPoly = Geometry.ToPolygon(list);
+                            var colour = GetWardColor(ward.WardTypeW);
+                            currentPoly.Draw(colour);
+                        break;
+                }
+                
             }
         }
 

@@ -24,6 +24,7 @@ namespace DZAwarenessAIO.Modules.WardTracker
                 {
                     moduleMenu.AddBool("dz191.dza.ward.track", "Track wards").SetTooltip("Tracks Wards, Pinks, Shrooms etc.");
                     moduleMenu.AddKeybind("dz191.dza.ward.extrainfo", "Show Extra informations", new Tuple<uint, KeyBindType>('Z', KeyBindType.Press)).SetTooltip("Click the button and hover a ward polygon for more info.");
+                    moduleMenu.AddStringList("dz191.dza.ward.type", "Drawing Type", new []{"Circle", "Polygon"}, 1).SetTooltip("The drawing type.");
                     moduleMenu.AddSlider("dz191.dza.ward.sides", "Sides of Polygon (Higher = Laggier)", new Tuple<int, int, int>(4, 3, 12)).SetTooltip("The sides of the polygon the wards have drawn around.");
                     RootMenu.AddSubMenu(moduleMenu);
                 }

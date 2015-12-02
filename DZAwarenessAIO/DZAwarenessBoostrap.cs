@@ -36,6 +36,8 @@ namespace DZAwarenessAIO
             }
 
             DZAwareness.OnLoad();
+
+            Game.PrintChat("<font color='#2675A9'>DZ</font>Awareness Loaded: Remember to enable the HUD in the Options!");
         }
     }
 }

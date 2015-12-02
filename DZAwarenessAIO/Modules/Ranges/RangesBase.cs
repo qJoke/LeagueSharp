@@ -29,7 +29,7 @@ namespace DZAwarenessAIO.Modules.Ranges
                 var moduleMenu = new Menu("AA Range Tracking", "dz191.dza.ranges");
                 {
                     moduleMenu.AddBool("dz191.dza.ranges.ally", "Ally Ranges");
-                    moduleMenu.AddBool("dz191.dza.ranges.enemy", "Enemy Ranges", true);
+                    moduleMenu.AddBool("dz191.dza.ranges.enemy", "Enemy Ranges");
                     RootMenu.AddSubMenu(moduleMenu);
                 }
             }
