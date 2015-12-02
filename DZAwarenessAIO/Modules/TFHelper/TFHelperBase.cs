@@ -21,6 +21,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
                 var RootMenu = Variables.Menu;
                 var moduleMenu = new Menu("TF Helper", "dz191.dza.tf");
                 {
+                    moduleMenu.AddBool("dz191.dza.tf.enabled", "TF Helper");
                     moduleMenu.AddSlider("dz191.dza.tf.range", "TF Range", 1200, 500, 1800);
                     RootMenu.AddSubMenu(moduleMenu);
                 }

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using DZAwarenessAIO.Properties;
 using DZAwarenessAIO.Utility.HudUtility;
 using DZAwarenessAIO.Utility.HudUtility.HudElements;
 using DZAwarenessAIO.Utility.Logs;
+using DZAwarenessAIO.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -38,7 +40,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
                         Scale = new Vector2(0.95f, 0.95f),
                         VisibleCondition = delegate
                         {
-                            return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
+                            return MenuExtensions.GetItemValue<bool>("dz191.dza.tf.enabled") && HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
                         }
                     };
 
@@ -50,7 +52,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
                         Scale = new Vector2(0.95f, 0.95f),
                         VisibleCondition = delegate
                         {
-                            return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
+                            return MenuExtensions.GetItemValue<bool>("dz191.dza.tf.enabled") && HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
                         }
                     };
 
@@ -69,7 +71,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
                         TextUpdate = () => $"{TFHelperCalculator.GetAllyStrength()*100} %",
                         VisibleCondition = delegate
                         {
-                            return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
+                            return MenuExtensions.GetItemValue<bool>("dz191.dza.tf.enabled") && HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
                         }
                     };
 
@@ -88,7 +90,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
                         TextUpdate = () => $"{TFHelperCalculator.GetEnemyStrength()*100} %",
                         VisibleCondition = delegate
                         {
-                            return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
+                            return MenuExtensions.GetItemValue<bool>("dz191.dza.tf.enabled") && HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
                         }
                     };
 
@@ -102,7 +104,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
                                     hudPanel.Position.Y + hudPanel.Height/2f - 12),
                         VisibleCondition = delegate
                         {
-                            return HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
+                            return MenuExtensions.GetItemValue<bool>("dz191.dza.tf.enabled") && HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded;
                         }
                     };
 
@@ -130,7 +132,7 @@ namespace DZAwarenessAIO.Modules.TFHelper
         {
             try
             {
-                if ((Environment.TickCount - LastTick < 2000) || !(HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded))
+                if ((Environment.TickCount - LastTick < 2000) || !(HudVariables.ShouldBeVisible && HudVariables.CurrentStatus == SpriteStatus.Expanded) || !MenuExtensions.GetItemValue<bool>("dz191.dza.tf.enabled"))
                 {
                     return;
                 }
