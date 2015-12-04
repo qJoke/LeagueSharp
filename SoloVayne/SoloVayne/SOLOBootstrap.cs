@@ -1,0 +1,36 @@
+﻿using LeagueSharp;
+using SoloVayne.Utility;
+
+namespace SoloVayne
+{
+    class SOLOBootstrap
+    {
+        public MenuGenerator MenuGenerator;
+
+        public SOLOVayne SOLOVayne;
+
+        public SOLOBootstrap()
+        {
+            if (Variables.Instance != null)
+            {
+                return;
+            }
+
+            SOLOVayne = new SOLOVayne();
+            MenuGenerator = new MenuGenerator();
+            MenuGenerator.GenerateMenu();
+
+            PrintLoaded();
+        }
+
+        public void PrintLoaded()
+        {
+            Game.PrintChat("<b>[<font color='#009aff'>SOLO</font>] Vayne</b> loaded!");
+        }
+
+        public SOLOBootstrap GetInstance()
+        {
+            return Variables.Instance ?? (Variables.Instance = new SOLOBootstrap());
+        }
+    }
+}
