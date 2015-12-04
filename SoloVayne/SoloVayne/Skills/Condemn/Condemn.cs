@@ -1,4 +1,6 @@
-﻿using iSeriesReborn.Utility.MenuUtility;
+﻿using System;
+using DZLib.Logging;
+using iSeriesReborn.Utility.MenuUtility;
 using LeagueSharp;
 using SoloVayne.Skills.Condemn;
 using SoloVayne.Utility;
@@ -20,15 +22,22 @@ namespace SoloVayne.Skills.Tumble
             return SkillMode.OnUpdate;
         }
 
-        public void Execute()
+        public void Execute(Obj_AI_Base target)
         {
-            if (Variables.spells[SpellSlot.E].IsEnabledAndReady())
+            try
             {
-                var target = Provider.GetTarget();
-                if (target != null)
+                if (Variables.spells[SpellSlot.E].IsEnabledAndReady())
                 {
-                    Variables.spells[SpellSlot.E].Cast(target);
+                    var CondemnTarget = Provider.GetTarget();
+                    if (target != null)
+                    {
+                        Variables.spells[SpellSlot.E].Cast(CondemnTarget);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                LogHelper.AddToLog(new LogItem("Condemn", e, LogSeverity.Error));
             }
         }
     }

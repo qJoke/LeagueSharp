@@ -73,12 +73,17 @@
     <Compile Include="Skills\Condemn\CondemnLogicProvider.cs" />
     <Compile Include="Skills\Skill.cs" />
     <Compile Include="Skills\Tumble\Tumble.cs" />
+    <Compile Include="Skills\Tumble\TumbleExtensions.cs" />
+    <Compile Include="Skills\Tumble\TumbleHelper.cs" />
+    <Compile Include="Skills\Tumble\TumbleLogicProvider.cs" />
+    <Compile Include="Skills\Tumble\TumbleVariables.cs" />
     <Compile Include="SOLOBootstrap.cs" />
     <Compile Include="SOLOVayne.cs" />
     <Compile Include="Utility\Entities\GameObjects.cs" />
     <Compile Include="Utility\Entities\Jungle.cs" />
     <Compile Include="Utility\Entities\ProrityHelper.cs" />
     <Compile Include="Utility\Enums\SkillMode.cs" />
+    <Compile Include="Utility\Geometry\SOLOGeometry.cs" />
     <Compile Include="Utility\Geometry\SOLOPolygon.cs" />
     <Compile Include="Utility\SOLOMenuExtensions.cs" />
     <Compile Include="Utility\MenuGenerator.cs" />

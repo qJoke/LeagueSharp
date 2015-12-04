@@ -13,7 +13,7 @@ namespace SoloVayne
          * TODO List
          * Safe enemies around check for Q into Wall
          * Don't aa while stealthed should be on I guess with 3 enemies, but if you have an ally near it shouldn't aa with 2. Maybe it should just always stealth.
-         * 
+         * Add Condemn To Trundle / J4 / Anivia Walls
          */
 
         public SOLOVayne()
@@ -27,13 +27,13 @@ namespace SoloVayne
             try
             {
 
-                if (sender.IsMe && Orbwalking.IsAutoAttack(args.SData.Name))
+                if (sender.IsMe && Orbwalking.IsAutoAttack(args.SData.Name) && (args.Target is Obj_AI_Base))
                 {
                     foreach (var skill in Variables.skills)
                     {
                         if (skill.GetSkillMode() == SkillMode.OnAfterAA)
                         {
-                            skill.Execute();
+                            skill.Execute(args.Target as Obj_AI_Base);
                         }
                     }
                 }
@@ -56,7 +56,7 @@ namespace SoloVayne
                 {
                     if (skill.GetSkillMode() == SkillMode.OnUpdate)
                     {
-                        skill.Execute();
+                        skill.Execute(Variables.Orbwalker.GetTarget() is Obj_AI_Base ? Variables.Orbwalker.GetTarget() as Obj_AI_Base : null);
                     }
                 }
             }

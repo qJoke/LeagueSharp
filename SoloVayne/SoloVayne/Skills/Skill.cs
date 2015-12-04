@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using LeagueSharp;
 using SoloVayne.Utility.Enums;
 
 namespace SoloVayne.Skills
@@ -12,6 +13,6 @@ namespace SoloVayne.Skills
     {
         SkillMode GetSkillMode();
 
-        void Execute();
+        void Execute(Obj_AI_Base target);
     }
 }

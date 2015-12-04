@@ -61,7 +61,7 @@ namespace SoloVayne.Skills.Condemn
                     return Hero;
                 }
             }
-
+            return null;
         }
 
         private static bool IsBothNearWall(Obj_AI_Base target)
