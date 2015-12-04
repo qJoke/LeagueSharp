@@ -19,7 +19,7 @@ namespace SoloVayne.Skills.Condemn
                                         !h.HasBuffOfType(BuffType.SpellImmunity));
 
             var Accuracy = 45;
-            var PushDistance = 420;
+            var PushDistance = 410;
 
             if (ObjectManager.Player.ServerPosition.UnderTurret(true))
             {

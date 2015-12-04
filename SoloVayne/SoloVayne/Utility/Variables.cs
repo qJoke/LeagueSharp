@@ -54,6 +54,7 @@ namespace SoloVayne.Utility
         public static List<Skill> skills = new List<Skill>()
         {
             new Tumble(),
+            new Condemn()
         };
     }
 }

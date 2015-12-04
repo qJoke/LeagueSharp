@@ -54,7 +54,6 @@ namespace SoloVayne.Utility
                 {
                     EMenu.AddBool("solo.vayne.misc.condemn.autoe", "Auto E");
                     EMenu.AddBool("solo.vayne.misc.condemn.current", "Only E Current Target", true);
-                    miscMenu.AddSubMenu(EMenu);
                 }
             }
 

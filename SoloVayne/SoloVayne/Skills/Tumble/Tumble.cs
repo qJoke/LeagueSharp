@@ -62,7 +62,7 @@ namespace SoloVayne.Skills.Tumble
 
         private void CastQ(Vector3 Position)
         {
-            Orbwalking.ResetAutoAttackTimer();
+            //Orbwalking.ResetAutoAttackTimer();
             Variables.spells[SpellSlot.Q].Cast(Position);
         }
     }

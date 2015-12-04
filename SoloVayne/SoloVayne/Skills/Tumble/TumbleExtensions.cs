@@ -20,18 +20,18 @@ namespace SoloVayne.Skills.Tumble
             {
                 return false;
             }
-
+            var range = 1000f;
             var lowHealthAllies =
-                HeroManager.Allies.Where(a => a.IsValidTarget(1500, false) && a.HealthPercent < 10);
+                HeroManager.Allies.Where(a => a.IsValidTarget(range, false) && a.HealthPercent < 10 && !a.IsMe);
             var lowHealthEnemies =
-                HeroManager.Allies.Where(a => a.IsValidTarget(1500) && a.HealthPercent < 10);
-            var enemies = ObjectManager.Player.CountAlliesInRange(1500);
-            var allies = ObjectManager.Player.CountAlliesInRange(1500);
+                HeroManager.Allies.Where(a => a.IsValidTarget(range) && a.HealthPercent < 10);
+            var enemies = ObjectManager.Player.CountAlliesInRange(range);
+            var allies = ObjectManager.Player.CountAlliesInRange(range);
             var enemyTurrets = GameObjects.EnemyTurrets.Where(m => m.IsValidTarget(975f));
             var allyTurrets = GameObjects.AllyTurrets.Where(m => m.IsValidTarget(975f, false));
 
-            return (allies - 1 - lowHealthAllies.Count() + allyTurrets.Count() * 2 >
-                    enemies - lowHealthEnemies.Count() + enemyTurrets.Count() * 2);
+            return (allies - lowHealthAllies.Count() + allyTurrets.Count() * 2 >=
+                enemies - lowHealthEnemies.Count() + (!ObjectManager.Player.UnderTurret(true) ? enemyTurrets.Count() * 2 : 0));
         }
 
         public static bool IsNotIntoEnemies(this Vector3 position)
