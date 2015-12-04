@@ -25,7 +25,7 @@ namespace SoloVayne.Skills.Tumble
                 HeroManager.Allies.Where(a => a.IsValidTarget(range, false) && a.HealthPercent < 10 && !a.IsMe);
             var lowHealthEnemies =
                 HeroManager.Allies.Where(a => a.IsValidTarget(range) && a.HealthPercent < 10);
-            var enemies = ObjectManager.Player.CountAlliesInRange(range);
+            var enemies = ObjectManager.Player.CountEnemiesInRange(range);
             var allies = ObjectManager.Player.CountAlliesInRange(range);
             var enemyTurrets = GameObjects.EnemyTurrets.Where(m => m.IsValidTarget(975f));
             var allyTurrets = GameObjects.AllyTurrets.Where(m => m.IsValidTarget(975f, false));
