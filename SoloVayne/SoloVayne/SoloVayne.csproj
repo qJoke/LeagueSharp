@@ -79,6 +79,7 @@
     <Compile Include="Skills\Tumble\TumbleVariables.cs" />
     <Compile Include="SOLOBootstrap.cs" />
     <Compile Include="SOLOVayne.cs" />
+    <Compile Include="Utility\Entities\AttackTracker.cs" />
     <Compile Include="Utility\Entities\GameObjects.cs" />
     <Compile Include="Utility\Entities\Jungle.cs" />
     <Compile Include="Utility\Entities\ProrityHelper.cs" />

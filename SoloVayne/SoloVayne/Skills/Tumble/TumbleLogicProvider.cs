@@ -2,6 +2,7 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using SoloVayne.Utility.Entities;
 
 namespace SoloVayne.Skills.Tumble
 {
@@ -37,6 +38,27 @@ namespace SoloVayne.Skills.Tumble
                     return ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f).IsSafe()
                         ? ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f)
                         : Vector3.Zero;
+                }
+
+                if (HeroManager.Allies.Count(ally => !ally.IsMe && ally.IsValidTarget(1500f, false)) <= 1)
+                {
+                    var targettingEnemies =
+                        HeroManager.Enemies.Where(m => !m.IsMelee && m.IsValidTarget(1500f) && m.HealthPercent < 7).ToList();
+                    if (targettingEnemies.Any())
+                    {
+                        var total =
+                            targettingEnemies.Sum(v => AttackTracker.ActiveAttacks.Count(m => m.Key == v.NetworkId));
+
+                        if (total >= 2)
+                        {
+                            var backwardsPosition = ObjectManager.Player.ServerPosition.Extend(targettingEnemies.First().ServerPosition, -300f);
+
+                            if (backwardsPosition.IsSafe())
+                            {
+                                return backwardsPosition;
+                            }
+                        }
+                    }
                 }
 
                 var avgDist = TumbleHelper.GetAvgDistance(position);

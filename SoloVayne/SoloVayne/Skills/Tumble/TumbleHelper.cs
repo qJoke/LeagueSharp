@@ -52,16 +52,16 @@ namespace SoloVayne.Skills.Tumble
 
         public static float GetAvgDistance(Vector3 from)
         {
-            var numberOfEnemies = from.CountEnemiesInRange(1000f);
+            var numberOfEnemies = from.CountEnemiesInRange(1400f);
             if (numberOfEnemies != 0)
             {
-                var enemies = HeroManager.Enemies.Where(en => en.IsValidTarget(1000f, true, from)
+                var enemies = HeroManager.Enemies.Where(en => en.IsValidTarget(1400f, true, from)
                                                     &&
                                                     en.Health >
                                                     ObjectManager.Player.GetAutoAttackDamage(en) * 3 +
                                                     Variables.spells[SpellSlot.W].GetDamage(en) +
                                                     Variables.spells[SpellSlot.Q].GetDamage(en)).ToList();
-                var enemiesEx = HeroManager.Enemies.Where(en => en.IsValidTarget(1000f, true, from)).ToList();
+                var enemiesEx = HeroManager.Enemies.Where(en => en.IsValidTarget(1400f, true, from)).ToList();
                 var LHEnemies = enemiesEx.Count() - enemies.Count();
                 var totalDistance = 0f;
 
