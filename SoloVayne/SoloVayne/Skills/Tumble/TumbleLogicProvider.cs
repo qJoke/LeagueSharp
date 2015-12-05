@@ -40,7 +40,7 @@ namespace SoloVayne.Skills.Tumble
                         : Vector3.Zero;
                 }
 
-                if (HeroManager.Allies.Count(ally => !ally.IsMe && ally.IsValidTarget(1500f, false)) <= 1)
+                if (HeroManager.Allies.Count(ally => !ally.IsMe && ally.IsValidTarget(1500f, false)) < 1)
                 {
                     var targettingEnemies =
                         HeroManager.Enemies.Where(m => !m.IsMelee && m.IsValidTarget(1500f) && m.HealthPercent < 7).ToList();
