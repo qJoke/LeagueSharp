@@ -30,7 +30,7 @@ namespace SoloVayne.Skills.Tumble
             var enemyTurrets = GameObjects.EnemyTurrets.Where(m => m.IsValidTarget(975f));
             var allyTurrets = GameObjects.AllyTurrets.Where(m => m.IsValidTarget(975f, false));
 
-            return (allies - lowHealthAllies.Count() + allyTurrets.Count() * 2 >=
+            return (allies - lowHealthAllies.Count() + allyTurrets.Count() * 2 + 1 >=
                 enemies - lowHealthEnemies.Count() + (!ObjectManager.Player.UnderTurret(true) ? enemyTurrets.Count() * 2 : 0));
         }
 
@@ -43,7 +43,7 @@ namespace SoloVayne.Skills.Tumble
             }
 
             var enemyPoints = TumbleHelper.GetEnemyPoints();
-            if (enemyPoints.ToList().Contains(position.To2D()))
+            if (enemyPoints.ToList().Contains(position.To2D()) && !enemyPoints.Contains(ObjectManager.Player.ServerPosition.To2D()))
             {
                 return false;
             }

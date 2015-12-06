@@ -2,6 +2,7 @@
 using DZLib.Logging;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SoloVayne.Skills.Tumble;
 using SoloVayne.Utility;
 using SoloVayne.Utility.Enums;
 
@@ -19,7 +20,17 @@ namespace SoloVayne
         public SOLOVayne()
         {
             Game.OnUpdate += OnUpdate;
+            Drawing.OnDraw += OnDraw;
             Obj_AI_Base.OnDoCast += OnDoCast;
+        }
+
+        private void OnDraw(EventArgs args)
+        {
+            var RQ = TumbleHelper.GetRotatedQPositions();
+            foreach (var pos in RQ)
+            {
+                Render.Circle.DrawCircle(pos, 65, System.Drawing.Color.Yellow);
+            }
         }
 
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)

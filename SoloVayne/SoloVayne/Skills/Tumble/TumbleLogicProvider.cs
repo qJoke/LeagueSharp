@@ -14,15 +14,40 @@ namespace SoloVayne.Skills.Tumble
             var enemyPositions = TumbleHelper.GetEnemyPoints();
             var safePositions = positions.Where(pos => !enemyPositions.Contains(pos.To2D())).ToList();
             var BestPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
-            var AverageDistanceWeight = .70f;
-            var ClosestDistanceWeight = .30f;
+            var AverageDistanceWeight = .60f;
+            var ClosestDistanceWeight = .40f;
 
             var bestWeightedAvg = 0f;
 
             if (ObjectManager.Player.CountEnemiesInRange(1500f) <= 1)
             {
+                //Logic for 1 enemy near
                 var position = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
-                return position.IsSafe() ? position : Vector3.Zero;
+                return position.IsSafeEx() ? position : Vector3.Zero;
+            }
+
+            var targettingEnemies =
+                    HeroManager.Enemies.Where(m => !m.IsMelee && m.IsValidTarget(1300f) && m.HealthPercent > 7).ToList();
+            
+            if (HeroManager.Allies.Count(ally => !ally.IsMe && ally.IsValidTarget(1500f, false)) < 1 &&
+                targettingEnemies.Count() <= 2)
+            {
+                //Logic for 2 enemies Near
+                var backwardsPosition = (ObjectManager.Player.ServerPosition.To2D() + 300f * ObjectManager.Player.Direction.To2D()).To3D();
+
+                if (!backwardsPosition.UnderTurret(true))
+                {
+                    return backwardsPosition;
+                }
+            }
+
+            var closeEnemy = TumbleHelper.GetClosestEnemy(ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f));
+
+            if (ObjectManager.Player.Distance(closeEnemy) <= closeEnemy.AttackRange - 85 && !closeEnemy.IsMelee)
+            {
+                return ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f).IsSafeEx()
+                    ? ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f)
+                    : Vector3.Zero;
             }
 
             foreach (var position in safePositions)
@@ -35,31 +60,11 @@ namespace SoloVayne.Skills.Tumble
 
                 if (ObjectManager.Player.Distance(enemy) <= enemy.AttackRange - 85 && !enemy.IsMelee)
                 {
-                    return ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f).IsSafe()
+                    return ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f).IsSafeEx()
                         ? ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f)
                         : Vector3.Zero;
                 }
 
-                if (HeroManager.Allies.Count(ally => !ally.IsMe && ally.IsValidTarget(1500f, false)) < 1)
-                {
-                    var targettingEnemies =
-                        HeroManager.Enemies.Where(m => !m.IsMelee && m.IsValidTarget(1500f) && m.HealthPercent < 7).ToList();
-                    if (targettingEnemies.Any())
-                    {
-                        var total =
-                            targettingEnemies.Sum(v => AttackTracker.ActiveAttacks.Count(m => m.Key == v.NetworkId));
-
-                        if (total >= 2)
-                        {
-                            var backwardsPosition = ObjectManager.Player.ServerPosition.Extend(targettingEnemies.First().ServerPosition, -300f);
-
-                            if (backwardsPosition.IsSafe())
-                            {
-                                return backwardsPosition;
-                            }
-                        }
-                    }
-                }
 
                 var avgDist = TumbleHelper.GetAvgDistance(position);
 
@@ -67,14 +72,14 @@ namespace SoloVayne.Skills.Tumble
                 {
                     var closestDist = ObjectManager.Player.ServerPosition.Distance(enemy.ServerPosition);
                     var weightedAvg = closestDist * ClosestDistanceWeight + avgDist * AverageDistanceWeight;
-                    if (weightedAvg > bestWeightedAvg && position.IsSafe())
+                    if (weightedAvg > bestWeightedAvg && position.IsSafeEx())
                     {
                         bestWeightedAvg = weightedAvg;
                         BestPosition = position;
                     }
                 }
             }
-
+            
             return (BestPosition.IsSafe()) ? BestPosition : Vector3.Zero;
         }
     }
