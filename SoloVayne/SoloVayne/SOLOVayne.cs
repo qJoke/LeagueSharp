@@ -26,6 +26,7 @@ namespace SoloVayne
 
         private void OnDraw(EventArgs args)
         {
+            return;
             var RQ = TumbleHelper.GetRotatedQPositions();
             foreach (var pos in RQ)
             {
