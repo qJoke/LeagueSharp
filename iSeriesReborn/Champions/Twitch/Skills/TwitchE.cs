@@ -40,5 +40,4 @@ namespace iSeriesReborn.Champions.Twitch.Skills
                 }
             }
         }
-    }
 }
