@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SoloVayne.Modules;
+using SoloVayne.Modules.Condemn;
 using SoloVayne.Skills;
 using SoloVayne.Skills.Tumble;
 using SoloVayne.Utility.Enums;
@@ -55,6 +57,12 @@ namespace SoloVayne.Utility
         {
             new Tumble(),
             new Condemn()
+        };
+
+        public static List<ISOLOModule> ModuleList = new List<ISOLOModule>()
+        {
+            new AutoE(), 
+            new AutoR()
         };
     }
 }

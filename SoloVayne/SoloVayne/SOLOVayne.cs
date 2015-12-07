@@ -2,6 +2,7 @@
 using DZLib.Logging;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SoloVayne.Modules;
 using SoloVayne.Skills.Tumble;
 using SoloVayne.Utility;
 using SoloVayne.Utility.Enums;
@@ -17,13 +18,25 @@ namespace SoloVayne
          * Add Condemn To Trundle / J4 / Anivia Walls
          */
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SOLOVayne"/> class.
+        /// </summary>
         public SOLOVayne()
         {
             Game.OnUpdate += OnUpdate;
             Drawing.OnDraw += OnDraw;
             Obj_AI_Base.OnDoCast += OnDoCast;
+
+            foreach (var module in Variables.ModuleList)
+            {
+                module.OnLoad();
+            }
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:Draw" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void OnDraw(EventArgs args)
         {
             return;
@@ -34,12 +47,20 @@ namespace SoloVayne
             }
         }
 
+        /// <summary>
+        /// Called when an unit has executed the windup time for a skill.
+        /// </summary>
+        /// <param name="sender">The unit.</param>
+        /// <param name="args">The <see cref="GameObjectProcessSpellCastEventArgs"/> instance containing the event data.</param>
         private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             try
             {
 
-                if (sender.IsMe && Orbwalking.IsAutoAttack(args.SData.Name) && (args.Target is Obj_AI_Base))
+                if (sender.IsMe 
+                    && Orbwalking.IsAutoAttack(args.SData.Name) 
+                    && (args.Target is Obj_AI_Base) 
+                    && (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo || Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed))
                 {
                     foreach (var skill in Variables.skills)
                     {
@@ -55,6 +76,10 @@ namespace SoloVayne
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="E:Update" /> event.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void OnUpdate(EventArgs args)
         {
             try
@@ -69,6 +94,14 @@ namespace SoloVayne
                     if (skill.GetSkillMode() == SkillMode.OnUpdate)
                     {
                         skill.Execute(Variables.Orbwalker.GetTarget() is Obj_AI_Base ? Variables.Orbwalker.GetTarget() as Obj_AI_Base : null);
+                    }
+                }
+
+                foreach (var module in Variables.ModuleList)
+                {
+                    if (module.ShouldGetExecuted() && module.GetModuleType() == ModuleType.OnUpdate)
+                    {
+                        module.OnExecute();
                     }
                 }
             }

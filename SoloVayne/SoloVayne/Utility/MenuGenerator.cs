@@ -36,10 +36,9 @@ namespace SoloVayne.Utility
 
             var harassMenu = MainMenu.AddModeMenu(Orbwalking.OrbwalkingMode.Mixed);
             {
+                harassMenu.AddStringList("solo.vayne.mixed.mode", "Harass Mode", new[] { "Passive", "Agressive" }, 1);
                 harassMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Combo, true, 10);
                 harassMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Combo, true, 5);
-                harassMenu.AddBool("solo.vayne.mixed.q.only2w", "Only Q at 2 W Stacks", true);
-                harassMenu.AddBool("solo.vayne.mixed.e.thirdproc", "E For Third W Proc.");
             }
 
             var miscMenu = MainMenu.AddSubMenu(new Menu("[SOLO] Miscellaneous", "solo.vayne.misc"));

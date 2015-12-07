@@ -2,6 +2,7 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using SoloVayne.Utility;
 using SoloVayne.Utility.Entities;
 
 namespace SoloVayne.Skills.Tumble
@@ -32,7 +33,24 @@ namespace SoloVayne.Skills.Tumble
             if (HeroManager.Allies.Count(ally => !ally.IsMe && ally.IsValidTarget(1500f, false)) < 1 &&
                 targettingEnemies.Count() <= 2)
             {
-                //Logic for 2 enemies Near
+                //Logic for 2 enemies Near and alone
+                if (
+                    targettingEnemies.Any(
+                        t =>
+                            t.Health + 15 <
+                            ObjectManager.Player.GetAutoAttackDamage(t) + Variables.spells[SpellSlot.Q].GetDamage(t) 
+                            && t.Distance(ObjectManager.Player) < Orbwalking.GetRealAutoAttackRange(t) + 80f))
+                {
+                    var QPosition =
+                        ObjectManager.Player.ServerPosition.Extend(
+                            targettingEnemies.OrderBy(t => t.Health).First().ServerPosition, 300f);
+
+                    if (!QPosition.UnderTurret(true))
+                    {
+                        return QPosition;
+                    }
+                }
+
                 var backwardsPosition = (ObjectManager.Player.ServerPosition.To2D() + 300f * ObjectManager.Player.Direction.To2D()).To3D();
 
                 if (!backwardsPosition.UnderTurret(true))
@@ -79,6 +97,7 @@ namespace SoloVayne.Skills.Tumble
                     }
                 }
             }
+            
             
             return (BestPosition.IsSafe()) ? BestPosition : Vector3.Zero;
         }

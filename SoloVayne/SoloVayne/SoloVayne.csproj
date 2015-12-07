@@ -67,6 +67,11 @@
     <Compile Include="DZLib\Logging\LogItem.cs" />
     <Compile Include="DZLib\Logging\LogVariables.cs" />
     <Compile Include="DZLib\Menu\MenuExtensions.cs" />
+    <Compile Include="Modules\Condemn\AutoE.cs" />
+    <Compile Include="Modules\General\AutoR.cs" />
+    <Compile Include="Modules\General\Focus2WStacks.cs" />
+    <Compile Include="Modules\ModuleType.cs" />
+    <Compile Include="Modules\ISOLOModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\Condemn\Condemn.cs" />
@@ -80,6 +85,7 @@
     <Compile Include="SOLOBootstrap.cs" />
     <Compile Include="SOLOVayne.cs" />
     <Compile Include="Utility\Entities\AttackTracker.cs" />
+    <Compile Include="Utility\Entities\EntitiesExtensions.cs" />
     <Compile Include="Utility\Entities\GameObjects.cs" />
     <Compile Include="Utility\Entities\Jungle.cs" />
     <Compile Include="Utility\Entities\ProrityHelper.cs" />
@@ -93,9 +99,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Modules\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
