@@ -16,6 +16,7 @@ namespace SoloVayne
          * Safe enemies around check for Q into Wall
          * Don't aa while stealthed should be on I guess with 3 enemies, but if you have an ally near it shouldn't aa with 2. Maybe it should just always stealth.
          * Add Condemn To Trundle / J4 / Anivia Walls
+         * Q Away if targetted from turret and no killable low health enemy is near.
          */
 
         /// <summary>

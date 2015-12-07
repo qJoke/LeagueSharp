@@ -21,7 +21,7 @@ namespace SoloVayne.Modules.Condemn
 
         public bool ShouldGetExecuted()
         {
-            return ObjectManager.Player.GetEnemiesInRange(600f).Count(en => en.IsValidTarget() && !(en.HealthPercent < 8)) >= 2;
+            return ObjectManager.Player.GetEnemiesInRange(900f).Count(en => en.IsValidTarget() && !(en.HealthPercent < 5)) >= 2;
         }
 
         public ModuleType GetModuleType()

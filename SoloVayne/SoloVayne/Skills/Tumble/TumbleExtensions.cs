@@ -11,7 +11,7 @@ namespace SoloVayne.Skills.Tumble
     {
         public static bool IsSafe(this Vector3 position)
         {
-            return position.IsSafeEx() && position.IsNotIntoEnemies();
+            return position.IsSafeEx() && position.IsNotIntoEnemies() && HeroManager.Enemies.All(m => m.Distance(position) > 350f);
         }
 
         public static bool IsSafeEx(this Vector3 Position)

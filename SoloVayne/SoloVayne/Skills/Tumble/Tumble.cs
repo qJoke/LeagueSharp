@@ -1,4 +1,5 @@
-﻿using DZLib.Logging;
+﻿using System.Linq;
+using DZLib.Logging;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -58,7 +59,7 @@ namespace SoloVayne.Skills.Tumble
                         var position = Provider.GetSOLOVayneQPosition();
                         if (position != Vector3.Zero)
                         {
-                            CastTumble(position, targetHero);
+                                CastTumble(position, targetHero);
                         }
                     }
                     else
