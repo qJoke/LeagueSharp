@@ -9,7 +9,7 @@ namespace SoloVayne
 
         public SOLOVayne SOLOVayne;
 
-        protected SOLOBootstrap()
+        public SOLOBootstrap()
         {
             if (Variables.Instance != null)
             {
