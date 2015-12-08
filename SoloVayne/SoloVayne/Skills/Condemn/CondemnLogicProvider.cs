@@ -28,6 +28,14 @@ namespace SoloVayne.Skills.Condemn
 
             var currentTarget = Variables.Orbwalker.GetTarget();
 
+            if (HeroManager.Allies.Count(ally => !ally.IsMe && ally.IsValidTarget(1500f, false)) == 0
+                && ObjectManager.Player.CountEnemiesInRange(1500f) == 1)
+            {
+                //It's a 1v1 situation. We push condemn to the limit and lower the accuracy by 5%.
+                Accuracy = 33;
+                PushDistance = 460;
+            }
+
             foreach (var Hero in HeroList)
             {
                 if (MenuExtensions.GetItemValue<bool>("solo.vayne.misc.condemn.current"))
