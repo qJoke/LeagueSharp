@@ -9,6 +9,8 @@ using SoloVayne.Modules;
 using SoloVayne.Modules.Condemn;
 using SoloVayne.Skills;
 using SoloVayne.Skills.Tumble;
+using SoloVayne.Skills.Tumble.CCTracker;
+using SoloVayne.Skills.Tumble.CCTracker.Tracker;
 using SoloVayne.Utility.Enums;
 
 namespace SoloVayne.Utility
@@ -49,6 +51,16 @@ namespace SoloVayne.Utility
             { SpellSlot.E, new Spell(SpellSlot.E, 590f) },
             { SpellSlot.R, new Spell(SpellSlot.R) }
         };
+
+        /// <summary>
+        /// The tracker
+        /// </summary>
+        public static TrackerBootstrap tracker = new TrackerBootstrap();
+
+        /// <summary>
+        /// The cc list
+        /// </summary>
+        public static CCList CCList = new CCList();
 
         /// <summary>
         /// The skills dictionary

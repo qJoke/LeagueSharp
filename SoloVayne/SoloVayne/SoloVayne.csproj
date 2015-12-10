@@ -77,6 +77,10 @@
     <Compile Include="Skills\Condemn\Condemn.cs" />
     <Compile Include="Skills\Condemn\CondemnLogicProvider.cs" />
     <Compile Include="Skills\Skill.cs" />
+    <Compile Include="Skills\Tumble\CCTracker\CC.cs" />
+    <Compile Include="Skills\Tumble\CCTracker\CCList.cs" />
+    <Compile Include="Skills\Tumble\CCTracker\Tracker\TrackerBootstrap.cs" />
+    <Compile Include="Skills\Tumble\CCTracker\Tracker\TrackerModule.cs" />
     <Compile Include="Skills\Tumble\Tumble.cs" />
     <Compile Include="Skills\Tumble\TumbleExtensions.cs" />
     <Compile Include="Skills\Tumble\TumbleHelper.cs" />

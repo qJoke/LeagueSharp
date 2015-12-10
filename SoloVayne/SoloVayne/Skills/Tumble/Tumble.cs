@@ -77,7 +77,7 @@ namespace SoloVayne.Skills.Tumble
         private void CastTumble(Vector3 Position, Obj_AI_Base target)
         {
             var WallQPosition = TumbleHelper.GetQBurstModePosition();
-            if (WallQPosition != null && ObjectManager.Player.ServerPosition.IsSafeEx())
+            if (WallQPosition != null && ObjectManager.Player.ServerPosition.IsSafeEx() && !(ObjectManager.Player.ServerPosition.UnderTurret(true)))
             {
                 var V3WallQ = (Vector3) WallQPosition;
                 CastQ(V3WallQ);
