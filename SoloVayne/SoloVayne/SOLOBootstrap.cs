@@ -1,4 +1,5 @@
 ﻿using LeagueSharp;
+using SoloVayne.Skills.General;
 using SoloVayne.Utility;
 
 namespace SoloVayne
@@ -9,6 +10,8 @@ namespace SoloVayne
 
         public SOLOVayne SOLOVayne;
 
+        public SOLOAntigapcloser Antigapcloser;
+
         public SOLOBootstrap()
         {
             if (Variables.Instance != null)
@@ -18,6 +21,8 @@ namespace SoloVayne
 
             SOLOVayne = new SOLOVayne();
             MenuGenerator = new MenuGenerator();
+            Antigapcloser = new SOLOAntigapcloser();
+
             MenuGenerator.GenerateMenu();
 
             PrintLoaded();

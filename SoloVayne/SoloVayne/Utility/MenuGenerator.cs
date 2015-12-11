@@ -43,16 +43,23 @@ namespace SoloVayne.Utility
 
             var miscMenu = MainMenu.AddSubMenu(new Menu("[SOLO] Miscellaneous", "solo.vayne.misc"));
             {
-                var QMenu = miscMenu.AddSubMenu(new Menu("[SOLO] Tumble", "solo.vayne.misc.tumble"));
+                var QMenu = miscMenu.AddSubMenu(new Menu("Tumble", "solo.vayne.misc.tumble"));
                 {
                     QMenu.AddBool("solo.vayne.misc.tumble.noqintoenemies", "Don't Q into enemies", true);
                     QMenu.AddBool("solo.vayne.misc.tumble.smartQ", "Use SOLO Vayne Q Logic", true);
                 }
 
-                var EMenu = miscMenu.AddSubMenu(new Menu("[SOLO] Condemn", "solo.vayne.misc.condemn"));
+                var EMenu = miscMenu.AddSubMenu(new Menu("Condemn", "solo.vayne.misc.condemn"));
                 {
                     EMenu.AddBool("solo.vayne.misc.condemn.autoe", "Auto E");
                     EMenu.AddBool("solo.vayne.misc.condemn.current", "Only E Current Target", true);
+                }
+
+                var MiscMenu = miscMenu.AddSubMenu(new Menu("Miscellaneous", "solo.vayne.misc.miscellaneous"));
+                {
+                    MiscMenu.AddStringList("solo.vayne.misc.miscellaneous.gapcloser.mode", "Antigapcloser mode", new []{"SOLO", "Normal"}, 0);
+                    MiscMenu.AddBool("solo.vayne.misc.miscellaneous.antigapcloser", "Antigapcloser", true);
+                    MiscMenu.AddBool("solo.vayne.misc.miscellaneous.interrupter", "Interrupter", true);
                 }
             }
 

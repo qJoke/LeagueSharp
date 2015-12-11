@@ -5,16 +5,18 @@ namespace SoloVayne.Skills.Tumble.CCTracker
 {
     class CC
     {
-        public CC(SpellSlot Slot, float Range, CCRange RangeType, CCType Type)
+        public CC(string ChampName, SpellSlot Slot, float Range, CCRange RangeType, CCType Type)
         {
+            this.ChampName = ChampName;
             this.Slot = Slot;
             this.Range = Range;
             this.RangeType = RangeType;
             this.Type = Type;
         }
 
-        public CC(SpellSlot Slot, float Range, float AOERadius, CCRange RangeType, CCType Type)
+        public CC(string ChampName, SpellSlot Slot, float Range, float AOERadius, CCRange RangeType, CCType Type)
         {
+            this.ChampName = ChampName;
             this.Slot = Slot;
             this.Range = Range;
             this.AOERadius = AOERadius;
@@ -22,8 +24,9 @@ namespace SoloVayne.Skills.Tumble.CCTracker
             this.Type = Type;
         }
 
-        public CC(SpellSlot Slot, float Range, CCRange RangeType, CCType Type, ConditionDelegate d)
+        public CC(string ChampName, SpellSlot Slot, float Range, CCRange RangeType, CCType Type, ConditionDelegate d)
         {
+            this.ChampName = ChampName;
             this.Slot = Slot;
             this.Range = Range;
             this.RangeType = RangeType;
@@ -31,8 +34,9 @@ namespace SoloVayne.Skills.Tumble.CCTracker
             this.NecessaryCondition = d;
         }
 
-        public CC(SpellSlot Slot, float Range, float AOERadius, CCRange RangeType, CCType Type, ConditionDelegate d)
+        public CC(string ChampName, SpellSlot Slot, float Range, float AOERadius, CCRange RangeType, CCType Type, ConditionDelegate d)
         {
+            this.ChampName = ChampName;
             this.Slot = Slot;
             this.Range = Range;
             this.AOERadius = AOERadius;
@@ -40,6 +44,8 @@ namespace SoloVayne.Skills.Tumble.CCTracker
             this.Type = Type;
             this.NecessaryCondition = d;
         }
+
+        public string ChampName { get; set; }
 
         public SpellSlot Slot { get; set; }
 
