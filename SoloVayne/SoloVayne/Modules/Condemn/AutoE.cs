@@ -18,7 +18,7 @@ namespace SoloVayne.Modules.Condemn
         public bool ShouldGetExecuted()
         {
             return MenuExtensions.GetItemValue<bool>("solo.vayne.misc.condemn.autoe") &&
-                   Variables.spells[SpellSlot.E].IsReady();
+                   Variables.spells[SpellSlot.E].IsReady() && (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo);
         }
 
         public ModuleType GetModuleType()

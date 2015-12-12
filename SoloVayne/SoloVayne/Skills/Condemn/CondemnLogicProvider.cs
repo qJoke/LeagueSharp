@@ -38,7 +38,7 @@ namespace SoloVayne.Skills.Condemn
 
             foreach (var Hero in HeroList)
             {
-                if (MenuExtensions.GetItemValue<bool>("solo.vayne.misc.condemn.current"))
+                if (MenuExtensions.GetItemValue<bool>("solo.vayne.misc.condemn.current") && !(MenuExtensions.GetItemValue<bool>("solo.vayne.misc.condemn.autoe")))
                 {
                     if (Hero.NetworkId != currentTarget.NetworkId)
                     {
