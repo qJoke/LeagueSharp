@@ -10,7 +10,7 @@ namespace SoloVayne.Skills.Condemn
 {
     class CondemnLogicProvider
     {
-        internal Obj_AI_Hero GetTarget()
+        internal Obj_AI_Hero GetTarget(Vector3 position = default(Vector3))
         {
             var HeroList = HeroManager.Enemies.Where(
                                     h =>
@@ -36,6 +36,8 @@ namespace SoloVayne.Skills.Condemn
                 PushDistance = 460;
             }
 
+            var startPosition = position != default(Vector3) ? position : ObjectManager.Player.ServerPosition;
+
             foreach (var Hero in HeroList)
             {
                 if (MenuExtensions.GetItemValue<bool>("solo.vayne.misc.condemn.current") && !(MenuExtensions.GetItemValue<bool>("solo.vayne.misc.condemn.autoe")))
@@ -52,8 +54,8 @@ namespace SoloVayne.Skills.Condemn
                 }
 
                 var targetPosition = Variables.spells[SpellSlot.E].GetPrediction(Hero).UnitPosition;
-                var finalPosition = targetPosition.Extend(ObjectManager.Player.ServerPosition, -PushDistance);
-                var finalPosition_ex = Hero.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -PushDistance);
+                var finalPosition = targetPosition.Extend(startPosition, -PushDistance);
+                var finalPosition_ex = Hero.ServerPosition.Extend(startPosition, -PushDistance);
 
                 var condemnRectangle = new SOLOPolygon(SOLOPolygon.Rectangle(targetPosition.To2D(), finalPosition.To2D(), Hero.BoundingRadius));
                 var condemnRectangle_ex = new SOLOPolygon(SOLOPolygon.Rectangle(Hero.ServerPosition.To2D(), finalPosition_ex.To2D(), Hero.BoundingRadius));

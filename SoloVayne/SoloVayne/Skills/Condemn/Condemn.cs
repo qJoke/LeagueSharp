@@ -1,10 +1,10 @@
 ﻿using System;
 using DZLib.Logging;
-using iSeriesReborn.Utility.MenuUtility;
 using LeagueSharp;
 using SoloVayne.Skills.Condemn;
 using SoloVayne.Utility;
 using SoloVayne.Utility.Enums;
+using SOLOVayne.Utility.General;
 
 namespace SoloVayne.Skills.Tumble
 {

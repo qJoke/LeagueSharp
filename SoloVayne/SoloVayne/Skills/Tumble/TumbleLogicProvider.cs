@@ -2,12 +2,16 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using SoloVayne.Skills.Condemn;
 using SoloVayne.Utility;
+using SOLOVayne.Utility.General;
 
 namespace SoloVayne.Skills.Tumble
 {
     class TumbleLogicProvider
     {
+        public CondemnLogicProvider Provider = new CondemnLogicProvider();
+
         public Vector3 GetSOLOVayneQPosition()
         {
             #region The Required Variables
@@ -154,6 +158,28 @@ namespace SoloVayne.Skills.Tumble
             #endregion
 
             return endPosition;
+        }
+
+        public Vector3 GetQEPosition()
+        {
+            if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo || !Variables.spells[SpellSlot.E].IsEnabledAndReady())
+            {
+                return Vector3.Zero;
+            }
+
+            const int currentStep = 45;
+            var direction = ObjectManager.Player.Direction.To2D().Perpendicular();
+            for (var i = 0f; i < 360f; i += 45)
+            {
+                var angleRad = Geometry.DegreeToRadian(i);
+                var rotatedPosition = ObjectManager.Player.Position.To2D() + (300f * direction.Rotated(angleRad));
+                if (Provider.GetTarget(rotatedPosition.To3D()).IsValidTarget() && rotatedPosition.To3D().IsSafe())
+                {
+                    return rotatedPosition.To3D();
+                }
+            }
+
+            return Vector3.Zero;
         }
     }
 }

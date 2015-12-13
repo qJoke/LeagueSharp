@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using DZLib.Logging;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SoloVayne.Utility;
 using SoloVayne.Utility.Entities;
 
-namespace iSeriesReborn.Utility.MenuUtility
+namespace SOLOVayne.Utility.General
 {
-    static class iSRMenuExtensions
+    static class SOLOMenuExtensions
     {
         public static Menu AddModeMenu(this Menu mainMenu, Orbwalking.OrbwalkingMode Mode)
         {

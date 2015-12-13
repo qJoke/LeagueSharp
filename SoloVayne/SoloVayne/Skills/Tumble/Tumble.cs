@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using DZLib.Logging;
-using iSeriesReborn.Utility.MenuUtility;
+
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 using SoloVayne.Utility;
 using SoloVayne.Utility.Entities;
 using SoloVayne.Utility.Enums;
+using SOLOVayne.Utility.General;
 
 namespace SoloVayne.Skills.Tumble
 {
@@ -122,6 +123,13 @@ namespace SoloVayne.Skills.Tumble
             {
                 var V3WallQ = (Vector3) WallQPosition;
                 CastQ(V3WallQ);
+                return;
+            }
+
+            var TumbleQEPosition = Provider.GetQEPosition();
+            if (TumbleQEPosition != Vector3.Zero)
+            {
+                CastQ(TumbleQEPosition);
                 return;
             }
 

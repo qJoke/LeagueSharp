@@ -1,7 +1,8 @@
 ﻿using DZLib.Logging;
-using iSeriesReborn.Utility.MenuUtility;
+
 using LeagueSharp;
 using LeagueSharp.Common;
+using SOLOVayne.Utility.General;
 
 namespace SoloVayne.Utility
 {
@@ -52,6 +53,7 @@ namespace SoloVayne.Utility
                 var QMenu = miscMenu.AddSubMenu(new Menu("Tumble", "solo.vayne.misc.tumble"));
                 {
                     QMenu.AddBool("solo.vayne.misc.tumble.noqintoenemies", "Don't Q into enemies", true);
+                    QMenu.AddBool("solo.vayne.misc.tumble.qks", "Q for Killsteal", true);
                     QMenu.AddBool("solo.vayne.misc.tumble.smartQ", "Use SOLO Vayne Q Logic", true);
                 }
 

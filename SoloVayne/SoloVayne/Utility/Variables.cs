@@ -73,9 +73,13 @@ namespace SoloVayne.Utility
 
         public static List<ISOLOModule> ModuleList = new List<ISOLOModule>()
         {
+            //Condemn Modules
             new AutoE(), 
             new AutoR(),
-            new JungleE()
+            new JungleE(),
+
+            //Tumble Modules
+            new KSQ()
         };
     }
 }
