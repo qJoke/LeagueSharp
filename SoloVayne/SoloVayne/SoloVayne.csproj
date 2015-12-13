@@ -99,6 +99,7 @@
     <Compile Include="Utility\Entities\ProrityHelper.cs" />
     <Compile Include="Utility\Enums\SkillMode.cs" />
     <Compile Include="Utility\General\CustomAntigapcloser.cs" />
+    <Compile Include="Utility\General\YasuoWall.cs" />
     <Compile Include="Utility\Geometry\SOLOGeometry.cs" />
     <Compile Include="Utility\Geometry\SOLOPolygon.cs" />
     <Compile Include="Utility\SOLOMenuExtensions.cs" />

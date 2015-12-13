@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using DZLib.Logging;
 using iSeriesReborn.Utility.Positioning;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 using SoloVayne.Utility;
+using SoloVayne.Utility.General;
+using Collision = LeagueSharp.Common.Collision;
 
 namespace SoloVayne.Skills.Condemn
 {
@@ -52,10 +55,15 @@ namespace SoloVayne.Skills.Condemn
                 {
                     continue;
                 }
-
-                var targetPosition = Variables.spells[SpellSlot.E].GetPrediction(Hero).UnitPosition;
+                var prediction = Variables.spells[SpellSlot.E].GetPrediction(Hero);
+                var targetPosition = prediction.UnitPosition;
                 var finalPosition = targetPosition.Extend(startPosition, -PushDistance);
                 var finalPosition_ex = Hero.ServerPosition.Extend(startPosition, -PushDistance);
+
+                if (YasuoWall.CollidesWithWall(startPosition, Hero.ServerPosition.Extend(startPosition, -450f)))
+                {
+                    continue;
+                }
 
                 var condemnRectangle = new SOLOPolygon(SOLOPolygon.Rectangle(targetPosition.To2D(), finalPosition.To2D(), Hero.BoundingRadius));
                 var condemnRectangle_ex = new SOLOPolygon(SOLOPolygon.Rectangle(Hero.ServerPosition.To2D(), finalPosition_ex.To2D(), Hero.BoundingRadius));

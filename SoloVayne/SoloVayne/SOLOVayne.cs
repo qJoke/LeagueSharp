@@ -6,6 +6,7 @@ using SoloVayne.Modules;
 using SoloVayne.Skills.Tumble;
 using SoloVayne.Utility;
 using SoloVayne.Utility.Enums;
+using SoloVayne.Utility.General;
 
 namespace SoloVayne
 {
@@ -27,6 +28,7 @@ namespace SoloVayne
             Game.OnUpdate += OnUpdate;
             Drawing.OnDraw += OnDraw;
             Obj_AI_Base.OnDoCast += OnDoCast;
+            Obj_AI_Base.OnProcessSpellCast += YasuoWall.OnProcessSpellCast;
 
             foreach (var module in Variables.ModuleList)
             {

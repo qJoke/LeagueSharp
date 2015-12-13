@@ -43,7 +43,7 @@ namespace SoloVayne.Modules.Condemn
                 {
                     var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
                         currentTarget.ServerPosition, 300f);
-                    if (extendedPosition.IsSafe())
+                    if (extendedPosition.IsSafe() && !extendedPosition.UnderTurret(true))
                     {
                         Orbwalking.ResetAutoAttackTimer();
                         Variables.spells[SpellSlot.Q].Cast(extendedPosition);
