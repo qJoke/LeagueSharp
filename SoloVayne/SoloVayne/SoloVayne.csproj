@@ -69,6 +69,7 @@
     <Compile Include="DZLib\Menu\MenuExtensions.cs" />
     <Compile Include="Modules\Condemn\AutoE.cs" />
     <Compile Include="Modules\Condemn\JungleE.cs" />
+    <Compile Include="Modules\General\ActivatorModule.cs" />
     <Compile Include="Modules\General\AutoR.cs" />
     <Compile Include="Modules\General\Focus2WStacks.cs" />
     <Compile Include="Modules\ModuleType.cs" />

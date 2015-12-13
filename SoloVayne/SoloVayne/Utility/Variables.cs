@@ -75,11 +75,14 @@ namespace SoloVayne.Utility
         {
             //Condemn Modules
             new AutoE(), 
-            new AutoR(),
             new JungleE(),
 
             //Tumble Modules
-            new KSQ()
+            new KSQ(),
+
+            //General Modules
+            new AutoR(),
+            new ActivatorModule()
         };
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System.Linq;
-using DZLib.Logging;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SoloVayne.Skills.Condemn;
 using SoloVayne.Utility;
 using SoloVayne.Utility.Entities;
 
@@ -19,7 +17,8 @@ namespace SoloVayne.Modules.Condemn
         {
             return
                 HeroManager.Enemies.Any(
-                    m => m.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 200) && m.Has2WStacks());
+                    m => m.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 200) && m.Has2WStacks()) 
+                    && !HeroManager.Enemies.Any(m => m.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 200) && m.Health + 15 < ObjectManager.Player.GetAutoAttackDamage(m) * 3 + Variables.spells[SpellSlot.W].GetDamage(m));
         }
 
         public ModuleType GetModuleType()

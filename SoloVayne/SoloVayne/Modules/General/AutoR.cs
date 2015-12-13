@@ -15,13 +15,13 @@ namespace SoloVayne.Modules.Condemn
 
         public void OnLoad()
         {
-            Obj_AI_Base.OnDoCast += OnDoCast;
             Provider = new TumbleLogicProvider();
+            Obj_AI_Base.OnDoCast += OnDoCast;
         }
 
         public bool ShouldGetExecuted()
         {
-            return ObjectManager.Player.GetEnemiesInRange(900f).Count(en => en.IsValidTarget() && !(en.HealthPercent < 5)) >= 2;
+            return ObjectManager.Player.GetEnemiesInRange(1300f).Count(en => en.IsValidTarget() && !(en.HealthPercent < 5)) >= 2;
         }
 
         public ModuleType GetModuleType()

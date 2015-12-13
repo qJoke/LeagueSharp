@@ -64,9 +64,8 @@ namespace SoloVayne.Skills.Tumble
                                                     Variables.spells[SpellSlot.Q].GetDamage(en)).ToList();
                 var enemiesEx = HeroManager.Enemies.Where(en => en.IsValidTarget(1200f, true, from)).ToList();
                 var LHEnemies = enemiesEx.Count() - enemies.Count();
-                var totalDistance = 0f;
 
-                totalDistance = (LHEnemies > 1 && enemiesEx.Count() > 2) ?
+                var totalDistance = (LHEnemies > 1 && enemiesEx.Count() > 2) ?
                     enemiesEx.Sum(en => en.Distance(ObjectManager.Player.ServerPosition)) :
                     enemies.Sum(en => en.Distance(ObjectManager.Player.ServerPosition));
 

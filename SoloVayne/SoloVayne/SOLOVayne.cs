@@ -41,11 +41,6 @@ namespace SoloVayne
         private void OnDraw(EventArgs args)
         {
             return;
-            var RQ = TumbleHelper.GetRotatedQPositions();
-            foreach (var pos in RQ)
-            {
-                Render.Circle.DrawCircle(pos, 65, System.Drawing.Color.Yellow);
-            }
         }
 
         /// <summary>
