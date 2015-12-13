@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using DZLib.Logging;
+using iSeriesReborn.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -59,7 +60,7 @@ namespace SoloVayne.Skills.Tumble
                         var position = Provider.GetSOLOVayneQPosition();
                         if (position != Vector3.Zero)
                         {
-                                CastTumble(position, targetHero);
+                             CastTumble(position, targetHero);
                         }
                     }
                     else
@@ -68,6 +69,46 @@ namespace SoloVayne.Skills.Tumble
                         if (position.IsSafe())
                         {
                             CastTumble(position, targetHero);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ExecuteFarm(Obj_AI_Base target)
+        {
+            if (Variables.spells[SpellSlot.Q].IsEnabledAndReady())
+            {
+                var currentTarget = target;
+
+                if (currentTarget is Obj_AI_Minion)
+                {
+                    if (GameObjects.JungleLarge.Contains(currentTarget) || GameObjects.JungleLegendary.Contains(currentTarget))
+                    {
+                        //It's a jungle minion, so we Q sideways.
+                        var sidewaysPosition =
+                            (ObjectManager.Player.ServerPosition.To2D() + 300f * ObjectManager.Player.Direction.To2D())
+                                .To3D();
+                        if (sidewaysPosition.IsSafe())
+                        {
+                            CastQ(sidewaysPosition);
+                            return;
+                        }
+                    }
+
+                    var minionsInRange = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, ObjectManager.Player.AttackRange + 65)
+                        .Where(m => m.Health + 5 <= ObjectManager.Player.GetAutoAttackDamage(m) + Variables.spells[SpellSlot.Q].GetDamage(m))
+                        .ToList();
+
+                    if (minionsInRange.Count() > 1)
+                    {
+                        var firstMinion = minionsInRange.OrderBy(m => m.HealthPercent).First();
+                        var afterTumblePosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
+                        if (afterTumblePosition.Distance(firstMinion.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(null) 
+                            && afterTumblePosition.IsSafe())
+                        {
+                            CastTumble(Game.CursorPos, firstMinion);
+                            Variables.Orbwalker.ForceTarget(firstMinion);
                         }
                     }
                 }

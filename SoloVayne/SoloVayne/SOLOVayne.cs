@@ -60,17 +60,26 @@ namespace SoloVayne
 
                 if (sender.IsMe 
                     && Orbwalking.IsAutoAttack(args.SData.Name) 
-                    && (args.Target is Obj_AI_Base) 
-                    && (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo || Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed))
+                    && (args.Target is Obj_AI_Base))
                 {
-                    foreach (var skill in Variables.skills)
-                    {
-                        if (skill.GetSkillMode() == SkillMode.OnAfterAA)
+                        foreach (var skill in Variables.skills)
                         {
-                            skill.Execute(args.Target as Obj_AI_Base);
-                        }
-                    }
+                            if (skill.GetSkillMode() == SkillMode.OnAfterAA)
+                            {
+                                if ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo ||
+                                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed))
+                                {
+                                    skill.Execute(args.Target as Obj_AI_Base);
+                                }
+
+                                if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
+                                {
+                                    skill.ExecuteFarm(args.Target as Obj_AI_Base);
+                                }
+                            }
+                        }      
                 }
+
             }catch (Exception e)
             {
                 LogHelper.AddToLog(new LogItem("OnDoCast", e, LogSeverity.Error));

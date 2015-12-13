@@ -74,7 +74,8 @@ namespace SoloVayne.Utility
         public static List<ISOLOModule> ModuleList = new List<ISOLOModule>()
         {
             new AutoE(), 
-            new AutoR()
+            new AutoR(),
+            new JungleE()
         };
     }
 }

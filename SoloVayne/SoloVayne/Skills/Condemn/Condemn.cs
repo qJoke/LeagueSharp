@@ -40,5 +40,10 @@ namespace SoloVayne.Skills.Tumble
                 LogHelper.AddToLog(new LogItem("Condemn", e, LogSeverity.Error));
             }
         }
+
+        public void ExecuteFarm(Obj_AI_Base target)
+        {
+            //
+        }
     }
 }

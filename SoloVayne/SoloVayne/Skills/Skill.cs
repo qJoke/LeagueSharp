@@ -14,5 +14,7 @@ namespace SoloVayne.Skills
         SkillMode GetSkillMode();
 
         void Execute(Obj_AI_Base target);
+
+        void ExecuteFarm(Obj_AI_Base target);
     }
 }
