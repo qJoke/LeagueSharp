@@ -29,7 +29,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                 return true;
             }
 
-            if (position.UnderAllyTurret())
+            if (position.UnderAllyTurret_Ex())
             {
                 var nearestAllyTurret = ObjectManager.Get<Obj_AI_Turret>().Where(a => a.IsAlly).OrderBy(d => d.Distance(position, true)).FirstOrDefault();
 

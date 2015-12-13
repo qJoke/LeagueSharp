@@ -37,7 +37,7 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
                 {
                     var v3 = (targetPosition - fromPosition).Normalized();
                     var extendedPosition = targetPosition + v3 * (numberOfChecks * i);
-                    //var underTurret = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnturret") && (Helpers.UnderAllyTurret(finalPosition) || Helpers.IsFountain(finalPosition));
+                    //var underTurret = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnturret") && (Helpers.UnderAllyTurret_Ex(finalPosition) || Helpers.IsFountain(finalPosition));
                     var j4Flag = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnflag") && (extendedPosition.IsJ4Flag(target));
                     if ((extendedPosition.IsWall() || j4Flag) && (target.Path.Count() < 2) && !target.IsDashing())
                     {
