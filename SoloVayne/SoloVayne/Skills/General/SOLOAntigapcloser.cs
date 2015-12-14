@@ -41,7 +41,7 @@ namespace SoloVayne.Skills.General
             var endPosition = gapcloser.End;
 
             if (!antigapcloserEnabled || !Variables.spells[SpellSlot.E].IsReady() || !gapcloser.Sender.IsValidTarget() ||
-                ObjectManager.Player.Distance(endPosition) > 370)
+                ObjectManager.Player.Distance(endPosition) > 400)
             {
                 return;
             }
