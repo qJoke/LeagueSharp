@@ -62,7 +62,7 @@ namespace SoloVayne.Skills.General
                     {
                         //Use Q
                         var extendedPosition = ObjectManager.Player.ServerPosition.Extend(endPosition, -300f);
-                        if (extendedPosition.IsSafe())
+                        if (!extendedPosition.UnderTurret(true) && !(extendedPosition.CountEnemiesInRange(400f) >= 2 && extendedPosition.CountAlliesInRange(400f) < 3))
                         {
                             Variables.spells[SpellSlot.Q].Cast(extendedPosition);
                         }

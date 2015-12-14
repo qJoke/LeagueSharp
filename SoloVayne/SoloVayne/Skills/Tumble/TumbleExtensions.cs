@@ -11,7 +11,11 @@ namespace SoloVayne.Skills.Tumble
     {
         public static bool IsSafe(this Vector3 position)
         {
-            return position.IsSafeEx() && position.IsNotIntoEnemies() && HeroManager.Enemies.All(m => m.Distance(position) > 350f) && !position.UnderTurret(true);
+            return position.IsSafeEx() 
+                && position.IsNotIntoEnemies() 
+                && HeroManager.Enemies.All(m => m.Distance(position) > 350f) 
+                && (!position.UnderTurret(true) || (ObjectManager.Player.UnderTurret(true) && position.UnderTurret(true) && ObjectManager.Player.HealthPercent > 10));
+            //Either it is not under turret or both the player and the position are under turret already and the health percent is greater than 10.
         }
 
         public static bool IsSafeEx(this Vector3 Position)

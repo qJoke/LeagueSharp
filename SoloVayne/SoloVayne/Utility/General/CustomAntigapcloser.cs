@@ -154,7 +154,7 @@ namespace SOLOVayne.Utility.General
                     Slot = SpellSlot.W,
                     SpellName = "headbutt",
                     SkillType = GapcloserType.Targeted,
-                    ShouldBeRepelledOnSmartMode = true
+                    ShouldBeRepelledOnSmartMode = false
                 });
 
             #endregion

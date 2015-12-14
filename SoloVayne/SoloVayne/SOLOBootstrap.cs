@@ -14,6 +14,11 @@ namespace SoloVayne
 
         public SOLOBootstrap()
         {
+            if (ObjectManager.Player.ChampionName != "Vayne")
+            {
+                return;
+            }
+
             if (Variables.Instance != null)
             {
                 return;

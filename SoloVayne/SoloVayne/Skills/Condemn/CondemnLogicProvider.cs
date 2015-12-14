@@ -6,6 +6,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
 using SoloVayne.Utility;
+using SoloVayne.Utility.Entities;
 using SoloVayne.Utility.General;
 using Collision = LeagueSharp.Common.Collision;
 
@@ -59,15 +60,34 @@ namespace SoloVayne.Skills.Condemn
                 var targetPosition = prediction.UnitPosition;
                 var finalPosition = targetPosition.Extend(startPosition, -PushDistance);
                 var finalPosition_ex = Hero.ServerPosition.Extend(startPosition, -PushDistance);
-
+                
+                //Yasuo Wall Logic
                 if (YasuoWall.CollidesWithWall(startPosition, Hero.ServerPosition.Extend(startPosition, -450f)))
                 {
                     continue;
                 }
 
+                //Condemn to turret logic
+                if (GameObjects.AllyTurrets.Any(m => m.IsValidTarget(float.MaxValue, false) && m.Distance(finalPosition) <= 450f))
+                {
+                    var turret =
+                        GameObjects.AllyTurrets.FirstOrDefault(
+                            m => m.IsValidTarget(float.MaxValue, false) && m.Distance(finalPosition) <= 450f);
+                    if (turret != null)
+                    {
+                        var enemies = GameObjects.Enemy.Where(m => m.Distance(turret) < 775f && m.IsValidTarget());
+
+                        if (!enemies.Any())
+                        {
+                            return Hero;
+                        }
+                    }
+                }
+
+                //Condemn To Wall Logic
                 var condemnRectangle = new SOLOPolygon(SOLOPolygon.Rectangle(targetPosition.To2D(), finalPosition.To2D(), Hero.BoundingRadius));
                 var condemnRectangle_ex = new SOLOPolygon(SOLOPolygon.Rectangle(Hero.ServerPosition.To2D(), finalPosition_ex.To2D(), Hero.BoundingRadius));
-
+                
                 if (IsBothNearWall(Hero))
                 {
                     return null;
