@@ -40,38 +40,30 @@ namespace SoloVayne.Skills.General
                 MenuExtensions.GetItemValue<StringList>("solo.vayne.misc.miscellaneous.gapcloser.mode").SelectedIndex;
             var endPosition = gapcloser.End;
 
-            if (!antigapcloserEnabled 
-                || !Variables.spells[SpellSlot.E].IsReady() 
-                || !gapcloser.Sender.IsValidTarget()
-                || ObjectManager.Player.Distance(endPosition) > 370)
+            if (!antigapcloserEnabled || !Variables.spells[SpellSlot.E].IsReady() || !gapcloser.Sender.IsValidTarget() ||
+                ObjectManager.Player.Distance(endPosition) > 370)
             {
                 return;
             }
 
-            switch (antigapcloserMode)
-            {
-                case 0:
-                    //Smart
-                    var ShouldBeRepelled = CustomAntiGapcloser.SpellShouldBeRepelledOnSmartMode(gapcloser.SData.Name);
+            //Smart
+            var ShouldBeRepelled = CustomAntiGapcloser.SpellShouldBeRepelledOnSmartMode(gapcloser.SData.Name);
 
-                    if (ShouldBeRepelled)
-                    {
-                        Variables.spells[SpellSlot.E].Cast(gapcloser.Sender);
-                    }
-                    else
-                    {
-                        //Use Q
-                        var extendedPosition = ObjectManager.Player.ServerPosition.Extend(endPosition, -300f);
-                        if (!extendedPosition.UnderTurret(true) && !(extendedPosition.CountEnemiesInRange(400f) >= 2 && extendedPosition.CountAlliesInRange(400f) < 3))
-                        {
-                            Variables.spells[SpellSlot.Q].Cast(extendedPosition);
-                        }
-                    }
-                    break;
-                case 1:
-                    Variables.spells[SpellSlot.E].Cast(gapcloser.Sender);
-                    break;
+            if (ShouldBeRepelled)
+            {
+                Variables.spells[SpellSlot.E].Cast(gapcloser.Sender);
+            }
+            else
+            {
+                //Use Q
+                var extendedPosition = ObjectManager.Player.ServerPosition.Extend(endPosition, -300f);
+                if (!extendedPosition.UnderTurret(true) &&
+                    !(extendedPosition.CountEnemiesInRange(400f) >= 2 && extendedPosition.CountAlliesInRange(400f) < 3))
+                {
+                    Variables.spells[SpellSlot.Q].Cast(extendedPosition);
+                }
             }
         }
     }
+    
 }

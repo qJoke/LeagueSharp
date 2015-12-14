@@ -65,7 +65,6 @@ namespace SoloVayne.Utility
 
                 var MiscMenu = miscMenu.AddSubMenu(new Menu("Miscellaneous", "solo.vayne.misc.miscellaneous"));
                 {
-                    MiscMenu.AddStringList("solo.vayne.misc.miscellaneous.gapcloser.mode", "Antigapcloser mode", new []{"SOLO", "Normal"}, 0);
                     MiscMenu.AddBool("solo.vayne.misc.miscellaneous.antigapcloser", "Antigapcloser", true);
                     MiscMenu.AddBool("solo.vayne.misc.miscellaneous.interrupter", "Interrupter", true);
                 }
