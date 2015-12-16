@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using DZLib.Logging;
-
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -92,7 +91,8 @@ namespace SoloVayne.Skills.Tumble
                                 .To3D();
                         if (sidewaysPosition.IsSafe())
                         {
-                            CastQ(sidewaysPosition);
+                            CastTumble(sidewaysPosition, currentTarget);
+                            Variables.Orbwalker.ForceTarget(currentTarget);
                             return;
                         }
                     }

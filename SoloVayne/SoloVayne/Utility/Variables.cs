@@ -76,6 +76,7 @@ namespace SoloVayne.Utility
             //Condemn Modules
             new AutoE(), 
             new JungleE(),
+            new SaveE(),
 
             //Tumble Modules
             new KSQ(),

@@ -68,6 +68,7 @@
     <Compile Include="DZLib\Logging\LogVariables.cs" />
     <Compile Include="DZLib\Menu\MenuExtensions.cs" />
     <Compile Include="Modules\Condemn\AutoE.cs" />
+    <Compile Include="Modules\Condemn\SaveE.cs" />
     <Compile Include="Modules\Condemn\JungleE.cs" />
     <Compile Include="Modules\General\ActivatorModule.cs" />
     <Compile Include="Modules\General\AutoR.cs" />

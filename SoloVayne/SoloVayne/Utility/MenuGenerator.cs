@@ -1,5 +1,4 @@
 ﻿using DZLib.Logging;
-
 using LeagueSharp;
 using LeagueSharp.Common;
 using SOLOVayne.Utility.General;
@@ -61,6 +60,7 @@ namespace SoloVayne.Utility
                 {
                     EMenu.AddBool("solo.vayne.misc.condemn.autoe", "Auto E");
                     EMenu.AddBool("solo.vayne.misc.condemn.current", "Only E Current Target", true);
+                    EMenu.AddBool("solo.vayne.misc.condemn.save", "SOLO: Save Me", true).SetTooltip("Saves you using E if there are enemies who are going to kill you.");
                 }
 
                 var MiscMenu = miscMenu.AddSubMenu(new Menu("Miscellaneous", "solo.vayne.misc.miscellaneous"));
