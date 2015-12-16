@@ -11,33 +11,31 @@ using LeagueSharp.Common;
 
 namespace iSeriesReborn.Champions.Twitch.Skills
 {
-    class TwitchE
+    internal class TwitchE
     {
         public static void ExecuteLogic()
         {
             if (Variables.spells[SpellSlot.E].IsEnabledAndReady())
             {
-                if (MenuExtensions.GetItemValue<bool>("iseriesr.twitch.misc.e.leave"))
+
+                var eHero =
+                    HeroManager.Enemies.FirstOrDefault(
+                        m => m.IsValidTarget(Variables.spells[SpellSlot.E].Range) && m.HasBuff("twitchdeadlyvenom"));
+                if (eHero != null)
                 {
-                    var eHero =
-                        HeroManager.Enemies.FirstOrDefault(
-                            m => m.IsValidTarget(Variables.spells[SpellSlot.E].Range) && m.HasBuff("twitchdeadlyvenom"));
-                    if (eHero != null)
+                    var buffCount = eHero.GetBuff("twitchdeadlyvenom").Count;
+                    var distance = ObjectManager.Player.Distance(eHero);
+                    if (buffCount == 6)
                     {
-                        var buffCount = eHero.GetBuff("twitchdeadlyvenom").Count;
-                        var distance = ObjectManager.Player.Distance(eHero);
-                        if (buffCount == 6)
-                        {
-                            Variables.spells[SpellSlot.E].Cast();
-                        }
-                        else if (distance > Variables.spells[SpellSlot.E].Range * 0.85f && buffCount >= 4)
-                        {
-                            //The Target is about to leave range and has at least 4 stacks on them.
-                            Variables.spells[SpellSlot.E].Cast();
-                        }
+                        Variables.spells[SpellSlot.E].Cast();
                     }
-                }
+                    else if (distance > Variables.spells[SpellSlot.E].Range * 0.85f && buffCount >= 4)
+                    {
+                        //The Target is about to leave range and has at least 4 stacks on them.
+                        Variables.spells[SpellSlot.E].Cast();
+                    }
                 }
             }
         }
+    }
 }

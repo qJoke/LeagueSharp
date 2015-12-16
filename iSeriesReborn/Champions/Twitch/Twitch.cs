@@ -59,7 +59,6 @@ namespace iSeriesReborn.Champions.Kalista
             {
                 miscMenu.AddBool("iseriesr.twitch.misc.steale", "Steal Drake / Baron with E", true).SetTooltip("Will use E to secure Dragon / Baron.");
                 miscMenu.AddBool("iseriesr.twitch.misc.kse", "KS With E", true).SetTooltip("Will use E to KS enemies.");
-                miscMenu.AddBool("iseriesr.twitch.misc.e.leave", "E Leaving / Max Stacks", true).SetTooltip("Will use E when they are leaving or at max stacks.");
             }
 
         }
@@ -72,11 +71,13 @@ namespace iSeriesReborn.Champions.Kalista
         protected override void OnCombo()
         {
             TwitchE.ExecuteLogic();
+            TwitchW.OnExecute();
         }
 
         protected override void OnMixed()
         {
-            
+            TwitchE.ExecuteLogic();
+            TwitchW.OnExecute();
         }
 
         protected override void OnLastHit() { }
@@ -100,7 +101,8 @@ namespace iSeriesReborn.Champions.Kalista
         {
             return new List<IModule>()
             {
-                
+                new TwitchEKS(),
+                new TwitchESteal()
             };
         }
     }
