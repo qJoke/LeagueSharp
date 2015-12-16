@@ -14,7 +14,7 @@ namespace iSeriesReborn.Champions.Jinx.Skills
             {
                 var target = TargetSelector.GetTarget(
                     Variables.spells[SpellSlot.R].Range * 0.75f, TargetSelector.DamageType.Magical);
-                if (target.IsValidTarget())
+                if (target.IsValidTarget() && target.Distance(ObjectManager.Player) > 400f)
                 {
                     var enemiesAround = target.GetEnemiesInRange(450f);
                     if (ObjectManager.Player.Distance(target) > JinxUtility.GetFishboneRange() 
