@@ -63,6 +63,10 @@
   <ItemGroup>
     <Compile Include="AssemblyLoader.cs" />
     <Compile Include="Champions\ChampionBase.cs" />
+    <Compile Include="Champions\Ezreal\Ezreal.cs" />
+    <Compile Include="Champions\Ezreal\Skills\EzrealQ.cs" />
+    <Compile Include="Champions\Ezreal\Skills\EzrealR.cs" />
+    <Compile Include="Champions\Ezreal\Skills\EzrealW.cs" />
     <Compile Include="Champions\Jinx\Jinx.cs" />
     <Compile Include="Champions\Jinx\JinxHumanizer.cs" />
     <Compile Include="Champions\Jinx\JinxUtility.cs" />

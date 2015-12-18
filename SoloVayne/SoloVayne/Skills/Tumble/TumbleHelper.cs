@@ -105,7 +105,6 @@ namespace SoloVayne.Skills.Tumble
             {
                 (ObjectManager.Player.ServerPosition.To2D() + Range * ObjectManager.Player.Direction.To2D()).To3D(),
                 (ObjectManager.Player.ServerPosition.To2D() - Range * ObjectManager.Player.Direction.To2D()).To3D()
-
             };
 
             return vList;
