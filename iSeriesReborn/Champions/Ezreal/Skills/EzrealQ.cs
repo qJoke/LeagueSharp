@@ -1,4 +1,5 @@
-﻿using iSeriesReborn.Utility;
+﻿using System.Linq;
+using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -17,6 +18,21 @@ namespace iSeriesReborn.Champions.Ezreal.Skills
                 {
                     Variables.spells[SpellSlot.Q].CastIfHitchanceEquals(
                       target, target.IsMoving ? HitChance.VeryHigh : HitChance.High);
+                }
+            }
+        }
+
+        internal static void ExecuteFarmLogic()
+        {
+            if (Variables.spells[SpellSlot.Q].IsEnabledAndReady())
+            {
+                var minion = MinionManager.GetMinions(Variables.spells[SpellSlot.Q].Range).Where(m => 
+                    HealthPrediction.GetHealthPrediction(m, (int)(m.Distance(ObjectManager.Player) / Variables.spells[SpellSlot.Q].Speed * 1000f)) > Variables.spells[SpellSlot.Q].GetDamage(m) - 5);
+                var qFarmLocation = Variables.spells[SpellSlot.Q].GetLineFarmLocation(minion.ToList());
+
+                if (qFarmLocation.MinionsHit >= 1)
+                {
+                    Variables.spells[SpellSlot.Q].Cast(qFarmLocation.Position);
                 }
             }
         }

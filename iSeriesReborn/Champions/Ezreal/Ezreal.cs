@@ -82,7 +82,7 @@ namespace iSeriesReborn.Champions.Kalista
 
         protected override void OnLaneClear()
         {
-
+            EzrealQ.ExecuteFarmLogic();
         }
 
         protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
