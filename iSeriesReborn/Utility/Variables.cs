@@ -39,7 +39,10 @@ namespace iSeriesReborn.Utility
             { "Kalista", () => { CurrentChampion = new Kalista(); CurrentChampion.OnLoad(); } },
             { "Jinx", () => { CurrentChampion = new Jinx(); CurrentChampion.OnLoad(); } },
             { "Vayne", () => { CurrentChampion = new Vayne(); CurrentChampion.OnLoad(); } },
-            { "Tristana", () => { CurrentChampion = new Tristana(); CurrentChampion.OnLoad(); } }
+            { "Tristana", () => { CurrentChampion = new Tristana(); CurrentChampion.OnLoad(); } },
+            { "Twitch", () => { CurrentChampion = new Twitch(); CurrentChampion.OnLoad(); } },
+            { "Ezreal", () => { CurrentChampion = new Ezreal(); CurrentChampion.OnLoad(); } },
+
         };
 
         /// <summary>
@@ -57,5 +60,18 @@ namespace iSeriesReborn.Utility
 
         public static Dictionary<SpellSlot, Spell> spells
             => IsLoaded ? CurrentChampion.GetSpells() : new Dictionary<SpellSlot, Spell>();
+
+        public static Spell qExtended
+        {
+            get
+            {
+                if (CurrentChampion is Lucian)
+                {
+                    var lucian = (Lucian) CurrentChampion;
+                    return lucian.qExtended;
+                }
+                return new Spell(SpellSlot.Q, -1f);
+            }
+        } 
     }
 }

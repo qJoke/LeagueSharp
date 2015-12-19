@@ -98,6 +98,9 @@
     <Compile Include="Champions\KogMaw\Skills\KogQ.cs" />
     <Compile Include="Champions\KogMaw\Skills\KogR.cs" />
     <Compile Include="Champions\KogMaw\Skills\KogW.cs" />
+    <Compile Include="Champions\Lucian\Lucian.cs" />
+    <Compile Include="Champions\Lucian\LucianHooks.cs" />
+    <Compile Include="Champions\Lucian\Skills\Combo.cs" />
     <Compile Include="Champions\Tristana\Skills\TristanaE.cs" />
     <Compile Include="Champions\Tristana\Skills\TristanaQ.cs" />
     <Compile Include="Champions\Tristana\Skills\TristanaR.cs" />
