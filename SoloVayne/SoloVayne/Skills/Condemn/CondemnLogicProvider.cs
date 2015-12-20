@@ -126,5 +126,20 @@ namespace SoloVayne.Skills.Condemn
 
             return vList;
         }
+
+        public bool IsCondemnable(Obj_AI_Base target, Vector3 fromPosition)
+        {
+            var pushDistance = 420f;
+            var targetPosition = target.ServerPosition;
+            for (int i = 0; i < pushDistance; i += 40)
+            {
+                var tempPos = targetPosition.Extend(fromPosition, -i);
+                if (tempPos.IsWall())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
