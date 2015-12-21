@@ -89,9 +89,7 @@
     <Compile Include="External\ProfileSelector\DefaultProfiles\Eirik.cs" />
     <Compile Include="External\ProfileSelector\DefaultProfiles\IDefaultProfile.cs" />
     <Compile Include="External\ProfileSelector\ProfileSelector.cs" />
-    <Compile Include="External\ProfileSelector\ProfileValues\IValue.cs" />
     <Compile Include="External\ProfileSelector\ProfileValues\ProfilerEnum.cs" />
-    <Compile Include="External\ProfileSelector\ProfileValues\ValueBool.cs" />
     <Compile Include="External\ProfileSelector\Values\BoolValue.cs" />
     <Compile Include="External\ProfileSelector\Values\IValue.cs" />
     <Compile Include="External\ProfileSelector\Values\SelectorEnums.cs" />
