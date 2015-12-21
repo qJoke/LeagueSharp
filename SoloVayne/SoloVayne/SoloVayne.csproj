@@ -67,6 +67,10 @@
     <Compile Include="DZLib\Logging\LogItem.cs" />
     <Compile Include="DZLib\Logging\LogVariables.cs" />
     <Compile Include="DZLib\Menu\MenuExtensions.cs" />
+    <Compile Include="External\LanguageAdaptor.cs" />
+    <Compile Include="External\Language\ILanguage.cs" />
+    <Compile Include="External\Language\Languages\English.cs" />
+    <Compile Include="External\Language\Languages\Italian.cs" />
     <Compile Include="Modules\Condemn\AutoE.cs" />
     <Compile Include="Modules\Condemn\SaveE.cs" />
     <Compile Include="Modules\Condemn\JungleE.cs" />
