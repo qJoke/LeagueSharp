@@ -14,6 +14,9 @@ namespace SoloVayne.External
     {
         public List<ILanguage> Languages = new List<ILanguage>() { new English(), new Italian() };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LanguageAdaptor"/> class.
+        /// </summary>
         public LanguageAdaptor()
         {
             var builtStringArray = Languages.Select(language => language.GetLanguage()).ToArray();
@@ -40,6 +43,10 @@ namespace SoloVayne.External
             Variables.Menu.AddSubMenu(LanguageMenu);
         }
 
+        /// <summary>
+        /// Gets the currently selected language.
+        /// </summary>
+        /// <returns></returns>
         private ILanguage GetCurrentlySelectedLanguage()
         {
             var currentValue = Variables.Menu.Item("solo.vayne.language.current").GetValue<StringList>().SelectedValue;
@@ -49,6 +56,10 @@ namespace SoloVayne.External
             return language;
         }
 
+        /// <summary>
+        /// Changes the language.
+        /// </summary>
+        /// <param name="Language">The language.</param>
         public void ChangeLanguage(ILanguage Language)
         {
             foreach (var item in Language.GetTranslationDictionary())

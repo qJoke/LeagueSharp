@@ -4,11 +4,20 @@ namespace SoloVayne.External.Language.Languages
 {
     class English : ILanguage
     {
+        /// <summary>
+        /// Gets the language.
+        /// </summary>
+        /// <returns></returns>
         public string GetLanguage()
         {
             return "English (English - US)";
         }
 
+        /// <summary>
+        /// Gets the localized string.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         public string GetLocalizedString(string name)
         {
             var dictionary = GetTranslationDictionary();
@@ -20,6 +29,10 @@ namespace SoloVayne.External.Language.Languages
             return "";
         }
 
+        /// <summary>
+        /// Gets the translation dictionary.
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, string> GetTranslationDictionary()
         {
             var Translations = new Dictionary<string, string>()

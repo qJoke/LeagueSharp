@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SoloVayne.Utility.Enums
+﻿namespace SoloVayne.Utility.Enums
 {
     enum SkillMode
     {
-        OnUpdate, OnAfterAA
+        /// <summary>
+        /// The Skill logic is called every tick
+        /// </summary>
+        OnUpdate,
+
+        /// <summary>
+        /// The Skill Logic is called after an AA
+        /// </summary>
+        OnAfterAA
     }
 }

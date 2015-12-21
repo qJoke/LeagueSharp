@@ -12,18 +12,32 @@ namespace SoloVayne.Skills.Tumble
 {
     class Tumble : Skill
     {
+        /// <summary>
+        /// The Tumble logic provider
+        /// </summary>
         public TumbleLogicProvider Provider;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Tumble"/> class.
+        /// </summary>
         public Tumble() 
         {
             Provider = new TumbleLogicProvider();
         }
 
+        /// <summary>
+        /// Gets the skill mode.
+        /// </summary>
+        /// <returns></returns>
         public SkillMode GetSkillMode()
         {
             return SkillMode.OnAfterAA;
         }
 
+        /// <summary>
+        /// Executes the module given a target.
+        /// </summary>
+        /// <param name="target">The target.</param>
         public void Execute(Obj_AI_Base target)
         {
             if (target is Obj_AI_Hero)
@@ -75,6 +89,10 @@ namespace SoloVayne.Skills.Tumble
             }
         }
 
+        /// <summary>
+        /// Executes the farm logic.
+        /// </summary>
+        /// <param name="target">The target.</param>
         public void ExecuteFarm(Obj_AI_Base target)
         {
             if (Variables.spells[SpellSlot.Q].IsEnabledAndReady())
@@ -116,6 +134,11 @@ namespace SoloVayne.Skills.Tumble
             }
         }
 
+        /// <summary>
+        /// Casts Q (Tumble).
+        /// </summary>
+        /// <param name="Position">The position.</param>
+        /// <param name="target">The target.</param>
         private void CastTumble(Vector3 Position, Obj_AI_Base target)
         {
             var WallQPosition = TumbleHelper.GetQBurstModePosition();
@@ -137,6 +160,10 @@ namespace SoloVayne.Skills.Tumble
             CastQ(Position);
         }
 
+        /// <summary>
+        /// Casts Q (Tumble) to a specified position.
+        /// </summary>
+        /// <param name="Position">The position.</param>
         private void CastQ(Vector3 Position)
         {
             //Orbwalking.ResetAutoAttackTimer();

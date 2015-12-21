@@ -10,6 +10,9 @@ namespace SoloVayne.Skills.Tumble.CCTracker
     {
         public List<CC> CcList { get; private set; }
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         public void Init()
         {
             //TODO For Annie. Pyro stacks > 3
@@ -27,6 +30,11 @@ namespace SoloVayne.Skills.Tumble.CCTracker
             };
         }
 
+        /// <summary>
+        /// Gets the champion instanc by its name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         public Obj_AI_Hero GetChampionByName(string name)
         {
             return HeroManager.Enemies.FirstOrDefault(m => m.ChampionName.ToLower() == name.ToLower());

@@ -8,11 +8,18 @@ namespace SoloVayne.Modules.Condemn
 {
     class SaveE : ISOLOModule
     {
+        /// <summary>
+        /// Called when the modules is loaded.
+        /// </summary>
         public void OnLoad()
         {
 
         }
 
+        /// <summary>
+        /// Shoulds the module get executed.
+        /// </summary>
+        /// <returns></returns>
         public bool ShouldGetExecuted()
         {
             return MenuExtensions.GetItemValue<bool>("solo.vayne.misc.condemn.save") 
@@ -21,11 +28,18 @@ namespace SoloVayne.Modules.Condemn
                 && ObjectManager.Player.HealthPercent < 7;
         }
 
+        /// <summary>
+        /// Gets the type of the module.
+        /// </summary>
+        /// <returns></returns>
         public ModuleType GetModuleType()
         {
             return ModuleType.OnUpdate;
         }
 
+        /// <summary>
+        /// Called when the module is executed
+        /// </summary>
         public void OnExecute()
         {
             var meleeEnemyClose = TumbleHelper.GetClosestEnemy(ObjectManager.Player.ServerPosition);

@@ -10,6 +10,10 @@ namespace SoloVayne.Skills.Tumble
 {
     class TumbleHelper
     {
+        /// <summary>
+        /// Gets the rotated q positions.
+        /// </summary>
+        /// <returns></returns>
         public static List<Vector3> GetRotatedQPositions()
         {
             const int currentStep = 30;
@@ -26,6 +30,11 @@ namespace SoloVayne.Skills.Tumble
             return list;
         }
 
+        /// <summary>
+        /// Gets the closest enemy.
+        /// </summary>
+        /// <param name="from">From.</param>
+        /// <returns></returns>
         public static Obj_AI_Hero GetClosestEnemy(Vector3 from)
         {
             if (Variables.Orbwalker.GetTarget() is Obj_AI_Hero)
@@ -40,6 +49,11 @@ namespace SoloVayne.Skills.Tumble
             return null;
         }
 
+        /// <summary>
+        /// Determines whether the specified position is Safe using AA ranges logic.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <returns></returns>
         public static bool IsSafeEx(Vector3 position)
         {
             var closeEnemies =
@@ -51,6 +65,11 @@ namespace SoloVayne.Skills.Tumble
                                     position.CountEnemiesInRange(enemy.AttackRange) <= 1);
         }
 
+        /// <summary>
+        /// Gets the average distance of a specified position to the enemies.
+        /// </summary>
+        /// <param name="from">From.</param>
+        /// <returns></returns>
         public static float GetAvgDistance(Vector3 from)
         {
             var numberOfEnemies = from.CountEnemiesInRange(1200f);
@@ -74,6 +93,11 @@ namespace SoloVayne.Skills.Tumble
             return -1;
         }
 
+        /// <summary>
+        /// Gets the enemy points.
+        /// </summary>
+        /// <param name="dynamic">if set to <c>true</c> [dynamic].</param>
+        /// <returns></returns>
         public static List<Vector2> GetEnemyPoints(bool dynamic = true)
         {
             var staticRange = 360f;
@@ -83,6 +107,10 @@ namespace SoloVayne.Skills.Tumble
             return pointList;
         }
 
+        /// <summary>
+        /// Gets the Q burst mode position.
+        /// </summary>
+        /// <returns></returns>
         public static Vector3? GetQBurstModePosition()
         {
             var positions =
@@ -99,6 +127,11 @@ namespace SoloVayne.Skills.Tumble
             return null;
         }
 
+        /// <summary>
+        /// Gets the wall Q positions.
+        /// </summary>
+        /// <param name="Range">The range.</param>
+        /// <returns></returns>
         public static Vector3[] GetWallQPositions(float Range)
         {
             Vector3[] vList =

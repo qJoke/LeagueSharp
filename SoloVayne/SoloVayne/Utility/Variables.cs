@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SoloVayne.Modules;
@@ -71,6 +67,9 @@ namespace SoloVayne.Utility
             new Condemn()
         };
 
+        /// <summary>
+        /// The module list
+        /// </summary>
         public static List<ISOLOModule> ModuleList = new List<ISOLOModule>()
         {
             //Condemn Modules

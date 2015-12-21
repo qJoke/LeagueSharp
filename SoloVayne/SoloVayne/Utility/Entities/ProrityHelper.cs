@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace SoloVayne.Utility.Entities
 {
     class ProrityHelper
     {
+        /// <summary>
+        /// Gets the priority from the priority database.
+        /// </summary>
+        /// <param name="championName">Name of the champion.</param>
+        /// <returns></returns>
         public static int GetPriorityFromDb(string championName)
         {
             string[] p1 =

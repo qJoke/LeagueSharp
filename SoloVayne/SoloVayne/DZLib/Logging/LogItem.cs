@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using LeagueSharp;
+﻿using LeagueSharp;
 
 namespace DZLib.Logging
 {

@@ -15,16 +15,27 @@ namespace SoloVayne.Skills.Tumble
     {
         public CondemnLogicProvider Provider = new CondemnLogicProvider();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Condemn"/> class.
+        /// </summary>
         public Condemn()
         {
             Variables.spells[SpellSlot.E].SetTargetted(0.25f, 1250f);
         }
 
+        /// <summary>
+        /// Gets the skill mode.
+        /// </summary>
+        /// <returns></returns>
         public SkillMode GetSkillMode()
         {
             return SkillMode.OnUpdate;
         }
 
+        /// <summary>
+        /// Executes logic given the specified target.
+        /// </summary>
+        /// <param name="target">The target.</param>
         public void Execute(Obj_AI_Base target)
         {
             try
@@ -44,6 +55,10 @@ namespace SoloVayne.Skills.Tumble
             }
         }
 
+        /// <summary>
+        /// Executes the farm logic.
+        /// </summary>
+        /// <param name="target">The target.</param>
         public void ExecuteFarm(Obj_AI_Base target)
         {
             if (target is Obj_AI_Minion 

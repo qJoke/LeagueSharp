@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -10,6 +8,12 @@ namespace SoloVayne.Skills.Tumble
 {
     class TumbleVariables
     {
+        /// <summary>
+        /// Gets the enemies close.
+        /// </summary>
+        /// <value>
+        /// The enemies close.
+        /// </value>
         public static IEnumerable<Obj_AI_Hero> EnemiesClose
         {
             get

@@ -6,6 +6,8 @@ namespace SoloVayne.Skills.Tumble.CCTracker.Tracker
     {
         private Obj_AI_Hero Champ;
 
+        public TrackerModule() {}
+
         public TrackerModule(Obj_AI_Hero champion)
         {
             Champ = champion;

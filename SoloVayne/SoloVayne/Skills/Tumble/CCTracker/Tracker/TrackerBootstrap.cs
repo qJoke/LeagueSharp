@@ -8,11 +8,17 @@ namespace SoloVayne.Skills.Tumble.CCTracker.Tracker
     {
         public Dictionary<Obj_AI_Hero, TrackerModule> modules = new Dictionary<Obj_AI_Hero, TrackerModule>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TrackerBootstrap"/> class.
+        /// </summary>
         public TrackerBootstrap()
         {
             Init();
         }
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
         private void Init()
         {
             foreach (var champion in HeroManager.Enemies)
@@ -23,6 +29,11 @@ namespace SoloVayne.Skills.Tumble.CCTracker.Tracker
             }
         }
 
+        /// <summary>
+        /// Gets the module of the module by.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         public TrackerModule GetModuleByName(string name)
         {
             foreach (var kvp in modules)

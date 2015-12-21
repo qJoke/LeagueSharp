@@ -9,11 +9,18 @@ namespace SoloVayne.Modules.Condemn
 {
     class JungleE : ISOLOModule
     {
+        /// <summary>
+        /// Called when the module gets loaded.
+        /// </summary>
         public void OnLoad()
         {
 
         }
 
+        /// <summary>
+        /// Shoulds the module get executed.
+        /// </summary>
+        /// <returns></returns>
         public bool ShouldGetExecuted()
         {
             return MenuExtensions.GetItemValue<bool>("solo.vayne.laneclear.condemn.jungle") 
@@ -22,11 +29,18 @@ namespace SoloVayne.Modules.Condemn
                 && ObjectManager.Player.ManaPercent >= 40;
         }
 
+        /// <summary>
+        /// Gets the type of the module.
+        /// </summary>
+        /// <returns></returns>
         public ModuleType GetModuleType()
         {
             return ModuleType.OnUpdate;
         }
 
+        /// <summary>
+        /// Called when the module gets executed.
+        /// </summary>
         public void OnExecute()
         {
             var currentTarget = Variables.Orbwalker.GetTarget();

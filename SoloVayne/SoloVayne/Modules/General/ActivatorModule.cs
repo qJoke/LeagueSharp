@@ -10,12 +10,19 @@ namespace SoloVayne.Modules.Condemn
         private Items.Item Youmuu = new Items.Item((int)ItemId.Youmuus_Ghostblade);
         private Items.Item Cutlass = new Items.Item((int)ItemId.Bilgewater_Cutlass, 450f);
 
- 
+
+        /// <summary>
+        /// Called when the module is loaded
+        /// </summary>
         public void OnLoad()
         {
 
         }
 
+        /// <summary>
+        /// Shoulds the module get executed.
+        /// </summary>
+        /// <returns></returns>
         public bool ShouldGetExecuted()
         {
             return ((BOTRK.IsOwned() && BOTRK.IsReady()) 
@@ -24,11 +31,18 @@ namespace SoloVayne.Modules.Condemn
                 && (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo || ObjectManager.Player.HealthPercent < 10);
         }
 
+        /// <summary>
+        /// Gets the type of the module.
+        /// </summary>
+        /// <returns></returns>
         public ModuleType GetModuleType()
         {
             return ModuleType.OnUpdate;
         }
 
+        /// <summary>
+        /// Called when the module is executed.
+        /// </summary>
         public void OnExecute()
         {
             var target = Variables.Orbwalker.GetTarget();

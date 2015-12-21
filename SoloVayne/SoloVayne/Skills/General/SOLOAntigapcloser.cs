@@ -1,7 +1,6 @@
 ﻿using DZLib.Logging;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SoloVayne.Skills.Tumble;
 using SoloVayne.Utility;
 using SOLOVayne.Utility.General;
 using ActiveGapcloser = SOLOVayne.Utility.General.ActiveGapcloser;
@@ -10,12 +9,20 @@ namespace SoloVayne.Skills.General
 {
     class SOLOAntigapcloser
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SOLOAntigapcloser"/> class.
+        /// </summary>
         public SOLOAntigapcloser()
         {
             CustomAntiGapcloser.OnEnemyGapcloser += OnEnemyGapcloser;
             Interrupter2.OnInterruptableTarget += OnInterruptable;
         }
 
+        /// <summary>
+        /// Called when an interruptable skill is casted.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="Interrupter2.InterruptableTargetEventArgs"/> instance containing the event data.</param>
         private void OnInterruptable(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
             var interrupterEnabled = MenuExtensions.GetItemValue<bool>("solo.vayne.misc.miscellaneous.interrupter");
@@ -33,6 +40,10 @@ namespace SoloVayne.Skills.General
             }
         }
 
+        /// <summary>
+        /// Called when an enemy gapcloser is casted on the player.
+        /// </summary>
+        /// <param name="gapcloser">The gapcloser.</param>
         private void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             var antigapcloserEnabled = MenuExtensions.GetItemValue<bool>("solo.vayne.misc.miscellaneous.antigapcloser");

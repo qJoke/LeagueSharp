@@ -7,8 +7,14 @@ namespace SoloVayne.Utility
 {
     class MenuGenerator
     {
+        /// <summary>
+        /// The main menu
+        /// </summary>
         private Menu MainMenu;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MenuGenerator"/> class.
+        /// </summary>
         public MenuGenerator()
         {
             if (Variables.Menu == null)
@@ -19,6 +25,9 @@ namespace SoloVayne.Utility
             MainMenu = Variables.Menu;
         }
 
+        /// <summary>
+        /// Generates the menu.
+        /// </summary>
         public void GenerateMenu()
         {
             var owMenu = new Menu("[SOLO] Orbwalker", "solo.vayne.orbwalker");

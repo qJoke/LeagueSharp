@@ -12,6 +12,10 @@ namespace SoloVayne.Skills.Tumble
     {
         public CondemnLogicProvider Provider = new CondemnLogicProvider();
 
+        /// <summary>
+        /// Gets the SOLO Vayne Q position using a patented logic!
+        /// </summary>
+        /// <returns></returns>
         public Vector3 GetSOLOVayneQPosition()
         {
             #region The Required Variables
@@ -160,6 +164,10 @@ namespace SoloVayne.Skills.Tumble
             return endPosition;
         }
 
+        /// <summary>
+        /// Gets the QE position for the Tumble-Condemn combo.
+        /// </summary>
+        /// <returns></returns>
         public Vector3 GetQEPosition()
         {
             if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo || !Variables.spells[SpellSlot.E].IsEnabledAndReady())

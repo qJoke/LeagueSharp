@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using LeagueSharp.Common;
 using SharpDX;
 
@@ -10,23 +6,43 @@ namespace iSeriesReborn.Utility.Positioning
 {
     class SOLOPolygon
     {
+        /// <summary>
+        /// The points of the polygon
+        /// </summary>
         public List<Vector2> Points;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SOLOPolygon"/> class.
+        /// </summary>
+        /// <param name="p">The p.</param>
         public SOLOPolygon(List<Vector2> p)
         {
             Points = p;
         }
 
+        /// <summary>
+        /// Adds the specified vector to the polygon.
+        /// </summary>
+        /// <param name="vec">The vector.</param>
         public void Add(Vector2 vec)
         {
             Points.Add(vec);
         }
 
+        /// <summary>
+        /// Counts the points in this instance.
+        /// </summary>
+        /// <returns></returns>
         public int Count()
         {
             return Points.Count;
         }
 
+        /// <summary>
+        /// Determines whether the polygon contains the point.
+        /// </summary>
+        /// <param name="point">The point.</param>
+        /// <returns></returns>
         public bool Contains(Vector2 point)
         {
             var result = false;
@@ -46,6 +62,13 @@ namespace iSeriesReborn.Utility.Positioning
             return result;
         }
 
+        /// <summary>
+        /// Creates a rectangle with a given start vector.
+        /// </summary>
+        /// <param name="startVector2">The start vector2.</param>
+        /// <param name="endVector2">The end vector2.</param>
+        /// <param name="radius">The radius.</param>
+        /// <returns></returns>
         public static List<Vector2> Rectangle(Vector2 startVector2, Vector2 endVector2, float radius)
         {
             var points = new List<Vector2>();

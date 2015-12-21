@@ -8,22 +8,36 @@ namespace SoloVayne.Modules.Condemn
 {
     class KSQ : ISOLOModule
     {
+        /// <summary>
+        /// Called when the module is loaded.
+        /// </summary>
         public void OnLoad()
         {
 
         }
 
+        /// <summary>
+        /// Should the module get executed.
+        /// </summary>
+        /// <returns></returns>
         public bool ShouldGetExecuted()
         {
             return MenuExtensions.GetItemValue<bool>("solo.vayne.misc.tumble.qks") &&
                    Variables.spells[SpellSlot.Q].IsReady();
         }
 
+        /// <summary>
+        /// Gets the type of the module.
+        /// </summary>
+        /// <returns></returns>
         public ModuleType GetModuleType()
         {
             return ModuleType.OnUpdate;
         }
 
+        /// <summary>
+        /// Called when the module is executed.
+        /// </summary>
         public void OnExecute()
         {
             var currentTarget = TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null) + 260f, TargetSelector.DamageType.Physical);

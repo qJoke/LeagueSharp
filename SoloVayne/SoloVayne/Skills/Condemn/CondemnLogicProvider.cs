@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using DZLib.Logging;
 using iSeriesReborn.Utility.Positioning;
 using LeagueSharp;
@@ -8,12 +7,16 @@ using SharpDX;
 using SoloVayne.Utility;
 using SoloVayne.Utility.Entities;
 using SoloVayne.Utility.General;
-using Collision = LeagueSharp.Common.Collision;
 
 namespace SoloVayne.Skills.Condemn
 {
     class CondemnLogicProvider
     {
+        /// <summary>
+        /// Gets the target.
+        /// </summary>
+        /// <param name="position">The starting position.</param>
+        /// <returns>The condemn target or null</returns>
         internal Obj_AI_Hero GetTarget(Vector3 position = default(Vector3))
         {
             var HeroList = HeroManager.Enemies.Where(
@@ -102,6 +105,11 @@ namespace SoloVayne.Skills.Condemn
             return null;
         }
 
+        /// <summary>
+        /// Determines whether whether or not both the players and the target are near a wall.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        /// <returns></returns>
         private static bool IsBothNearWall(Obj_AI_Base target)
         {
             var positions = GetWallQPositions(target, 110).ToList().OrderBy(pos => pos.Distance(target.ServerPosition, true));
@@ -115,6 +123,12 @@ namespace SoloVayne.Skills.Condemn
             return false;
         }
 
+        /// <summary>
+        /// Gets the wall q positions (Sideways positions to the players).
+        /// </summary>
+        /// <param name="player">The player.</param>
+        /// <param name="Range">The range.</param>
+        /// <returns></returns>
         private static Vector3[] GetWallQPositions(Obj_AI_Base player, float Range)
         {
             Vector3[] vList =
@@ -127,6 +141,12 @@ namespace SoloVayne.Skills.Condemn
             return vList;
         }
 
+        /// <summary>
+        /// Determines whether the specified target is condemnable.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        /// <param name="fromPosition">From position.</param>
+        /// <returns></returns>
         public bool IsCondemnable(Obj_AI_Base target, Vector3 fromPosition)
         {
             var pushDistance = 420f;

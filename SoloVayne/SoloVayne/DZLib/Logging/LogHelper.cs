@@ -19,10 +19,8 @@ namespace DZLib.Logging
         /// <value>
         /// The log path.
         /// </value>
-        private static String LogPath
-        {
-            get { return Path.Combine(LogVariables.WorkingDir, string.Format("[{0}] Log - {1} - {2}.txt", LogVariables.AssemblyName, Game.Id, DateTime.Now.ToString("dd_MM_yyyy"))); }
-        }
+        private static String LogPath => Path.Combine(LogVariables.WorkingDir,
+            $"[{LogVariables.AssemblyName}] Log - {Game.Id} - {DateTime.Now.ToString("dd_MM_yyyy")}.txt");
 
         /// <summary>
         /// Called when the LogHelper is loaded

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -20,6 +17,11 @@ namespace SoloVayne.Utility.General
         private static Vector2 _yasuoWallCastedPos;
 
 
+        /// <summary>
+        /// Called when a spell cast is processed by the client.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="LeagueSharp.GameObjectProcessSpellCastEventArgs"/> instance containing the event data.</param>
         internal static void OnProcessSpellCast(LeagueSharp.Obj_AI_Base sender, LeagueSharp.GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsValid && sender.Team != ObjectManager.Player.Team && args.SData.Name == "YasuoWMovingWall")
@@ -29,6 +31,12 @@ namespace SoloVayne.Utility.General
             }
         }
 
+        /// <summary>
+        /// Collideses the with wall.
+        /// </summary>
+        /// <param name="start">The start.</param>
+        /// <param name="end">The end.</param>
+        /// <returns></returns>
         internal static bool CollidesWithWall(Vector3 start, Vector3 end)
         {
             if (Utils.TickCount - _wallCastT > 4000)
