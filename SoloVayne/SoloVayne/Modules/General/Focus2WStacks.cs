@@ -4,7 +4,7 @@ using LeagueSharp.Common;
 using SoloVayne.Utility;
 using SoloVayne.Utility.Entities;
 
-namespace SoloVayne.Modules.Condemn
+namespace SoloVayne.Modules.General
 {
     class Focus2WStacks : ISOLOModule
     {

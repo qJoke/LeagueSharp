@@ -2,7 +2,7 @@
 using LeagueSharp.Common;
 using SoloVayne.Utility;
 
-namespace SoloVayne.Modules.Condemn
+namespace SoloVayne.Modules.General
 {
     class ActivatorModule : ISOLOModule
     {

@@ -76,6 +76,7 @@ namespace SoloVayne.Utility
                 {
                     MiscMenu.AddBool("solo.vayne.misc.miscellaneous.antigapcloser", "Antigapcloser", true);
                     MiscMenu.AddBool("solo.vayne.misc.miscellaneous.interrupter", "Interrupter", true);
+                    MiscMenu.AddBool("solo.vayne.misc.miscellaneous.noaastealth", "Don't AA while stealthed");
                 }
             }
 

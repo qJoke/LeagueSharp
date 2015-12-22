@@ -7,7 +7,7 @@ using SharpDX;
 using SoloVayne.Skills.Tumble;
 using SoloVayne.Utility;
 
-namespace SoloVayne.Modules.Condemn
+namespace SoloVayne.Modules.General
 {
     class AutoR : ISOLOModule
     {

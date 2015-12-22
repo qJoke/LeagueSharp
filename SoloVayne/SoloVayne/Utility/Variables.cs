@@ -3,6 +3,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SoloVayne.Modules;
 using SoloVayne.Modules.Condemn;
+using SoloVayne.Modules.General;
 using SoloVayne.Skills;
 using SoloVayne.Skills.Tumble;
 using SoloVayne.Skills.Tumble.CCTracker;
@@ -82,7 +83,8 @@ namespace SoloVayne.Utility
 
             //General Modules
             new AutoR(),
-            new ActivatorModule()
+            new ActivatorModule(),
+            new NoAAStealth()
         };
     }
 }

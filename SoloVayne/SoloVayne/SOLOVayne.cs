@@ -40,9 +40,7 @@ namespace SoloVayne
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void OnDraw(EventArgs args)
-        {
-            return;
-        }
+        {}
 
         /// <summary>
         /// Called when an unit has executed the windup time for a skill.
