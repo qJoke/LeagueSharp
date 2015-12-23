@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using DZLib.Logging;
-using iSeriesReborn.Champions.Ezreal.Skills;
 using iSeriesReborn.Champions.Lucian;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
@@ -46,16 +45,17 @@ namespace iSeriesReborn.Champions.Kalista
 
             var comboMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.Combo);
             {
-                comboMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Combo, true, 15);
-                comboMenu.AddSkill(SpellSlot.W, Orbwalking.OrbwalkingMode.Combo, true, 10);
-                comboMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Combo, true, 10);
-                comboMenu.AddSkill(SpellSlot.R, Orbwalking.OrbwalkingMode.Combo, true, 10);
+                comboMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Combo, true, 10);
+                comboMenu.AddSkill(SpellSlot.W, Orbwalking.OrbwalkingMode.Combo, true, 25);
+                comboMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Combo, true, 5);
+                //comboMenu.AddSkill(SpellSlot.R, Orbwalking.OrbwalkingMode.Combo, true, 10);
             }
 
             var mixedMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.Mixed);
             {
                 mixedMenu.AddSkill(SpellSlot.Q, Orbwalking.OrbwalkingMode.Combo, true, 15);
                 mixedMenu.AddSkill(SpellSlot.W, Orbwalking.OrbwalkingMode.Mixed, true, 15);
+                mixedMenu.AddSkill(SpellSlot.E, Orbwalking.OrbwalkingMode.Mixed, true, 15);
             }
 
             var laneclearMenu = defaultMenu.AddModeMenu(Orbwalking.OrbwalkingMode.LaneClear);
@@ -65,7 +65,7 @@ namespace iSeriesReborn.Champions.Kalista
 
             var miscMenu = defaultMenu.AddSubMenu(new Menu("[iSR] Misc", "iseriesr.lucian.misc"));
             {
-                miscMenu.AddBool("iseriesr.lucian.misc.eks", "E ks");
+                miscMenu.AddBool("iseriesr.lucian.misc.eks", "E KS");
             }
 
         }
@@ -77,7 +77,7 @@ namespace iSeriesReborn.Champions.Kalista
 
         protected override void OnCombo()
         {
-
+            
         }
 
         protected override void OnMixed()

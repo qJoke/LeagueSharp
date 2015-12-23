@@ -16,18 +16,26 @@ namespace iSeriesReborn.Champions.Lucian
 
         internal static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            switch (Variables.Orbwalker.ActiveMode)
+            if (sender.IsMe)
             {
-                case Orbwalking.OrbwalkingMode.Combo:
-                    Combo.ExecuteComboLogic(args);
-                    break;
-                case Orbwalking.OrbwalkingMode.Mixed:
+                if (Orbwalking.IsAutoAttack(args.SData.Name) && args.SData.Name != "LucianPassiveAttack")
+                {
+                    HasPassive = false;
 
-                    break;
+                    switch (Variables.Orbwalker.ActiveMode)
+                    {
+                        case Orbwalking.OrbwalkingMode.Combo:
+                            Combo.ExecuteComboLogic(args);
+                            break;
+                        case Orbwalking.OrbwalkingMode.Mixed:
+                            Combo.ExecuteComboLogic(args);
+                            break;
 
-                case Orbwalking.OrbwalkingMode.LaneClear:
+                        case Orbwalking.OrbwalkingMode.LaneClear:
 
-                    break;
+                            break;
+                    }
+                }
             }
         }
 
@@ -45,7 +53,7 @@ namespace iSeriesReborn.Champions.Lucian
 
         internal static void OnAfterAA(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            HasPassive = false;
+            //HasPassive = false;
         }
     }
 }

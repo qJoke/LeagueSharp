@@ -42,7 +42,7 @@ namespace iSeriesReborn.Utility
             { "Tristana", () => { CurrentChampion = new Tristana(); CurrentChampion.OnLoad(); } },
             { "Twitch", () => { CurrentChampion = new Twitch(); CurrentChampion.OnLoad(); } },
             { "Ezreal", () => { CurrentChampion = new Ezreal(); CurrentChampion.OnLoad(); } },
-
+            { "Lucian", () => { CurrentChampion = new Lucian(); CurrentChampion.OnLoad(); } },
         };
 
         /// <summary>

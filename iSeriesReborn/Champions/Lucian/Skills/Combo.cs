@@ -7,12 +7,15 @@ using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
+using SoloVayne.Skills.Tumble;
 
 namespace iSeriesReborn.Champions.Lucian.Skills
 {
     class Combo
     {
-        internal static void ExecuteComboLogic(LeagueSharp.GameObjectProcessSpellCastEventArgs args)
+
+        internal static void ExecuteComboLogic(GameObjectProcessSpellCastEventArgs args)
         {
             if (args.Target is Obj_AI_Hero)
             {
@@ -24,6 +27,12 @@ namespace iSeriesReborn.Champions.Lucian.Skills
                 if (qReady && Variables.spells[SpellSlot.Q].IsInRange(target) && !LucianHooks.HasPassive)
                 {
                     Variables.spells[SpellSlot.Q].CastOnUnit(target);
+                    LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 650f),
+                        () =>
+                        {
+                            ExecuteComboLogic(args);
+                        });
+                    TargetSelector.SetTarget(args.Target as Obj_AI_Hero);
                 }
 
                 if (wReady 
@@ -33,6 +42,28 @@ namespace iSeriesReborn.Champions.Lucian.Skills
                     && !LucianHooks.HasPassive)
                 {
                     Variables.spells[SpellSlot.W].CastOnUnit(target);
+                    LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 650f), () =>
+                    {
+                        ExecuteComboLogic(args);
+                    });
+                    TargetSelector.SetTarget(args.Target as Obj_AI_Hero);
+                }
+
+                if (eReady && target.IsValidTarget(Variables.spells[SpellSlot.Q].Range + 300f + 65) && !LucianHooks.HasPassive)
+                {
+                    var eProvider = new EPositionProvider();;
+                    var eEndPosition = eProvider.GetEPosition();
+                    if (eEndPosition != Vector3.Zero)
+                    {
+                        Variables.spells[SpellSlot.E].Cast(eEndPosition);
+                        LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 650f),
+                            () =>
+                            {
+                                Orbwalking.ResetAutoAttackTimer();
+                                ExecuteComboLogic(args);
+                            });
+                        TargetSelector.SetTarget(args.Target as Obj_AI_Hero);
+                    }
                 }
             }
         }
