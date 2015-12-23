@@ -24,7 +24,7 @@ namespace iSeriesReborn.Champions.Lucian.Skills
                 var eReady = Variables.spells[SpellSlot.E].IsEnabledAndReady();
                 var target = args.Target as Obj_AI_Hero;
 
-                if (qReady && Variables.spells[SpellSlot.Q].IsInRange(target) && !LucianHooks.HasPassive)
+                if (qReady && (target.Distance(ObjectManager.Player) < Variables.spells[SpellSlot.Q].Range - 65f + 0.25f * target.MoveSpeed) && !LucianHooks.HasPassive)
                 {
                     Variables.spells[SpellSlot.Q].CastOnUnit(target);
                     LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 650f),
@@ -41,7 +41,7 @@ namespace iSeriesReborn.Champions.Lucian.Skills
                     && target.IsValidTarget(Variables.spells[SpellSlot.W].Range) 
                     && !LucianHooks.HasPassive)
                 {
-                    Variables.spells[SpellSlot.W].CastOnUnit(target);
+                    Variables.spells[SpellSlot.W].Cast(Variables.spells[SpellSlot.W].GetPrediction(target).CastPosition);
                     LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 650f), () =>
                     {
                         ExecuteComboLogic(args);
@@ -53,7 +53,7 @@ namespace iSeriesReborn.Champions.Lucian.Skills
                 {
                     var eProvider = new EPositionProvider();;
                     var eEndPosition = eProvider.GetEPosition();
-                    if (eEndPosition != Vector3.Zero)
+                    if (eEndPosition != Vector3.Zero && eEndPosition.Distance(target.ServerPosition) < Orbwalking.GetRealAutoAttackRange(target))
                     {
                         Variables.spells[SpellSlot.E].Cast(eEndPosition);
                         LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 650f),
