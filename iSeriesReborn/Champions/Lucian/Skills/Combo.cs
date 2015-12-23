@@ -27,7 +27,7 @@ namespace iSeriesReborn.Champions.Lucian.Skills
                 if (qReady && (target.Distance(ObjectManager.Player) < Variables.spells[SpellSlot.Q].Range - 65f + 0.25f * target.MoveSpeed) && !LucianHooks.HasPassive)
                 {
                     Variables.spells[SpellSlot.Q].CastOnUnit(target);
-                    LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 650f),
+                    LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 560f),
                         () =>
                         {
                             ExecuteComboLogic(args);
@@ -42,7 +42,7 @@ namespace iSeriesReborn.Champions.Lucian.Skills
                     && !LucianHooks.HasPassive)
                 {
                     Variables.spells[SpellSlot.W].Cast(Variables.spells[SpellSlot.W].GetPrediction(target).CastPosition);
-                    LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 650f), () =>
+                    LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 560f), () =>
                     {
                         ExecuteComboLogic(args);
                     });
@@ -56,7 +56,7 @@ namespace iSeriesReborn.Champions.Lucian.Skills
                     if (eEndPosition != Vector3.Zero && eEndPosition.Distance(target.ServerPosition) < Orbwalking.GetRealAutoAttackRange(target))
                     {
                         Variables.spells[SpellSlot.E].Cast(eEndPosition);
-                        LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 650f),
+                        LeagueSharp.Common.Utility.DelayAction.Add((int)(250 + Game.Ping / 2f + ObjectManager.Player.AttackCastDelay + 560f),
                             () =>
                             {
                                 Orbwalking.ResetAutoAttackTimer();
