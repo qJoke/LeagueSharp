@@ -102,6 +102,7 @@
     <Compile Include="Champions\Lucian\LucianHooks.cs" />
     <Compile Include="Champions\Lucian\Skills\Combo.cs" />
     <Compile Include="Champions\Lucian\Skills\EPosition.cs" />
+    <Compile Include="Champions\Lucian\Skills\Farm.cs" />
     <Compile Include="Champions\Tristana\Skills\TristanaE.cs" />
     <Compile Include="Champions\Tristana\Skills\TristanaQ.cs" />
     <Compile Include="Champions\Tristana\Skills\TristanaR.cs" />

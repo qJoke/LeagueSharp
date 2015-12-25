@@ -6,6 +6,7 @@ using iSeriesReborn.Utility.MenuUtility;
 using iSeriesReborn.Utility.ModuleHelper;
 using LeagueSharp;
 using LeagueSharp.Common;
+using iSeriesReborn.Champions.Lucian.Skills;
 
 namespace iSeriesReborn.Champions.Kalista
 {
@@ -89,7 +90,7 @@ namespace iSeriesReborn.Champions.Kalista
 
         protected override void OnLaneClear()
         {
-
+            Farm.ExecuteLogic();
         }
 
         protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
