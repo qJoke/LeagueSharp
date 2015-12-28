@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using iSeriesReborn.Utility;
+﻿using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
 using LeagueSharp;
 using LeagueSharp.Common;

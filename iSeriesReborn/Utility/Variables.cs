@@ -65,10 +65,10 @@ namespace iSeriesReborn.Utility
         {
             get
             {
-                if (CurrentChampion is Lucian)
+                var champion = CurrentChampion as Lucian;
+                if (champion != null)
                 {
-                    var lucian = (Lucian) CurrentChampion;
-                    return lucian.qExtended;
+                    return champion.qExtended;
                 }
                 return new Spell(SpellSlot.Q, -1f);
             }
