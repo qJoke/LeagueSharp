@@ -6,6 +6,7 @@ using SoloVayne.Modules;
 using SoloVayne.Utility;
 using SoloVayne.Utility.Enums;
 using SoloVayne.Utility.General;
+using SOLOVayne.Skills.Tumble.WardTracker;
 
 namespace SoloVayne
 {
@@ -28,6 +29,10 @@ namespace SoloVayne
             Drawing.OnDraw += OnDraw;
             Obj_AI_Base.OnDoCast += OnDoCast;
             Obj_AI_Base.OnProcessSpellCast += YasuoWall.OnProcessSpellCast;
+
+            Obj_AI_Base.OnProcessSpellCast += WardDetector.OnProcessSpellCast;
+            GameObject.OnCreate += WardDetector.OnCreate;
+            GameObject.OnDelete += WardDetector.OnDelete;
 
             foreach (var module in Variables.ModuleList)
             {
@@ -88,6 +93,8 @@ namespace SoloVayne
         {
             try
             {
+                WardDetector.OnTick();
+
                 if (ObjectManager.Player.IsDead)
                 {
                     return;

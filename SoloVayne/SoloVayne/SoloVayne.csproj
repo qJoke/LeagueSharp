@@ -96,6 +96,8 @@
     <Compile Include="Skills\Tumble\TumbleHelper.cs" />
     <Compile Include="Skills\Tumble\TumbleLogicProvider.cs" />
     <Compile Include="Skills\Tumble\TumbleVariables.cs" />
+    <Compile Include="Skills\Tumble\WardTracker.cs\WardDetector.cs" />
+    <Compile Include="Skills\Tumble\WardTracker.cs\WardTrackerVariables.cs" />
     <Compile Include="SOLOBootstrap.cs" />
     <Compile Include="SOLOVayne.cs" />
     <Compile Include="Utility\Entities\AttackTracker.cs" />

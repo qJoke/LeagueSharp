@@ -31,6 +31,26 @@ namespace SoloVayne.Skills.Tumble
         }
 
         /// <summary>
+        /// Gets the rotated q positions.
+        /// </summary>
+        /// <returns></returns>
+        public static List<Vector3> GetCompleteRotatedQPositions()
+        {
+            const int currentStep = 30;
+            // var direction = ObjectManager.Player.Direction.To2D().Perpendicular();
+            var direction = (Game.CursorPos - ObjectManager.Player.ServerPosition).Normalized().To2D();
+
+            var list = new List<Vector3>();
+            for (var i = -0; i <= 360; i += currentStep)
+            {
+                var angleRad = Geometry.DegreeToRadian(i);
+                var rotatedPosition = ObjectManager.Player.Position.To2D() + (300f * direction.Rotated(angleRad));
+                list.Add(rotatedPosition.To3D());
+            }
+            return list;
+        }
+
+        /// <summary>
         /// Gets the closest enemy.
         /// </summary>
         /// <param name="from">From.</param>

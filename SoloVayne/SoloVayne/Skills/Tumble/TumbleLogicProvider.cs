@@ -4,6 +4,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using SoloVayne.Skills.Condemn;
 using SoloVayne.Utility;
+using SOLOVayne.Skills.Tumble.WardTracker;
 using SOLOVayne.Utility.General;
 
 namespace SoloVayne.Skills.Tumble
@@ -149,6 +150,37 @@ namespace SoloVayne.Skills.Tumble
 
             }
             #endregion
+
+            #region Couldn't find an ally, tumble inside bush
+
+            var AmInBush = NavMesh.IsWallOfGrass(ObjectManager.Player.ServerPosition, 33);
+            var closeEnemies = TumbleVariables.EnemiesClose.ToList();
+            //I'm not in bush, all the enemies close are outside a bush
+            if (!AmInBush && endPosition == Vector3.Zero)
+            {
+                var PositionsComplete = TumbleHelper.GetCompleteRotatedQPositions();
+                foreach (var position in PositionsComplete)
+                {
+                    //The end position is a wall of grass
+                    //All enemies are outside of the bush and at least 340 units away
+                    //There are no detected wards in that bush
+                    if (NavMesh.IsWallOfGrass(position, 33) 
+                        && closeEnemies.All(m => m.Distance(position) > 340f && !NavMesh.IsWallOfGrass(m.ServerPosition, 40))
+                        && !WardTrackerVariables.detectedWards.Any(m => NavMesh.IsWallOfGrass(m.Position, 33) 
+                            && m.Position.Distance(position) < m.WardTypeW.WardVisionRange
+                            && !(m.WardTypeW.WardType == WardType.ShacoBox || m.WardTypeW.WardType == WardType.TeemoShroom)))
+                    {
+                        if (position.IsSafe())
+                        {
+                            endPosition = position;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            #endregion
+
 
             #region Couldn't even tumble to ally, just go to mouse
             if (endPosition == Vector3.Zero)
