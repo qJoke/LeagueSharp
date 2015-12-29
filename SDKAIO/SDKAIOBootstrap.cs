@@ -23,6 +23,7 @@ namespace SDKAIO
     using global::SDKAIO.Utility;
 
     using LeagueSharp;
+    using LeagueSharp.SDK.Core;
     using LeagueSharp.SDK.Core.Enumerations;
     using LeagueSharp.SDK.Core.Utils;
 
@@ -42,7 +43,8 @@ namespace SDKAIO
                 {
                     return;
                 }
-
+                
+                Bootstrap.Init(null);
                 var ChampionToLoad = ObjectManager.Player.ChampionName;
                 if (AIOVariables.ChampList.ContainsKey(ChampionToLoad))
                 {
