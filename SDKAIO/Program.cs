@@ -48,6 +48,7 @@ namespace SDKAIO
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private static void OnLoad(object sender, EventArgs e)
         {
+            //Initialize a new instance of the SDKAIOBootstrap class which will initialize the other components and call its Init() method.
             AIOVariables.AIOBootstrap = new SDKAIOBootstrap();
             AIOVariables.AIOBootstrap.Init();
         }
