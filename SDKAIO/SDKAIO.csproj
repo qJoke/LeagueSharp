@@ -56,9 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Champions\ChampionBase.cs" />
+    <Compile Include="Champions\IMenuGenerator.cs" />
     <Compile Include="Champions\Janna\Janna.cs" />
     <Compile Include="Champions\Janna\JannaMenuGenerator.cs" />
-    <Compile Include="Menu\MenuGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SDKAIO.cs" />

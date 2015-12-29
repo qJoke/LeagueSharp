@@ -17,16 +17,29 @@
 
 namespace SDKAIO.Champions.Janna
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+
+    using LeagueSharp;
+    using LeagueSharp.SDK.Core.UI.IMenu;
+    using LeagueSharp.SDK.Core.UI.IMenu.Values;
 
     /// <summary>
     /// This class generates the Menu for the champion Janna
     /// </summary>
-    class JannaMenuGenerator
+    class JannaMenuGenerator : IMenuGenerator
     {
+        public void LoadToMenu(Menu Menu)
+        {
+            var comboMenu = new Menu("sdkaio.janna.combo", "[Janna] Combo", false, ObjectManager.Player.ChampionName);
+            {
+                comboMenu.Add(new MenuBool("UseQ", "Use Q", true));
+                comboMenu.Add(new MenuBool("UseW", "Use W", true));
+                comboMenu.Add(new MenuBool("UseE", "Use E", true));
+                comboMenu.Add(new MenuBool("UseR", "Use R", true));
+                comboMenu.Add(new MenuSlider("RMinEnemies", "R Minimum Enemies", 2, 1, 5));
+                comboMenu.Add(new MenuList<string>("RMode", "R Minimum Enemies", new[] {"To Allies", "To Towers", "Both"}));
+                Menu.Add(comboMenu);
+            }
+        }
     }
 }

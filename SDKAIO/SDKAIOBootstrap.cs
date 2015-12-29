@@ -18,13 +18,13 @@
 namespace SDKAIO
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
-    using global::SDKAIO.Menu;
     using global::SDKAIO.Utility;
+
+    using LeagueSharp;
+    using LeagueSharp.SDK.Core.Enumerations;
+    using LeagueSharp.SDK.Core.Utils;
 
     /// <summary>
     /// The bootstrap class of the assembly. This will be used to init all the various components.
@@ -32,36 +32,34 @@ namespace SDKAIO
     internal class SDKAIOBootstrap
     {
         /// <summary>
-        /// Gets the MenuGenerator instance.
+        /// Initializes the various components of the assembly.
         /// </summary>
-        /// <value>
-        /// The instance of the menu generator.
-        /// </value>
-        public MenuGenerator MenuGenerator { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SDKAIOBootstrap"/> class.
-        /// </summary>
-        public SDKAIOBootstrap()
-        {
-            if (AIOVariables.AIOInitalized)
-            {
-                return;
-            }
-
-            this.MenuGenerator = new MenuGenerator();
-        }
-
         internal void Init()
         {
-            if (AIOVariables.AIOInitalized)
+            try
             {
-                return;
-            }
-            
-            this.MenuGenerator.Init();
+                if (AIOVariables.AIOInitalized)
+                {
+                    return;
+                }
 
-            AIOVariables.AIOInitalized = true;
+                var ChampionToLoad = ObjectManager.Player.ChampionName;
+                if (AIOVariables.ChampList.ContainsKey(ChampionToLoad))
+                {
+                    AIOVariables.ChampList[ChampionToLoad]();
+                    AIOVariables.AssemblyMenu.Attach();
+
+                    Game.PrintChat(
+                        $"<b><font color='#FF0000'>[SDKAIO]</font></b> {ChampionToLoad} Loaded! Good luck, have fun!");
+                    Logging.Write()(LogLevel.Info, $"[SDKAIO] Loaded {ChampionToLoad} successfully!");
+                }
+
+                AIOVariables.AIOInitalized = true;
+            }
+            catch
+            {
+                Logging.Write()(LogLevel.Error, "[SDKAIO] Failed to load the Bootstrap!");
+            }
         }
     }
 }

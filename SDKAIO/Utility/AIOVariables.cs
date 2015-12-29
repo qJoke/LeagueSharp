@@ -21,6 +21,9 @@ namespace SDKAIO.Utility
     using System.Collections.Generic;
     using System.Linq;
 
+    using global::SDKAIO.Champions;
+    using global::SDKAIO.Champions.Janna;
+
     using LeagueSharp;
     using LeagueSharp.SDK.Core.UI.IMenu;
 
@@ -55,5 +58,17 @@ namespace SDKAIO.Utility
         /// Indicates whether the Assembly Bootstrap instance has already been initialized or not.
         /// </summary>
         public static bool AIOInitalized = false;
+
+        public static readonly Dictionary<string, Action> ChampList = new Dictionary<string, Action>()
+                                                                          {
+                                                                              { "Janna", () => { CurrentChampion = new Janna(); CurrentChampion.OnLoad(); } },
+                                                                          };
+        /// <summary>
+        /// Gets or sets the current champion instance.
+        /// </summary>
+        /// <value>
+        /// The current champion instance.
+        /// </value>
+        public static ChampionBase CurrentChampion { get; set; }
     }
 }
