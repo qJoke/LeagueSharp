@@ -23,6 +23,9 @@ namespace SDKAIO.Champions.Janna
     using System.Text;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// This class handles the Janna champion.
+    /// </summary>
     class Janna
     {
     }

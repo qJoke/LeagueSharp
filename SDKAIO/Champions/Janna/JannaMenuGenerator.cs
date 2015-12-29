@@ -1,4 +1,4 @@
-﻿// <copyright file="Janna.cs" company="LeagueSharp">
+﻿// <copyright file="JannaMenuGenerator.cs" company="LeagueSharp">
 //    Copyright (c) 2015 LeagueSharp.
 // 
 //    This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,9 @@ namespace SDKAIO.Champions.Janna
     using System.Text;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// This class generates the Menu for the champion Janna
+    /// </summary>
     class JannaMenuGenerator
     {
     }

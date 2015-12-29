@@ -43,8 +43,17 @@ namespace SDKAIO.Utility
         /// </value>
         public static Menu AssemblyMenu { get; internal set; } = new Menu($"SDKAIO: {ObjectManager.Player.ChampionName}", "sdkaio", true);
 
+        /// <summary>
+        /// Gets or sets the SKAIOBootstrap instance.
+        /// </summary>
+        /// <value>
+        /// The instance.
+        /// </value>
         public static SDKAIOBootstrap AIOBootstrap { get; internal set; }
 
+        /// <summary>
+        /// Indicates whether the Assembly Bootstrap instance has already been initialized or not.
+        /// </summary>
         public static bool AIOInitalized = false;
     }
 }
