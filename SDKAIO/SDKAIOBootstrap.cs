@@ -60,7 +60,6 @@ namespace SDKAIO
             catch
             {
                 Logging.Write()(LogLevel.Error, "[SDKAIO] Failed to load the Bootstrap!");
-                Logging.Write(true)(LogLevel.Debug, "Debug Entry which will be logged to file!");
             }
         }
     }
