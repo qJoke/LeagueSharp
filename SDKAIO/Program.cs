@@ -23,6 +23,10 @@ namespace SDKAIO
     using System.Text;
     using System.Threading.Tasks;
 
+    using global::SDKAIO.Utility;
+
+    using LeagueSharp.SDK.Core.Events;
+
     /// <summary>
     /// The entry class of the assembly.
     /// </summary>
@@ -34,7 +38,18 @@ namespace SDKAIO
         /// <param name="args">The arguments passed to the assembly.</param>
         private static void Main(string[] args)
         {
-            //
+            Load.OnLoad += OnLoad;
+        }
+
+        /// <summary>
+        /// Called when the assembly is loaded. This can either be at the Game start or while the game is running.
+        /// </summary>
+        /// <param name="sender">The sender object.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private static void OnLoad(object sender, EventArgs e)
+        {
+            AIOVariables.AIOBootstrap = new SDKAIOBootstrap();
+            AIOVariables.AIOBootstrap.Init();
         }
     }
 }

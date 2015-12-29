@@ -24,6 +24,7 @@ namespace SDKAIO
     using System.Threading.Tasks;
 
     using global::SDKAIO.Menu;
+    using global::SDKAIO.Utility;
 
     /// <summary>
     /// The bootstrap class of the assembly. This will be used to init all the various components.
@@ -43,7 +44,24 @@ namespace SDKAIO
         /// </summary>
         public SDKAIOBootstrap()
         {
+            if (AIOVariables.AIOInitalized)
+            {
+                return;
+            }
+
             this.MenuGenerator = new MenuGenerator();
+        }
+
+        internal void Init()
+        {
+            if (AIOVariables.AIOInitalized)
+            {
+                return;
+            }
+            
+            this.MenuGenerator.Init();
+
+            AIOVariables.AIOInitalized = true;
         }
     }
 }

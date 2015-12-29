@@ -25,18 +25,32 @@ namespace SDKAIO.Menu
 
     using global::SDKAIO.Utility;
 
+    using LeagueSharp.SDK.Core.UI.IMenu;
+
     /// <summary>
     /// The MenuGenerator class. This generates a Menu for the assembly and adds this menu to the root menu.
     /// </summary>
     internal class MenuGenerator
     {
+        /// <summary>
+        /// The Root Menu we will attach our Champion Menu to.
+        /// </summary>
+        private Menu RootMenu;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MenuGenerator"/> class.
+        /// </summary>
         public MenuGenerator()
         {
-            var rootMenu = AIOVariables.AssemblyMenu;
-            
+            this.RootMenu = AIOVariables.AssemblyMenu;           
+        }
 
-            //Attaches the Root Menu in the Main Menu (The one that opens with Shift).
-            rootMenu.Attach();
+        /// <summary>
+        /// Initializes this instance. Specifically, loads the menu of the champion (if present) into the Root Menu.
+        /// </summary>
+        public void Init()
+        {
+            
         }
     }
 }

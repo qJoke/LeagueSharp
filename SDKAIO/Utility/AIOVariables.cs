@@ -28,6 +28,7 @@ namespace SDKAIO.Utility
     /// The AIO Variables class:
     /// This class will contains the global variables we will need to use. These are, for example:
     /// - An instance of the Menu
+    /// - An instance of our bootstrap.
     /// - A list of the Champions.
     /// - An instance of the currently loaded champion.
     /// - An instance of the Champion's spell dictionary for it to be accessible globally
@@ -41,5 +42,9 @@ namespace SDKAIO.Utility
         /// The menu that will be shown when pressing shift.
         /// </value>
         public static Menu AssemblyMenu { get; internal set; } = new Menu($"SDKAIO: {ObjectManager.Player.ChampionName}", "sdkaio", true);
+
+        public static SDKAIOBootstrap AIOBootstrap { get; internal set; }
+
+        public static bool AIOInitalized = false;
     }
 }
