@@ -37,9 +37,19 @@ namespace SDKAIO.Champions.Janna
                 comboMenu.Add(new MenuBool("UseE", "Use E", true));
                 comboMenu.Add(new MenuBool("UseR", "Use R", true));
                 comboMenu.Add(new MenuSlider("RMinEnemies", "R Minimum Enemies", 2, 1, 5));
-                comboMenu.Add(new MenuList<string>("RMode", "R Minimum Enemies", new[] {"To Allies", "To Towers", "Both"}));
+                comboMenu.Add(new MenuList<string>("RMode", "R Mode", new[] {"To Allies", "To Towers", "Both"}));
                 Menu.Add(comboMenu);
             }
+
+            var harassMenu = new Menu("sdkaio.janna.hybrid", "[Janna] Hybrid", false, ObjectManager.Player.ChampionName);
+            {
+                harassMenu.Add(new MenuBool("UseQ", "Use Q", true));
+                harassMenu.Add(new MenuBool("UseW", "Use W", true));
+                harassMenu.Add(new MenuBool("UseE", "Use E", true));
+                Menu.Add(harassMenu);
+            }
+
+
         }
     }
 }

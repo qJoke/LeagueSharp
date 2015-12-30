@@ -44,7 +44,7 @@ namespace SDKAIO.Utility
         /// <value>
         /// The menu that will be shown when pressing shift.
         /// </value>
-        public static Menu AssemblyMenu { get; internal set; } = new Menu($"SDKAIO: {ObjectManager.Player.ChampionName}", "sdkaio", true);
+        public static Menu AssemblyMenu { get; internal set; } = new Menu("sdkaio", $"SDKAIO: {ObjectManager.Player.ChampionName}", true);
 
         /// <summary>
         /// Gets or sets the SKAIOBootstrap instance.

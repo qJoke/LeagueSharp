@@ -22,6 +22,7 @@ namespace SDKAIO.Champions.Janna
 
     using LeagueSharp;
     using LeagueSharp.SDK.Core.Wrappers;
+    using LeagueSharp.SDK.Core.Wrappers.Spells;
 
     /// <summary>
     /// This class handles the Janna champion.

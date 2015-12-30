@@ -23,9 +23,11 @@ namespace SDKAIO
     using global::SDKAIO.Utility;
 
     using LeagueSharp;
-    using LeagueSharp.SDK.Core;
     using LeagueSharp.SDK.Core.Enumerations;
+    using LeagueSharp.SDK.Core.UI.INotifications;
     using LeagueSharp.SDK.Core.Utils;
+
+    using SharpDX;
 
     /// <summary>
     /// The bootstrap class of the assembly. This will be used to init all the various components.
@@ -52,7 +54,21 @@ namespace SDKAIO
 
                     Game.PrintChat(
                         $"<b><font color='#FF0000'>[SDKAIO]</font></b> {ChampionToLoad} Loaded! Good luck, have fun!");
+
                     Logging.Write()(LogLevel.Info, $"[SDKAIO] Loaded {ChampionToLoad} successfully!");
+
+                    var loadedNotification = new Notification(
+                        $"[SDKAIO] {ChampionToLoad} Loaded!",
+                        $"{ChampionToLoad} was loaded!",
+                        "Good luck, have fun!")
+                                                 {
+                                                     HeaderTextColor = Color.LightBlue,
+                                                     BodyTextColor = Color.White,
+                                                     Icon = NotificationIconType.Check,
+                                                     IconFlash = true
+                                                 };
+
+                    Notifications.Add(loadedNotification);
                 }
 
                 AIOVariables.AIOInitalized = true;

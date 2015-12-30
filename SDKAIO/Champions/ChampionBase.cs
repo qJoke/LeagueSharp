@@ -27,6 +27,7 @@ namespace SDKAIO.Champions
     using LeagueSharp.SDK.Core.Enumerations;
     using LeagueSharp.SDK.Core.Utils;
     using LeagueSharp.SDK.Core.Wrappers;
+    using LeagueSharp.SDK.Core.Wrappers.Spells;
 
     /// <summary>
     /// The Base class for Champions in the AIO
@@ -66,7 +67,7 @@ namespace SDKAIO.Champions
 
                 if (menuGenerator == null)
                 {
-                    Logging.Write()(LogLevel.Error, $"[SDK AIO] MenuGenerator instance of ${ObjectManager.Player.ChampionName} is null!.");
+                    Logging.Write()(LogLevel.Error, $"[SDK AIO] MenuGenerator instance of {ObjectManager.Player.ChampionName} is null!.");
                     return;
                 }
                 
@@ -74,9 +75,10 @@ namespace SDKAIO.Champions
                 Game.OnUpdate += this.OnUpdate;
                 Obj_AI_Base.OnDoCast += this.AfterAttack;
             }
-            catch
+            catch(Exception e)
             {
-                Logging.Write()(LogLevel.Error, $"[SDK AIO] Failed to initialize ${ObjectManager.Player.ChampionName}.");
+                Logging.Write()(LogLevel.Error, $"[SDK AIO] Failed to initialize {ObjectManager.Player.ChampionName}.");
+                Logging.Write()(LogLevel.Error, e);
             }
         }
 
