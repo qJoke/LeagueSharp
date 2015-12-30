@@ -59,8 +59,7 @@ namespace SDKAIO
 
                     var loadedNotification = new Notification(
                         $"[SDKAIO] {ChampionToLoad} Loaded!",
-                        $"{ChampionToLoad} was loaded!",
-                        "Good luck, have fun!")
+                        $"{ChampionToLoad} was loaded!")
                                                  {
                                                      HeaderTextColor = Color.LightBlue,
                                                      BodyTextColor = Color.White,
