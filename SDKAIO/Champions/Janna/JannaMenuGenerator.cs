@@ -23,6 +23,8 @@ namespace SDKAIO.Champions.Janna
     using LeagueSharp.SDK.Core.UI.IMenu;
     using LeagueSharp.SDK.Core.UI.IMenu.Values;
 
+    using SharpDX;
+
     /// <summary>
     /// This class generates the Menu for the champion Janna
     /// </summary>
@@ -33,6 +35,8 @@ namespace SDKAIO.Champions.Janna
             var comboMenu = new Menu("sdkaio.janna.combo", "[Janna] Combo", false, ObjectManager.Player.ChampionName);
             {
                 comboMenu.Add(new MenuBool("UseQ", "Use Q", true));
+                comboMenu.Add(new MenuColor("test", "Test Colour Picker", Color.Red));
+
                 comboMenu.Add(new MenuBool("UseW", "Use W", true));
                 comboMenu.Add(new MenuBool("UseE", "Use E", true));
                 comboMenu.Add(new MenuBool("UseR", "Use R", true));

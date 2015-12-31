@@ -38,6 +38,7 @@ namespace SoloVayne.Skills.Tumble
                 HeroManager.Enemies.Where(m => m.IsValidTarget(Orbwalking.GetRealAutoAttackRange(m) + 300f + 65f)).ToList();
             #endregion
 
+
             #region 1 Enemy around only
             if (ObjectManager.Player.CountEnemiesInRange(1500f) <= 1)
             {
@@ -152,7 +153,6 @@ namespace SoloVayne.Skills.Tumble
             #endregion
 
             #region Couldn't find an ally, tumble inside bush
-
             var AmInBush = NavMesh.IsWallOfGrass(ObjectManager.Player.ServerPosition, 33);
             var closeEnemies = TumbleVariables.EnemiesClose.ToList();
             //I'm not in bush, all the enemies close are outside a bush
@@ -192,6 +192,12 @@ namespace SoloVayne.Skills.Tumble
                 }
             }
             #endregion
+
+            if (ObjectManager.Player.HealthPercent < 10)
+            {
+                var position = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
+                return position.IsSafeEx() ? position : endPosition;
+            }
 
             return endPosition;
         }

@@ -20,7 +20,10 @@ namespace SDKAIO.Champions.Janna
     using System;
     using System.Collections.Generic;
 
+    using global::SDKAIO.Utility;
+
     using LeagueSharp;
+    using LeagueSharp.SDK.Core.UI.IMenu.Values;
     using LeagueSharp.SDK.Core.Wrappers;
     using LeagueSharp.SDK.Core.Wrappers.Spells;
 
@@ -60,7 +63,8 @@ namespace SDKAIO.Champions.Janna
         /// </summary>
         protected override void OnCombo()
         {
-           
+            var qEnabled = AIOVariables.AssemblyMenu["sdkaio.janna.combo"]["UseQ"].GetValue<MenuBool>().Value;
+            Game.PrintChat(qEnabled.ToString());
         }
 
         /// <summary>
