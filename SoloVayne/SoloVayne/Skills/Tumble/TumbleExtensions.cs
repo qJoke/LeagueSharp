@@ -72,12 +72,12 @@ namespace SoloVayne.Skills.Tumble
                     en =>
                         en.IsValidTarget(1500f) &&
                         !(en.Distance(ObjectManager.Player.ServerPosition) < en.AttackRange + 65f));
-            if (!closeEnemies.All(enemy => position.CountEnemiesInRange(enemy.AttackRange) <= 1))
+            if (closeEnemies.All(enemy => position.CountEnemiesInRange(enemy.AttackRange > 350 ? enemy.AttackRange : 400) == 0))
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 }
