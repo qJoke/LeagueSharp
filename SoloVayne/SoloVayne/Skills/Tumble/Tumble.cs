@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DZLib.Logging;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -17,11 +18,14 @@ namespace SoloVayne.Skills.Tumble
         /// </summary>
         public TumbleLogicProvider Provider;
 
+        private float lastLaneclearTick;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Tumble"/> class.
         /// </summary>
-        public Tumble() 
+        public Tumble()
         {
+            this.lastLaneclearTick = 0f;
             Provider = new TumbleLogicProvider();
         }
 
@@ -95,6 +99,12 @@ namespace SoloVayne.Skills.Tumble
         /// <param name="target">The target.</param>
         public void ExecuteFarm(Obj_AI_Base target)
         {
+            if (Environment.TickCount - this.lastLaneclearTick < 80)
+            {
+                return;
+            }
+            this.lastLaneclearTick = Environment.TickCount;
+
             if (Variables.spells[SpellSlot.Q].IsEnabledAndReady())
             {
                 var currentTarget = target;

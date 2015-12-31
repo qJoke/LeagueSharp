@@ -19,6 +19,7 @@ namespace SoloVayne
          * Add Condemn To Trundle / J4 / Anivia Walls
          * Q Away if targetted from turret and no killable low health enemy is near.
          */
+        private float lastTick = 0f;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SOLOVayne"/> class.
@@ -56,7 +57,6 @@ namespace SoloVayne
         {
             try
             {
-
                 if (sender.IsMe 
                     && Orbwalking.IsAutoAttack(args.SData.Name) 
                     && (args.Target is Obj_AI_Base))
@@ -93,6 +93,12 @@ namespace SoloVayne
         {
             try
             {
+                if (Environment.TickCount - this.lastTick < 80)
+                {
+                    return;
+                }
+                this.lastTick = Environment.TickCount;
+
                 WardDetector.OnTick();
 
                 if (ObjectManager.Player.IsDead)
