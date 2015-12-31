@@ -193,7 +193,7 @@ namespace SoloVayne.Skills.Tumble
             }
             #endregion
 
-            if (ObjectManager.Player.HealthPercent < 10)
+            if (ObjectManager.Player.HealthPercent < 10 && ObjectManager.Player.CountEnemiesInRange(1500) > 1)
             {
                 var position = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
                 return position.IsSafeEx() ? position : endPosition;
