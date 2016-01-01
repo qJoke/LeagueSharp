@@ -47,8 +47,6 @@ namespace SoloVayne.Skills.General
         private void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             var antigapcloserEnabled = MenuExtensions.GetItemValue<bool>("solo.vayne.misc.miscellaneous.antigapcloser");
-            var antigapcloserMode =
-                MenuExtensions.GetItemValue<StringList>("solo.vayne.misc.miscellaneous.gapcloser.mode").SelectedIndex;
             var endPosition = gapcloser.End;
 
             if (!antigapcloserEnabled || !Variables.spells[SpellSlot.E].IsReady() || !gapcloser.Sender.IsValidTarget() ||
