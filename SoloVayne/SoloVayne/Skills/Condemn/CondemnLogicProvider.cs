@@ -63,7 +63,8 @@ namespace SoloVayne.Skills.Condemn
                 var targetPosition = prediction.UnitPosition;
                 var finalPosition = targetPosition.Extend(startPosition, -PushDistance);
                 var finalPosition_ex = Hero.ServerPosition.Extend(startPosition, -PushDistance);
-                
+                var finalPosition_3 = prediction.CastPosition.Extend(startPosition, -PushDistance);
+
                 //Yasuo Wall Logic
                 if (YasuoWall.CollidesWithWall(startPosition, Hero.ServerPosition.Extend(startPosition, -450f)))
                 {
@@ -90,14 +91,16 @@ namespace SoloVayne.Skills.Condemn
                 //Condemn To Wall Logic
                 var condemnRectangle = new SOLOPolygon(SOLOPolygon.Rectangle(targetPosition.To2D(), finalPosition.To2D(), Hero.BoundingRadius));
                 var condemnRectangle_ex = new SOLOPolygon(SOLOPolygon.Rectangle(Hero.ServerPosition.To2D(), finalPosition_ex.To2D(), Hero.BoundingRadius));
-                
+                var condemnRectangle_3 = new SOLOPolygon(SOLOPolygon.Rectangle(prediction.CastPosition.To2D(), finalPosition_3.To2D(), Hero.BoundingRadius));
+
                 if (IsBothNearWall(Hero))
                 {
                     return null;
                 }
 
                 if (condemnRectangle.Points.Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle.Points.Count() * (Accuracy / 100f)
-                    && condemnRectangle_ex.Points.Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle_ex.Points.Count() * (Accuracy / 100f))
+                    || condemnRectangle_ex.Points.Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle_ex.Points.Count() * (Accuracy / 100f)
+                    || condemnRectangle_3.Points.Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle_ex.Points.Count() * (Accuracy / 100f))
                 {
                     return Hero;
                 }
