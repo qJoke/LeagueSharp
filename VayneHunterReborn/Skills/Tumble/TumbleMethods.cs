@@ -3,7 +3,6 @@ using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
-using SoloVayne.Skills.Tumble;
 using VayneHunter_Reborn.Skills.Tumble.VHRQ;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.Helpers;
