@@ -8,5 +8,9 @@ namespace DZOrianna
 {
     class Orianna
     {
+        internal static void OnLoad()
+        {
+            
+        }
     }
 }

@@ -12,6 +12,12 @@ namespace DZOrianna
     {
         static void Main(string[] args)
         {
+            CustomEvents.Game.OnGameLoad += OnLoad;
+        }
+
+        private static void OnLoad(EventArgs args)
+        {
+            DZOriannaBootstrap.Init();
         }
     }
 }
