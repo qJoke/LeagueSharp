@@ -50,8 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DZLib\Logging\LogEnum.cs" />
+    <Compile Include="DZLib\Logging\LogHelper.cs" />
+    <Compile Include="DZLib\Logging\LogItem.cs" />
+    <Compile Include="DZLib\Logging\LogVariables.cs" />
+    <Compile Include="DZLib\Menu\MenuExtensions.cs" />
+    <Compile Include="DZOriannaBootstrap.cs" />
+    <Compile Include="Orianna.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\Menu\MenuGenerator.cs" />
+    <Compile Include="Utility\Variables.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
