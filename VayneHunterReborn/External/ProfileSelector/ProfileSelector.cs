@@ -367,16 +367,6 @@ namespace VayneHunter_Reborn.External.ProfileSelector
                     ValueType = ValueTypes.Boolean,
                     BoolValue = GetItemValue<bool>("dz191.vhr.misc.tumble.qinrange")
                 },
-                new ProfileOption
-                {
-                    MajorCategory = MajorCategories.Tumble,
-                    MinorCategory = MinorCategories.WallTumble,
-                    ValueType = ValueTypes.Keybind,
-                    KeybindValue =
-                        new Tuple<uint, KeyBindType>(
-                            GetItemValue<KeyBind>("dz191.vhr.misc.tumble.walltumble").Key,
-                            GetItemValue<KeyBind>("dz191.vhr.misc.tumble.walltumble").Type)
-                },
 
                 #endregion
 

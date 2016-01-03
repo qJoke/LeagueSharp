@@ -38,12 +38,6 @@ namespace VayneHunter_Reborn.External.Translation.Languages
                 { "dz191.vhr.misc.tumble.dynamicqsafety", "Nutze dynamischen Q-Sicherheitsabstand" },
                 { "dz191.vhr.misc.tumble.qspam", "Ignoriere Q check" },
                 { "dz191.vhr.misc.tumble.qinrange", "Q fuer KS" },
-                { "dz191.vhr.misc.tumble.walltumble.warning", "Druecke und halte fuer Walltumble" },
-                {
-                    "dz191.vhr.misc.tumble.walltumble.warning.2",
-                    "Er laeuft zum naehsten Walltumblepunkt und fuehrt Hechtrolle aus"
-                },
-                { "dz191.vhr.misc.tumble.walltumble", "Hechtrolle ueber Wand (WallTumble)" },
                 { "dz191.vhr.misc.condemn.condemnmethod", "Condemn Methode" },
                 { "dz191.vhr.misc.condemn.pushdistance", "E Pushdistanz" },
                 { "dz191.vhr.misc.condemn.accuracy", "Genauigkeit (Nur Revolution)" },

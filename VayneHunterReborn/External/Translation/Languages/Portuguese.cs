@@ -50,15 +50,6 @@ namespace VayneHunter_Reborn.External.Translation.Languages
 
                 {"dz191.vhr.misc.tumble.qinrange", "Q para dar KS"},
 
-                {"dz191.vhr.misc.tumble.walltumble.warning", "Clique e segure Walltumble"},
-
-                {
-                    "dz191.vhr.misc.tumble.walltumble.warning.2",
-                    "Ela irá andar para o lugar do Tumble mais próximo e vai usar o Tumble"
-                },
-
-                {"dz191.vhr.misc.tumble.walltumble", "Tumble através da Parede (WallTumble)"},
-
                 {"dz191.vhr.misc.condemn.condemnmethod", "Método do Condenar"},
 
                 {"dz191.vhr.misc.condemn.pushdistance", "Distância do E para empurrar"},

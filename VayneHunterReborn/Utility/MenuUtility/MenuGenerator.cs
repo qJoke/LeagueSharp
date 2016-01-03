@@ -96,14 +96,6 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                         "dz191.vhr.misc.tumble.noaa.enemies", "Min Enemies for No AA Stealth",
                         new Tuple<int, int, int>(3, 1, 5));
 
-                    miscQMenu.AddText("dz191.vhr.misc.tumble.walltumble.warning", "Click and hold Walltumble")
-                        .SetFontStyle(FontStyle.Bold, SharpDX.Color.Red);
-                    miscQMenu.AddText("dz191.vhr.misc.tumble.walltumble.warning.2",
-                        "It will walk to the nearest Tumble spot and Tumble")
-                        .SetFontStyle(FontStyle.Bold, SharpDX.Color.Red);
-                    miscQMenu.AddKeybind("dz191.vhr.misc.tumble.walltumble", "Tumble Over Wall (WallTumble)",
-                        new Tuple<uint, KeyBindType>('Y', KeyBindType.Press)).SetTooltip("DISABLED! (For security reasons)! Tumbles over wall.");
-
                     miscMenu.AddSubMenu(miscQMenu);
                 }
 

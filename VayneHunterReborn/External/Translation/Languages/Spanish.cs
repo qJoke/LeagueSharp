@@ -35,12 +35,6 @@ namespace VayneHunter_Reborn.External.Translation.Languages
                 { "dz191.vhr.misc.tumble.dynamicqsafety", "Usar la Q en distancia segura" },
                 { "dz191.vhr.misc.tumble.qspam", "Ignorar las comprobaciones de las Q" },
                 { "dz191.vhr.misc.tumble.qinrange", "Usar la Q para KS" },
-                { "dz191.vhr.misc.tumble.walltumble.warning", "Clickear y aguantar para transpasar el muro" },
-                {
-                    "dz191.vhr.misc.tumble.walltumble.warning.2",
-                    "Va a andar hacia el muro mas cercano para saltarlo con la Q "
-                },
-                { "dz191.vhr.misc.tumble.walltumble", "Usar la Q sobre el muro (WallTumble)" },
                 { "dz191.vhr.misc.condemn.condemnmethod", "El Método del Stun" },
                 { "dz191.vhr.misc.condemn.pushdistance", "La distancia de empuje de la E" },
                 { "dz191.vhr.misc.condemn.accuracy", "Exactitud de la E (Revolution Only)" },
