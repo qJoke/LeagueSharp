@@ -36,7 +36,11 @@ namespace SoloVayne.Skills.General
 
             if (args.DangerLevel == Interrupter2.DangerLevel.High)
             {
-                Variables.spells[SpellSlot.E].Cast(sender);
+                LeagueSharp.Common.Utility.DelayAction.Add(MenuExtensions.GetItemValue<Slider>("solo.vayne.misc.miscellaneous.delay").Value,
+                    () =>
+                    {
+                            Variables.spells[SpellSlot.E].Cast(sender);
+                    });
             }
         }
 
@@ -60,7 +64,11 @@ namespace SoloVayne.Skills.General
 
             if (ShouldBeRepelled)
             {
-                Variables.spells[SpellSlot.E].Cast(gapcloser.Sender);
+                LeagueSharp.Common.Utility.DelayAction.Add(MenuExtensions.GetItemValue<Slider>("solo.vayne.misc.miscellaneous.delay").Value,
+                    () =>
+                    {
+                            Variables.spells[SpellSlot.E].Cast(gapcloser.Sender);
+                    });
             }
             else
             {
@@ -69,7 +77,11 @@ namespace SoloVayne.Skills.General
                 if (!extendedPosition.UnderTurret(true) &&
                     !(extendedPosition.CountEnemiesInRange(400f) >= 2 && extendedPosition.CountAlliesInRange(400f) < 3))
                 {
-                    Variables.spells[SpellSlot.Q].Cast(extendedPosition);
+                    LeagueSharp.Common.Utility.DelayAction.Add(MenuExtensions.GetItemValue<Slider>("solo.vayne.misc.miscellaneous.delay").Value,
+                    () =>
+                    {
+                            Variables.spells[SpellSlot.Q].Cast(extendedPosition);
+                    });
                 }
             }
         }
