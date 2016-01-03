@@ -49,13 +49,13 @@ namespace SoloVayne.Skills.Tumble
             #endregion
 
             #region Alone, 2 Enemies, 1 Killable
-            if (alliesNear == 0 && enemiesNear.Count() <= 2)
+            if (enemiesNear.Count() <= 2)
             {
                 if (
                     enemiesNear.Any(
                         t =>
                             t.Health + 15 <
-                            ObjectManager.Player.GetAutoAttackDamage(t) + Variables.spells[SpellSlot.Q].GetDamage(t)
+                            ObjectManager.Player.GetAutoAttackDamage(t) * 2 + Variables.spells[SpellSlot.Q].GetDamage(t)
                             && t.Distance(ObjectManager.Player) < Orbwalking.GetRealAutoAttackRange(t) + 80f))
                 {
                     var QPosition =
