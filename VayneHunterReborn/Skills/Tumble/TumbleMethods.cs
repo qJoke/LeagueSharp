@@ -3,6 +3,7 @@ using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using SoloVayne.Skills.Tumble;
 using VayneHunter_Reborn.Skills.Tumble.VHRQ;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.Helpers;
@@ -16,6 +17,8 @@ namespace VayneHunter_Reborn.Skills.Tumble
         {
             get { return Variables.spells[SpellSlot.Q]; }
         }
+
+        private static QProvider Provider = new QProvider();
 
         private static readonly string[] MobNames =
         {
@@ -98,11 +101,11 @@ namespace VayneHunter_Reborn.Skills.Tumble
                         var smartQPosition = TumblePositioning.GetSmartQPosition();
                         var smartQCheck =  smartQPosition != Vector3.Zero;
                         var QPosition = smartQCheck ? smartQPosition : Game.CursorPos;
-                        var QPosition2 = VHRQLogic.GetVHRQPosition() != Vector3.Zero ? VHRQLogic.GetVHRQPosition() : QPosition;
+                        var QPosition2 = Provider.GetQPosition() != Vector3.Zero ? Provider.GetQPosition() : QPosition;
 
-                        if (QPosition2.IsSafe(true))
+                        if (!QPosition2.UnderTurret(true) || (QPosition2.UnderTurret(true) && ObjectManager.Player.UnderTurret(true)))
                         {
-                                CastQ(QPosition2);
+                             CastQ(QPosition2);
                         }
                         break;
                     case 1:
