@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DZLib.Logging;
+using iSeriesReborn.Champions.Ezreal.Modules;
 using iSeriesReborn.Champions.Ezreal.Skills;
 using iSeriesReborn.Utility;
 using iSeriesReborn.Utility.MenuUtility;
@@ -56,7 +57,7 @@ namespace iSeriesReborn.Champions.Kalista
 
             var miscMenu = defaultMenu.AddSubMenu(new Menu("[iSR] Misc", "iseriesr.ezreal.misc"));
             {
-                miscMenu.AddBool("iseriesr.ezreal.misc", "Auto Q Immobile");
+                miscMenu.AddBool("iseriesr.ezreal.misc.autoq.immobile", "Auto Q Immobile / KS");
             }
 
         }
@@ -70,6 +71,7 @@ namespace iSeriesReborn.Champions.Kalista
         {
             EzrealQ.ExecuteLogic();
             EzrealW.ExecuteLogic();
+            EzrealR.ExecuteLogic();
         }
 
         protected override void OnMixed()
@@ -99,7 +101,7 @@ namespace iSeriesReborn.Champions.Kalista
         {
             return new List<IModule>()
             {
-                
+                new EzrealAutoQ()
             };
         }
     }

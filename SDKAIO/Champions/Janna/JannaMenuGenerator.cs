@@ -18,12 +18,15 @@
 namespace SDKAIO.Champions.Janna
 {
     using System.Linq;
+    using System.Windows.Forms;
 
     using LeagueSharp;
-    using LeagueSharp.SDK.Core.UI.IMenu;
+    using LeagueSharp.SDK.Core.Enumerations;
     using LeagueSharp.SDK.Core.UI.IMenu.Values;
 
     using SharpDX;
+
+    using Menu = LeagueSharp.SDK.Core.UI.IMenu.Menu;
 
     /// <summary>
     /// This class generates the Menu for the champion Janna
@@ -36,12 +39,13 @@ namespace SDKAIO.Champions.Janna
             {
                 comboMenu.Add(new MenuBool("UseQ", "Use Q", true));
                 comboMenu.Add(new MenuColor("test", "Test Colour Picker", Color.Red));
-
+                comboMenu.Add(
+                    new MenuKeyBind("test.keybind", "Keybind Test", Keys.K, KeyBindType.Press));
                 comboMenu.Add(new MenuBool("UseW", "Use W", true));
                 comboMenu.Add(new MenuBool("UseE", "Use E", true));
                 comboMenu.Add(new MenuBool("UseR", "Use R", true));
                 comboMenu.Add(new MenuSlider("RMinEnemies", "R Minimum Enemies", 2, 1, 5));
-                comboMenu.Add(new MenuList<string>("RMode", "R Mode", new[] {"To Allies", "To Towers", "Both"}));
+                comboMenu.Add(new MenuList<string>("RMode", "R Mode", new[] { "To Allies", "To Towers", "Both" })).SelectedValue = "Both";
                 Menu.Add(comboMenu);
             }
 
