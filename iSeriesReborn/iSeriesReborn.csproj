@@ -64,6 +64,7 @@
     <Compile Include="AssemblyLoader.cs" />
     <Compile Include="Champions\ChampionBase.cs" />
     <Compile Include="Champions\Ezreal\Ezreal.cs" />
+    <Compile Include="Champions\Ezreal\Modules\EzrealAutoQ.cs" />
     <Compile Include="Champions\Ezreal\Skills\EzrealQ.cs" />
     <Compile Include="Champions\Ezreal\Skills\EzrealR.cs" />
     <Compile Include="Champions\Ezreal\Skills\EzrealW.cs" />
