@@ -142,6 +142,7 @@
     <Compile Include="ISRBootstrap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\Drawings\DamageIndicator.cs" />
     <Compile Include="Utility\Entities\GameObjects.cs" />
     <Compile Include="Utility\Entities\Jungle.cs" />
     <Compile Include="Utility\Entities\ProrityHelper.cs" />

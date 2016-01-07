@@ -5,6 +5,7 @@ using DZLib.Logging;
 using iSeriesReborn.Champions.Kalista.Modules;
 using iSeriesReborn.Champions.Kalista.Skills;
 using iSeriesReborn.Utility;
+using iSeriesReborn.Utility.Drawings;
 using iSeriesReborn.Utility.MenuUtility;
 using iSeriesReborn.Utility.ModuleHelper;
 using LeagueSharp;
@@ -32,6 +33,10 @@ namespace iSeriesReborn.Champions.Kalista
         {
             spells[SpellSlot.Q].SetSkillshot(0.25f, 40f, 1200f, true, SkillshotType.SkillshotLine);
             spells[SpellSlot.R].SetSkillshot(0.50f, 1500, float.MaxValue, false, SkillshotType.SkillshotCircle);
+
+            DamageIndicator.DamageToUnit = KalistaE.GetRendDamage;
+            DamageIndicator.Enabled = true;
+
             Obj_AI_Base.OnIssueOrder += KalistaHooks.OnIssueOrder;
             Obj_AI_Base.OnProcessSpellCast += KalistaHooks.OnProcessSpellCast;
             Orbwalking.OnNonKillableMinion += KalistaHooks.OnNonKillableMinion;

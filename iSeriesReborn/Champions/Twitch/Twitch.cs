@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using DZLib.Logging;
 using iSeriesReborn.Champions.Kalista.Modules;
+using iSeriesReborn.Champions.Kalista.Skills;
 using iSeriesReborn.Champions.Twitch.Skills;
 using iSeriesReborn.Utility;
+using iSeriesReborn.Utility.Drawings;
 using iSeriesReborn.Utility.MenuUtility;
 using iSeriesReborn.Utility.ModuleHelper;
 using LeagueSharp;
@@ -30,6 +32,9 @@ namespace iSeriesReborn.Champions.Kalista
         protected override void OnChampLoad()
         {
             spells[SpellSlot.W].SetSkillshot(0.25f, 120f, 1400f, false, SkillshotType.SkillshotCircle);
+            DamageIndicator.DamageToUnit = TwitchE.GetDamage;
+            DamageIndicator.Enabled = true;
+
         }
 
         protected override void LoadMenu()

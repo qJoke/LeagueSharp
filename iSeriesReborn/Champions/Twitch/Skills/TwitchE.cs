@@ -37,5 +37,22 @@ namespace iSeriesReborn.Champions.Twitch.Skills
                 }
             }
         }
+
+        public static float GetDamage(Obj_AI_Hero hero)
+        {
+            var baseDamage = Variables.spells[SpellSlot.E].GetDamage(hero);
+
+            if (ObjectManager.Player.HasBuff("summonerexhaust"))
+            {
+                baseDamage *= 0.4f;
+            }
+
+            if (hero.HasBuff("FerociousHowl"))
+            {
+                baseDamage *= 0.35f;
+            }
+
+            return baseDamage;
+        }
     }
 }
