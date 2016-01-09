@@ -40,7 +40,6 @@ namespace iSeriesReborn.Champions.Lucian.Skills
 
                 if (wReady 
                     && !qReady 
-                    && !eReady
                     && target_ex.IsValidTarget(Variables.spells[SpellSlot.W].Range) 
                     && !LucianHooks.HasPassive)
                 {
@@ -52,7 +51,10 @@ namespace iSeriesReborn.Champions.Lucian.Skills
                     TargetSelector.SetTarget(args.Target as Obj_AI_Hero);
                 }
 
-                if (eReady && target_ex.IsValidTarget(Variables.spells[SpellSlot.Q].Range + 300f + 65) && !LucianHooks.HasPassive)
+                if (eReady 
+                    && target_ex.IsValidTarget(Variables.spells[SpellSlot.Q].Range + 300f + 65) 
+                    && !LucianHooks.HasPassive 
+                    && !ObjectManager.Player.IsWindingUp)
                 {
                     var eProvider = new EPositionProvider();;
                     var eEndPosition = eProvider.GetEPosition();
