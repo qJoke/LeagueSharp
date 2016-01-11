@@ -21,7 +21,7 @@ namespace SDKAIO.Champions.Janna
     using System.Windows.Forms;
 
     using LeagueSharp;
-    using LeagueSharp.SDK.Core.Enumerations;
+    using LeagueSharp.SDK;
     using LeagueSharp.SDK.Core.UI.IMenu.Values;
 
     using SharpDX;
@@ -38,13 +38,9 @@ namespace SDKAIO.Champions.Janna
             var comboMenu = new Menu("sdkaio.janna.combo", "[Janna] Combo", false, ObjectManager.Player.ChampionName);
             {
                 comboMenu.Add(new MenuBool("UseQ", "Use Q", true));
-                comboMenu.Add(new MenuColor("test", "Test Colour Picker", Color.Red));
-                comboMenu.Add(
-                    new MenuKeyBind("test.keybind", "Keybind Test", Keys.K, KeyBindType.Press));
                 comboMenu.Add(new MenuBool("UseW", "Use W", true));
                 comboMenu.Add(new MenuBool("UseE", "Use E", true));
-                comboMenu.Add(new MenuBool("UseR", "Use R", true));
-                comboMenu.Add(new MenuSlider("RMinEnemies", "R Minimum Enemies", 2, 1, 5));
+                comboMenu.Add(new MenuSliderButton("RMinEnemiesSB", "Use R / R Minimum Enemies", 2, 1, 5, true));
                 comboMenu.Add(new MenuList<string>("RMode", "R Mode", new[] { "To Allies", "To Towers", "Both" })).SelectedValue = "Both";
                 Menu.Add(comboMenu);
             }
@@ -57,6 +53,18 @@ namespace SDKAIO.Champions.Janna
                 Menu.Add(harassMenu);
             }
 
+            var miscMenu = new Menu("sdkaio.janna.misc", "[Janna] Misc", false, ObjectManager.Player.ChampionName);
+            {
+                var miscEMenu = new Menu("sdkaio.janna.misc.eon", "Use E On", false, ObjectManager.Player.ChampionName);
+                {
+                    foreach (var hero in GameObjects.AllyHeroes)
+                    {
+                        miscEMenu.Add(new MenuBool(hero.ChampionName.ToLower(), hero.ChampionName, true));
+                    }
+                    miscMenu.Add(miscEMenu);
+                }
+                Menu.Add(miscMenu);
+            }
 
         }
     }

@@ -19,15 +19,13 @@ namespace SDKAIO.Champions
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using global::SDKAIO.Utility;
 
     using LeagueSharp;
-    using LeagueSharp.SDK.Core;
-    using LeagueSharp.SDK.Core.Enumerations;
+    using LeagueSharp.SDK;
     using LeagueSharp.SDK.Core.Utils;
-    using LeagueSharp.SDK.Core.Wrappers;
-    using LeagueSharp.SDK.Core.Wrappers.Spells;
 
     /// <summary>
     /// The Base class for Champions in the AIO
@@ -44,6 +42,7 @@ namespace SDKAIO.Champions
         /// </summary>
         private Dictionary<OrbwalkingMode, OrbwalkerDelegate> OrbwalkerCallbacks;
 
+        private Dictionary<SpellSlot, Spell> spells;
         /// <summary>
         /// Called when the Champion Module gets loaded.
         /// </summary>
@@ -62,7 +61,9 @@ namespace SDKAIO.Champions
                                                   { OrbwalkingMode.None, () => { } }
                                               };
 
+                this.LoadSpells();
                 this.OnChampLoad();
+
                 var menuGenerator = this.GetMenuGenerator();
 
                 if (menuGenerator == null)
@@ -113,6 +114,79 @@ namespace SDKAIO.Champions
             {
                 this.OnAfterAttack(sender, args);
             }
+        }   
+        /// <summary>
+        /// Loads the dictionary of the spells using informations from the spell database.
+        /// </summary>
+        private void LoadSpells()
+        {
+ 	        this.spells = new Dictionary<SpellSlot, Spell>();
+            var spellslotArray = new []{ SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R };
+
+            foreach (var slot in spellslotArray)
+            {
+                var entry =
+                    SpellDatabase.Get(
+                        spell =>
+                        spell.Slot == slot
+                        && spell.ChampionName.ToLower().Equals(GameObjects.Player.ChampionName.ToLower())).FirstOrDefault();
+
+                if (entry != null)
+                {
+                    this.spells.Add(slot, new Spell(slot, entry.Range));
+
+                    var hasCollision =
+                        entry.CollisionObjects.Any(
+                            m => m != CollisionableObjects.YasuoWall && m != CollisionableObjects.BraumShield);
+
+                    switch (entry.SpellType)
+                    {
+                        case SpellType.SkillshotLine:
+                        case SpellType.SkillshotMissileLine:
+
+                            this.spells[slot].SetSkillshot(
+                                entry.Delay,
+                                entry.Width,
+                                entry.MissileSpeed,
+                                hasCollision,
+                                SkillshotType.SkillshotLine);
+                            break;
+
+                        case SpellType.SkillshotCircle:
+
+                            this.spells[slot].SetSkillshot(
+                                entry.Delay,
+                                entry.Width,
+                                entry.MissileSpeed,
+                                hasCollision,
+                                SkillshotType.SkillshotCircle);
+                            break;
+
+                        case SpellType.SkillshotCone:
+                        case SpellType.SkillshotMissileCone:
+
+                            this.spells[slot].SetSkillshot(
+                                entry.Delay,
+                                entry.Width,
+                                entry.MissileSpeed,
+                                hasCollision,
+                                SkillshotType.SkillshotCone);
+                            break;
+
+                        case SpellType.Targeted:
+                            this.spells[slot].SetTargetted(entry.Delay, entry.MissileSpeed);
+                            break;
+
+                        case SpellType.Toggled:
+                            //TODO, not sure here
+                            break;
+                    }
+                }
+                else
+                {
+                    Logging.Write()(LogLevel.Error, $"[SDK AIO] Failed to load spell {slot} for champion {ObjectManager.Player.ChampionName}.");
+                }
+            }
         }
 
         /// <summary>
@@ -156,7 +230,10 @@ namespace SDKAIO.Champions
         /// Gets the spells dictionary for the champion.
         /// </summary>
         /// <returns>The spell dictionary</returns>
-        public abstract Dictionary<SpellSlot, Spell> GetSpells();
+        public Dictionary<SpellSlot, Spell> GetSpells()
+        {
+            return spells;
+        }
 
         /// <summary>
         /// Gets the MenuGenerator instance for the current champion.

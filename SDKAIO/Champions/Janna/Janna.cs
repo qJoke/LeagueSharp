@@ -19,13 +19,13 @@ namespace SDKAIO.Champions.Janna
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using global::SDKAIO.Utility;
 
     using LeagueSharp;
+    using LeagueSharp.SDK;
     using LeagueSharp.SDK.Core.UI.IMenu.Values;
-    using LeagueSharp.SDK.Core.Wrappers;
-    using LeagueSharp.SDK.Core.Wrappers.Spells;
 
     /// <summary>
     /// This class handles the Janna champion.
@@ -34,12 +34,14 @@ namespace SDKAIO.Champions.Janna
     {
         private IMenuGenerator JannaMenuGenerator;
 
+ 
         /// <summary>
         /// Initializes a new instance of the <see cref="Janna"/> class.
         /// </summary>
         public Janna()
         {
             this.JannaMenuGenerator = new JannaMenuGenerator();
+
         }
 
         /// <summary>
@@ -64,6 +66,13 @@ namespace SDKAIO.Champions.Janna
         protected override void OnCombo()
         {
             var qEnabled = AIOVariables.AssemblyMenu["sdkaio.janna.combo"]["UseQ"].GetValue<MenuBool>().Value;
+
+            foreach (var allyHero in GameObjects.AllyHeroes)
+            {
+                var heroEnabled = AIOVariables.AssemblyMenu["sdkaio.janna.misc"]["sdkaio.janna.misc.eon"][allyHero.ChampionName.ToLower()].GetValue<MenuBool>().Value;
+                Console.WriteLine("{0} is {1}", allyHero.ChampionName, heroEnabled);
+            }
+
             Game.PrintChat(qEnabled.ToString());
         }
 
@@ -99,15 +108,6 @@ namespace SDKAIO.Champions.Janna
         protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             
-        }
-
-        /// <summary>
-        /// Gets the spells dictionary for the champion.
-        /// </summary>
-        /// <returns>The spell dictionary</returns>
-        public override Dictionary<SpellSlot, Spell> GetSpells()
-        {
-            return null;
         }
 
         /// <summary>

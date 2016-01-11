@@ -167,6 +167,12 @@ namespace SoloVayne.Skills.Tumble
             }
 
             Variables.Orbwalker.ForceTarget(target);
+
+            if (ObjectManager.Player.CountEnemiesInRange(1500f) >= 3)
+            {
+                
+            }
+
             CastQ(Position);
         }
 
