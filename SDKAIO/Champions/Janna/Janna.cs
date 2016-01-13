@@ -65,7 +65,7 @@ namespace SDKAIO.Champions.Janna
         /// </summary>
         protected override void OnTick()
         {
-           if (Events.IsCastingInterruptableSpell(GameObjects.Player, true) && !(ObjectManager.Player.CountEnemyHeroesInRange(450f) >= 1))
+           if (GameObjects.Player.IsCastingInterruptableSpell(true) && !(ObjectManager.Player.CountEnemyHeroesInRange(450f) >= 1))
            {
               return; 
            }
