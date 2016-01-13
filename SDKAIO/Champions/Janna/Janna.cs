@@ -25,6 +25,7 @@ namespace SDKAIO.Champions.Janna
 
     using LeagueSharp;
     using LeagueSharp.SDK;
+    using LeagueSharp.SDK.Core;
     using LeagueSharp.SDK.Core.UI.IMenu.Values;
 
     /// <summary>
@@ -64,10 +65,10 @@ namespace SDKAIO.Champions.Janna
         /// </summary>
         protected override void OnTick()
         {
-           //if (GameObjects.Player.IsChannellingImportantSpell() && !ObjectManager.Player.CountEnemiesInRange(450f) >= 1)
-           //{
-           //   return; 
-           //}
+           if (Events.IsCastingInterruptableSpell(GameObjects.Player, true) && !(ObjectManager.Player.CountEnemyHeroesInRange(450f) >= 1))
+           {
+              return; 
+           }
 
             if (this.UltiChannelInProgress)
             {
