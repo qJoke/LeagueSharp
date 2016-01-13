@@ -32,8 +32,15 @@ namespace SDKAIO.Champions.Janna
     /// </summary>
     class Janna : ChampionBase
     {
+        /// <summary>
+        /// The Janna MenuGenerator Instance.
+        /// </summary>
         private IMenuGenerator JannaMenuGenerator;
 
+        /// <summary>
+        /// True if the ulti channel is in progress, false otherwise.
+        /// </summary>
+        private bool UltiChannelInProgress;
  
         /// <summary>
         /// Initializes a new instance of the <see cref="Janna"/> class.
@@ -41,7 +48,7 @@ namespace SDKAIO.Champions.Janna
         public Janna()
         {
             this.JannaMenuGenerator = new JannaMenuGenerator();
-
+            Obj_AI_Base.OnProcessSpellCast += this.OnProcessSpellCast;
         }
 
         /// <summary>
@@ -57,7 +64,17 @@ namespace SDKAIO.Champions.Janna
         /// </summary>
         protected override void OnTick()
         {
-            
+           //if (GameObjects.Player.IsChannellingImportantSpell() && !ObjectManager.Player.CountEnemiesInRange(450f) >= 1)
+           //{
+           //   return; 
+           //}
+
+            if (this.UltiChannelInProgress)
+            {
+                 Variables.Orbwalker.SetAttackState(true);
+                 Variables.Orbwalker.SetMovementState(true);
+                 this.UltiChannelInProgress = false;
+            }
         }
 
         /// <summary>
@@ -66,14 +83,33 @@ namespace SDKAIO.Champions.Janna
         protected override void OnCombo()
         {
             var qEnabled = AIOVariables.AssemblyMenu["sdkaio.janna.combo"]["UseQ"].GetValue<MenuBool>().Value;
+            var wEnabled = AIOVariables.AssemblyMenu["sdkaio.janna.combo"]["UseW"].GetValue<MenuBool>().Value;
+            var eEnabled = AIOVariables.AssemblyMenu["sdkaio.janna.combo"]["UseE"].GetValue<MenuBool>().Value;
+            var rMenu = AIOVariables.AssemblyMenu["sdkaio.janna.combo"]["RMinAlliesSB"].GetValue<MenuSliderButton>();
+            var target = Variables.TargetSelector.GetTarget(this.GetSpells()[SpellSlot.Q]);
 
-            foreach (var allyHero in GameObjects.AllyHeroes)
+            if (qEnabled && this.GetSpells()[SpellSlot.Q].IsReady())
             {
-                var heroEnabled = AIOVariables.AssemblyMenu["sdkaio.janna.misc"]["sdkaio.janna.misc.eon"][allyHero.ChampionName.ToLower()].GetValue<MenuBool>().Value;
-                Console.WriteLine("{0} is {1}", allyHero.ChampionName, heroEnabled);
+                var prediction = this.GetSpells()[SpellSlot.Q].GetPrediction(target);
+                if (prediction.Hitchance >= HitChance.High)
+                {
+                    this.GetSpells()[SpellSlot.Q].Cast(prediction.CastPosition);
+                    this.GetSpells()[SpellSlot.Q].Cast();
+                }
             }
 
-            Game.PrintChat(qEnabled.ToString());
+            if (wEnabled && this.GetSpells()[SpellSlot.W].IsReady() && target.IsValidTarget(this.GetSpells()[SpellSlot.W].Range))
+            {
+                this.GetSpells()[SpellSlot.W].Cast(target);
+            }
+
+            if (rMenu.BValue 
+                && this.GetSpells()[SpellSlot.R].IsReady() 
+                && GameObjects.Player.CountEnemyHeroesInRange(950f) > 0 
+                && GameObjects.AllyHeroes.Count(h => h.IsValidTarget(950f, false) && h.HealthPercent < 10) > 0)
+            {
+                this.GetSpells()[SpellSlot.R].Cast();
+            }
         }
 
         /// <summary>
@@ -108,6 +144,22 @@ namespace SDKAIO.Champions.Janna
         protected override void OnAfterAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             
+        }
+
+
+        /// <summary>
+        /// Called when a spell is processed by the game after its casting (After a spell)
+        /// </summary>
+        /// <param name="sender">The unit who casted the spell.</param>
+        /// <param name="args">The <see cref="GameObjectProcessSpellCastEventArgs"/> instance containing the event data.</param>
+        private void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (sender.IsMe && args.SData.Name.Equals("ReapTheWhirlwind"))
+            {
+                Variables.Orbwalker.SetAttackState(false);
+                Variables.Orbwalker.SetAttackState(false);
+                this.UltiChannelInProgress = true;
+            }
         }
 
         /// <summary>

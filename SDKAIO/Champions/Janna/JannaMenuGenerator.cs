@@ -40,7 +40,7 @@ namespace SDKAIO.Champions.Janna
                 comboMenu.Add(new MenuBool("UseQ", "Use Q", true));
                 comboMenu.Add(new MenuBool("UseW", "Use W", true));
                 comboMenu.Add(new MenuBool("UseE", "Use E", true));
-                comboMenu.Add(new MenuSliderButton("RMinEnemiesSB", "Use R / R Minimum Enemies", 2, 1, 5, true));
+                comboMenu.Add(new MenuSliderButton("RMinAlliesSB", "Use R / R Minimum Allies", 2, 1, 5, true));
                 comboMenu.Add(new MenuList<string>("RMode", "R Mode", new[] { "To Allies", "To Towers", "Both" })).SelectedValue = "Both";
                 Menu.Add(comboMenu);
             }
