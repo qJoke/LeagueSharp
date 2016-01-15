@@ -19,7 +19,6 @@ namespace SDKAIO.Champions.Janna
 {
     using System.Linq;
     using System.Windows.Forms;
-
     using LeagueSharp;
     using LeagueSharp.SDK;
     using LeagueSharp.SDK.Core.UI.IMenu.Values;

@@ -23,8 +23,7 @@ namespace SDKAIO
     using global::SDKAIO.Utility;
 
     using LeagueSharp;
-    using LeagueSharp.SDK.Core.Enumerations;
-    using LeagueSharp.SDK.Core.UI.INotifications;
+    using LeagueSharp.SDK;
     using LeagueSharp.SDK.Core.Utils;
 
     using SharpDX;

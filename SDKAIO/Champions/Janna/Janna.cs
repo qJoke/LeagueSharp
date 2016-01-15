@@ -50,6 +50,25 @@ namespace SDKAIO.Champions.Janna
         {
             this.JannaMenuGenerator = new JannaMenuGenerator();
             Obj_AI_Base.OnProcessSpellCast += this.OnProcessSpellCast;
+            Events.OnGapCloser += this.OnGapcloser;
+        }
+
+        /// <summary>
+        /// Called when an enemy gapcloses on the player.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Events.GapCloserEventArgs"/> instance containing the event data.</param>
+        private void OnGapcloser(object sender, Events.GapCloserEventArgs e)
+        {
+            if (e.IsDirectedToPlayer && e.Sender.IsValidTarget())
+            {
+                var qPrediction = this.GetSpells()[SpellSlot.Q].GetPrediction(e.Sender);
+                if (qPrediction.Hitchance > HitChance.Low)
+                {
+                    this.GetSpells()[SpellSlot.Q].Cast(qPrediction.CastPosition);
+                    this.GetSpells()[SpellSlot.Q].Cast();
+                }
+            }
         }
 
         /// <summary>

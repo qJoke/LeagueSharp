@@ -18,14 +18,9 @@
 namespace SDKAIO
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     using global::SDKAIO.Utility;
 
-    using LeagueSharp.SDK.Core.Events;
+    using LeagueSharp.SDK;
 
     /// <summary>
     /// The entry class of the assembly.
@@ -38,7 +33,7 @@ namespace SDKAIO
         /// <param name="args">The arguments passed to the assembly.</param>
         private static void Main(string[] args)
         {
-            Load.OnLoad += OnLoad;
+            Events.OnLoad += OnLoad;
         }
 
         /// <summary>
