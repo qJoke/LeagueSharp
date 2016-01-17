@@ -136,7 +136,8 @@ namespace SDKAIO.Champions
             {
                 this.OnAfterAttack(sender, args);
             }
-        }   
+        } 
+  
         /// <summary>
         /// Loads the dictionary of the spells using informations from the spell database.
         /// </summary>

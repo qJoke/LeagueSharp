@@ -53,6 +53,15 @@ namespace SDKAIO.Champions.Janna
             Events.OnGapCloser += this.OnGapcloser;
             Events.OnTurretAttack += this.OnTurretAttack;
             Events.OnInterruptableTarget += this.OnInterruptableTarget;
+            Events.OnTeleport += this.OnTeleport;
+        }
+
+        private void OnTeleport(object sender, TeleportEventArgs e)
+        {
+            if (sender != null)
+            {
+                 Console.WriteLine("{0} recalled!", ((Obj_AI_Base)sender).CharData.BaseSkinName);
+            }
         }
 
         /// <summary>
