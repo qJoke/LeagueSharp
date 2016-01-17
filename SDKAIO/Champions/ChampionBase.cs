@@ -63,7 +63,7 @@ namespace SDKAIO.Champions
 
                 this.LoadSpells();
                 this.OnChampLoad();
-
+                
                 var menuGenerator = this.GetMenuGenerator();
 
                 if (menuGenerator == null)
@@ -75,11 +75,33 @@ namespace SDKAIO.Champions
                 menuGenerator.LoadToMenu(AIOVariables.AssemblyMenu);
                 Game.OnUpdate += this.OnUpdate;
                 Obj_AI_Base.OnDoCast += this.AfterAttack;
+                Events.OnStealth += this.OnStealth;
             }
             catch(Exception e)
             {
                 Logging.Write()(LogLevel.Error, $"[SDK AIO] Failed to initialize {ObjectManager.Player.ChampionName}.");
                 Logging.Write()(LogLevel.Error, e);
+            }
+        }
+
+        /// <summary>
+        /// Called when an unit goes into stealth.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Events.OnStealthEventArgs"/> instance containing the event data.</param>
+        private void OnStealth(object sender, Events.OnStealthEventArgs e)
+        {
+            var pinkWard = new Items.Item(ItemId.Vision_Ward, 600);
+            if (pinkWard.IsOwned() && pinkWard.IsReady)
+            {
+                var stealthUnit = e.Sender;
+                if (stealthUnit.IsValidTarget() 
+                    && stealthUnit.ServerPosition.DistanceSquared(ObjectManager.Player.ServerPosition) < 1500f * 1500f
+                    && e.IsStealthed)
+                {
+                    var extendedPosition = ObjectManager.Player.ServerPosition.Extend(stealthUnit.ServerPosition, 450f);
+                    pinkWard.Cast(extendedPosition);
+                }
             }
         }
 
@@ -164,7 +186,6 @@ namespace SDKAIO.Champions
 
                         case SpellType.SkillshotCone:
                         case SpellType.SkillshotMissileCone:
-
                             this.spells[slot].SetSkillshot(
                                 entry.Delay,
                                 entry.Width,
@@ -177,8 +198,8 @@ namespace SDKAIO.Champions
                             this.spells[slot].SetTargetted(entry.Delay, entry.MissileSpeed);
                             break;
 
-                        case SpellType.Toggled:
-                            //TODO, not sure here
+                        default:
+                            this.spells[slot] = new Spell(slot, true);
                             break;
                     }
                 }
@@ -232,7 +253,7 @@ namespace SDKAIO.Champions
         /// <returns>The spell dictionary</returns>
         public Dictionary<SpellSlot, Spell> GetSpells()
         {
-            return spells;
+            return this.spells;
         }
 
         /// <summary>

@@ -51,6 +51,51 @@ namespace SDKAIO.Champions.Janna
             this.JannaMenuGenerator = new JannaMenuGenerator();
             Obj_AI_Base.OnProcessSpellCast += this.OnProcessSpellCast;
             Events.OnGapCloser += this.OnGapcloser;
+            Events.OnTurretAttack += this.OnTurretAttack;
+            Events.OnInterruptableTarget += this.OnInterruptableTarget;
+        }
+
+        /// <summary>
+        /// Called when an interruptable target is in range.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Events.InterruptableTargetEventArgs"/> instance containing the event data.</param>
+        private void OnInterruptableTarget(object sender, Events.InterruptableTargetEventArgs e)
+        {
+            if (e.DangerLevel < DangerLevel.High || !e.Sender.IsValidTarget()
+                || !this.GetSpells()[SpellSlot.Q].IsReady()
+                || !AIOVariables.AssemblyMenu["sdkaio.janna.misc"]["QInterrupter"].GetValue<MenuBool>().Value)
+            {
+                return;
+            }
+
+            var unit = e.Sender;
+            if (unit.IsValidTarget(this.GetSpells()[SpellSlot.Q].Range))
+            {
+                var qPrediction = this.GetSpells()[SpellSlot.Q].GetPrediction(unit);
+                if (qPrediction.Hitchance > HitChance.Low)
+                {
+                    this.GetSpells()[SpellSlot.Q].Cast(qPrediction.CastPosition);
+                    this.GetSpells()[SpellSlot.Q].Cast();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when a turret firest an Attack.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="TurretArgs"/> instance containing the event data..</param>
+        private void OnTurretAttack(object sender, TurretArgs e)
+        {
+            if (e.Turret.IsAlly && e.Target.IsValidTarget() && this.GetSpells()[SpellSlot.E].IsReady()
+                && AIOVariables.AssemblyMenu["sdkaio.janna.misc"]["EOnTurrets"].GetValue<MenuBool>().Value)
+            {
+                if (ObjectManager.Player.Distance(e.Turret) < this.GetSpells()[SpellSlot.E].Range)
+                {
+                    this.GetSpells()[SpellSlot.E].Cast(e.Turret);
+                }
+            }
         }
 
         /// <summary>
@@ -60,7 +105,7 @@ namespace SDKAIO.Champions.Janna
         /// <param name="e">The <see cref="Events.GapCloserEventArgs"/> instance containing the event data.</param>
         private void OnGapcloser(object sender, Events.GapCloserEventArgs e)
         {
-            if (e.IsDirectedToPlayer && e.Sender.IsValidTarget())
+            if (e.IsDirectedToPlayer && e.Sender.IsValidTarget() && AIOVariables.AssemblyMenu["sdkaio.janna.misc"]["QAntigapcloser"].GetValue<MenuBool>().Value)
             {
                 var qPrediction = this.GetSpells()[SpellSlot.Q].GetPrediction(e.Sender);
                 if (qPrediction.Hitchance > HitChance.Low)

@@ -62,6 +62,10 @@ namespace SDKAIO.Champions.Janna
                     }
                     miscMenu.Add(miscEMenu);
                 }
+                miscMenu.Add(new MenuBool("EOnTurrets", "Use E on turrets"));
+                miscMenu.Add(new MenuBool("QInterrupter", "Use Q to interrupt"));
+                miscMenu.Add(new MenuBool("QAntigapcloser", "Use Q against Gapclosers"));
+
                 Menu.Add(miscMenu);
             }
 
