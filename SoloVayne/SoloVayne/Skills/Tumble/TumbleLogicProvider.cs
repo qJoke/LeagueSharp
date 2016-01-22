@@ -48,6 +48,23 @@ namespace SoloVayne.Skills.Tumble
             }
             #endregion
 
+            if (
+                    enemiesNear.Any(
+                        t =>
+                            t.Health + 15 <
+                            ObjectManager.Player.GetAutoAttackDamage(t) * 2 + Variables.spells[SpellSlot.Q].GetDamage(t)
+                            && t.Distance(ObjectManager.Player) < Orbwalking.GetRealAutoAttackRange(t) + 80f))
+            {
+                var QPosition =
+                    ObjectManager.Player.ServerPosition.Extend(
+                        enemiesNear.OrderBy(t => t.Health).First().ServerPosition, 300f);
+
+                if (!QPosition.UnderTurret(true))
+                {
+                    return QPosition;
+                }
+            }
+
             #region Alone, 2 Enemies, 1 Killable
             if (enemiesNear.Count() <= 2)
             {
