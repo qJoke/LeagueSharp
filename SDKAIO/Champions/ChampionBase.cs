@@ -148,12 +148,12 @@ namespace SDKAIO.Champions
 
             foreach (var slot in spellslotArray)
             {
+                
                 var entry =
                     SpellDatabase.Get(
                         spell =>
                         spell.Slot == slot
                         && spell.ChampionName.ToLower().Equals(GameObjects.Player.ChampionName.ToLower())).FirstOrDefault();
-
                 if (entry != null)
                 {
                     this.spells.Add(slot, new Spell(slot, entry.Range));
@@ -186,7 +186,6 @@ namespace SDKAIO.Champions
                             break;
 
                         case SpellType.SkillshotCone:
-                        case SpellType.SkillshotMissileCone:
                             this.spells[slot].SetSkillshot(
                                 entry.Delay,
                                 entry.Width,
