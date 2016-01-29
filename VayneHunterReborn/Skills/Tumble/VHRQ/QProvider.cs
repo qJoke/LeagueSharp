@@ -96,7 +96,7 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
             #endregion
 
             #region Alone, 2 Enemies, None Killable
-            if (alliesNear == 0 && highHealthEnemiesNear.Count() <= 2)
+            if (alliesNear == 0 && highHealthEnemiesNear.Count() <= 2 && !enemiesNear.Any(m => m.HealthPercent <= 10))
             {
                 //Logic for 2 enemies Near and alone
 
