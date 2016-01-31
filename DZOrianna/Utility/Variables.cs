@@ -27,5 +27,10 @@ namespace DZOrianna.Utility
             { SpellSlot.E, new Spell(SpellSlot.E, 1095f) },
             { SpellSlot.R, new Spell(SpellSlot.R, 370f) }
         };
+
+        /// <summary>
+        /// The ball manager
+        /// </summary>
+        public PetHandler BallManager = new PetHandler();
     }
 }

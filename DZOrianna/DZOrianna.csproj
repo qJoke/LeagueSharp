@@ -59,7 +59,10 @@
     <Compile Include="Orianna.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\Ball\BallStringList.cs" />
+    <Compile Include="Utility\Ball\CommandQueue.cs" />
     <Compile Include="Utility\Menu\MenuGenerator.cs" />
+    <Compile Include="Utility\Ball\PetHandler.cs" />
     <Compile Include="Utility\Variables.cs" />
   </ItemGroup>
   <ItemGroup>
