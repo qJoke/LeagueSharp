@@ -31,6 +31,6 @@ namespace DZOrianna.Utility
         /// <summary>
         /// The ball manager
         /// </summary>
-        public static PetHandler BallManager = new PetHandler();
+        public static PetHandler BallManager;
     }
 }
