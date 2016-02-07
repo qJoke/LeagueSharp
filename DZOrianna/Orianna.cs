@@ -170,7 +170,73 @@ namespace DZOrianna
 
         private static void OnMixed()
         {
-            
+            var qTarget = TargetSelector.GetTarget(Variables.spells[SpellSlot.Q].Range / 1.5f, TargetSelector.DamageType.Magical);
+
+            if (Variables.AssemblyMenu.Item("dz191.orianna.mixed.q").GetValue<bool>() && Variables.spells[SpellSlot.Q].IsReady())
+            {
+                if (qTarget.IsValidTarget())
+                {
+                    Variables.BallManager.ProcessCommand(new Command()
+                    {
+                        SpellCommand = Commands.Q,
+                        Unit = qTarget
+                    });
+                }
+            }
+
+            if (Variables.AssemblyMenu.Item("dz191.orianna.mixed.w").GetValue<bool>() && Variables.spells[SpellSlot.W].IsReady())
+            {
+                var ballPosition = Variables.BallManager.BallPosition;
+                var minWEnemies = Variables.AssemblyMenu.Item("dz191.orianna.mixed.minw").GetValue<Slider>().Value;
+
+                if (ballPosition.CountEnemiesInRange(Variables.spells[SpellSlot.W].Range) >= minWEnemies)
+                {
+                    Variables.BallManager.ProcessCommand(new Command()
+                    {
+                        SpellCommand = Commands.W,
+                    });
+                }
+            }
+
+             if (Variables.AssemblyMenu.Item("dz191.orianna.mixed.e").GetValue<bool>() &&
+                Variables.spells[SpellSlot.E].IsReady())
+            {
+                var eTarget = qTarget;
+                //Determine the ally to shield with E or me.
+                if (ObjectManager.Player.Health <= Helper.GetItemValue<Slider>("dz191.orianna.misc.e.percent").Value 
+                    && ObjectManager.Player.CountEnemiesInRange(1100f) > 1)
+                {
+                    //If we're low life the ball always goes to us.
+                    Variables.spells[SpellSlot.E].Cast(ObjectManager.Player);
+                    return;
+                }
+
+                var lhAllies =
+                    HeroManager.Allies.Where(
+                        m =>
+                            m.HealthPercent < Helper.GetItemValue<Slider>("dz191.orianna.misc.e.percent").Value &&
+                            Helper.GetItemValue<bool>($"dz191.orianna.misc.e.shield.{m.ChampionName}") &&
+                            m.CountEnemiesInRange(425f) > 1).ToList();
+
+                if (lhAllies.Any())
+                {
+                    Variables.spells[SpellSlot.E].Cast(lhAllies.OrderBy(m => m.Health).FirstOrDefault());
+                    return;
+                }
+
+                if (Helper.GetItemValue<bool>("dz191.orianna.misc.e.damage"))
+                {
+                    foreach (var ally in HeroManager.Allies.Where(ally => ally.IsValidTarget(Variables.spells[SpellSlot.E].Range, false)))
+                    {
+                        var eHits = Helper.getEHits(ally.ServerPosition);
+                        if (eHits.Count() > 2)
+                        {
+                            Variables.spells[SpellSlot.E].Cast(ally);
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         private static void OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
