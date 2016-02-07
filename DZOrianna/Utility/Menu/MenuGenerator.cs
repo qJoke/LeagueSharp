@@ -66,6 +66,7 @@ namespace DZOrianna.Utility
                     miscRMenu.AddBool("dz191.orianna.misc.r.autor", "Auto R");
                     miscRMenu.AddSlider("dz191.orianna.misc.r.autor.enemies", "Auto R Enemies", 3, 1, 5);
                     miscRMenu.AddBool("dz191.orianna.misc.r.interrupt", "R interrupt", true);
+                    miscRMenu.AddBool("dz191.orianna.misc.r.block", "Block R if it won't hit", true);
 
                     miscMenu.AddSubMenu(miscRMenu);
                 }
