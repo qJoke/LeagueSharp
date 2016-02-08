@@ -3,6 +3,7 @@ using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using SPrediction;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.Helpers;
 using VayneHunter_Reborn.Utility.MenuUtility;
@@ -22,7 +23,7 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
 
             foreach (var target in HeroManager.Enemies.Where(h => h.IsValidTarget(Variables.spells[SpellSlot.E].Range) && !h.HasBuffOfType(BuffType.SpellShield) && !h.HasBuffOfType(BuffType.SpellImmunity)))
             {
-                var targetPosition = target.ServerPosition;
+                var targetPosition = Variables.spells[SpellSlot.E].GetSPrediction(target).UnitPosition.To3D();
                 var finalPosition = targetPosition.Extend(fromPosition, -pushDistance);
                 var numberOfChecks = (float)Math.Ceiling(pushDistance / 30f);
 

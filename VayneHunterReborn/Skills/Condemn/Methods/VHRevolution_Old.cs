@@ -3,6 +3,7 @@ using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using SPrediction;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
@@ -29,7 +30,7 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
 
             foreach (var Hero in HeroList)
             {
-                var prediction = Variables.spells[SpellSlot.E].GetPrediction(Hero);
+                var prediction = Variables.spells[SpellSlot.E].GetSPrediction(Hero);
 
                 if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent") &&
                     Hero.NetworkId != Variables.Orbwalker.GetTarget().NetworkId)
@@ -48,8 +49,8 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
                 {
                     Hero.ServerPosition,
                     Hero.Position,
-                    prediction.CastPosition,
-                    prediction.UnitPosition
+                    prediction.CastPosition.To3D(),
+                    prediction.UnitPosition.To3D()
                 };
 
                 if (Hero.IsDashing())

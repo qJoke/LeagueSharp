@@ -4,6 +4,7 @@ using iSeriesReborn.Utility.Positioning;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using SPrediction;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
@@ -50,7 +51,7 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
                 }
 
                 
-                var targetPosition = Variables.spells[SpellSlot.E].GetPrediction(Hero).UnitPosition;
+                var targetPosition = Variables.spells[SpellSlot.E].GetSPrediction(Hero).UnitPosition.To3D();
                 var finalPosition = targetPosition.Extend(ObjectManager.Player.ServerPosition, -PushDistance);
                 var finalPosition_ex = Hero.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -PushDistance);
 
