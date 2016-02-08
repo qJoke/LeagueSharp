@@ -10,6 +10,7 @@ namespace VayneHunter_Reborn.Utility
         {
             Variables.Menu = new LeagueSharp.Common.Menu("VayneHunter Reborn","dz191.vhr", true);
 
+            SPrediction.Prediction.Initialize(Variables.Menu);
             MenuGenerator.OnLoad();
             Activator.OnLoad();
             VHR.OnLoad();
