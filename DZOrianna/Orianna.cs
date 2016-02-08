@@ -48,16 +48,16 @@ namespace DZOrianna
         {
             var qTarget = TargetSelector.GetTarget(Variables.spells[SpellSlot.Q].Range / 1.5f, TargetSelector.DamageType.Magical);
 
-            if (Variables.AssemblyMenu.Item("dz191.orianna.combo.q").GetValue<bool>() && Variables.spells[SpellSlot.Q].IsReady())
+            if (Variables.AssemblyMenu.Item("dz191.orianna.combo.q").GetValue<bool>() 
+                && Variables.spells[SpellSlot.Q].IsReady() 
+                && qTarget.IsValidTarget())
             {
                 if (qTarget.IsValidTarget())
                 {
+                    //TODO Q so it gets most targets possible.
                     var qPrediction = Prediction.GetPrediction(
                         qTarget,
-                        (int)
-                            (Variables.BallManager.BallPosition.Distance(qTarget.ServerPosition) /
-                             Variables.spells[SpellSlot.Q].Speed + Variables.spells[SpellSlot.Q].Delay +
-                             (Game.Ping / 2f) / 1000f + 0.125f));
+                        0.75f);
 
                         Variables.BallManager.ProcessCommand(new Command()
                         {
@@ -66,7 +66,7 @@ namespace DZOrianna
                         });
                 }
             }
-
+           
             if (Variables.AssemblyMenu.Item("dz191.orianna.combo.w").GetValue<bool>() && Variables.spells[SpellSlot.W].IsReady())
             {
                 var ballPosition = Variables.BallManager.BallPosition;
@@ -91,11 +91,14 @@ namespace DZOrianna
             if (Variables.AssemblyMenu.Item("dz191.orianna.combo.r").GetValue<bool>() &&
                 Variables.spells[SpellSlot.R].IsReady())
             {
-                if (ObjectManager.Player.CountEnemiesInRange(Variables.spells[SpellSlot.Q].Range + 250f) > 1 && ObjectManager.Player.CountEnemiesInRange(Variables.spells[SpellSlot.Q].Range + 250f) > 1)
+                if (ObjectManager.Player.CountEnemiesInRange(Variables.spells[SpellSlot.Q].Range + 250f) > 1 &&
+                    ObjectManager.Player.CountEnemiesInRange(Variables.spells[SpellSlot.Q].Range + 250f) > 1)
                 {
                     var enemyHeroesPositions = HeroManager.Enemies.Select(hero => hero.Position.To2D()).ToList();
 
                     var Groups = Helper.GetCombinations(enemyHeroesPositions);
+
+                    //TODO Iterate through all the MEC and pick the best one.
 
                     foreach (var group in Groups)
                     {
@@ -105,9 +108,9 @@ namespace DZOrianna
                             var MEC_Circle = MEC.GetMec(group);
                             if (Variables.spells[SpellSlot.Q].IsReady() &&
                                 MEC_Circle.Center.Distance(ObjectManager.Player) <= Variables.spells[SpellSlot.Q].Range &&
-                                MEC_Circle.Radius <= Variables.spells[SpellSlot.R].Range
-                                && MEC_Circle.Center.To3D().CountEnemiesInRange(
-                                                    Variables.spells[SpellSlot.R].Range) >= Variables.AssemblyMenu.Item("dz191.orianna.combo.minr").GetValue<Slider>().Value)
+                                MEC_Circle.Radius <= Variables.spells[SpellSlot.R].Range &&
+                                MEC_Circle.Center.To3D().CountEnemiesInRange(Variables.spells[SpellSlot.R].Range) >=
+                                Variables.AssemblyMenu.Item("dz191.orianna.combo.minr").GetValue<Slider>().Value)
                             {
                                 Variables.spells[SpellSlot.Q].Cast(MEC_Circle.Center.To3D());
                                 LeagueSharp.Common.Utility.DelayAction.Add(
@@ -116,23 +119,27 @@ namespace DZOrianna
                                          Variables.spells[SpellSlot.Q].Speed * 1000 +
                                          Variables.spells[SpellSlot.Q].Delay * 1000 + Game.Ping / 2f + 125f), () =>
                                          {
-                                               if (
-                                                Variables.BallManager.BallPosition.CountEnemiesInRange(
-                                                    Variables.spells[SpellSlot.R].Range) >= Variables.AssemblyMenu.Item("dz191.orianna.combo.minr").GetValue<Slider>().Value)
-                                                {
-                                                         Variables.spells[SpellSlot.R].Cast();
-                                                }
-                                         }
-                                        );
+                                             if (
+                                                 Variables.BallManager.BallPosition.CountEnemiesInRange(
+                                                     Variables.spells[SpellSlot.R].Range) >=
+                                                 Variables.AssemblyMenu.Item("dz191.orianna.combo.minr")
+                                                     .GetValue<Slider>()
+                                                     .Value)
+                                             {
+                                                 Variables.spells[SpellSlot.R].Cast();
+                                             }
+                                         });
                             }
                         }
                     }
                 }
                 else
                 {
+                    
                     var target = TargetSelector.GetTarget(Variables.spells[SpellSlot.Q].Range / 1.2f, TargetSelector.DamageType.Magical);
 
-                    if (target.Health + 10f <
+                    if (target != null && 
+                        target.Health + 10f <
                         ObjectManager.Player.GetComboDamage(target, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.R })
                         && !(target.Health + 10f <
                         ObjectManager.Player.GetComboDamage(target, new[] { SpellSlot.Q, SpellSlot.W})))
@@ -165,19 +172,18 @@ namespace DZOrianna
             }
 
             
-            if (Variables.AssemblyMenu.Item("dz191.orianna.combo.e").GetValue<bool>() &&
-                Variables.spells[SpellSlot.E].IsReady())
+            if (Variables.AssemblyMenu.Item("dz191.orianna.combo.e").GetValue<bool>() && Variables.spells[SpellSlot.E].IsReady())
+                
             {
-                var eTarget = qTarget;
                 //Determine the ally to shield with E or me.
                 if (ObjectManager.Player.Health <= Helper.GetItemValue<Slider>("dz191.orianna.misc.e.percent").Value 
-                    && ObjectManager.Player.CountEnemiesInRange(1100f) > 1)
+                    && ObjectManager.Player.CountEnemiesInRange(1100f) > 0)
                 {
                     //If we're low life the ball always goes to us.
                     Variables.spells[SpellSlot.E].Cast(ObjectManager.Player);
                     return;
                 }
-
+                /**
                 var lhAllies =
                     HeroManager.Allies.Where(
                         m =>
@@ -203,6 +209,7 @@ namespace DZOrianna
                         }
                     }
                 }
+                */
             }
 
 
