@@ -52,25 +52,18 @@ namespace DZOrianna
             {
                 if (qTarget.IsValidTarget())
                 {
-                    if (ObjectManager.Player.IsFacing(qTarget) && !qTarget.IsFacing(ObjectManager.Player))
-                    {
+                    var qPrediction = Prediction.GetPrediction(
+                        qTarget,
+                        (int)
+                            (Variables.BallManager.BallPosition.Distance(qTarget.ServerPosition) /
+                             Variables.spells[SpellSlot.Q].Speed + Variables.spells[SpellSlot.Q].Delay +
+                             (Game.Ping / 2f) / 1000f + 0.125f));
+
                         Variables.BallManager.ProcessCommand(new Command()
                         {
                             SpellCommand = Commands.Q,
-                            Where = qTarget.ServerPosition.Extend(Variables.BallManager.BallPosition, -150f).Distance(ObjectManager.Player.ServerPosition) < Variables.spells[SpellSlot.Q].Range + 65f 
-                            ?  qTarget.ServerPosition.Extend(Variables.BallManager.BallPosition, -150f) 
-                            : qTarget.ServerPosition
+                            Where = qPrediction.UnitPosition
                         });
-                    }
-                    else
-                    {
-                        Variables.BallManager.ProcessCommand(new Command()
-                        {
-                        SpellCommand = Commands.Q,
-                        Unit = qTarget
-                        });
-                    }
-                    
                 }
             }
 
@@ -112,7 +105,9 @@ namespace DZOrianna
                             var MEC_Circle = MEC.GetMec(group);
                             if (Variables.spells[SpellSlot.Q].IsReady() &&
                                 MEC_Circle.Center.Distance(ObjectManager.Player) <= Variables.spells[SpellSlot.Q].Range &&
-                                MEC_Circle.Radius <= Variables.spells[SpellSlot.R].Range)
+                                MEC_Circle.Radius <= Variables.spells[SpellSlot.R].Range
+                                && MEC_Circle.Center.To3D().CountEnemiesInRange(
+                                                    Variables.spells[SpellSlot.R].Range) >= Variables.AssemblyMenu.Item("dz191.orianna.combo.minr").GetValue<Slider>().Value)
                             {
                                 Variables.spells[SpellSlot.Q].Cast(MEC_Circle.Center.To3D());
                                 LeagueSharp.Common.Utility.DelayAction.Add(
@@ -123,7 +118,7 @@ namespace DZOrianna
                                          {
                                                if (
                                                 Variables.BallManager.BallPosition.CountEnemiesInRange(
-                                                    Variables.spells[SpellSlot.R].Range) > 0)
+                                                    Variables.spells[SpellSlot.R].Range) >= Variables.AssemblyMenu.Item("dz191.orianna.combo.minr").GetValue<Slider>().Value)
                                                 {
                                                          Variables.spells[SpellSlot.R].Cast();
                                                 }
