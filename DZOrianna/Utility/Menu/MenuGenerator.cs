@@ -74,6 +74,7 @@ namespace DZOrianna.Utility
                 rootMenu.AddSubMenu(miscMenu);
             }
 
+            rootMenu.AddToMainMenu();
 
         }
     }

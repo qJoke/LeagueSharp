@@ -13,7 +13,7 @@ namespace DZOrianna.Utility
 
         private float LastExecuteTick = 0f;
 
-        public PetHandler()
+        public void OnLoad()
         {
             BallPosition = ObjectManager.Player.ServerPosition;
 
@@ -37,6 +37,11 @@ namespace DZOrianna.Utility
                     if (command.Where != default(Vector3))
                     {
                         Variables.spells[SpellSlot.Q].Cast(command.Where);
+                    }
+
+                    if (command.Unit != null)
+                    {
+                        Variables.spells[SpellSlot.Q].Cast(command.Unit.ServerPosition);
                     }
                     break;
                 case Commands.W:
@@ -63,6 +68,7 @@ namespace DZOrianna.Utility
             {
                 return;
             }
+            LastExecuteTick = Environment.TickCount;
 
             if (ObjectManager.Player.HasBuff(BallStringList.OriannaSelfShield))
             {

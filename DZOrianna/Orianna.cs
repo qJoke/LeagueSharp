@@ -14,11 +14,18 @@ namespace DZOrianna
         {
             CommandQueue.InitEvents();
             Variables.BallManager = new PetHandler();
+            Variables.BallManager.OnLoad();
             Variables.spells[SpellSlot.Q].SetSkillshot(0f, 110f, 1425f, false, SkillshotType.SkillshotLine);
             Variables.spells[SpellSlot.E].SetSkillshot(0.25f, 80f, 1700f, true, SkillshotType.SkillshotLine);
 
             Game.OnUpdate += OnUpdate;
             Spellbook.OnCastSpell += OnCastSpell;
+            Drawing.OnDraw += OnDraw;
+        }
+
+        private static void OnDraw(EventArgs args)
+        {
+ 	        Render.Circle.DrawCircle(Variables.BallManager.BallPosition, 65, System.Drawing.Color.Red);
         }
 
         private static void OnUpdate(EventArgs args)
@@ -45,11 +52,25 @@ namespace DZOrianna
             {
                 if (qTarget.IsValidTarget())
                 {
-                    Variables.BallManager.ProcessCommand(new Command()
+                    if (ObjectManager.Player.IsFacing(qTarget) && !qTarget.IsFacing(ObjectManager.Player))
                     {
+                        Variables.BallManager.ProcessCommand(new Command()
+                        {
+                            SpellCommand = Commands.Q,
+                            Where = qTarget.ServerPosition.Extend(Variables.BallManager.BallPosition, -150f).Distance(ObjectManager.Player.ServerPosition) < Variables.spells[SpellSlot.Q].Range + 65f 
+                            ?  qTarget.ServerPosition.Extend(Variables.BallManager.BallPosition, -150f) 
+                            : qTarget.ServerPosition
+                        });
+                    }
+                    else
+                    {
+                        Variables.BallManager.ProcessCommand(new Command()
+                        {
                         SpellCommand = Commands.Q,
                         Unit = qTarget
-                    });
+                        });
+                    }
+                    
                 }
             }
 
@@ -57,20 +78,27 @@ namespace DZOrianna
             {
                 var ballPosition = Variables.BallManager.BallPosition;
                 var minWEnemies = Variables.AssemblyMenu.Item("dz191.orianna.combo.minw").GetValue<Slider>().Value;
-
-                if (ballPosition.CountEnemiesInRange(Variables.spells[SpellSlot.W].Range) >= minWEnemies)
+                if (ObjectManager.Player.CountEnemiesInRange(Variables.spells[SpellSlot.Q].Range + 250f) > 1)
                 {
-                    Variables.BallManager.ProcessCommand(new Command()
+                    if (ballPosition.CountEnemiesInRange(Variables.spells[SpellSlot.W].Range) >= minWEnemies)
                     {
-                        SpellCommand = Commands.W,
-                    });
+                        Variables.BallManager.ProcessCommand(new Command() { SpellCommand = Commands.W, });
+                    }
                 }
+                else
+                {
+                    if (ballPosition.CountEnemiesInRange(Variables.spells[SpellSlot.W].Range) > 0)
+                    {
+                        Variables.BallManager.ProcessCommand(new Command() { SpellCommand = Commands.W, });
+                    }
+                }
+                
             }
 
             if (Variables.AssemblyMenu.Item("dz191.orianna.combo.r").GetValue<bool>() &&
                 Variables.spells[SpellSlot.R].IsReady())
             {
-                if (ObjectManager.Player.CountEnemiesInRange(Variables.spells[SpellSlot.Q].Range) > 1)
+                if (ObjectManager.Player.CountEnemiesInRange(Variables.spells[SpellSlot.Q].Range + 250f) > 1 && ObjectManager.Player.CountEnemiesInRange(Variables.spells[SpellSlot.Q].Range + 250f) > 1)
                 {
                     var enemyHeroesPositions = HeroManager.Enemies.Select(hero => hero.Position.To2D()).ToList();
 
@@ -91,8 +119,16 @@ namespace DZOrianna
                                     (int)
                                         (Variables.BallManager.BallPosition.Distance(MEC_Circle.Center.To3D()) /
                                          Variables.spells[SpellSlot.Q].Speed * 1000 +
-                                         Variables.spells[SpellSlot.Q].Delay * 1000 + Game.Ping / 2f + 125f),
-                                    () => Variables.spells[SpellSlot.R].Cast());
+                                         Variables.spells[SpellSlot.Q].Delay * 1000 + Game.Ping / 2f + 125f), () =>
+                                         {
+                                               if (
+                                                Variables.BallManager.BallPosition.CountEnemiesInRange(
+                                                    Variables.spells[SpellSlot.R].Range) > 0)
+                                                {
+                                                         Variables.spells[SpellSlot.R].Cast();
+                                                }
+                                         }
+                                        );
                             }
                         }
                     }
@@ -102,7 +138,9 @@ namespace DZOrianna
                     var target = TargetSelector.GetTarget(Variables.spells[SpellSlot.Q].Range / 1.2f, TargetSelector.DamageType.Magical);
 
                     if (target.Health + 10f <
-                        ObjectManager.Player.GetComboDamage(target, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.R }))
+                        ObjectManager.Player.GetComboDamage(target, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.R })
+                        && !(target.Health + 10f <
+                        ObjectManager.Player.GetComboDamage(target, new[] { SpellSlot.Q, SpellSlot.W})))
                     {
                         var rPosition = target.ServerPosition.Extend(
                             ObjectManager.Player.ServerPosition, Variables.spells[SpellSlot.R].Range / 2f);
@@ -116,8 +154,15 @@ namespace DZOrianna
                                 (int)
                                     (Variables.BallManager.BallPosition.Distance(rPosition) /
                                      Variables.spells[SpellSlot.Q].Speed * 1000 +
-                                     Variables.spells[SpellSlot.Q].Delay * 1000 + Game.Ping / 2f + 125f),
-                                () => Variables.spells[SpellSlot.R].Cast());
+                                     Variables.spells[SpellSlot.Q].Delay * 1000 + Game.Ping / 2f + 125f), () =>
+                                     {
+                                         if (
+                                             Variables.BallManager.BallPosition.CountEnemiesInRange(
+                                                 Variables.spells[SpellSlot.R].Range) > 0)
+                                         {
+                                                                                      Variables.spells[SpellSlot.R].Cast();
+                                         }
+                                     });
                         }
                     }
                 }
@@ -244,7 +289,7 @@ namespace DZOrianna
             if (Helper.GetItemValue<bool>("dz191.orianna.misc.r.block") && sender.Owner.IsMe && args.Slot == SpellSlot.R)
             {
                 var ballPosition = Variables.BallManager.BallPosition;
-                if (ballPosition.CountEnemiesInRange(Variables.spells[SpellSlot.R].Range) < 1)
+                if (ballPosition.CountEnemiesInRange(Variables.spells[SpellSlot.R].Range + 110f) < 1)
                 {
                     args.Process = false;   
                 }
