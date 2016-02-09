@@ -34,7 +34,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
             if (meleeEnemies.Any())
             {
                 var mostDangerous = meleeEnemies.OrderByDescending(m => m.GetAutoAttackDamage(ObjectManager.Player)).First();
-                Variables.spells[SpellSlot.E].Cast(mostDangerous);
+                Variables.spells[SpellSlot.E].CastOnUnit(mostDangerous);
             }
         }
     }

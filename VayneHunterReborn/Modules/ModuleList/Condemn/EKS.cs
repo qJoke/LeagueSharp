@@ -31,7 +31,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
             if (target != null && !target.IsInvulnerable 
                 && target.Health + 60 <= (ObjectManager.Player.GetSpellDamage(target, SpellSlot.E) + ObjectManager.Player.GetSpellDamage(target, SpellSlot.W)))
             {
-                Variables.spells[SpellSlot.E].Cast(target);
+                Variables.spells[SpellSlot.E].CastOnUnit(target);
             }
         }
     }

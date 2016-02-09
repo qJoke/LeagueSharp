@@ -30,7 +30,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
                             string.Format("dz191.vhr.agplist.{0}.{1}", gapcloser.Sender.ChampionName.ToLowerInvariant(), gapcloser.SpellName)
                             ))
                         {
-                            Variables.spells[SpellSlot.E].Cast(gapcloser.Sender);
+                            Variables.spells[SpellSlot.E].CastOnUnit(gapcloser.Sender);
                         }
                     });
             }
@@ -42,7 +42,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
             {
                 if (args.DangerLevel == Interrupter2.DangerLevel.High && sender.IsValidTarget(Variables.spells[SpellSlot.E].Range))
                 {
-                    Variables.spells[SpellSlot.E].Cast(sender);
+                    Variables.spells[SpellSlot.E].CastOnUnit(sender);
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
                     {
                         if (s2.IsValidTarget(Variables.spells[SpellSlot.E].Range))
                         {
-                            Variables.spells[SpellSlot.E].Cast(s2);
+                            Variables.spells[SpellSlot.E].CastOnUnit(s2);
                         }
                     }
                 }
@@ -76,7 +76,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
                     var rengarEntity = HeroManager.Enemies.Find(h => h.ChampionName.Equals("Rengar") && h.IsValidTarget(Variables.spells[SpellSlot.E].Range));
                     if (rengarEntity != null)
                     {
-                        Variables.spells[SpellSlot.E].Cast(rengarEntity);
+                        Variables.spells[SpellSlot.E].CastOnUnit(rengarEntity);
                     }
                 }
             }

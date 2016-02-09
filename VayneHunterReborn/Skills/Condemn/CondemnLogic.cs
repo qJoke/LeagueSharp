@@ -42,7 +42,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
                //     return;
                // }
 
-                E.Cast(CondemnTarget);
+                E.CastOnUnit(CondemnTarget);
                 TrinketBush(CondemnTarget.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -450f));
             }
         }

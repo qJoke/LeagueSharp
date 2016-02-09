@@ -73,7 +73,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                     if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed && tg.GetWBuff() != null
                         && tg.GetWBuff().Count == 1 && tg.IsValidTarget(Variables.spells[SpellSlot.E].Range))
                     {
-                        Variables.spells[SpellSlot.E].Cast(tg);
+                        Variables.spells[SpellSlot.E].CastOnUnit(tg);
                     }
                 }
             }

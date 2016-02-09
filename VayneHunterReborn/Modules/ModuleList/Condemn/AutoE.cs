@@ -30,7 +30,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
             var CondemnTarget = CondemnLogic.GetCondemnTarget(ObjectManager.Player.ServerPosition);
             if (CondemnTarget.IsValidTarget())
             {
-                Variables.spells[SpellSlot.E].Cast(CondemnTarget);
+                Variables.spells[SpellSlot.E].CastOnUnit(CondemnTarget);
             }
         }
     }

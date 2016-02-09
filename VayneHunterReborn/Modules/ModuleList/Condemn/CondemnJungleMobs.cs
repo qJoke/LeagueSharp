@@ -42,7 +42,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
                 var owTargetBase = (owTarget as Obj_AI_Base);
                 if (owTargetBase.IsCondemnable(ObjectManager.Player.ServerPosition))
                 {
-                    Variables.spells[SpellSlot.E].Cast(owTargetBase);
+                    Variables.spells[SpellSlot.E].CastOnUnit(owTargetBase);
                 }
             }
         }
