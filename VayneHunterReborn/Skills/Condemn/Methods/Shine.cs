@@ -2,6 +2,7 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using SPrediction;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.Helpers;
 using VayneHunter_Reborn.Utility.MenuUtility;
@@ -15,7 +16,7 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
             foreach (var target in HeroManager.Enemies.Where(h => h.IsValidTarget(Variables.spells[SpellSlot.E].Range)))
             {
                 var pushDistance = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.pushdistance").Value;
-                var targetPosition = Variables.spells[SpellSlot.E].GetPrediction(target).UnitPosition;
+                var targetPosition = Variables.spells[SpellSlot.E].GetSPrediction(target).UnitPosition.To3D();
                 var pushDirection = (targetPosition - ObjectManager.Player.ServerPosition).Normalized();
                 float checkDistance = pushDistance / 40f;
                 for (int i = 0; i < 40; i++)
