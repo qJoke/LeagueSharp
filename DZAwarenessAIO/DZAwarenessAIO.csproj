@@ -77,6 +77,7 @@
     <Compile Include="Modules\ModuleBase.cs" />
     <Compile Include="Modules\Ping\PingTrackerBase.cs" />
     <Compile Include="Modules\Ranges\RangesBase.cs" />
+    <Compile Include="Modules\RecallTracker\RecallTrackerBase.cs" />
     <Compile Include="Modules\SSTracker\SSTrackerBase.cs" />
     <Compile Include="Modules\SSTracker\SSTrackerModule.cs" />
     <Compile Include="Modules\TFHelper\TFHelperBase.cs" />

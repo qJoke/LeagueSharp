@@ -138,10 +138,16 @@ namespace DZAwarenessAIO.Modules.WardTracker
                 }
             foreach (var ward in WardTrackerVariables.detectedWards)
             {
+                if (Environment.TickCount > ward.startTick + ward.WardTypeW.WardDuration)
+                {
+                    continue;
+                }
+
                 if (closeWard != null && ward.Position.Distance(closeWard.Position) < float.Epsilon && MenuExtensions.GetItemValue<KeyBind>("dz191.dza.ward.extrainfo").Active)
                 {
                     continue;
                 }
+
                 var position = ward.Position;
 
                 switch (MenuExtensions.GetItemValue<StringList>("dz191.dza.ward.type").SelectedIndex)
