@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using DZOrianna.Utility;
@@ -39,7 +40,7 @@ namespace DZOrianna
                     OnMixed();
                     break;
                 case Orbwalking.OrbwalkingMode.LaneClear:
-
+                    OnFarm();
                     break;
             }
         }
@@ -285,7 +286,26 @@ namespace DZOrianna
                 }
             }
         }
-
+        private static void OnFarm()
+        {
+            var minions = MinionManager.GetMinions(Variables.spells[SpellSlot.Q].Range, MinionTypes.All);
+            var farmLocation = Variables.spells[SpellSlot.W].GetCircularFarmLocation(minions);
+            if (farmLocation.MinionsHit > 2)
+            {
+                Variables.BallManager.ProcessCommandList(new List<Command>()
+                {
+                    new Command()
+                    {
+                        SpellCommand = Commands.Q,
+                        Where = farmLocation.Position.To3D()
+                    },
+                    new Command()
+                    {
+                        SpellCommand = Commands.W,
+                    }
+                });
+            }
+        }
         private static void OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
         {
             if (Helper.GetItemValue<bool>("dz191.orianna.misc.r.block") && sender.Owner.IsMe && args.Slot == SpellSlot.R)
