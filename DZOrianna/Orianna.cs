@@ -184,33 +184,9 @@ namespace DZOrianna
                     Variables.spells[SpellSlot.E].Cast(ObjectManager.Player);
                     return;
                 }
-                /**
-                var lhAllies =
-                    HeroManager.Allies.Where(
-                        m =>
-                            m.HealthPercent < Helper.GetItemValue<Slider>("dz191.orianna.misc.e.percent").Value &&
-                            Helper.GetItemValue<bool>($"dz191.orianna.misc.e.shield.{m.ChampionName}") &&
-                            m.CountEnemiesInRange(425f) > 1).ToList();
 
-                if (lhAllies.Any())
-                {
-                    Variables.spells[SpellSlot.E].Cast(lhAllies.OrderBy(m => m.Health).FirstOrDefault());
-                    return;
-                }
-
-                if (Helper.GetItemValue<bool>("dz191.orianna.misc.e.damage"))
-                {
-                    foreach (var ally in HeroManager.Allies.Where(ally => ally.IsValidTarget(Variables.spells[SpellSlot.E].Range, false)))
-                    {
-                        var eHits = Helper.getEHits(ally.ServerPosition);
-                        if (eHits.Count() > 2)
-                        {
-                            Variables.spells[SpellSlot.E].Cast(ally);
-                            return;
-                        }
-                    }
-                }
-                */
+              //TODO Ally Shielding Logic.
+                
             }
 
 
