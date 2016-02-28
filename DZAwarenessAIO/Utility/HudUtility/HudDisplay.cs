@@ -60,7 +60,6 @@ namespace DZAwarenessAIO.Utility.HudUtility
             }
 
             InitSprites();
-
             Game.OnWndProc += OnWndProc;
         }
 
@@ -192,6 +191,7 @@ namespace DZAwarenessAIO.Utility.HudUtility
                     PositionUpdate = () => HudVariables.CurrentPosition,
                     VisibleCondition = delegate { return HudVariables.ShouldBeVisible; },
                 };
+
                 HudVariables.HudSprite.Crop(0, 0, (int)HudVariables.SpriteWidth, HudVariables.CroppedHeight);
 
                 HudVariables.ExpandShrinkButton = new Render.Sprite(Resources.Expand, HudVariables.CurrentPosition)

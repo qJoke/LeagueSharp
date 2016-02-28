@@ -228,10 +228,12 @@ namespace DZAwarenessAIO.Modules.Tracker
                 try
                 {
                     var player_Ex = player;
+
                     var Summoner1Bitmap =
-                        TrackerVariables.summonerSpells[player_Ex.Spellbook.GetSpell(SpellSlot.Summoner1).Name];
+                        TrackerVariables.summonerSpells[player_Ex.Spellbook.GetSpell(SpellSlot.Summoner1).Name.ToLower()];
                     var Summoner2Bitmap =
-                        TrackerVariables.summonerSpells[player_Ex.Spellbook.GetSpell(SpellSlot.Summoner2).Name];
+                        TrackerVariables.summonerSpells[player_Ex.Spellbook.GetSpell(SpellSlot.Summoner2).Name.ToLower()];
+
                     Render.Sprite SummonerSpell1 = new Render.Sprite(Resources.empty, new Vector2());
                     Render.Sprite SummonerSpell2 = new Render.Sprite(Resources.empty, new Vector2());
                     var member = new TrackerWrapper();
@@ -246,7 +248,15 @@ namespace DZAwarenessAIO.Modules.Tracker
                         Scale = new Vector2(1.0f, 1.0f)
                     };
 
-                    Hudsprite.Add(0);
+                    try
+                    {
+                        Hudsprite.Add(0);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                    
 
                     #region Summoner Spells
                     if (Summoner1Bitmap != null)
