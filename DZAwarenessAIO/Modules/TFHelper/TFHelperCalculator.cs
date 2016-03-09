@@ -62,7 +62,9 @@ namespace DZAwarenessAIO.Modules.TFHelper
                 return "No enemy around";
             }
 
-            return !ObjectManager.Player.IsDead ? string.Format("{0}v{1}: {2} will win", TFHelperVariables.AlliesClose.Count(), TFHelperVariables.EnemiesClose.Count(), GetAllyStrength() > GetEnemyStrength() ? "Ally" : "Enemy") : string.Format("You kinda suck!");
+            return !ObjectManager.Player.IsDead ?
+                $"{TFHelperVariables.AlliesClose.Count()}v{TFHelperVariables.EnemiesClose.Count()}: {(GetAllyStrength() > GetEnemyStrength() ? "Ally" : "Enemy")} will win"
+                : string.Format("You kinda suck!");
         }
 
         /// <summary>
@@ -78,11 +80,18 @@ namespace DZAwarenessAIO.Modules.TFHelper
             {
                 return -1;
             }
-            var AADamage = Enemies.Aggregate(0, (current, s) => (int) (current + player.GetAutoAttackDamage(s)));
-            var QDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.Q).IsReady() ? player.GetSpellDamage(s, SpellSlot.Q) : 0)));
-            var WDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.W).IsReady() ? player.GetSpellDamage(s, SpellSlot.W) : 0)));
-            var EDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.E).IsReady() ? player.GetSpellDamage(s, SpellSlot.E) : 0)));
-            var RDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.R).IsReady() ? player.GetSpellDamage(s, SpellSlot.R) : 0)));
+            var AADamage = Enemies.Aggregate(0, (current, s) => (int) (current + player.GetAutoAttackDamage(s) * 2));
+            var QDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.Q).IsReady() ? player.GetSpellDamage(s, SpellSlot.Q) : 0f)));
+            var WDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.W).IsReady() ? player.GetSpellDamage(s, SpellSlot.W) : 0f)));
+            var EDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.E).IsReady() ? player.GetSpellDamage(s, SpellSlot.E) : 0f)));
+            var RDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.R).IsReady() ? player.GetSpellDamage(s, SpellSlot.R) : 0f)));
+            
+            var itemsDamage = 0;
+
+            foreach (var item in ObjectManager.Player.InventoryItems)
+            {
+                var itemSlot = item.Slot;
+            }
 
             var totalDamage = AADamage + QDamage + WDamage + EDamage + RDamage;
 
