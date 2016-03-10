@@ -86,14 +86,49 @@ namespace DZAwarenessAIO.Modules.TFHelper
             var EDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.E).IsReady() ? player.GetSpellDamage(s, SpellSlot.E) : 0f)));
             var RDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.R).IsReady() ? player.GetSpellDamage(s, SpellSlot.R) : 0f)));
             
-            var itemsDamage = 0;
+            var itemsDamage = 0f;
 
             foreach (var item in ObjectManager.Player.InventoryItems)
             {
-                var itemSlot = item.Slot;
+                foreach (var hero in Enemies)
+                {
+                    var itemID = item.Id;
+                    switch (itemID)
+                    {
+                        case ItemId.Bilgewater_Cutlass:
+                            itemsDamage +=
+                                (float) ObjectManager.Player.GetItemDamage(hero, Damage.DamageItems.Bilgewater);
+                            break;
+                        case ItemId.Blade_of_the_Ruined_King:
+                            itemsDamage += (float) ObjectManager.Player.GetItemDamage(hero, Damage.DamageItems.Botrk);
+                            break;
+                        case ItemId.Hextech_Gunblade:
+                            itemsDamage += (float) ObjectManager.Player.GetItemDamage(hero, Damage.DamageItems.Hexgun);
+                            break;
+                        case ItemId.Frost_Queens_Claim:
+                            itemsDamage +=
+                                (float) ObjectManager.Player.GetItemDamage(hero, Damage.DamageItems.FrostQueenClaim);
+                            break;
+                        case ItemId.Tiamat_Melee_Only:
+                            itemsDamage += ObjectManager.Player.IsMelee
+                                ? (float) ObjectManager.Player.GetItemDamage(hero, Damage.DamageItems.Tiamat)
+                                : 0f;
+                            break;
+                        case ItemId.Ravenous_Hydra_Melee_Only:
+                            itemsDamage += ObjectManager.Player.IsMelee
+                                ? (float) ObjectManager.Player.GetItemDamage(hero, Damage.DamageItems.Hydra)
+                                : 0f;
+                            break;
+                        case ItemId.Liandrys_Torment:
+                            itemsDamage +=
+                                (float) ObjectManager.Player.GetItemDamage(hero, Damage.DamageItems.LiandrysTorment);
+                            break;
+                    }
+                }
+                
             }
 
-            var totalDamage = AADamage + QDamage + WDamage + EDamage + RDamage;
+            var totalDamage = AADamage + QDamage + WDamage + EDamage + RDamage + itemsDamage;
 
             return (float) totalDamage / totalEnemies;
         }
