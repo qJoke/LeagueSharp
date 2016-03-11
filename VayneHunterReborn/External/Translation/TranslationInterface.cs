@@ -26,8 +26,7 @@ namespace VayneHunter_Reborn.External.Translation
                         if (args.GetNewValue<bool>())
                         {
                             ChangeLanguage(Variables.Menu.Item("dz191.vhr.translations.language").GetValue<StringList>().SelectedValue);
-                            LeagueSharp.Common.Utility.DelayAction.Add(Game.Ping, () =>
-                            { Variables.Menu.Item("dz191.vhr.translations.select").SetValue(false); });
+                            TranslationsMenu.Item("dz191.vhr.translations.select").SetValue(false);
                         } 
                     };
                 RootMenu.AddSubMenu(TranslationsMenu);
