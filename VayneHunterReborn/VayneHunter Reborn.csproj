@@ -70,7 +70,6 @@
     <Compile Include="External\Activator\ActivatorSpells\Heal.cs" />
     <Compile Include="External\Activator\ActivatorSpells\Ignite.cs" />
     <Compile Include="External\Activator\ActivatorSpells\IVHRSpell.cs" />
-    <Compile Include="External\Activator\ActivatorSpells\Smite.cs" />
     <Compile Include="External\Activator\Items\IVHRItem.cs" />
     <Compile Include="External\Activator\Items\_BOTRK.cs" />
     <Compile Include="External\Activator\Items\_Cutlass.cs" />
