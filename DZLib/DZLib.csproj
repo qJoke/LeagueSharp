@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Core\DZAntigapcloser.cs" />
     <Compile Include="Core\DZInterrupter.cs" />
+    <Compile Include="External\EvadeManager.cs" />
     <Compile Include="Logging\LogEnum.cs" />
     <Compile Include="Logging\LogHelper.cs" />
     <Compile Include="Logging\LogItem.cs" />
