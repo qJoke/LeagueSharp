@@ -63,6 +63,9 @@
     <Compile Include="Logging\LogItem.cs" />
     <Compile Include="Logging\LogVariables.cs" />
     <Compile Include="Menu\MenuExtensions.cs" />
+    <Compile Include="Modules\IModule.cs" />
+    <Compile Include="Modules\ModuleEnum.cs" />
+    <Compile Include="Modules\ModuleHelper.cs" />
     <Compile Include="Positioning\PositioningHelper.cs" />
     <Compile Include="Positioning\SafePosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DZLib.Hero;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -40,8 +38,24 @@ namespace DZLib.Positioning
             }
 
             var normalCheck = (allies + 1 > enemies - lhEnemies);
+            var PositionEnemiesCheck = true;
 
-            return normalCheck;
+            var Vector2Position = position.To2D();
+            var enemyPoints = PositioningHelper.GetEnemyZoneList(false);
+            if (enemyPoints.Contains(Vector2Position))
+            {
+                PositionEnemiesCheck = false;
+            }
+            var closeEnemies = PositioningHelper.EnemiesClose;
+
+            if (!closeEnemies.All(
+                    enemy =>
+                        position.CountEnemiesInRange(enemy.AttackRange) <= 1))
+            {
+                PositionEnemiesCheck = false;
+            }
+
+            return normalCheck && PositionEnemiesCheck;
         }
     }
 }
