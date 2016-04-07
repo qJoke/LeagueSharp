@@ -54,6 +54,15 @@
   <ItemGroup>
     <Compile Include="Core\DZAntigapcloser.cs" />
     <Compile Include="Core\DZInterrupter.cs" />
+    <Compile Include="EvadeIntegration\Collision.cs" />
+    <Compile Include="EvadeIntegration\EvadeHelper.cs" />
+    <Compile Include="EvadeIntegration\EvadeSpellData.cs" />
+    <Compile Include="EvadeIntegration\EvadeSpellDatabase.cs" />
+    <Compile Include="EvadeIntegration\Geometry.cs" />
+    <Compile Include="EvadeIntegration\Skillshot.cs" />
+    <Compile Include="EvadeIntegration\SkillshotDetector.cs" />
+    <Compile Include="EvadeIntegration\SpellData.cs" />
+    <Compile Include="EvadeIntegration\SpellDatabase.cs" />
     <Compile Include="External\EvadeManager.cs" />
     <Compile Include="Geometry\DZGeometry.cs" />
     <Compile Include="Geometry\DZPolygon.cs" />
@@ -65,7 +74,6 @@
     <Compile Include="Menu\MenuExtensions.cs" />
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="Modules\ModuleEnum.cs" />
-    <Compile Include="Modules\ModuleHelper.cs" />
     <Compile Include="Positioning\PositioningHelper.cs" />
     <Compile Include="Positioning\SafePosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

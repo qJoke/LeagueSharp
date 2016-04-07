@@ -19,17 +19,15 @@ namespace DZLib.Logging
         /// <value>
         /// The log path.
         /// </value>
-        private static String LogPath
-        {
-            get { return Path.Combine(LogVariables.WorkingDir, string.Format("[{0}] Log - {1} - {2}.txt", LogVariables.AssemblyName, Game.Id, DateTime.Now.ToString("dd_MM_yyyy"))); }
-        }
+        private static String LogPath => Path.Combine(LogVariables.WorkingDir,
+            $"[{LogVariables.AssemblyName}] Log - {Game.Id} - {DateTime.Now.ToString("dd_MM_yyyy")}.txt");
 
         /// <summary>
         /// Called when the LogHelper is loaded
         /// </summary>
         public static void OnLoad()
         {
-            Console.WriteLine(@"[{0}] >>> Logger loaded successfully!", LogVariables.AssemblyName);
+            Console.WriteLine(@"[{0}] >>> DZLib Logger loaded successfully!", LogVariables.AssemblyName);
         }
 
         /// <summary>
@@ -94,7 +92,7 @@ namespace DZLib.Logging
             }
             catch
             {
-                Console.WriteLine(@"[DZAwareness] >>> Exception: Cannot Write To Logs File.");
+                Console.WriteLine(@"[DZLib] >>> Exception: Cannot Write To Logs File.");
             }
         }
 
@@ -110,7 +108,7 @@ namespace DZLib.Logging
             }
             catch
             {
-                Console.WriteLine(@"[DZAwareness] >>> Exception: Cannot Write To Logs File.");
+                Console.WriteLine(@"[DZLib] >>> Exception: Cannot Write To Logs File.");
             }
         }
     }

@@ -2,6 +2,6 @@
 {
     enum ModuleType
     {
-        OnUpdate, OnAfterAA, Other
+        OnUpdate, OnAfterAA, Other, Disabled
     }
 }

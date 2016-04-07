@@ -43,7 +43,7 @@ namespace DZLib.Logging
         /// <returns></returns>
         public string GetLoggingString()
         {
-            return string.Format("\r\n[{3} | From Module: {0} | Severity: {1}] {2}\r\n",
+            return string.Format("\r\n[{3} | From: {0} | Severity: {1}] {2}\r\n",
                 Module,
                 Severity,
                 LogException,
