@@ -1,7 +1,7 @@
 ﻿using System;
 using LeagueSharp.Common;
 
-namespace DZLib.Menu
+namespace DZLib.MenuExtensions
 {
     public static class MenuExtensions
     {

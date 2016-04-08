@@ -1,4 +1,5 @@
 ﻿using LeagueSharp.Common;
+using Menu = LeagueSharp.Common.Menu;
 
 namespace DZLib.External
 {
