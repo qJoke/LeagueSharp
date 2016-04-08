@@ -632,9 +632,9 @@ namespace DZLib.Core
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
         }
 
-        public static void BuildMenu(Menu mainMenu, string title, string name)
+        public static void BuildMenu(LeagueSharp.Common.Menu mainMenu, string title, string name)
         {
-            var GPMenu = new Menu(title, name);
+            var GPMenu = new LeagueSharp.Common.Menu(title, name);
             {
                 var enemyHeroesNames = ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsEnemy).Select(hero => hero.ChampionName).ToList();
 
@@ -645,7 +645,7 @@ namespace DZLib.Core
                         continue;
                     }
 
-                    var ChampMenu = new Menu(champ, $"{name}.{champ.ToLowerInvariant()}");
+                    var ChampMenu = new LeagueSharp.Common.Menu(champ, $"{name}.{champ.ToLowerInvariant()}");
                     GPMenu.AddSubMenu(ChampMenu);
                 }
 
