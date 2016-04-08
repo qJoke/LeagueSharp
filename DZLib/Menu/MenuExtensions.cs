@@ -1,9 +1,9 @@
 ﻿using System;
 using LeagueSharp.Common;
 
-namespace DZLib.Logging
+namespace DZLib.Menu
 {
-    static class MenuExtensions
+    public static class MenuExtensions
     {
         /// <summary>
         /// Adds a bool to the menu.
