@@ -14,7 +14,7 @@ namespace iDZEzreal
 
         public static Orbwalking.Orbwalker Orbwalker { get; set; }
 
-        public static readonly Dictionary<SpellSlot, Spell> spells = new Dictionary<SpellSlot, Spell>()
+        public static readonly Dictionary<SpellSlot, Spell> Spells = new Dictionary<SpellSlot, Spell>()
         {
             { SpellSlot.Q, new Spell(SpellSlot.Q) },
             { SpellSlot.W, new Spell(SpellSlot.W) },
