@@ -18,7 +18,7 @@ namespace iDZEzreal
                 return;
             }
 
-            Variables.Menu = new LeagueSharp.Common.Menu("iDZEzreal 3.0", "ezreal", true);
+            Variables.Menu = new Menu("iDZEzreal 3.0", "ezreal", true);
         }
     }
 }
