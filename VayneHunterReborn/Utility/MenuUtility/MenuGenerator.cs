@@ -124,6 +124,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.lowlifepeel", "Peel with E when low health").SetTooltip("Uses E on melee enemies if your health < 15%");
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.condemnflag", "Condemn to J4 flag", true).SetTooltip("Tries to make the assembly condemn on J4 Flags");
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.noeturret", "No E Under enemy turret").SetTooltip("Does not condemn if you are under their turret");
+                    miscEMenu.AddBool("dz191.vhr.misc.condemn.repelflash", "Use E on Enemy Flashes").SetTooltip("Uses E on enemy flashes that get too close.");
 
                     miscMenu.AddSubMenu(miscEMenu);
                 }

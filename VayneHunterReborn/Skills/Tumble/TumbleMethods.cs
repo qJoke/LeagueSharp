@@ -97,15 +97,39 @@ namespace VayneHunter_Reborn.Skills.Tumble
                 switch (MenuExtensions.GetItemValue<StringList>("dz191.vhr.misc.condemn.qlogic").SelectedIndex)
                 {
                     case 0:
+                        /**
                         var smartQPosition = TumblePositioning.GetSmartQPosition();
                         var smartQCheck =  smartQPosition != Vector3.Zero;
                         var QPosition = smartQCheck ? smartQPosition : Game.CursorPos;
                         var QPosition2 = Provider.GetQPosition() != Vector3.Zero ? Provider.GetQPosition() : QPosition;
+                        
+
+                        DefaultQCast
 
                         if (!QPosition2.UnderTurret(true) || (QPosition2.UnderTurret(true) && ObjectManager.Player.UnderTurret(true)))
                         {
                              CastQ(QPosition2);
                         }
+                         * */
+
+                        if (Variables.MeleeEnemiesTowardsMe.Any() &&
+                            !Variables.MeleeEnemiesTowardsMe.All(m => m.HealthPercent <= 15))
+                        {
+                            var Closest =
+                                Variables.MeleeEnemiesTowardsMe.OrderBy(m => m.Distance(ObjectManager.Player)).First();
+                            var whereToQ = Closest.ServerPosition.Extend(
+                                ObjectManager.Player.ServerPosition, Closest.Distance(ObjectManager.Player) + 300f);
+
+                            if (whereToQ.IsSafe())
+                            {
+                                CastQ(whereToQ);
+                            }
+                        }
+                        else
+                        {
+                            DefaultQCast(position, target);
+                        }
+
                         break;
                     case 1:
                         //To mouse
