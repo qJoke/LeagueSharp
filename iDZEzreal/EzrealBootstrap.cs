@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
 using Menu = LeagueSharp.Common.Menu;
+using iDZEzreal.MenuHelper;
 
 namespace iDZEzreal
 {
@@ -19,6 +20,8 @@ namespace iDZEzreal
             }
 
             Variables.Menu = new Menu("iDZEzreal 3.0", "ezreal", true);
+            MenuGenerator.Generate();
+            Ezreal.OnLoad();
         }
     }
 }
