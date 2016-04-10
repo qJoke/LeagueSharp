@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DZLib.Modules;
+using iDZEzreal.Modules;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -20,5 +22,10 @@ namespace iDZEzreal
 
         public static Menu Menu { get; set; }
         public static Orbwalking.Orbwalker Orbwalker { get; set; }
+
+        public static readonly List<IModule> Modules = new List<IModule>
+        {
+            new AutoQModule()
+        }; 
     }
 }

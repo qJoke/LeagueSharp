@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DZLib.Modules;
 using LeagueSharp;
 using LeagueSharp.Common;
 using iDZEzreal.MenuHelper;
@@ -12,6 +13,7 @@ namespace iDZEzreal
         {
             Console.WriteLine("Loaded Ezreal");
             LoadSpells();
+            LoadModules();
             LoadEvents();
         }
 
@@ -47,6 +49,13 @@ namespace iDZEzreal
         private static void OnUpdateFunctions()
         {
             //TODO AutoHarass
+            foreach (
+                var module in
+                    Variables.Modules.Where(
+                        module => module.ShouldGetExecuted() && module.GetModuleType() == ModuleType.OnUpdate))
+            {
+                module.OnExecute();
+            }
             foreach (var hero in
                 HeroManager.Enemies.Where(
                     x =>
@@ -55,6 +64,22 @@ namespace iDZEzreal
                     .Where(hero => Variables.Spells[SpellSlot.Q].IsReady()))
             {
                 Variables.Spells[SpellSlot.Q].Cast(hero);
+            }
+        }
+
+        private static void LoadModules()
+        {
+            foreach (var module in Variables.Modules)
+            {
+                try
+                {
+                    module.OnLoad();
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Failed to load modules");
+                    throw;
+                }
             }
         }
 
@@ -86,7 +111,7 @@ namespace iDZEzreal
                         target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
                 }
             }
-
+            //R
             if (Variables.Menu.Item("ezreal.combo.r").GetValue<bool>() && Variables.Spells[SpellSlot.R].IsReady())
             {
                 var target = TargetSelector.GetTarget(2500f, TargetSelector.DamageType.Physical);
@@ -111,12 +136,6 @@ namespace iDZEzreal
             }
         }
 
-        /// <summary>
-        ///     Sheen checking
-        /// </summary>
-        /// <returns>
-        ///     The <see cref="bool" />.
-        /// </returns>
         public static bool HasSheen()
         {
             return Variables.Menu.Item("ezreal.misc.sheen").GetValue<bool>() && ObjectManager.Player.HasBuff("sheen");
@@ -130,7 +149,7 @@ namespace iDZEzreal
         {
         }
 
-        private static bool CanExecuteTarget(Obj_AI_Hero target)
+        private static bool CanExecuteTarget(Obj_AI_Base target)
         {
             double damage = 1f;
 
