@@ -6,7 +6,7 @@ using LeagueSharp;
 
 namespace DZLib.Logging
 {
-    class LogHelper
+    public class LogHelper
     {
         /// <summary>
         /// The log items

@@ -4,6 +4,7 @@ using DZLib.Modules;
 using LeagueSharp;
 using LeagueSharp.Common;
 using iDZEzreal.MenuHelper;
+using SPrediction;
 
 namespace iDZEzreal
 {
@@ -56,15 +57,8 @@ namespace iDZEzreal
             {
                 module.OnExecute();
             }
-            foreach (var hero in
-                HeroManager.Enemies.Where(
-                    x =>
-                        x.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) &&
-                        Variables.Spells[SpellSlot.Q].GetDamage(x) > x.Health)
-                    .Where(hero => Variables.Spells[SpellSlot.Q].IsReady()))
-            {
-                Variables.Spells[SpellSlot.Q].Cast(hero);
-            }
+
+            
         }
 
         private static void LoadModules()
@@ -77,7 +71,7 @@ namespace iDZEzreal
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Failed to load modules");
+                    Console.WriteLine("Failed to load module {0}", module.GetName());
                     throw;
                 }
             }
@@ -91,26 +85,26 @@ namespace iDZEzreal
                 var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range,
                     TargetSelector.DamageType.Physical);
 
-                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) &&
-                    ObjectManager.Player.Distance(target) <= Variables.Spells[SpellSlot.Q].Range)
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
                 {
                     Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(target,
                         target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
                 }
             }
+
             //W
-            if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady())
+            if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady() && ObjectManager.Player.ManaPercent > 45)
             {
                 var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.W].Range,
                     TargetSelector.DamageType.Magical);
 
-                if (target.IsValidTarget(Variables.Spells[SpellSlot.W].Range) &&
-                    ObjectManager.Player.Distance(target) <= Variables.Spells[SpellSlot.W].Range)
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
                 {
-                    Variables.Spells[SpellSlot.W].CastIfHitchanceEquals(target,
+                    Variables.Spells[SpellSlot.W].SPredictionCast(target,
                         target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
                 }
             }
+
             //R
             if (Variables.Menu.Item("ezreal.combo.r").GetValue<bool>() && Variables.Spells[SpellSlot.R].IsReady())
             {
@@ -124,12 +118,12 @@ namespace iDZEzreal
                       ObjectManager.Player.GetAutoAttackDamage(target)*2 +
                       Variables.Spells[SpellSlot.Q].GetDamage(target)))
                 {
-                    Variables.Spells[SpellSlot.R].CastIfHitchanceEquals(
+                    Variables.Spells[SpellSlot.R].SPredictionCast(
                         target, target.IsMoving ? HitChance.VeryHigh : HitChance.High);
                 }
 
-                var rPrediction = Variables.Spells[SpellSlot.R].GetPrediction(target);
-                if (rPrediction.AoeTargetsHitCount >= Variables.Menu.Item("ezreal.combo.r.min").GetValue<Slider>().Value)
+                var rPrediction = Variables.Spells[SpellSlot.R].GetAoeSPrediction();
+                if (rPrediction.HitCount >= Variables.Menu.Item("ezreal.combo.r.min").GetValue<Slider>().Value)
                 {
                     Variables.Spells[SpellSlot.R].Cast(rPrediction.CastPosition);
                 }
