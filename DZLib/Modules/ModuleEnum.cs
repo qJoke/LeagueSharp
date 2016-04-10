@@ -1,6 +1,6 @@
 ﻿namespace DZLib.Modules
 {
-    enum ModuleType
+    public enum ModuleType
     {
         OnUpdate, OnAfterAA, Other, Disabled
     }

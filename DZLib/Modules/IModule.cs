@@ -1,6 +1,6 @@
 ﻿namespace DZLib.Modules
 {
-    interface IModule
+    public interface IModule
     {
         void OnLoad();
 
