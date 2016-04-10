@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using iDZEzreal.MenuHelper;
@@ -36,6 +37,24 @@ namespace iDZEzreal
                 case Orbwalking.OrbwalkingMode.Mixed:
                     OnMixed();
                     break;
+                case Orbwalking.OrbwalkingMode.LaneClear:
+                    OnLaneclear();
+                    break;
+            }
+            OnUpdateFunctions();
+        }
+
+        private static void OnUpdateFunctions()
+        {
+            //TODO AutoHarass
+            foreach (var hero in
+                HeroManager.Enemies.Where(
+                    x =>
+                        x.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) &&
+                        Variables.Spells[SpellSlot.Q].GetDamage(x) > x.Health)
+                    .Where(hero => Variables.Spells[SpellSlot.Q].IsReady()))
+            {
+                Variables.Spells[SpellSlot.Q].Cast(hero);
             }
         }
 
@@ -52,13 +71,84 @@ namespace iDZEzreal
                 {
                     Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(target,
                         target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
-                    Console.WriteLine("Rekt with Q");
+                }
+            }
+            //W
+            if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady())
+            {
+                var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.W].Range,
+                    TargetSelector.DamageType.Magical);
+
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.W].Range) &&
+                    ObjectManager.Player.Distance(target) <= Variables.Spells[SpellSlot.W].Range)
+                {
+                    Variables.Spells[SpellSlot.W].CastIfHitchanceEquals(target,
+                        target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
+                }
+            }
+
+            if (Variables.Menu.Item("ezreal.combo.r").GetValue<bool>() && Variables.Spells[SpellSlot.R].IsReady())
+            {
+                var target = TargetSelector.GetTarget(2500f, TargetSelector.DamageType.Physical);
+
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.R].Range)
+                    && CanExecuteTarget(target)
+                    && ObjectManager.Player.Distance(target) >= Orbwalking.GetRealAutoAttackRange(null)*0.80f
+                    &&
+                    !(target.Health + 5 <
+                      ObjectManager.Player.GetAutoAttackDamage(target)*2 +
+                      Variables.Spells[SpellSlot.Q].GetDamage(target)))
+                {
+                    Variables.Spells[SpellSlot.R].CastIfHitchanceEquals(
+                        target, target.IsMoving ? HitChance.VeryHigh : HitChance.High);
+                }
+
+                var rPrediction = Variables.Spells[SpellSlot.R].GetPrediction(target);
+                if (rPrediction.AoeTargetsHitCount >= Variables.Menu.Item("ezreal.combo.r.min").GetValue<Slider>().Value)
+                {
+                    Variables.Spells[SpellSlot.R].Cast(rPrediction.CastPosition);
                 }
             }
         }
 
+        /// <summary>
+        ///     Sheen checking
+        /// </summary>
+        /// <returns>
+        ///     The <see cref="bool" />.
+        /// </returns>
+        public static bool HasSheen()
+        {
+            return Variables.Menu.Item("ezreal.misc.sheen").GetValue<bool>() && ObjectManager.Player.HasBuff("sheen");
+        }
+
         private static void OnMixed()
         {
+        }
+
+        private static void OnLaneclear()
+        {
+        }
+
+        private static bool CanExecuteTarget(Obj_AI_Hero target)
+        {
+            double damage = 1f;
+
+            var prediction = Variables.Spells[SpellSlot.R].GetPrediction(target);
+            var count = prediction.CollisionObjects.Count;
+
+            damage += ObjectManager.Player.GetSpellDamage(target, SpellSlot.R);
+
+            if (count >= 7)
+            {
+                damage = damage*.3;
+            }
+            else if (count != 0)
+            {
+                damage = damage*(10 - count/10);
+            }
+
+            return damage > target.Health + 10;
         }
     }
 }

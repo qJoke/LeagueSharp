@@ -9,7 +9,7 @@ namespace iDZEzreal.MenuHelper
         public static void Generate()
         {
             var rootMenu = Variables.Menu;
-            var owMenu = new Menu("[Ez] Ow", "ezreal.orbwalker");
+            var owMenu = new Menu("[Ez] Orbwalker", "ezreal.orbwalker");
             {
                 Variables.Orbwalker = new Orbwalking.Orbwalker(owMenu);
                 rootMenu.AddSubMenu(owMenu);
@@ -41,6 +41,8 @@ namespace iDZEzreal.MenuHelper
             {
                 miscMenu.AddStringList("ezreal.misc.hitchance", "Hitchance",
                     new[] {"Low", "Medium", "High", "Very High"}, 3);
+                miscMenu.AddBool("ezreal.misc.useSheen", "Use Sheen", true);
+                miscMenu.AddBool("ezreal.misc.useMura", "Use Muramana", true);
                 rootMenu.AddSubMenu(miscMenu);
             }
 
