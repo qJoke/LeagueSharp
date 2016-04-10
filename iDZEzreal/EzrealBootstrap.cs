@@ -18,10 +18,8 @@ namespace iDZEzreal
             {
                 return;
             }
-
-            Variables.Menu = new Menu("iDZEzreal 3.0", "ezreal", true);
-            SPrediction.Prediction.Initialize(Variables.Menu);
             MenuGenerator.Generate();
+            SPrediction.Prediction.Initialize(Variables.Menu);
             Ezreal.OnLoad();
         }
     }

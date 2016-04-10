@@ -20,7 +20,8 @@ namespace iDZEzreal.Modules
 
         public bool ShouldGetExecuted()
         {
-            return Variables.Spells[SpellSlot.Q].IsReady();
+            return Variables.Spells[SpellSlot.Q].IsReady() &&
+                   Variables.Menu.Item("ezreal.modules." + GetName().ToLowerInvariant()).GetValue<bool>();
         }
 
         public ModuleType GetModuleType()
@@ -30,18 +31,15 @@ namespace iDZEzreal.Modules
 
         public void OnExecute()
         {
-            foreach (var hero in
-                HeroManager.Enemies.Where(
-                    x =>
-                        x.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) &&
-                        Variables.Spells[SpellSlot.Q].GetDamage(x) >= x.Health)
-                    .Where(hero => Variables.Spells[SpellSlot.Q].IsReady()))
+            foreach (var sPrediction in HeroManager.Enemies.Where(
+                x =>
+                    x.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) &&
+                    Variables.Spells[SpellSlot.Q].GetDamage(x) >= x.Health)
+                .Where(hero => Variables.Spells[SpellSlot.Q].IsReady())
+                .Select(hero => Variables.Spells[SpellSlot.Q].GetSPrediction(hero))
+                .Where(sPrediction => sPrediction.HitChance >= HitChance.Medium))
             {
-                var SPrediction = Variables.Spells[SpellSlot.Q].GetSPrediction(hero);
-                if (SPrediction.HitChance >= HitChance.Medium)
-                {
-                    Variables.Spells[SpellSlot.Q].Cast(SPrediction.CastPosition);
-                }
+                Variables.Spells[SpellSlot.Q].Cast(sPrediction.CastPosition);
             }
         }
 

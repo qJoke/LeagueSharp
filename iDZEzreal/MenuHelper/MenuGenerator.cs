@@ -8,6 +8,7 @@ namespace iDZEzreal.MenuHelper
     {
         public static void Generate()
         {
+            Variables.Menu = new Menu("iDZEzreal 3.0", "ezreal", true);
             var rootMenu = Variables.Menu;
             var owMenu = new Menu("[Ez] Orbwalker", "ezreal.orbwalker");
             {
