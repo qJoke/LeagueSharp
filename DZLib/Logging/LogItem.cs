@@ -4,7 +4,7 @@ using LeagueSharp;
 
 namespace DZLib.Logging
 {
-    class LogItem
+    public class LogItem
     {
         /// <summary>
         /// Gets or sets the severity.

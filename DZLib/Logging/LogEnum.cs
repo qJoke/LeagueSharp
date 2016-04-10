@@ -11,7 +11,7 @@ namespace DZLib.Logging
     /// The Log Severity enum
     /// </summary>
     [DefaultValue(Medium)]
-    enum LogSeverity
+    public enum LogSeverity
     {
         Warning, Error, Low, Medium, Severe
     }

@@ -7,7 +7,7 @@ using LeagueSharp.Common;
 
 namespace DZLib.Logging
 {
-    class LogVariables
+    public class LogVariables
     {
         public static string AssemblyName { get; set; } = "DZLib";
 

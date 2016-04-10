@@ -20,6 +20,7 @@ namespace iDZEzreal
             }
 
             Variables.Menu = new Menu("iDZEzreal 3.0", "ezreal", true);
+            SPrediction.Prediction.Initialize(Variables.Menu);
             MenuGenerator.Generate();
             Ezreal.OnLoad();
         }
