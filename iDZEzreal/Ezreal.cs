@@ -52,7 +52,7 @@ namespace iDZEzreal
             foreach (
                 var module in
                     Variables.Modules.Where(
-                        module => module.ShouldGetExecuted() && module.GetModuleType() == ModuleType.OnUpdate))
+                        module => module.ShouldGetExecuted() && module.GetModuleType() == ModuleType.OnUpdate && Variables.Menu.Item("ezreal.modules."+module.GetName()).GetValue<bool>()))
             {
                 module.OnExecute();
             }

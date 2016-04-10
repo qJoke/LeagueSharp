@@ -46,6 +46,15 @@ namespace iDZEzreal.MenuHelper
                 rootMenu.AddSubMenu(miscMenu);
             }
 
+            var moduleMenu = new Menu("[Ez] Modules", "ezreal.modules");
+            {
+                foreach (var module in Variables.Modules)
+                {
+                    moduleMenu.AddBool("ezreal.modules." + module.GetName().ToLowerInvariant(), "" + module.GetName());
+                }
+                rootMenu.AddSubMenu(moduleMenu);
+            }
+
             rootMenu.AddToMainMenu();
         }
 

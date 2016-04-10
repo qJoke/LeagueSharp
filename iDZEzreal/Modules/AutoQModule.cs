@@ -17,9 +17,15 @@ namespace iDZEzreal.Modules
             Console.WriteLine("Auto Q Module Loaded");
         }
 
+        public string GetName()
+        {
+            return "Auto Q Module";
+        }
+
         public bool ShouldGetExecuted()
         {
-            return Variables.Menu.Item("ezreal.modules.autoq").GetValue<bool>() && Variables.Spells[SpellSlot.Q].IsReady();
+            return true;
+            //return Variables.Menu.Item("ezreal.modules.autoq").GetValue<bool>() && Variables.Spells[SpellSlot.Q].IsReady();
         }
 
         public ModuleType GetModuleType()
