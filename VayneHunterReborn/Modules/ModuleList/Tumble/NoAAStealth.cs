@@ -18,10 +18,12 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
         {
             if (ShouldGetExecuted() && ObjectManager.Player.Buffs.Any(m => m.Name.ToLower() == "vaynetumblefade"))
             {
-                if (ObjectManager.Player.CountEnemiesInRange(1000f) <= 1)
+                if (ObjectManager.Player.CountEnemiesInRange(1100f) <= 1 
+                    || ObjectManager.Player.CountEnemiesInRange(1100f) < Variables.Menu.Item("dz191.vhr.misc.tumble.noaa.enemies").GetValue<Slider>().Value)
                 {
                     return;
                 }
+
 
                 args.Process = false;
             }
