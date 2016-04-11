@@ -38,7 +38,7 @@ namespace iDZEzreal
                     OnCombo();
                     break;
                 case Orbwalking.OrbwalkingMode.Mixed:
-                    OnMixed();
+                    OnMixed(); //itemfrozenfist
                     break;
                 case Orbwalking.OrbwalkingMode.LaneClear:
                     OnLaneclear();
@@ -49,11 +49,14 @@ namespace iDZEzreal
 
         private static void OnUpdateFunctions()
         {
-            //TODO AutoHarass
+            //TODO AutoHaras
             foreach (
                 var module in
                     Variables.Modules.Where(
-                        module => module.ShouldGetExecuted() && module.GetModuleType() == ModuleType.OnUpdate && Variables.Menu.Item("ezreal.modules."+module.GetName().ToLowerInvariant()).GetValue<bool>()))
+                        module =>
+                            module.ShouldGetExecuted() && module.GetModuleType() == ModuleType.OnUpdate &&
+                            Variables.Menu.Item("ezreal.modules." + module.GetName().ToLowerInvariant())
+                                .GetValue<bool>()))
             {
                 module.OnExecute();
             }
@@ -75,6 +78,11 @@ namespace iDZEzreal
             }
         }
 
+        private static bool HasGaunt()
+        {
+            return ObjectManager.Player.HasBuff("itemfrozenfist");
+        }
+
         private static void OnCombo()
         {
             //Q
@@ -85,20 +93,29 @@ namespace iDZEzreal
 
                 if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
                 {
+                    if (Variables.Menu.Item("ezreal.misc.gaunt").GetValue<bool>() && HasGaunt() && ObjectManager.Player.Distance(target) <= Orbwalking.GetRealAutoAttackRange(target))
+                    {
+                        return;
+                    }
                     Variables.Spells[SpellSlot.Q].SPredictionCast(target, MenuGenerator.GetHitchance());
                 }
             }
 
             //W
-            if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady() && ObjectManager.Player.ManaPercent > 45)
+            if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady() &&
+                ObjectManager.Player.ManaPercent > 45)
             {
                 var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.W].Range,
                     TargetSelector.DamageType.Magical);
 
                 if (target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
                 {
+                    if (Variables.Menu.Item("ezreal.misc.gaunt").GetValue<bool>() && HasGaunt() && ObjectManager.Player.Distance(target) <= Orbwalking.GetRealAutoAttackRange(target))
+                    {
+                       return;
+                    }
                     Variables.Spells[SpellSlot.W].SPredictionCast(target,
-                        target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
+                           target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
                 }
             }
 
@@ -134,6 +151,31 @@ namespace iDZEzreal
 
         private static void OnMixed()
         {
+            if (ObjectManager.Player.ManaPercent < Variables.Menu.Item("ezreal.mixed.mana").GetValue<Slider>().Value)
+                return;
+            if (Variables.Menu.Item("ezreal.mixed.q").GetValue<bool>() && Variables.Spells[SpellSlot.Q].IsReady())
+            {
+                var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range,
+                    TargetSelector.DamageType.Physical);
+
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
+                {
+                    Variables.Spells[SpellSlot.Q].SPredictionCast(target, MenuGenerator.GetHitchance());
+                }
+            }
+
+            if (Variables.Menu.Item("ezreal.mixed.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady() &&
+                ObjectManager.Player.ManaPercent > 45)
+            {
+                var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.W].Range,
+                    TargetSelector.DamageType.Magical);
+
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+                {
+                    Variables.Spells[SpellSlot.W].SPredictionCast(target,
+                        target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
+                }
+            }
         }
 
         private static void OnLaneclear()

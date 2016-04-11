@@ -14,7 +14,7 @@ namespace iDZEzreal
     {
         public static readonly Dictionary<SpellSlot, Spell> Spells = new Dictionary<SpellSlot, Spell>
         {
-            {SpellSlot.Q, new Spell(SpellSlot.Q, 1150)},
+            {SpellSlot.Q, new Spell(SpellSlot.Q, 1200)},
             {SpellSlot.W, new Spell(SpellSlot.W, 1000)},
             {SpellSlot.E, new Spell(SpellSlot.E, 475)},
             {SpellSlot.R, new Spell(SpellSlot.R, 3000f)}

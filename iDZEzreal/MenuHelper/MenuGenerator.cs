@@ -29,6 +29,7 @@ namespace iDZEzreal.MenuHelper
             {
                 mixedMenu.AddBool("ezreal.mixed.q", "Use Q", true);
                 mixedMenu.AddBool("ezreal.mixed.w", "Use W", true);
+                mixedMenu.AddSlider("ezreal.mixed.mana", "Min Mana", 45, 0, 100);
                 rootMenu.AddSubMenu(mixedMenu);
             }
 
@@ -44,6 +45,7 @@ namespace iDZEzreal.MenuHelper
                     new[] {"Low", "Medium", "High", "Very High"}, 3);
                 miscMenu.AddBool("ezreal.misc.useSheen", "Use Sheen", true);
                 miscMenu.AddBool("ezreal.misc.useMura", "Use Muramana", true);
+                miscMenu.AddBool("ezreal.misc.gaunt", "Weave Iceborn", true);
                 rootMenu.AddSubMenu(miscMenu);
             }
 
