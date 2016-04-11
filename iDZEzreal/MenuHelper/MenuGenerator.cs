@@ -8,6 +8,7 @@ namespace iDZEzreal.MenuHelper
     {
         public static void Generate()
         {
+            Variables.Menu = new Menu("iDZEzreal 3.0", "ezreal", true);
             var rootMenu = Variables.Menu;
             var owMenu = new Menu("[Ez] Orbwalker", "ezreal.orbwalker");
             {
@@ -44,6 +45,15 @@ namespace iDZEzreal.MenuHelper
                 miscMenu.AddBool("ezreal.misc.useSheen", "Use Sheen", true);
                 miscMenu.AddBool("ezreal.misc.useMura", "Use Muramana", true);
                 rootMenu.AddSubMenu(miscMenu);
+            }
+
+            var moduleMenu = new Menu("[Ez] Modules", "ezreal.modules");
+            {
+                foreach (var module in Variables.Modules)
+                {
+                    moduleMenu.AddBool("ezreal.modules." + module.GetName().ToLowerInvariant(), "" + module.GetName());
+                }
+                rootMenu.AddSubMenu(moduleMenu);
             }
 
             rootMenu.AddToMainMenu();

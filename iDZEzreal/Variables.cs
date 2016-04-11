@@ -25,7 +25,7 @@ namespace iDZEzreal
 
         public static readonly List<IModule> Modules = new List<IModule>
         {
-            new AutoQModule()
+            new AutoQModule(), new QKSModule()
         }; 
     }
 }

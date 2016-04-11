@@ -14,8 +14,8 @@ namespace iDZEzreal
         {
             Console.WriteLine("Loaded Ezreal");
             LoadSpells();
-            LoadModules();
             LoadEvents();
+            LoadModules();
         }
 
         private static void LoadSpells()
@@ -53,12 +53,10 @@ namespace iDZEzreal
             foreach (
                 var module in
                     Variables.Modules.Where(
-                        module => module.ShouldGetExecuted() && module.GetModuleType() == ModuleType.OnUpdate))
+                        module => module.ShouldGetExecuted() && module.GetModuleType() == ModuleType.OnUpdate && Variables.Menu.Item("ezreal.modules."+module.GetName().ToLowerInvariant()).GetValue<bool>()))
             {
                 module.OnExecute();
             }
-
-            
         }
 
         private static void LoadModules()
@@ -87,8 +85,7 @@ namespace iDZEzreal
 
                 if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
                 {
-                    Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(target,
-                        target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
+                    Variables.Spells[SpellSlot.Q].SPredictionCast(target, MenuGenerator.GetHitchance());
                 }
             }
 
