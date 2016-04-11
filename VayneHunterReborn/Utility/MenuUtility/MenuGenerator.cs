@@ -94,7 +94,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.qinrange", "Q For KS", true).SetTooltip("Uses Q to KS by Qing in range if you can kill with Q + AA"); //Done
                     miscQMenu.AddSlider(
                         "dz191.vhr.misc.tumble.noaa.enemies", "Min Enemies for No AA Stealth",
-                        new Tuple<int, int, int>(3, 1, 5));
+                        new Tuple<int, int, int>(3, 2, 5));
 
                     miscMenu.AddSubMenu(miscQMenu);
                 }
