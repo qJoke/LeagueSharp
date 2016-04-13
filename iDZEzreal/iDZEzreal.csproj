@@ -67,7 +67,7 @@
     <Compile Include="Ezreal.cs" />
     <Compile Include="EzrealBootstrap.cs" />
     <Compile Include="MenuHelper\MenuGenerator.cs" />
-    <Compile Include="Modules\AutoQModule.cs" />
+    <Compile Include="Modules\AutoHarassModule.cs" />
     <Compile Include="Modules\QKSModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

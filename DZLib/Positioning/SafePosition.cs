@@ -8,7 +8,7 @@ using SharpDX;
 
 namespace DZLib.Positioning
 {
-    static class SafePosition
+    public static class SafePosition
     {
         public static bool IsSafe(this Vector3 position, float range)
         {

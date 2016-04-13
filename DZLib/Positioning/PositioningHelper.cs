@@ -8,7 +8,7 @@ using SharpDX;
 
 namespace DZLib.Positioning
 {
-    class PositioningHelper
+    public class PositioningHelper
     {
         public static IEnumerable<Obj_AI_Hero> EnemiesClose
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DZLib.Core;
 using DZLib.Modules;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -29,12 +30,28 @@ namespace iDZEzreal
         {
             Game.OnUpdate += OnUpdate;
             Orbwalking.AfterAttack += OrbwalkingOnAfterAttack;
+            DZAntigapcloser.OnEnemyGapcloser += OnEnemyGapcloser;
+        }
+
+        private static void OnEnemyGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
+        {
+            if (gapcloser.Sender.IsEnemy && gapcloser.End.Distance(ObjectManager.Player.ServerPosition) < 350)
+            {
+                var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
+                    Game.CursorPos, Variables.Spells[SpellSlot.E].Range);
+                if (extendedPosition.IsSafe() && extendedPosition.CountAlliesInRange(650f) > 0)
+                {
+                    Variables.Spells[SpellSlot.E].Cast(extendedPosition);
+                }
+            }
         }
 
         private static void OrbwalkingOnAfterAttack(AttackableUnit unit, AttackableUnit target1)
         {
-            if (!unit.IsMe || target1.Type != GameObjectType.obj_AI_Hero)
+            if (!unit.IsMe || !(target1 is Obj_AI_Hero))
+            {
                 return;
+            }
 
             var target = target1 as Obj_AI_Hero;
             switch (Variables.Orbwalker.ActiveMode)
@@ -44,7 +61,7 @@ namespace iDZEzreal
                         Variables.Spells[SpellSlot.Q].IsReady() &&
                         target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
                     {
-                        Variables.Spells[SpellSlot.Q].Cast(target);
+                        Variables.Spells[SpellSlot.Q].SPredictionCast(target, HitChance.High);
                     }
                     break;
             }

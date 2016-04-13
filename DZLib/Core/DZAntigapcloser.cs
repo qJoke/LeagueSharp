@@ -42,6 +42,8 @@ namespace DZLib.Core
     {
         public static List<Gapcloser> Spells = new List<Gapcloser>();
         public static List<ActiveGapcloser> ActiveGapclosers = new List<ActiveGapcloser>();
+        private static Menu GapMenu;
+        private static string GPMenuName;
 
         static DZAntigapcloser()
         {
@@ -659,6 +661,8 @@ namespace DZLib.Core
                 }
 
             }
+            GapMenu = GPMenu;
+            GPMenuName = name;
 
             mainMenu.AddSubMenu(GPMenu);
         }
@@ -682,7 +686,13 @@ namespace DZLib.Core
                                 (gapcloser.SkillType == GapcloserType.Skillshot &&
                                  ObjectManager.Player.Distance(gapcloser.Sender, true) < 250000))) // 500 * 500
             {
-                OnEnemyGapcloser(gapcloser);
+                if (
+                    GapMenu.Item(
+                        $"{GPMenuName}.{gapcloser.Sender.ChampionName.ToLowerInvariant()}.{gapcloser.SpellName}")
+                        .GetValue<bool>())
+                {
+                      OnEnemyGapcloser(gapcloser);
+                }
             }
         }
 
