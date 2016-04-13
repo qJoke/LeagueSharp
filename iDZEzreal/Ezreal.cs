@@ -28,6 +28,26 @@ namespace iDZEzreal
         private static void LoadEvents()
         {
             Game.OnUpdate += OnUpdate;
+            Orbwalking.AfterAttack += OrbwalkingOnAfterAttack;
+        }
+
+        private static void OrbwalkingOnAfterAttack(AttackableUnit unit, AttackableUnit target1)
+        {
+            if (!unit.IsMe || target1.Type != GameObjectType.obj_AI_Hero)
+                return;
+
+            var target = target1 as Obj_AI_Hero;
+            switch (Variables.Orbwalker.ActiveMode)
+            {
+                case Orbwalking.OrbwalkingMode.Combo:
+                    if (Variables.Menu.Item("ezreal.combo.q").GetValue<bool>() &&
+                        Variables.Spells[SpellSlot.Q].IsReady() &&
+                        target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
+                    {
+                        Variables.Spells[SpellSlot.Q].Cast(target);
+                    }
+                    break;
+            }
         }
 
         private static void OnUpdate(EventArgs args)
@@ -38,7 +58,7 @@ namespace iDZEzreal
                     OnCombo();
                     break;
                 case Orbwalking.OrbwalkingMode.Mixed:
-                    OnMixed(); //itemfrozenfist
+                    OnMixed();
                     break;
                 case Orbwalking.OrbwalkingMode.LaneClear:
                     OnLaneclear();
@@ -78,11 +98,6 @@ namespace iDZEzreal
             }
         }
 
-        private static bool HasGaunt()
-        {
-            return ObjectManager.Player.HasBuff("itemfrozenfist");
-        }
-
         private static void OnCombo()
         {
             //Q
@@ -93,29 +108,19 @@ namespace iDZEzreal
 
                 if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
                 {
-                    if (Variables.Menu.Item("ezreal.misc.gaunt").GetValue<bool>() && HasGaunt() && ObjectManager.Player.Distance(target) <= Orbwalking.GetRealAutoAttackRange(target))
-                    {
-                        return;
-                    }
                     Variables.Spells[SpellSlot.Q].SPredictionCast(target, MenuGenerator.GetHitchance());
                 }
             }
 
             //W
-            if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady() &&
-                ObjectManager.Player.ManaPercent > 45)
+            if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady())
             {
                 var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.W].Range,
                     TargetSelector.DamageType.Magical);
 
                 if (target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
                 {
-                    if (Variables.Menu.Item("ezreal.misc.gaunt").GetValue<bool>() && HasGaunt() && ObjectManager.Player.Distance(target) <= Orbwalking.GetRealAutoAttackRange(target))
-                    {
-                       return;
-                    }
-                    Variables.Spells[SpellSlot.W].SPredictionCast(target,
-                           target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
+                    Variables.Spells[SpellSlot.W].SPredictionCast(target, MenuGenerator.GetHitchance());
                 }
             }
 
@@ -142,11 +147,6 @@ namespace iDZEzreal
                     Variables.Spells[SpellSlot.R].Cast(rPrediction.CastPosition);
                 }
             }
-        }
-
-        public static bool HasSheen()
-        {
-            return Variables.Menu.Item("ezreal.misc.sheen").GetValue<bool>() && ObjectManager.Player.HasBuff("sheen");
         }
 
         private static void OnMixed()

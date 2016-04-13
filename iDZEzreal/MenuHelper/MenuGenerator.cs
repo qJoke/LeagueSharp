@@ -1,4 +1,5 @@
-﻿using DZLib;
+﻿using System;
+using DZLib;
 using DZLib.MenuExtensions;
 using LeagueSharp.Common;
 
@@ -43,9 +44,6 @@ namespace iDZEzreal.MenuHelper
             {
                 miscMenu.AddStringList("ezreal.misc.hitchance", "Hitchance",
                     new[] {"Low", "Medium", "High", "Very High"}, 3);
-                miscMenu.AddBool("ezreal.misc.useSheen", "Use Sheen", true);
-                miscMenu.AddBool("ezreal.misc.useMura", "Use Muramana", true);
-                miscMenu.AddBool("ezreal.misc.gaunt", "Weave Iceborn", true);
                 rootMenu.AddSubMenu(miscMenu);
             }
 
@@ -76,6 +74,5 @@ namespace iDZEzreal.MenuHelper
             }
             return HitChance.High;
         }
-
     }
 }
