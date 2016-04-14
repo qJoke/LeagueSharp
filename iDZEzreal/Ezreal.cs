@@ -36,14 +36,20 @@ namespace iDZEzreal
 
         private static void OnEnemyGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
         {
-            if (gapcloser.Sender.IsEnemy && gapcloser.End.Distance(ObjectManager.Player.ServerPosition) < 350)
+            if (!Variables.Menu.Item("ezreal.misc.gapcloser").GetValue<bool>())
             {
-                var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
-                    Game.CursorPos, Variables.Spells[SpellSlot.E].Range);
-                if (extendedPosition.IsSafe(Variables.Spells[SpellSlot.E].Range) && extendedPosition.CountAlliesInRange(650f) > 0)
-                {
-                    Variables.Spells[SpellSlot.E].Cast(extendedPosition);
-                }
+                return;
+            }
+
+            if (!gapcloser.Sender.IsEnemy || !(gapcloser.End.Distance(ObjectManager.Player.ServerPosition) < 350))
+                return;
+
+            var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
+                Game.CursorPos, Variables.Spells[SpellSlot.E].Range);
+            if (extendedPosition.IsSafe(Variables.Spells[SpellSlot.E].Range) &&
+                extendedPosition.CountAlliesInRange(650f) > 0)
+            {
+                Variables.Spells[SpellSlot.E].Cast(extendedPosition);
             }
         }
 
@@ -54,7 +60,7 @@ namespace iDZEzreal
                 return;
             }
 
-            var target = target1 as Obj_AI_Hero;
+            var target = (Obj_AI_Hero) target1;
             switch (Variables.Orbwalker.ActiveMode)
             {
                 case Orbwalking.OrbwalkingMode.Combo:
@@ -63,6 +69,26 @@ namespace iDZEzreal
                         target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
                     {
                         Variables.Spells[SpellSlot.Q].SPredictionCast(target, HitChance.High);
+                    }
+                    if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() &&
+                        Variables.Spells[SpellSlot.W].IsReady() &&
+                        target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+                    {
+                        Variables.Spells[SpellSlot.W].SPredictionCast(target, HitChance.High);
+                    }
+                    break;
+                case Orbwalking.OrbwalkingMode.Mixed:
+                    if (Variables.Menu.Item("ezreal.mixed.q").GetValue<bool>() &&
+                        Variables.Spells[SpellSlot.Q].IsReady() &&
+                        target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
+                    {
+                        Variables.Spells[SpellSlot.Q].SPredictionCast(target, HitChance.High);
+                    }
+                    if (Variables.Menu.Item("ezreal.mixed.w").GetValue<bool>() &&
+                        Variables.Spells[SpellSlot.W].IsReady() &&
+                        target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+                    {
+                        Variables.Spells[SpellSlot.W].SPredictionCast(target, HitChance.High);
                     }
                     break;
             }
@@ -79,7 +105,7 @@ namespace iDZEzreal
                     OnMixed();
                     break;
                 case Orbwalking.OrbwalkingMode.LaneClear:
-                    OnLaneclear();
+                    OnFarm();
                     break;
             }
             OnUpdateFunctions();
@@ -196,8 +222,50 @@ namespace iDZEzreal
             }
         }
 
-        private static void OnLaneclear()
+        private static void OnFarm()
         {
+            if (!Variables.Menu.Item("ezreal.farm.q").GetValue<bool>())
+            {
+                return;
+            }
+
+            var allMinions = MinionManager.GetMinions(ObjectManager.Player.ServerPosition,
+                Variables.Spells[SpellSlot.Q].Range);
+            var qMinion = allMinions.FirstOrDefault(x => x.IsValidTarget(Variables.Spells[SpellSlot.Q].Range));
+            var minionHealth = HealthPrediction.GetHealthPrediction(qMinion,
+                ((int)
+                    (Variables.Spells[SpellSlot.Q].Delay +
+                     (ObjectManager.Player.Distance(qMinion)/Variables.Spells[SpellSlot.Q].Speed)*1000f +
+                     Game.Ping/2f)));
+            switch (Variables.Orbwalker.ActiveMode)
+            {
+                case Orbwalking.OrbwalkingMode.LaneClear:
+                    if (Variables.Spells[SpellSlot.Q].IsReady() && Variables.Spells[SpellSlot.Q].CanCast(qMinion))
+                    {
+                        if (Variables.Spells[SpellSlot.Q].GetDamage(qMinion) > minionHealth)
+                        {
+                            Variables.Spells[SpellSlot.Q].Cast(qMinion);
+                        }
+                        else
+                        {
+                            Variables.Spells[SpellSlot.Q].Cast(qMinion);
+                        }
+                    }
+                    break;
+
+                case Orbwalking.OrbwalkingMode.LastHit:
+                    if (Variables.Spells[SpellSlot.Q].IsReady() && Variables.Spells[SpellSlot.Q].CanCast(qMinion))
+                    {
+                        if (qMinion != null && qMinion.Health < Variables.Spells[SpellSlot.Q].GetDamage(qMinion))
+                        {
+                            if (Variables.Spells[SpellSlot.Q].GetDamage(qMinion) > minionHealth)
+                            {
+                                Variables.Spells[SpellSlot.Q].Cast(qMinion);
+                            }
+                        }
+                    }
+                    break;
+            }
         }
 
         private static bool CanExecuteTarget(Obj_AI_Base target)
