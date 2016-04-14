@@ -2,6 +2,7 @@
 using System.Linq;
 using DZLib.Core;
 using DZLib.Modules;
+using DZLib.Positioning;
 using LeagueSharp;
 using LeagueSharp.Common;
 using iDZEzreal.MenuHelper;
@@ -39,7 +40,7 @@ namespace iDZEzreal
             {
                 var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
                     Game.CursorPos, Variables.Spells[SpellSlot.E].Range);
-                if (extendedPosition.IsSafe() && extendedPosition.CountAlliesInRange(650f) > 0)
+                if (extendedPosition.IsSafe(Variables.Spells[SpellSlot.E].Range) && extendedPosition.CountAlliesInRange(650f) > 0)
                 {
                     Variables.Spells[SpellSlot.E].Cast(extendedPosition);
                 }
