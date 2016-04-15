@@ -36,7 +36,7 @@ namespace iDZEzreal.Modules
                 }
             }
 
-            if (Variables.Spells[SpellSlot.W].IsReady() && Variables.Menu.Item("ezreal.mixed.w").GetValue<bool>())
+            if (Variables.Spells[SpellSlot.W].IsReady() && Variables.Menu.Item("ezreal.mixed.w").GetValue<bool>() && ObjectManager.Player.ManaPercent > 35)
             {
                 var qTarget = TargetSelector.GetTargetNoCollision(Variables.Spells[SpellSlot.W]);
                 if (qTarget.IsValidTarget() && Variables.Spells[SpellSlot.W].GetSPrediction(qTarget).HitChance >= MenuGenerator.GetHitchance())
@@ -48,7 +48,7 @@ namespace iDZEzreal.Modules
 
         public string GetName()
         {
-            return "Auto Harass";
+            return "AutoHarass";
         }
     }
 }

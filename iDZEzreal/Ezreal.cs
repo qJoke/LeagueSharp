@@ -72,7 +72,8 @@ namespace iDZEzreal
                     }
                     if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() &&
                         Variables.Spells[SpellSlot.W].IsReady() &&
-                        target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+                        target.IsValidTarget(Variables.Spells[SpellSlot.W].Range) 
+                        && ObjectManager.Player.ManaPercent > 45)
                     {
                         Variables.Spells[SpellSlot.W].SPredictionCast(target, HitChance.High);
                     }
@@ -86,7 +87,8 @@ namespace iDZEzreal
                     }
                     if (Variables.Menu.Item("ezreal.mixed.w").GetValue<bool>() &&
                         Variables.Spells[SpellSlot.W].IsReady() &&
-                        target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+                        target.IsValidTarget(Variables.Spells[SpellSlot.W].Range)
+                        && ObjectManager.Player.ManaPercent > 45)
                     {
                         Variables.Spells[SpellSlot.W].SPredictionCast(target, HitChance.High);
                     }
@@ -224,7 +226,7 @@ namespace iDZEzreal
 
         private static void OnFarm()
         {
-            if (!Variables.Menu.Item("ezreal.farm.q").GetValue<bool>())
+            if (!Variables.Menu.Item("ezreal.farm.q").GetValue<bool>() || !Variables.Spells[SpellSlot.Q].IsReady())
             {
                 return;
             }
@@ -237,16 +239,16 @@ namespace iDZEzreal
                     (Variables.Spells[SpellSlot.Q].Delay +
                      (ObjectManager.Player.Distance(qMinion)/Variables.Spells[SpellSlot.Q].Speed)*1000f +
                      Game.Ping/2f)));
+            if (qMinion != null)
+            {
+                
+            
             switch (Variables.Orbwalker.ActiveMode)
             {
                 case Orbwalking.OrbwalkingMode.LaneClear:
-                    if (Variables.Spells[SpellSlot.Q].IsReady() && Variables.Spells[SpellSlot.Q].CanCast(qMinion))
+                    if (Variables.Spells[SpellSlot.Q].CanCast(qMinion))
                     {
-                        if (Variables.Spells[SpellSlot.Q].GetDamage(qMinion) > minionHealth)
-                        {
-                            Variables.Spells[SpellSlot.Q].Cast(qMinion);
-                        }
-                        else
+                        if (Variables.Spells[SpellSlot.Q].GetDamage(qMinion) > qMinion.Health * 0.3f)
                         {
                             Variables.Spells[SpellSlot.Q].Cast(qMinion);
                         }
@@ -254,9 +256,9 @@ namespace iDZEzreal
                     break;
 
                 case Orbwalking.OrbwalkingMode.LastHit:
-                    if (Variables.Spells[SpellSlot.Q].IsReady() && Variables.Spells[SpellSlot.Q].CanCast(qMinion))
+                    if (Variables.Spells[SpellSlot.Q].CanCast(qMinion))
                     {
-                        if (qMinion != null && qMinion.Health < Variables.Spells[SpellSlot.Q].GetDamage(qMinion))
+                        if (qMinion.Health < Variables.Spells[SpellSlot.Q].GetDamage(qMinion))
                         {
                             if (Variables.Spells[SpellSlot.Q].GetDamage(qMinion) > minionHealth)
                             {
@@ -265,6 +267,7 @@ namespace iDZEzreal
                         }
                     }
                     break;
+            }
             }
         }
 

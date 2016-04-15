@@ -30,21 +30,20 @@ namespace iDZEzreal.Modules
 
         public void OnExecute()
         {
-            foreach (var sPrediction in HeroManager.Enemies.Where(
-                x =>
-                    x.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) &&
-                    Variables.Spells[SpellSlot.Q].GetDamage(x) >= x.Health)
-                .Where(hero => Variables.Spells[SpellSlot.Q].IsReady())
-                .Select(hero => Variables.Spells[SpellSlot.Q].GetSPrediction(hero))
-                .Where(sPrediction => sPrediction.HitChance >= HitChance.Medium))
+            foreach (
+                var enemy in HeroManager.Enemies.Where(m => m.Health + 5 <= Variables.Spells[SpellSlot.Q].GetDamage(m)))
             {
-                Variables.Spells[SpellSlot.Q].Cast(sPrediction.CastPosition);
+                var sPrediction = Variables.Spells[SpellSlot.Q].GetSPrediction(enemy);
+                if (sPrediction.HitChance >= HitChance.Medium)
+                {
+                    Variables.Spells[SpellSlot.Q].Cast(sPrediction.CastPosition);
+                }
             }
         }
 
         public string GetName()
         {
-            return "Q KS";
+            return "QKS";
         }
     }
 }
