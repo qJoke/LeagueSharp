@@ -161,8 +161,7 @@ namespace iDZEzreal
             //W
             if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady())
             {
-                var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.W].Range,
-                    TargetSelector.DamageType.Magical);
+                var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.W].Range, TargetSelector.DamageType.Magical);
 
                 if (target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
                 {
