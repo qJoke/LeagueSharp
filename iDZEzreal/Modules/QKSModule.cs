@@ -20,8 +20,7 @@ namespace iDZEzreal.Modules
 
         public bool ShouldGetExecuted()
         {
-            return Variables.Spells[SpellSlot.Q].IsReady() &&
-                   Variables.Menu.Item("ezreal.modules." + GetName().ToLowerInvariant()).GetValue<bool>();
+            return Variables.Spells[SpellSlot.Q].IsReady() && Variables.Menu.Item("ezreal.modules." + GetName().ToLowerInvariant()).GetValue<bool>();
         }
 
         public ModuleType GetModuleType()
