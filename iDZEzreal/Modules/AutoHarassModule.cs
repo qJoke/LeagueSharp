@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using DZLib.Modules;
 using iDZEzreal.MenuHelper;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
 using SPrediction;
 
 namespace iDZEzreal.Modules
@@ -29,10 +29,16 @@ namespace iDZEzreal.Modules
         {
             if (Variables.Spells[SpellSlot.Q].IsReady() && Variables.Menu.Item("ezreal.mixed.q").GetValue<bool>())
             {
-                var qTarget = TargetSelector.GetTargetNoCollision(Variables.Spells[SpellSlot.Q]);
-                if (qTarget.IsValidTarget() && Variables.Spells[SpellSlot.Q].GetSPrediction(qTarget).HitChance >= MenuGenerator.GetHitchance())
+                var target = TargetSelector.GetTargetNoCollision(Variables.Spells[SpellSlot.Q]);
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) &&
+                    ObjectManager.Player.Distance(target.ServerPosition) <= Variables.Spells[SpellSlot.Q].Range)
                 {
-                    Variables.Spells[SpellSlot.Q].Cast(qTarget);
+                    var prediction = Variables.Spells[SpellSlot.Q].GetSPrediction(target);
+                    var castPosition = prediction.CastPosition.Extend((Vector2)ObjectManager.Player.Position, -140);
+                    if (prediction.HitChance >= MenuGenerator.GetHitchance())
+                    {
+                        Variables.Spells[SpellSlot.Q].Cast(castPosition);
+                    }
                 }
             }
 
