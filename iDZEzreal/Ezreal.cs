@@ -6,6 +6,7 @@ using DZLib.Positioning;
 using LeagueSharp;
 using LeagueSharp.Common;
 using iDZEzreal.MenuHelper;
+using SharpDX;
 using SPrediction;
 
 namespace iDZEzreal
@@ -72,7 +73,7 @@ namespace iDZEzreal
                     }
                     if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() &&
                         Variables.Spells[SpellSlot.W].IsReady() &&
-                        target.IsValidTarget(Variables.Spells[SpellSlot.W].Range) 
+                        target.IsValidTarget(Variables.Spells[SpellSlot.W].Range)
                         && ObjectManager.Player.ManaPercent > 45)
                     {
                         Variables.Spells[SpellSlot.W].SPredictionCast(target, HitChance.High);
@@ -151,9 +152,15 @@ namespace iDZEzreal
                 var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range,
                     TargetSelector.DamageType.Physical);
 
-                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) &&
+                    ObjectManager.Player.Distance(target.ServerPosition) <= Variables.Spells[SpellSlot.Q].Range)
                 {
-                    Variables.Spells[SpellSlot.Q].SPredictionCast(target, MenuGenerator.GetHitchance());
+                    var prediction = Variables.Spells[SpellSlot.Q].GetSPrediction(target);
+                    var castPosition = prediction.CastPosition.Extend((Vector2) ObjectManager.Player.Position, -140);
+                    if (prediction.HitChance >= MenuGenerator.GetHitchance())
+                    {
+                        Variables.Spells[SpellSlot.Q].Cast(castPosition);
+                    }
                 }
             }
 
@@ -228,9 +235,15 @@ namespace iDZEzreal
                 var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range,
                     TargetSelector.DamageType.Physical);
 
-                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) &&
+                    ObjectManager.Player.Distance(target.ServerPosition) <= Variables.Spells[SpellSlot.Q].Range)
                 {
-                    Variables.Spells[SpellSlot.Q].SPredictionCast(target, MenuGenerator.GetHitchance());
+                    var prediction = Variables.Spells[SpellSlot.Q].GetSPrediction(target);
+                    var castPosition = prediction.CastPosition.Extend((Vector2)ObjectManager.Player.Position, -140);
+                    if (prediction.HitChance >= MenuGenerator.GetHitchance())
+                    {
+                        Variables.Spells[SpellSlot.Q].Cast(castPosition);
+                    }
                 }
             }
 
@@ -267,33 +280,31 @@ namespace iDZEzreal
                      Game.Ping/2f)));
             if (qMinion != null)
             {
-                
-            
-            switch (Variables.Orbwalker.ActiveMode)
-            {
-                case Orbwalking.OrbwalkingMode.LaneClear:
-                    if (Variables.Spells[SpellSlot.Q].CanCast(qMinion))
-                    {
-                        if (Variables.Spells[SpellSlot.Q].GetDamage(qMinion) > qMinion.Health * 0.3f)
+                switch (Variables.Orbwalker.ActiveMode)
+                {
+                    case Orbwalking.OrbwalkingMode.LaneClear:
+                        if (Variables.Spells[SpellSlot.Q].CanCast(qMinion))
                         {
-                            Variables.Spells[SpellSlot.Q].Cast(qMinion);
-                        }
-                    }
-                    break;
-
-                case Orbwalking.OrbwalkingMode.LastHit:
-                    if (Variables.Spells[SpellSlot.Q].CanCast(qMinion))
-                    {
-                        if (qMinion.Health < Variables.Spells[SpellSlot.Q].GetDamage(qMinion))
-                        {
-                            if (Variables.Spells[SpellSlot.Q].GetDamage(qMinion) > minionHealth)
+                            if (Variables.Spells[SpellSlot.Q].GetDamage(qMinion) > qMinion.Health*0.3f)
                             {
                                 Variables.Spells[SpellSlot.Q].Cast(qMinion);
                             }
                         }
-                    }
-                    break;
-            }
+                        break;
+
+                    case Orbwalking.OrbwalkingMode.LastHit:
+                        if (Variables.Spells[SpellSlot.Q].CanCast(qMinion))
+                        {
+                            if (qMinion.Health < Variables.Spells[SpellSlot.Q].GetDamage(qMinion))
+                            {
+                                if (Variables.Spells[SpellSlot.Q].GetDamage(qMinion) > minionHealth)
+                                {
+                                    Variables.Spells[SpellSlot.Q].Cast(qMinion);
+                                }
+                            }
+                        }
+                        break;
+                }
             }
         }
 

@@ -34,7 +34,7 @@ namespace iDZEzreal.Modules
                 var enemy in HeroManager.Enemies.Where(m => m.Health + 5 <= Variables.Spells[SpellSlot.Q].GetDamage(m)))
             {
                 var sPrediction = Variables.Spells[SpellSlot.Q].GetSPrediction(enemy);
-                if (sPrediction.HitChance >= HitChance.Medium)
+                if (sPrediction.HitChance >= HitChance.High)
                 {
                     Variables.Spells[SpellSlot.Q].Cast(sPrediction.CastPosition);
                 }
