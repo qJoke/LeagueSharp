@@ -115,7 +115,6 @@ namespace iDZEzreal
 
         private static void OnUpdateFunctions()
         {
-            //TODO AutoHaras
             foreach (
                 var module in
                     Variables.Modules.Where(
@@ -159,14 +158,39 @@ namespace iDZEzreal
             }
 
             //W
-            if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady())
+            if (Variables.Menu.Item("ezreal.combo.w").GetValue<bool>() 
+                && Variables.Spells[SpellSlot.W].IsReady() 
+                && ObjectManager.Player.CountAlliesInRange(800f) > 1
+                && ObjectManager.Player.ManaPercent > 35)
             {
-                var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.W].Range,
-                    TargetSelector.DamageType.Magical);
+                var target =
+                    HeroManager.Allies.Where(m => m.IsValidTarget(Variables.Spells[SpellSlot.W].Range, false) 
+                        && m.TotalAttackDamage > m.TotalMagicalDamage)
+                        .OrderBy(TargetSelector.GetPriority).FirstOrDefault();
 
-                if (target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+                if (target != null)
                 {
-                    Variables.Spells[SpellSlot.W].SPredictionCast(target, MenuGenerator.GetHitchance());
+                    Variables.Spells[SpellSlot.W].Cast(target);
+                }
+            }
+
+            //TODO Beta AF
+            if (ObjectManager.Player.CountAlliesInRange(800f) == 1 
+                && Variables.Spells[SpellSlot.W].IsReady() 
+                && Variables.Spells[SpellSlot.E].IsReady()
+                && ObjectManager.Player.CountEnemiesInRange(1200f) == 1)
+            {
+                var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
+                Game.CursorPos, Variables.Spells[SpellSlot.E].Range);
+
+                if (extendedPosition.IsSafe(Variables.Spells[SpellSlot.E].Range) &&
+                    extendedPosition.CountAlliesInRange(650f) > 0)
+                {
+                    Variables.Spells[SpellSlot.W].Cast(extendedPosition);
+                    Utility.DelayAction.Add(250, () =>
+                    {
+                        Variables.Spells[SpellSlot.E].Cast(extendedPosition);
+                    });
                 }
             }
 
@@ -210,16 +234,18 @@ namespace iDZEzreal
                 }
             }
 
-            if (Variables.Menu.Item("ezreal.mixed.w").GetValue<bool>() && Variables.Spells[SpellSlot.W].IsReady() &&
-                ObjectManager.Player.ManaPercent > 45)
+            if (Variables.Menu.Item("ezreal.mixed.w").GetValue<bool>()
+                 && Variables.Spells[SpellSlot.W].IsReady()
+                 && ObjectManager.Player.CountAlliesInRange(800f) > 1)
             {
-                var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.W].Range,
-                    TargetSelector.DamageType.Magical);
+                var target =
+                    HeroManager.Allies.Where(m => m.IsValidTarget(Variables.Spells[SpellSlot.W].Range, false)
+                        && m.TotalAttackDamage > m.TotalMagicalDamage)
+                        .OrderBy(TargetSelector.GetPriority).FirstOrDefault();
 
-                if (target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+                if (target != null)
                 {
-                    Variables.Spells[SpellSlot.W].SPredictionCast(target,
-                        target.IsMoving ? HitChance.Medium : MenuGenerator.GetHitchance());
+                    Variables.Spells[SpellSlot.W].Cast(target);
                 }
             }
         }
