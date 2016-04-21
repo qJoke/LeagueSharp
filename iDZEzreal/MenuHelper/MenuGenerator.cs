@@ -45,6 +45,7 @@ namespace iDZEzreal.MenuHelper
                 miscMenu.AddStringList("ezreal.misc.hitchance", "Hitchance",
                     new[] {"Low", "Medium", "High", "Very High"}, 3);
                 miscMenu.AddBool("ezreal.misc.gapcloser", "Anti Gap Closer", true);
+                miscMenu.AddBool("ezreal.misc.selfWE", "Self W/E - Beta AF", true);
                 rootMenu.AddSubMenu(miscMenu);
             }
 
