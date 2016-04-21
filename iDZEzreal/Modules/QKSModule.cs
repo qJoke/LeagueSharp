@@ -31,7 +31,7 @@ namespace iDZEzreal.Modules
         public void OnExecute()
         {
             foreach (
-                var enemy in HeroManager.Enemies.Where(m => m.Health + 5 <= Variables.Spells[SpellSlot.Q].GetDamage(m)))
+                var enemy in HeroManager.Enemies.Where(m => m.Health + 5 <= Variables.Spells[SpellSlot.Q].GetDamage(m) && m.IsValidTarget(Variables.Spells[SpellSlot.Q].Range)))
             {
                 var sPrediction = Variables.Spells[SpellSlot.Q].GetSPrediction(enemy);
                 if (sPrediction.HitChance >= HitChance.High)

@@ -204,7 +204,7 @@ namespace iDZEzreal
             //R
             if (Variables.Menu.Item("ezreal.combo.r").GetValue<bool>() && Variables.Spells[SpellSlot.R].IsReady())
             {
-                var target = TargetSelector.GetTarget(2500f, TargetSelector.DamageType.Physical);
+                var target = TargetSelector.GetTarget(2300f, TargetSelector.DamageType.Physical);
 
                 if (target.IsValidTarget(Variables.Spells[SpellSlot.R].Range)
                     && CanExecuteTarget(target)
@@ -212,17 +212,19 @@ namespace iDZEzreal
                     &&
                     !(target.Health + 5 <
                       ObjectManager.Player.GetAutoAttackDamage(target)*2 +
-                      Variables.Spells[SpellSlot.Q].GetDamage(target)))
+                      Variables.Spells[SpellSlot.Q].GetDamage(target))
+                    && HeroManager.Enemies.Count(m => m.Distance(target.ServerPosition) < 200f) >= Variables.Menu.Item("ezreal.combo.r.min").GetValue<Slider>().Value)
                 {
                     Variables.Spells[SpellSlot.R].SPredictionCast(
                         target, target.IsMoving ? HitChance.VeryHigh : HitChance.High);
                 }
-
+                /**
                 var rPrediction = Variables.Spells[SpellSlot.R].GetAoeSPrediction();
                 if (rPrediction.HitCount >= Variables.Menu.Item("ezreal.combo.r.min").GetValue<Slider>().Value)
                 {
                     Variables.Spells[SpellSlot.R].Cast(rPrediction.CastPosition);
                 }
+                 */
             }
         }
 

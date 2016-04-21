@@ -30,8 +30,7 @@ namespace iDZEzreal.Modules
             if (Variables.Spells[SpellSlot.Q].IsReady() && Variables.Menu.Item("ezreal.mixed.q").GetValue<bool>())
             {
                 var target = TargetSelector.GetTargetNoCollision(Variables.Spells[SpellSlot.Q]);
-                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) &&
-                    ObjectManager.Player.Distance(target.ServerPosition) <= Variables.Spells[SpellSlot.Q].Range)
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
                 {
                     var prediction = Variables.Spells[SpellSlot.Q].GetSPrediction(target);
                     var castPosition = prediction.CastPosition.Extend((Vector2)ObjectManager.Player.Position, -140);
@@ -44,10 +43,11 @@ namespace iDZEzreal.Modules
 
             if (Variables.Spells[SpellSlot.W].IsReady() && Variables.Menu.Item("ezreal.mixed.w").GetValue<bool>() && ObjectManager.Player.ManaPercent > 35)
             {
-                var qTarget = TargetSelector.GetTargetNoCollision(Variables.Spells[SpellSlot.W]);
-                if (qTarget.IsValidTarget() && Variables.Spells[SpellSlot.W].GetSPrediction(qTarget).HitChance >= MenuGenerator.GetHitchance())
+                var wTarget = TargetSelector.GetTargetNoCollision(Variables.Spells[SpellSlot.W]);
+                if (wTarget.IsValidTarget(Variables.Spells[SpellSlot.W].Range)
+                    && Variables.Spells[SpellSlot.W].GetSPrediction(wTarget).HitChance >= MenuGenerator.GetHitchance())
                 {
-                    Variables.Spells[SpellSlot.W].Cast(qTarget);
+                    Variables.Spells[SpellSlot.W].Cast(Variables.Spells[SpellSlot.W].GetSPrediction(wTarget).CastPosition);
                 }
             }
         }
