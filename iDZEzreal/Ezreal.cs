@@ -179,6 +179,16 @@ namespace iDZEzreal
                 {
                     Variables.Spells[SpellSlot.W].Cast(target);
                 }
+                else
+                {
+                    var wTarget = TargetSelector.GetTargetNoCollision(Variables.Spells[SpellSlot.W]);
+
+                    if (wTarget.IsValidTarget(Variables.Spells[SpellSlot.W].Range)
+                        && Variables.Spells[SpellSlot.W].GetSPrediction(wTarget).HitChance >= MenuGenerator.GetHitchance())
+                    {
+                        Variables.Spells[SpellSlot.W].Cast(Variables.Spells[SpellSlot.W].GetSPrediction(wTarget).CastPosition);
+                    }
+                }
             }
 
             //TODO Beta AF
@@ -261,6 +271,16 @@ namespace iDZEzreal
                 if (target != null)
                 {
                     Variables.Spells[SpellSlot.W].Cast(target);
+                }
+                else
+                {
+                    var wTarget = TargetSelector.GetTargetNoCollision(Variables.Spells[SpellSlot.W]);
+
+                    if (wTarget.IsValidTarget(Variables.Spells[SpellSlot.W].Range)
+                        && Variables.Spells[SpellSlot.W].GetSPrediction(wTarget).HitChance >= MenuGenerator.GetHitchance())
+                    {
+                        Variables.Spells[SpellSlot.W].Cast(Variables.Spells[SpellSlot.W].GetSPrediction(wTarget).CastPosition);
+                    }
                 }
             }
         }
