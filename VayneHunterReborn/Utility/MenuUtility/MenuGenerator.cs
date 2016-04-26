@@ -125,6 +125,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.condemnflag", "Condemn to J4 flag", true).SetTooltip("Tries to make the assembly condemn on J4 Flags");
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.noeturret", "No E Under enemy turret").SetTooltip("Does not condemn if you are under their turret");
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.repelflash", "Use E on Enemy Flashes").SetTooltip("Uses E on enemy flashes that get too close.");
+                    miscEMenu.AddBool("dz191.vhr.misc.condemn.repelkindred", "Use E to push enemies out of kindred ult").SetTooltip("Uses E on enemies inside Kindred's ult.");
 
                     miscMenu.AddSubMenu(miscEMenu);
                 }
