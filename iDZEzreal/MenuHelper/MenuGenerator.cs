@@ -58,6 +58,13 @@ namespace iDZEzreal.MenuHelper
                 rootMenu.AddSubMenu(moduleMenu);
             }
 
+            var drawingsMenu = new Menu("[Ez] Drawings", "ezreal.drawings");
+            {
+                drawingsMenu.AddBool("ezreal.drawings.q", "Q Draw", true);
+                drawingsMenu.AddBool("ezreal.drawings.w", "W Draw", true);
+
+                rootMenu.AddSubMenu(drawingsMenu);
+            }
             rootMenu.AddToMainMenu();
         }
 

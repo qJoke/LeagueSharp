@@ -33,6 +33,20 @@ namespace iDZEzreal
             Game.OnUpdate += OnUpdate;
             Orbwalking.AfterAttack += OrbwalkingOnAfterAttack;
             DZAntigapcloser.OnEnemyGapcloser += OnEnemyGapcloser;
+            Drawing.OnDraw += OnDraw;
+        }
+
+        private static void OnDraw(EventArgs args)
+        {
+            if (Variables.Menu.Item("ezreal.drawings.q").GetValue<bool>())
+            {
+                Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Spells[SpellSlot.Q].Range, !Variables.Spells[SpellSlot.Q].IsReady() ? System.Drawing.Color.Red : System.Drawing.Color.Green);
+            }
+
+            if (Variables.Menu.Item("ezreal.drawings.w").GetValue<bool>())
+            {
+                Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Spells[SpellSlot.W].Range, !Variables.Spells[SpellSlot.W].IsReady() ? System.Drawing.Color.Red : System.Drawing.Color.Green);
+            }
         }
 
         private static void OnEnemyGapcloser(DZLib.Core.ActiveGapcloser gapcloser)

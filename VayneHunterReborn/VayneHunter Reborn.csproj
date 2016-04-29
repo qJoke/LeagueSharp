@@ -109,6 +109,7 @@
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="Modules\ModuleHelpers\ModuleEnums.cs" />
     <Compile Include="Modules\ModuleList\Condemn\AutoE.cs" />
+    <Compile Include="Modules\ModuleList\Condemn\AutoKindred.cs" />
     <Compile Include="Modules\ModuleList\Condemn\CondemnJungleMobs.cs" />
     <Compile Include="Modules\ModuleList\Condemn\EAfterAA.cs" />
     <Compile Include="Modules\ModuleList\Condemn\EKS.cs" />
