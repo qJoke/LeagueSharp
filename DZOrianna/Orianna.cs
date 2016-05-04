@@ -59,8 +59,38 @@ namespace DZOrianna
                     var qPrediction = Prediction.GetPrediction(
                         qTarget,
                         0.75f);
+                    //Only when health is > 35%
+                    if(ObjectManager.Player.HealthPercent >= 35)
+                    {
+                        var enemyHeroesPositions = HeroManager.Enemies.Select(hero => hero.Position.To2D()).ToList();
 
-                        Variables.BallManager.ProcessCommand(new Command()
+                        var Groups = Helper.GetCombinations(enemyHeroesPositions);
+
+                        //TODO Iterate through all the MEC and pick the best one.
+
+                        foreach (var group in Groups)
+                        {
+                            if (group.Count >= 3)
+                            {
+                                var MEC_Circle = MEC.GetMec(group);
+                                if (Variables.spells[SpellSlot.Q].IsReady() &&
+                                    MEC_Circle.Center.Distance(ObjectManager.Player) <= Variables.spells[SpellSlot.Q].Range &&
+                                    MEC_Circle.Radius <= Variables.spells[SpellSlot.Q].Range &&
+                                    MEC_Circle.Center.To3D().CountEnemiesInRange(Variables.spells[SpellSlot.Q].Range) >=
+                                    3)
+                                {
+                                    Variables.BallManager.ProcessCommand(new Command()
+                                    {
+                                        SpellCommand = Commands.Q,
+                                        Where = MEC_Circle.Center.To3D()
+                                    });
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    //If it can find a suitable > 3 enemies position we will Q there.
+                    Variables.BallManager.ProcessCommand(new Command()
                         {
                             SpellCommand = Commands.Q,
                             Where = qPrediction.UnitPosition
