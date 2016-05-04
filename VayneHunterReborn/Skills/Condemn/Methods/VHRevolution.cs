@@ -50,8 +50,20 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
                     continue;
                 }
 
-                
-                var targetPosition = Variables.spells[SpellSlot.E].GetSPrediction(Hero).UnitPosition.To3D();
+
+                var targetPosition = Vector3.Zero;
+
+                var pred = Variables.spells[SpellSlot.E].GetSPrediction(Hero);
+                if (pred.HitChance > HitChance.Impossible)
+                {
+                    targetPosition = pred.UnitPosition.To3D();
+                }
+
+                if (targetPosition == Vector3.Zero)
+                {
+                    return null;
+                }
+
                 var finalPosition = targetPosition.Extend(ObjectManager.Player.ServerPosition, -PushDistance);
                 var finalPosition_ex = Hero.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -PushDistance);
 

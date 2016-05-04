@@ -94,7 +94,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.qinrange", "Q For KS", true).SetTooltip("Uses Q to KS by Qing in range if you can kill with Q + AA"); //Done
                     miscQMenu.AddSlider(
                         "dz191.vhr.misc.tumble.noaa.enemies", "Min Enemies for No AA Stealth",
-                        new Tuple<int, int, int>(3, 1, 5));
+                        new Tuple<int, int, int>(3, 2, 5));
 
                     miscMenu.AddSubMenu(miscQMenu);
                 }
@@ -124,6 +124,8 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.lowlifepeel", "Peel with E when low health").SetTooltip("Uses E on melee enemies if your health < 15%");
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.condemnflag", "Condemn to J4 flag", true).SetTooltip("Tries to make the assembly condemn on J4 Flags");
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.noeturret", "No E Under enemy turret").SetTooltip("Does not condemn if you are under their turret");
+                    miscEMenu.AddBool("dz191.vhr.misc.condemn.repelflash", "Use E on Enemy Flashes").SetTooltip("Uses E on enemy flashes that get too close.");
+                    miscEMenu.AddBool("dz191.vhr.misc.condemn.repelkindred", "Use E to push enemies out of kindred ult").SetTooltip("Uses E on enemies inside Kindred's ult.");
 
                     miscMenu.AddSubMenu(miscEMenu);
                 }

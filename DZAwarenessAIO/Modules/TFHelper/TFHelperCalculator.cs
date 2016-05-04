@@ -62,7 +62,9 @@ namespace DZAwarenessAIO.Modules.TFHelper
                 return "No enemy around";
             }
 
-            return !ObjectManager.Player.IsDead ? string.Format("{0}v{1}: {2} will win", TFHelperVariables.AlliesClose.Count(), TFHelperVariables.EnemiesClose.Count(), GetAllyStrength() > GetEnemyStrength() ? "Ally" : "Enemy") : string.Format("You kinda suck!");
+            return !ObjectManager.Player.IsDead ?
+                $"{TFHelperVariables.AlliesClose.Count()}v{TFHelperVariables.EnemiesClose.Count()}: {(GetAllyStrength() > GetEnemyStrength() ? "Ally" : "Enemy")} will win"
+                : string.Format("You kinda suck!");
         }
 
         /// <summary>
@@ -78,13 +80,55 @@ namespace DZAwarenessAIO.Modules.TFHelper
             {
                 return -1;
             }
-            var AADamage = Enemies.Aggregate(0, (current, s) => (int) (current + player.GetAutoAttackDamage(s)));
-            var QDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.Q).IsReady() ? player.GetSpellDamage(s, SpellSlot.Q) : 0)));
-            var WDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.W).IsReady() ? player.GetSpellDamage(s, SpellSlot.W) : 0)));
-            var EDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.E).IsReady() ? player.GetSpellDamage(s, SpellSlot.E) : 0)));
-            var RDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.R).IsReady() ? player.GetSpellDamage(s, SpellSlot.R) : 0)));
+            var AADamage = Enemies.Aggregate(0, (current, s) => (int) (current + player.GetAutoAttackDamage(s) * 2));
+            var QDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.Q).IsReady() ? player.GetSpellDamage(s, SpellSlot.Q) : 0f)));
+            var WDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.W).IsReady() ? player.GetSpellDamage(s, SpellSlot.W) : 0f)));
+            var EDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.E).IsReady() ? player.GetSpellDamage(s, SpellSlot.E) : 0f)));
+            var RDamage = Enemies.Aggregate(0, (current, s) => (int)(current + (player.GetSpell(SpellSlot.R).IsReady() ? player.GetSpellDamage(s, SpellSlot.R) : 0f)));
+            
+            var itemsDamage = 0f;
 
-            var totalDamage = AADamage + QDamage + WDamage + EDamage + RDamage;
+            foreach (var item in player.InventoryItems)
+            {
+                foreach (var hero in Enemies)
+                {
+                    var itemID = item.Id;
+                    switch (itemID)
+                    {
+                        case ItemId.Bilgewater_Cutlass:
+                            itemsDamage +=
+                                (float) player.GetItemDamage(hero, Damage.DamageItems.Bilgewater);
+                            break;
+                        case ItemId.Blade_of_the_Ruined_King:
+                            itemsDamage += (float) player.GetItemDamage(hero, Damage.DamageItems.Botrk);
+                            break;
+                        case ItemId.Hextech_Gunblade:
+                            itemsDamage += (float) player.GetItemDamage(hero, Damage.DamageItems.Hexgun);
+                            break;
+                        case ItemId.Frost_Queens_Claim:
+                            itemsDamage +=
+                                (float) player.GetItemDamage(hero, Damage.DamageItems.FrostQueenClaim);
+                            break;
+                        case ItemId.Tiamat_Melee_Only:
+                            itemsDamage += player.IsMelee
+                                ? (float) player.GetItemDamage(hero, Damage.DamageItems.Tiamat)
+                                : 0f;
+                            break;
+                        case ItemId.Ravenous_Hydra_Melee_Only:
+                            itemsDamage += player.IsMelee
+                                ? (float) player.GetItemDamage(hero, Damage.DamageItems.Hydra)
+                                : 0f;
+                            break;
+                        case ItemId.Liandrys_Torment:
+                            itemsDamage +=
+                                (float) player.GetItemDamage(hero, Damage.DamageItems.LiandrysTorment);
+                            break;
+                    }
+                }
+                
+            }
+
+            var totalDamage = AADamage + QDamage + WDamage + EDamage + RDamage + itemsDamage;
 
             return (float) totalDamage / totalEnemies;
         }

@@ -16,7 +16,20 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
             foreach (var target in HeroManager.Enemies.Where(h => h.IsValidTarget(Variables.spells[SpellSlot.E].Range)))
             {
                 var pushDistance = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.pushdistance").Value;
-                var targetPosition = Variables.spells[SpellSlot.E].GetSPrediction(target).UnitPosition.To3D();
+
+                var targetPosition = Vector3.Zero;
+
+                var pred = Variables.spells[SpellSlot.E].GetSPrediction(target);
+                if (pred.HitChance > HitChance.Impossible)
+                {
+                    targetPosition = pred.UnitPosition.To3D();
+                }
+
+                if (targetPosition == Vector3.Zero)
+                {
+                    return null;
+                }
+
                 var finalPosition = targetPosition.Extend(fromPosition, -pushDistance);
                 var finalPosition2 = targetPosition.Extend(fromPosition, -(pushDistance / 2f));
                 var underTurret = MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.condemnturret") && (finalPosition.UnderTurret(true));

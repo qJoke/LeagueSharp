@@ -229,7 +229,7 @@ namespace DZAhri
                 if (ObjectManager.Player.ManaPercent >= qMana && _spells[SpellSlot.Q].IsReady())
                 {
                     var target = TargetSelector.GetTarget(_spells[SpellSlot.Q].Range, TargetSelector.DamageType.Magical);
-                    if (ObjectManager.Player.Distance(target) >= _spells[SpellSlot.Q].Range * 0.7f)
+                    if (target != null && ObjectManager.Player.Distance(target) >= _spells[SpellSlot.Q].Range * 0.7f)
                     {
                         _spells[SpellSlot.Q].CastIfHitchanceEquals(target, HitChance.High);
                     }
@@ -238,8 +238,11 @@ namespace DZAhri
             if (Menu.Item("dz191.ahri.misc.instacharm").GetValue<KeyBind>().Active && _spells[SpellSlot.E].IsReady())
             {
                 var target = TargetSelector.GetTarget(_spells[SpellSlot.E].Range, TargetSelector.DamageType.Magical);
-                var prediction = _spells[SpellSlot.E].GetPrediction(target);
-                _spells[SpellSlot.E].Cast(prediction.CastPosition);
+                if (target != null)
+                {
+                    var prediction = _spells[SpellSlot.E].GetPrediction(target);
+                    _spells[SpellSlot.E].Cast(prediction.CastPosition);
+                }
             }
 
         }

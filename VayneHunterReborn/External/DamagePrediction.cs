@@ -16,19 +16,6 @@ namespace VayneHunter_Reborn.External
         private static void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             return;
-            if (!(sender is Obj_AI_Hero) || !(args.Target is Obj_AI_Hero))
-                return;
-            var senderH = sender as Obj_AI_Hero;
-            var targetH = args.Target as Obj_AI_Hero;
-            var damage = Orbwalking.IsAutoAttack(args.SData.Name) ? sender.GetAutoAttackDamage(targetH) : GetDamage(senderH, targetH, senderH.GetSpellSlot(args.SData.Name));
-
-            if (damage > targetH.Health + 15)
-            {
-                if (OnSpellWillKill != null)
-                {
-                    OnSpellWillKill(senderH, targetH, args.SData);
-                }
-            }
         }
 
         static float GetDamage(Obj_AI_Hero hero, Obj_AI_Hero target, SpellSlot slot)

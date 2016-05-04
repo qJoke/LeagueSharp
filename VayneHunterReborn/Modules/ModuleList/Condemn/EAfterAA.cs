@@ -30,7 +30,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
             {
                 var menuKey = Variables.Menu.Item("dz191.vhr.misc.condemn.enextauto");
                 var key = menuKey.GetValue<KeyBind>().Key;
-                Variables.spells[SpellSlot.E].Cast(target as Obj_AI_Hero);
+                Variables.spells[SpellSlot.E].CastOnUnit(target as Obj_AI_Hero);
                 menuKey.SetValue(new KeyBind(key, KeyBindType.Toggle));
             }
         }

@@ -105,7 +105,7 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
 
                 if (!backwardsPosition.UnderTurret(true))
                 {
-                    return backwardsPosition;
+                //    return backwardsPosition;
                 }
             }
             #endregion
@@ -205,7 +205,7 @@ namespace VayneHunter_Reborn.Skills.Tumble.VHRQ
             var direction = (Game.CursorPos - ObjectManager.Player.ServerPosition).Normalized().To2D();
 
             var list = new List<Vector3>();
-            for (var i = -75; i <= 75; i += currentStep)
+            for (var i = -70; i <= 70; i += currentStep)
             {
                 var angleRad = Geometry.DegreeToRadian(i);
                 var rotatedPosition = ObjectManager.Player.Position.To2D() + (300f * direction.Rotated(angleRad));

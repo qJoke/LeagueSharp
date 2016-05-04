@@ -70,7 +70,6 @@
     <Compile Include="External\Activator\ActivatorSpells\Heal.cs" />
     <Compile Include="External\Activator\ActivatorSpells\Ignite.cs" />
     <Compile Include="External\Activator\ActivatorSpells\IVHRSpell.cs" />
-    <Compile Include="External\Activator\ActivatorSpells\Smite.cs" />
     <Compile Include="External\Activator\Items\IVHRItem.cs" />
     <Compile Include="External\Activator\Items\_BOTRK.cs" />
     <Compile Include="External\Activator\Items\_Cutlass.cs" />
@@ -110,9 +109,11 @@
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="Modules\ModuleHelpers\ModuleEnums.cs" />
     <Compile Include="Modules\ModuleList\Condemn\AutoE.cs" />
+    <Compile Include="Modules\ModuleList\Condemn\AutoKindred.cs" />
     <Compile Include="Modules\ModuleList\Condemn\CondemnJungleMobs.cs" />
     <Compile Include="Modules\ModuleList\Condemn\EAfterAA.cs" />
     <Compile Include="Modules\ModuleList\Condemn\EKS.cs" />
+    <Compile Include="Modules\ModuleList\Condemn\FlashRepel.cs" />
     <Compile Include="Modules\ModuleList\Condemn\LowLifePeel.cs" />
     <Compile Include="Modules\ModuleList\Misc\DisableMovement.cs" />
     <Compile Include="Modules\ModuleList\Misc\Focus2WStacks.cs" />

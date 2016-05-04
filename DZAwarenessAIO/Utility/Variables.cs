@@ -32,6 +32,7 @@ namespace DZAwarenessAIO.Utility
             new TFHelperBase(),
             new SSTrackerBase(),
             new PingTrackerBase(),
+            new RecallTrackerBase()
             //new LaneStatusBase(),
             // new GankAlerterBase(),
         };
