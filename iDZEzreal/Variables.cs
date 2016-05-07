@@ -25,7 +25,7 @@ namespace iDZEzreal
 
         public static readonly List<IModule> Modules = new List<IModule>
         {
-            new AutoHarassModule(), new QKSModule()
+            new AutoHarassModule(), new QKSModule(), new SemiRModule()
         }; 
     }
 }

@@ -46,6 +46,8 @@ namespace iDZEzreal.MenuHelper
                     new[] {"Low", "Medium", "High", "Very High"}, 3);
                 miscMenu.AddBool("ezreal.misc.gapcloser", "Anti Gap Closer", true);
                 miscMenu.AddBool("ezreal.misc.selfWE", "Self W/E - Beta AF", true);
+                miscMenu.AddKeybind("ezreal.misc.semimanualr", "Semimanual R", new Tuple<uint, KeyBindType>('U', KeyBindType.Press));
+
                 rootMenu.AddSubMenu(miscMenu);
             }
 
