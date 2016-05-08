@@ -27,8 +27,9 @@ namespace VayneHunter_Reborn.Skills.Condemn
                         if (gapcloser.Sender.IsValidTarget(Variables.spells[SpellSlot.E].Range)
                             && gapcloser.End.Distance(ObjectManager.Player.ServerPosition) <= 400f
                             && MenuExtensions.GetItemValue<bool>(
-                            string.Format("dz191.vhr.agplist.{0}.{1}", gapcloser.Sender.ChampionName.ToLowerInvariant(), gapcloser.SpellName)
-                            ))
+                            string.Format("dz191.vhr.agplist.{0}.{1}", gapcloser.Sender.ChampionName.ToLowerInvariant(), gapcloser.SpellName))
+                            && MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.antigp")
+                            )
                         {
                             Variables.spells[SpellSlot.E].CastOnUnit(gapcloser.Sender);
                         }
