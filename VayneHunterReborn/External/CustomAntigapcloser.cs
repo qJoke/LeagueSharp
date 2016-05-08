@@ -683,7 +683,7 @@ namespace VayneHunter_Reborn.External
                                 gapcloser.SkillType == GapcloserType.Targeted ||
                                 (gapcloser.SkillType == GapcloserType.Skillshot &&
                                  ObjectManager.Player.Distance(gapcloser.Sender, true) < 250000) && MenuExtensions.GetItemValue<bool>(
-                            string.Format("dz191.vhr.agplist.{0}.{1}", gapcloser.Sender.ChampionName.ToLowerInvariant(), gapcloser.SpellName))) // 500 * 500
+                            string.Format("dz191.vhr.agplist.{0}.{1}", gapcloser.Sender.ChampionName.ToLowerInvariant(), gapcloser.SpellName)))) // 500 * 500
             {
                 OnEnemyGapcloser(gapcloser);
             }
