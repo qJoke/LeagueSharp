@@ -14,6 +14,8 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
     {
         public static Obj_AI_Base GetTarget(Vector3 fromPosition)
         {
+            return Marksman.GetTarget(fromPosition);
+
             var HeroList = HeroManager.Enemies.Where(
                                     h =>
                                         h.IsValidTarget(Variables.spells[SpellSlot.E].Range) &&

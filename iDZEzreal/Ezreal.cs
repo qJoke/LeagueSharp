@@ -134,9 +134,7 @@ namespace iDZEzreal
                 var module in
                     Variables.Modules.Where(
                         module =>
-                            module.ShouldGetExecuted() && module.GetModuleType() == ModuleType.OnUpdate &&
-                            Variables.Menu.Item("ezreal.modules." + module.GetName().ToLowerInvariant())
-                                .GetValue<bool>()))
+                            module.ShouldGetExecuted() && module.GetModuleType() == ModuleType.OnUpdate))
             {
                 module.OnExecute();
             }
@@ -344,7 +342,7 @@ namespace iDZEzreal
             }
         }
 
-        private static bool CanExecuteTarget(Obj_AI_Base target)
+        public static bool CanExecuteTarget(Obj_AI_Base target)
         {
             double damage = 1f;
 
