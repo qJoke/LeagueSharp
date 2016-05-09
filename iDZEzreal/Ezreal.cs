@@ -204,7 +204,7 @@ namespace iDZEzreal
             }
 
             //TODO Beta AF
-            if (ObjectManager.Player.CountAlliesInRange(800f) == 1 
+            if (Variables.Menu.Item("ezreal.misc.selfWE").GetValue<bool>() && ObjectManager.Player.CountAlliesInRange(800f) == 1 
                 && Variables.Spells[SpellSlot.W].IsReady() 
                 && Variables.Spells[SpellSlot.E].IsReady()
                 && ObjectManager.Player.CountEnemiesInRange(1200f) == 1)
