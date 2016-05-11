@@ -6,6 +6,7 @@ using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using VayneHunter_Reborn.Utility.MenuUtility;
 
 #endregion
 
@@ -681,7 +682,8 @@ namespace VayneHunter_Reborn.External
                             gapcloser =>
                                 gapcloser.SkillType == GapcloserType.Targeted ||
                                 (gapcloser.SkillType == GapcloserType.Skillshot &&
-                                 ObjectManager.Player.Distance(gapcloser.Sender, true) < 250000))) // 500 * 500
+                                 ObjectManager.Player.Distance(gapcloser.Sender, true) < 250000) && MenuExtensions.GetItemValue<bool>(
+                            string.Format("dz191.vhr.agplist.{0}.{1}", gapcloser.Sender.ChampionName.ToLowerInvariant(), gapcloser.SpellName)))) // 500 * 500
             {
                 OnEnemyGapcloser(gapcloser);
             }
