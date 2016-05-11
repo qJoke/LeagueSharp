@@ -71,6 +71,29 @@ namespace iSeriesReborn.Champions.Lucian.Skills
                     }
                 }
             }
+
+        }
+
+        public static void LucianRLock()
+        {
+            var currentTarget = Variables.spells[SpellSlot.R].GetTarget();
+            if (currentTarget.IsValidTarget())
+            {
+                var predictedPosition = Variables.spells[SpellSlot.R].GetPrediction(currentTarget).UnitPosition;
+                var directionVector = (currentTarget.ServerPosition - ObjectManager.Player.ServerPosition).Normalized();
+                var RRangeCoefficient = 0.95f;
+                var RRangeAdjusted = Variables.spells[SpellSlot.R].Range * RRangeCoefficient;
+                var REndPointXCoordinate = predictedPosition.X + directionVector.X * RRangeAdjusted;
+                var REndPointYCoordinate = predictedPosition.Y + directionVector.Y * RRangeAdjusted;
+                var REndPoint = new Vector2(REndPointXCoordinate, REndPointYCoordinate).To3D();
+
+                if (REndPoint.IsValid() &&
+                    REndPoint.Distance(ObjectManager.Player.ServerPosition) < Variables.spells[SpellSlot.R].Range
+                    && !REndPoint.IsWall())
+                {
+                    Variables.Orbwalker.SetOrbwalkingPoint(REndPoint);
+                }
+            }
         }
 
         private static void ExtendedQ()
