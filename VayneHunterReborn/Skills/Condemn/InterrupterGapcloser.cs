@@ -1,4 +1,5 @@
 ﻿using System;
+using DZLib.Core;
 using LeagueSharp;
 using LeagueSharp.Common;
 using VayneHunter_Reborn.External;
@@ -12,24 +13,22 @@ namespace VayneHunter_Reborn.Skills.Condemn
         public static void OnLoad()
         {
             Interrupter2.OnInterruptableTarget += OnInterruptableTarget;
-            CustomAntigapcloser.OnEnemyGapcloser += CustomAntigapcloser_OnEnemyGapcloser;
+            //CustomAntigapcloser.OnEnemyGapcloser += CustomAntigapcloser_OnEnemyGapcloser;
+            DZAntigapcloser.OnEnemyGapcloser += OnEnemyGapcloser;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
             GameObject.OnCreate += GameObject_OnCreate;
         }
 
-        private static void CustomAntigapcloser_OnEnemyGapcloser(External.ActiveGapcloser gapcloser)
+        private static void OnEnemyGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
         {
             if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.antigp") && Variables.spells[SpellSlot.E].IsReady())
             {
                 LeagueSharp.Common.Utility.DelayAction.Add(MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.general.antigpdelay").Value,
                     () =>
                     {
-                        if (gapcloser.Sender.IsValidTarget(Variables.spells[SpellSlot.E].Range)
-                            && gapcloser.End.Distance(ObjectManager.Player.ServerPosition) <= 400f
-                            && MenuExtensions.GetItemValue<bool>(
-                            string.Format("dz191.vhr.agplist.{0}.{1}", gapcloser.Sender.ChampionName.ToLowerInvariant(), gapcloser.SpellName))
-                            && MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.antigp")
-                            )
+                        if (gapcloser.Sender.IsValidTarget(Variables.spells[SpellSlot.E].Range) && 
+                            MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.antigp") 
+                            && Variables.spells[SpellSlot.E].IsReady())
                         {
                             Variables.spells[SpellSlot.E].CastOnUnit(gapcloser.Sender);
                         }

@@ -39,6 +39,9 @@
     <Reference Include="clipper_library">
       <HintPath>C:\Program Files (x86)\LeagueSharp\System\clipper_library.dll</HintPath>
     </Reference>
+    <Reference Include="DZLib">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\DZLib.dll</HintPath>
+    </Reference>
     <Reference Include="LeagueSharp">
       <HintPath>C:\Program Files (x86)\LeagueSharp\System\LeagueSharp.dll</HintPath>
     </Reference>
