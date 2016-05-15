@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace DZAIO_Reborn.Plugins.Interface
@@ -11,7 +12,7 @@ namespace DZAIO_Reborn.Plugins.Interface
     {
         void OnLoad(Menu menu);
         void RegisterEvents();
-        void SetUpSpells();
+        Dictionary<SpellSlot, Spell> GetSpells();
         void OnTick();
         void OnCombo();
         void OnMixed();

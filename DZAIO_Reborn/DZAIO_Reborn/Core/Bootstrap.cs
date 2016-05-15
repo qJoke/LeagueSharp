@@ -22,6 +22,7 @@ namespace DZAIO_Reborn.Core
         {
             MenuGenerator.GenerateMenu();
             ChampionLoader.LoadChampion();
+            DZAIO.Init();
         }
     }
 }

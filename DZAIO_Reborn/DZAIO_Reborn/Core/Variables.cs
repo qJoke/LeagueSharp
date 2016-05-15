@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DZAIO_Reborn.Plugins.Champions.Trundle;
 using DZAIO_Reborn.Plugins.Interface;
+using LeagueSharp;
 using LeagueSharp.Common;
 using Menu = LeagueSharp.Common.Menu;
 
@@ -22,5 +23,8 @@ namespace DZAIO_Reborn.Core
         };
 
         public static IChampion CurrentChampion { get; set; }
+
+        public static Dictionary<SpellSlot, Spell> Spells
+            => CurrentChampion?.GetSpells();
     }
 }

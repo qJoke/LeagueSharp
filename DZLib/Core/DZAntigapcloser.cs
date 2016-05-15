@@ -42,7 +42,7 @@ namespace DZLib.Core
     {
         public static List<Gapcloser> Spells = new List<Gapcloser>();
         public static List<ActiveGapcloser> ActiveGapclosers = new List<ActiveGapcloser>();
-        private static Menu GapMenu;
+        private static LeagueSharp.Common.Menu GapMenu;
         private static string GPMenuName;
 
         static DZAntigapcloser()

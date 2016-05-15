@@ -43,7 +43,7 @@ namespace DZLib.External
 
         private static bool ToggleEzEvade()
         {
-            var evadeMenu = Menu.GetMenu("ezEvade", "ezEvade");
+            var evadeMenu = LeagueSharp.Common.Menu.GetMenu("ezEvade", "ezEvade");
             var menuItem = evadeMenu?.Item("DodgeSkillShots");
             if (menuItem != null)
             {
@@ -57,7 +57,7 @@ namespace DZLib.External
 
         private static bool ToggleEvadeSharp()
         {
-            var evadeMenu = Menu.GetMenu("Evade", "Evade");
+            var evadeMenu = LeagueSharp.Common.Menu.GetMenu("Evade", "Evade");
             var menuItem = evadeMenu?.Item("Enabled");
             if (menuItem != null)
             {
@@ -71,14 +71,14 @@ namespace DZLib.External
 
         private static bool GetEvadeSharpStatus()
         {
-            var evadeMenu = Menu.GetMenu("Evade", "Evade");
+            var evadeMenu = LeagueSharp.Common.Menu.GetMenu("Evade", "Evade");
             var menuItem = evadeMenu?.Item("Enabled");
             return evadeMenu != null && menuItem != null && menuItem.IsActive();
         }
 
         private static bool GetEzEvadeStatus()
         {
-            var evadeMenu = Menu.GetMenu("ezEvade", "ezEvade");
+            var evadeMenu = LeagueSharp.Common.Menu.GetMenu("ezEvade", "ezEvade");
             var menuItem = evadeMenu?.Item("DodgeSkillShots");
             return evadeMenu != null && menuItem != null && menuItem.IsActive();
         }
