@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DZAIO_Reborn.Plugins.Interface;
+using DZLib.Menu;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -13,7 +14,11 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
     {
         public void OnLoad(Menu menu)
         {
-             
+            var comboMenu = new Menu(ObjectManager.Player.ChampionName + " Combo", "dzaio.champion.trundle.combo");
+            {
+                comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R }, new[] { true, true, true, true });
+            }
+
         }
 
         public void RegisterEvents(){  }

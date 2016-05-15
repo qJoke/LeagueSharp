@@ -20,6 +20,8 @@ namespace DZAIO_Reborn.Core
 
         private void OnLoad(object sender, EventArgs e)
         {
+            DZLib.Menu.ModesMenuExtensions.SetBaseName($"dzaio.champion.{ObjectManager.Player.ChampionName.ToLowerInvariant()}");
+            DZLib.Logging.LogHelper.OnLoad();
             MenuGenerator.GenerateMenu();
             ChampionLoader.LoadChampion();
             DZAIO.Init();

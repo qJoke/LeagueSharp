@@ -15,7 +15,6 @@ namespace DZAIO_Reborn.Core.ChampionHelper
             {
                 Variables.CurrentChampion = Variables.ChampList[ObjectManager.Player.ChampionName].Invoke();
                 Variables.CurrentChampion.OnLoad(Variables.AssemblyMenu);
-                Variables.CurrentChampion.SetUpSpells();
                 Variables.CurrentChampion.RegisterEvents();
                 Game.PrintChat("<b><font color='#FF0000'>[DZAIO: Reborn] </font></b><font color='#FFFFFF'>Loaded</font> <b><font color='#FF0000'>{0}</font></b> plugin! <font color='#FFFFFF'> Have fun! </font>", ObjectManager.Player.ChampionName);
             }
