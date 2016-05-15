@@ -17,6 +17,11 @@ namespace DZLib.Menu
         {
             BaseName = name;
         }
+        
+        public static string GetCurrentBaseName()
+        {
+            return BaseName;
+        }
 
         public static void AddManaManager(this LeagueSharp.Common.Menu menu, Mode mode, SpellSlot[] spellList, int[] manaCosts)
         {
