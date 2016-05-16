@@ -5,7 +5,7 @@ using DZLib.Menu;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-namespace DZAIO_Reborn.Extensions
+namespace DZAIO_Reborn.Helpers
 {
     static class SkillsHelper
     {
