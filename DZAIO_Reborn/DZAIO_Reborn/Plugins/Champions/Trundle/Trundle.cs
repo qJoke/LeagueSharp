@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
+using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -33,6 +35,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
             {
                 farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Lasthit, new[] { SpellSlot.Q,}, new[] { true });
                 farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Laneclear, new[] { SpellSlot.Q, }, new[] { true });
+                farmMenu.AddBool("dzaio.champion.trundle.jungleclear.q", "Use Q Jungle", true);
+                farmMenu.AddBool("dzaio.champion.trundle.jungleclear.w", "Use W Jungle", true);
 
                 farmMenu.AddSlider("dzaio.champion.trundle.farm.mana", "Min Mana % for Harass", 30, 0, 100);
                 menu.AddSubMenu(farmMenu);
@@ -108,7 +112,38 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
 
         public void OnLaneclear()
         {
-            throw new NotImplementedException();
+            if (EntityHelper.PlayerIsClearingJungle())
+            {
+                OnJungleClear();
+            }
+            else
+            {
+                //Laneclear
+            }
+        }
+
+        private void OnJungleClear()
+        {
+            var Minion =
+                MinionManager.GetMinions(
+                    ObjectManager.Player.ServerPosition,
+                    Variables.Spells[SpellSlot.W].Range,
+                    MinionTypes.All,
+                    MinionTeam.Neutral,
+                    MinionOrderTypes.MaxHealth).FirstOrDefault();
+            var target = Minion ?? PlayerMonitor.GetLastTarget();
+
+            if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.trundle.jungleclear.w")
+                && Variables.Spells[SpellSlot.W].IsReady() && target.IsValidTarget(675f))
+            {
+                Variables.Spells[SpellSlot.W].Cast(ObjectManager.Player.ServerPosition.Extend(target.Position, ObjectManager.Player.Distance(target) / 2f));
+            }
+
+            if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.trundle.jungleclear.q")
+                && Variables.Spells[SpellSlot.Q].IsReady() && target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
+            {
+                Variables.Spells[SpellSlot.Q].Cast(target as Obj_AI_Minion);
+            }
         }
     }
 }

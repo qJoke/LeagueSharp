@@ -16,7 +16,7 @@ namespace DZAIO_Reborn.Helpers.Entity
                 .Contains((Target as Obj_AI_Minion).CharData.BaseSkinName);
         }
 
-        internal static bool IsClearingJungle()
+        internal static bool PlayerIsClearingJungle()
         {
             //Assume we are clearing jungle based on the last target
             return !PlayerMonitor.GetLastTarget().IsDead && PlayerMonitor.GetLastTarget().IsJungleMob();
