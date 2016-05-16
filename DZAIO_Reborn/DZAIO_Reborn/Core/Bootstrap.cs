@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DZAIO_Reborn.Core.ChampionHelper;
 using DZAIO_Reborn.Core.MenuHelper;
+using DZLib.Core;
 using LeagueSharp;
 using LeagueSharp.Common;
 using LeagueSharp.SDK;
@@ -23,7 +24,9 @@ namespace DZAIO_Reborn.Core
             DZLib.Menu.ModesMenuExtensions.SetBaseName($"dzaio.champion.{ObjectManager.Player.ChampionName.ToLowerInvariant()}");
             DZLib.Logging.LogHelper.OnLoad();
             MenuGenerator.GenerateMenu();
+            
             ChampionLoader.LoadChampion();
+            DZAntigapcloser.BuildMenu(Variables.AssemblyMenu, $"{ObjectManager.Player.ChampionName}: Antigapcloser","dzaio.antigp");
             DZAIO.Init();
         }
     }
