@@ -66,12 +66,12 @@ namespace DZLib.Menu
                         new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2)));
         }
 
-        public static void AddNoUltiMenu(this LeagueSharp.Common.Menu menu, bool allies)
+        public static void AddHeroMenu(this LeagueSharp.Common.Menu menu, string menuDisplayName, string name, bool allies)
         {
-            var _menu = new LeagueSharp.Common.Menu("Don't ult", BaseName + ObjectManager.Player.ChampionName.ToLowerInvariant() + ".noult");
+            var _menu = new LeagueSharp.Common.Menu(menuDisplayName, BaseName + ObjectManager.Player.ChampionName.ToLowerInvariant() + ".noult");
             foreach (var player in ObjectManager.Get<Obj_AI_Hero>().Where(h => !h.IsMe && allies ? h.IsAlly : h.IsEnemy))
             {
-                _menu.AddItem(new MenuItem(BaseName + ObjectManager.Player.ChampionName.ToLowerInvariant() + ".noult." + player.ChampionName, player.ChampionName).SetValue(false));
+                _menu.AddItem(new MenuItem(BaseName + ObjectManager.Player.ChampionName.ToLowerInvariant() + "."+ name +"." + player.ChampionName, player.ChampionName).SetValue(false));
             }
             menu.AddSubMenu(_menu);
         }
