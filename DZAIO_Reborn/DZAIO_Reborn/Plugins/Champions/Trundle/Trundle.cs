@@ -25,9 +25,9 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
                 menu.AddSubMenu(comboMenu);
             }
 
-            var mixedMenu = new Menu(ObjectManager.Player.ChampionName + ": Mixed", "dzaio.champion.trundle.mixed");
+            var mixedMenu = new Menu(ObjectManager.Player.ChampionName + ": Mixed", "dzaio.champion.trundle.harrass");
             {
-                mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E}, new[] { true, true, true });
+                mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E}, new[] { true, true, true });
                 mixedMenu.AddSlider("dzaio.champion.trundle.mixed.mana", "Min Mana % for Harass", 30, 0, 100);
                 menu.AddSubMenu(mixedMenu);
             }
@@ -138,7 +138,30 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
 
         public void OnMixed()
         {
-            throw new NotImplementedException();
+            var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.E].Range,
+                TargetSelector.DamageType.Physical);
+            if (target.IsValidTarget())
+            {
+                if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass)
+                    && target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
+                {
+                    Variables.Spells[SpellSlot.Q].Cast();
+                }
+
+                if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass)
+                    && target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+                {
+                    var optimalWPosition = ObjectManager.Player.ServerPosition.Extend(target.Position,
+                        ObjectManager.Player.Distance(target)/2f);
+
+                    Variables.Spells[SpellSlot.W].Cast(optimalWPosition);
+                }
+
+                if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass))
+                {
+                    Variables.Spells[SpellSlot.E].Cast(GetPillarOptimalPosition(target));
+                }
+            }
         }
 
         public void OnLastHit()
