@@ -10,6 +10,7 @@ using DZLib.Menu;
 using DZLib.MenuExtensions;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
 
 namespace DZAIO_Reborn.Plugins.Champions.Trundle
 {
@@ -20,7 +21,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.trundle.combo");
             {
                 comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R }, new[] { true, true, true, true });
-                comboMenu.AddNoUltiMenu(false);
+                //comboMenu.AddNoUltiMenu(false);
                 menu.AddSubMenu(comboMenu);
             }
 
@@ -97,7 +98,42 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
 
         public void OnCombo()
         {
-            throw new NotImplementedException();
+            var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.E].Range,
+                TargetSelector.DamageType.Physical);
+            if (target.IsValidTarget())
+            {
+
+                if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo)
+                    && target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
+                {
+                    Variables.Spells[SpellSlot.Q].Cast();
+                }
+
+                if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo)
+                    && target.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+                {
+                    var optimalWPosition = ObjectManager.Player.ServerPosition.Extend(target.Position,
+                        ObjectManager.Player.Distance(target) / 2f);
+
+                    Variables.Spells[SpellSlot.W].Cast(optimalWPosition);
+                }
+
+                if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+                {
+                    Variables.Spells[SpellSlot.E].Cast(GetPillarOptimalPosition(target));
+                }
+
+                if (Variables.Spells[SpellSlot.R].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+                {
+                    var bestRTarget = Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Hero>() && Variables.Orbwalker.GetTarget().IsValidTarget(Variables.Spells[SpellSlot.R].Range)
+                        ? Variables.Orbwalker.GetTarget() as Obj_AI_Hero
+                        : GetBestRTarget();
+                    if (bestRTarget.IsValidTarget())
+                    {
+                        Variables.Spells[SpellSlot.R].Cast(bestRTarget);
+                    }
+                }
+            }
         }
 
         public void OnMixed()
@@ -142,8 +178,23 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
             if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.trundle.jungleclear.q")
                 && Variables.Spells[SpellSlot.Q].IsReady() && target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
             {
-                Variables.Spells[SpellSlot.Q].Cast(target as Obj_AI_Minion);
+                Variables.Spells[SpellSlot.Q].Cast();
             }
+        }
+
+        private Obj_AI_Hero GetBestRTarget()
+        {
+            return
+                ObjectManager.Player.GetEnemiesInRange(Variables.Spells[SpellSlot.R].Range).OrderBy(m => m.PercentArmorMod)
+                    .ThenBy(m => m.PercentMagicReduction)
+                    .FirstOrDefault();
+        }
+
+        private Vector3 GetPillarOptimalPosition(Obj_AI_Hero target)
+        {
+            var targetPrediction = Prediction.GetPrediction(target, 0.25f);
+            var extendedVector = targetPrediction.UnitPosition.Extend(ObjectManager.Player.ServerPosition, -310f);
+            return extendedVector;
         }
     }
 }
