@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LeagueSharp;
+using LeagueSharp.Common;
 using LeagueSharp.SDK;
 
 namespace DZAIO_Reborn.Helpers.Entity
@@ -20,6 +21,13 @@ namespace DZAIO_Reborn.Helpers.Entity
         {
             //Assume we are clearing jungle based on the last target
             return !PlayerMonitor.GetLastTarget().IsDead && PlayerMonitor.GetLastTarget().IsJungleMob();
+        }
+
+        internal static Obj_AI_Hero GetStunnedTarget(float range)
+        {
+            return HeroManager.Enemies.Where(en => LeagueSharp.Common.Utility.IsValidTarget(en, range) && en.HasBuffOfType(BuffType.Stun))
+                .OrderBy(LeagueSharp.Common.TargetSelector.GetPriority).FirstOrDefault();
+
         }
     }
 }

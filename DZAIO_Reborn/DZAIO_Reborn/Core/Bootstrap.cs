@@ -24,9 +24,12 @@ namespace DZAIO_Reborn.Core
             DZLib.Menu.ModesMenuExtensions.SetBaseName($"dzaio.champion.{ObjectManager.Player.ChampionName.ToLowerInvariant()}");
             DZLib.Logging.LogHelper.OnLoad();
             MenuGenerator.GenerateMenu();
-            
+            SPrediction.ConfigMenu.Initialize(Variables.AssemblyMenu,
+                $"{ObjectManager.Player.ChampionName}: SPrediction");
+
             ChampionLoader.LoadChampion();
             DZAntigapcloser.BuildMenu(Variables.AssemblyMenu, $"{ObjectManager.Player.ChampionName}: Antigapcloser","dzaio.antigp");
+            
             DZAIO.Init();
         }
     }
