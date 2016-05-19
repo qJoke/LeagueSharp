@@ -110,11 +110,82 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
                     }
                 }
             }
+
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range,
+                    TargetSelector.DamageType.Magical);
+                if (target.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(target, HitChance.High);
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.R].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range,
+                    TargetSelector.DamageType.Magical);
+                if (target.IsValidTarget() 
+                    && Variables.Spells[SpellSlot.R].IsKillable(target))
+                {
+                    //TODO Check Zhonya and stuff like that if it is an enemy mage.
+                    Variables.Spells[SpellSlot.R].Cast(target);
+                }
+            }
         }
 
         public void OnMixed()
         {
-            throw new NotImplementedException();
+            if (ObjectManager.Player.ManaPercent <
+                Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.veigar.mixed.mana").Value)
+            {
+                return;
+            }
+
+            if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass))
+            {
+                var target = Variables.Spells[SpellSlot.E].GetTarget(250f);
+                if (target.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.E].SPredictionCastRing(target, 80f, HitChance.VeryHigh);
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass))
+            {
+                var target = EntityHelper.GetStunnedTarget(Variables.Spells[SpellSlot.W].Range) ??
+                             TargetSelector.GetTarget(Variables.Spells[SpellSlot.W].Range, TargetSelector.DamageType.Magical);
+                if (target.IsValidTarget())
+                {
+                    var targetIsStunned = target.HasBuffOfType(BuffType.Stun);
+                    if (targetIsStunned)
+                    {
+                        var stunBuff = target.Buffs.Where(b => b.Type == BuffType.Stun)
+                            .OrderByDescending(m => m.EndTime - Game.Time)
+                            .FirstOrDefault();
+                        if (stunBuff != null)
+                        {
+                            var actualStunDuration = stunBuff.EndTime - Game.Time;
+                            if (actualStunDuration > 1.300f)
+                            {
+                                //Might need to revise this
+                                Variables.Spells[SpellSlot.W].CastIfHitchanceEquals(target, HitChance.VeryHigh);
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass))
+            {
+                var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range,
+                    TargetSelector.DamageType.Magical);
+                if (target.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(target, HitChance.High);
+                }
+            }
         }
 
         public void OnLastHit()

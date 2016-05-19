@@ -137,6 +137,12 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
 
         public void OnMixed()
         {
+            if (ObjectManager.Player.ManaPercent <
+                Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.trundle.mixed.mana").Value)
+            {
+                return;
+            }
+
             var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.E].Range,
                 TargetSelector.DamageType.Physical);
             if (target.IsValidTarget())
@@ -170,6 +176,12 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
 
         public void OnLaneclear()
         {
+            if (ObjectManager.Player.ManaPercent <
+                Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.trundle.farm.mana").Value)
+            {
+                return;
+            }
+
             if (EntityHelper.PlayerIsClearingJungle())
             {
                 OnJungleClear();
