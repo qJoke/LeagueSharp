@@ -34,12 +34,11 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
 
             var farmMenu = new Menu(ObjectManager.Player.ChampionName + ": Farm", "dzaio.champion.trundle.farm");
             {
-                farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Lasthit, new[] { SpellSlot.Q,}, new[] { true });
                 farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Laneclear, new[] { SpellSlot.Q, }, new[] { true });
                 farmMenu.AddBool("dzaio.champion.trundle.jungleclear.q", "Use Q Jungle", true);
                 farmMenu.AddBool("dzaio.champion.trundle.jungleclear.w", "Use W Jungle", true);
 
-                farmMenu.AddSlider("dzaio.champion.trundle.farm.mana", "Min Mana % for Harass", 30, 0, 100);
+                farmMenu.AddSlider("dzaio.champion.trundle.farm.mana", "Min Mana % for Farm", 30, 0, 100);
                 menu.AddSubMenu(farmMenu);
             }
 
