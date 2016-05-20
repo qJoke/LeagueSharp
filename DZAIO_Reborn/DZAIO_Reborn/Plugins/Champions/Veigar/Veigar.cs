@@ -7,6 +7,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Plugins.Interface;
+using DZLib.Core;
 using DZLib.Menu;
 using DZLib.MenuExtensions;
 using LeagueSharp;
@@ -55,9 +56,33 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
 
         public void RegisterEvents()
         {
-            
+            DZInterrupter.OnInterruptableTarget += OnInterrupter;
+            DZAntigapcloser.OnEnemyGapcloser += OnGapcloser;
         }
 
+        private void OnGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
+        {
+            if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.veigar.extra.antigapcloser")
+                && ObjectManager.Player.ManaPercent > 20
+                && gapcloser.End.Distance(ObjectManager.Player.ServerPosition) < 400
+                && gapcloser.Sender.IsValidTarget(Variables.Spells[SpellSlot.E].Range)
+                && Variables.Spells[SpellSlot.E].IsReady())
+            {
+                Variables.Spells[SpellSlot.E].SPredictionCastRing(gapcloser.Sender, 80f, HitChance.High);
+            }
+        }
+
+        private void OnInterrupter(Obj_AI_Hero sender, DZInterrupter.InterruptableTargetEventArgs args)
+        {
+            if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.veigar.extra.interrupter")
+                && ObjectManager.Player.ManaPercent > 20
+                && args.DangerLevel > DZInterrupter.DangerLevel.Medium
+                && sender.IsValidTarget(Variables.Spells[SpellSlot.E].Range)
+                && Variables.Spells[SpellSlot.E].IsReady())
+            {
+                Variables.Spells[SpellSlot.E].SPredictionCastRing(sender, 80f, HitChance.Medium);
+            }
+        }
         public Dictionary<SpellSlot, Spell> GetSpells()
         {
             return new Dictionary<SpellSlot, Spell>
@@ -81,7 +106,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
                 var target = Variables.Spells[SpellSlot.E].GetTarget(250f);
                 if (target.IsValidTarget())
                 {
-                    Variables.Spells[SpellSlot.E].SPredictionCastRing(target, 80f, HitChance.VeryHigh);
+                    Variables.Spells[SpellSlot.E].SPredictionCastRing(target, 80f, HitChance.High);
                 }
             }
 
@@ -103,7 +128,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
                             if (actualStunDuration > 1.300f)
                             {
                                 //Might need to revise this
-                                Variables.Spells[SpellSlot.W].CastIfHitchanceEquals(target, HitChance.VeryHigh);
+                                Variables.Spells[SpellSlot.W].CastIfHitchanceEquals(target, HitChance.High);
                             }
                         }
                         
