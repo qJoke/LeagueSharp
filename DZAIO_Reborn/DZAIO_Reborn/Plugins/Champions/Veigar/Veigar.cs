@@ -38,6 +38,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             {
                 farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Laneclear, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true});
 
+                farmMenu.AddBool("dzaio.champion.veigar.farm.w.kill", "Only Kill Minions with W", false);
+                farmMenu.AddSlider("dzaio.champion.veigar.farm.w.min", "Min Minions for W", 2, 1, 6);
                 farmMenu.AddSlider("dzaio.champion.veigar.farm.mana", "Min Mana % for Farm", 30, 0, 100);
                 menu.AddSubMenu(farmMenu);
             }
@@ -46,7 +48,6 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             {
                 extraMenu.AddBool("dzaio.champion.veigar.extra.interrupter", "Interrupter (E)", true);
                 extraMenu.AddBool("dzaio.champion.veigar.extra.antigapcloser", "Antigapcloser (E)", true);
-
             }
 
             Variables.Spells[SpellSlot.Q].SetSkillshot(0.25f, 65f, 1900f, false, SkillshotType.SkillshotLine);
@@ -214,13 +215,56 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
         }
 
         public void OnLastHit()
-        {
-            throw new NotImplementedException();
-        }
+        {}
 
         public void OnLaneclear()
         {
-            throw new NotImplementedException();
+            if (ObjectManager.Player.ManaPercent <
+                Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.veigar.farm.mana").Value)
+            {
+                return;
+            }
+
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Laneclear))
+            {
+                var positions = MinionManager.GetMinions(Variables.Spells[SpellSlot.Q].Range,
+                    MinionTypes.All, MinionTeam.NotAlly,
+                    MinionOrderTypes.MaxHealth)
+                    .Where(m => Variables.Spells[SpellSlot.Q].GetDamage(m) >= m.Health + 5)
+                    .Select(m => m.ServerPosition.To2D()).ToList();
+
+                var lineFarmLocation = Variables.Spells[SpellSlot.Q].GetLineFarmLocation(positions);
+
+                if (lineFarmLocation.MinionsHit > 0)
+                {
+                    Variables.Spells[SpellSlot.Q].Cast(lineFarmLocation.Position);
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Laneclear))
+            {
+                var minMinions = Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.veigar.farm.w.min").Value;
+                var positions = Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.veigar.farm.w.kill") ?
+                    MinionManager.GetMinions(Variables.Spells[SpellSlot.W].Range,
+                    MinionTypes.All, MinionTeam.NotAlly,
+                    MinionOrderTypes.MaxHealth)
+                    .Where(m => Variables.Spells[SpellSlot.W].GetDamage(m) >= m.Health + 5)
+                    .Select(m => m.ServerPosition.To2D()).ToList()
+
+                    :
+
+                     MinionManager.GetMinions(Variables.Spells[SpellSlot.W].Range,
+                    MinionTypes.All, MinionTeam.NotAlly,
+                    MinionOrderTypes.MaxHealth)
+                    .Select(m => m.ServerPosition.To2D()).ToList()
+                    ;
+
+                var circularFarmLocation = Variables.Spells[SpellSlot.W].GetCircularFarmLocation(positions);
+                if (circularFarmLocation.MinionsHit >= minMinions)
+                {
+                    Variables.Spells[SpellSlot.W].Cast(circularFarmLocation.Position);
+                }
+            }
         }
     }
 }
