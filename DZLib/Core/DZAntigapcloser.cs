@@ -42,7 +42,7 @@ namespace DZLib.Core
     {
         public static List<Gapcloser> Spells = new List<Gapcloser>();
         public static List<ActiveGapcloser> ActiveGapclosers = new List<ActiveGapcloser>();
-        private static Menu GapMenu;
+        private static LeagueSharp.Common.Menu GapMenu;
         private static string GPMenuName;
 
         static DZAntigapcloser()
@@ -634,9 +634,9 @@ namespace DZLib.Core
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
         }
 
-        public static void BuildMenu(LeagueSharp.Common.Menu mainMenu, string title, string name)
+        public static void BuildMenu(LeagueSharp.Common.Menu mainMenu, string displayName, string name)
         {
-            var GPMenu = new LeagueSharp.Common.Menu(title, name);
+            var GPMenu = new LeagueSharp.Common.Menu(displayName, name);
             {
                 var enemyHeroesNames = ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsEnemy).Select(hero => hero.ChampionName).ToList();
 

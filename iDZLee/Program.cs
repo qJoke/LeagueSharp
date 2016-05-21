@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LeagueSharp;
+using iDZLee.Core;
 using LeagueSharp.Common;
 
 namespace iDZLee
@@ -12,6 +8,12 @@ namespace iDZLee
     {
         static void Main(string[] args)
         {
+            CustomEvents.Game.OnGameLoad += OnLoad;
+        }
+
+        private static void OnLoad(EventArgs args)
+        {
+            Bootstrap.OnLoad();
         }
     }
 }
