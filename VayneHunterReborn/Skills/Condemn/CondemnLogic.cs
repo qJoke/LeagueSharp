@@ -23,6 +23,8 @@ namespace VayneHunter_Reborn.Skills.Condemn
             Variables.spells[SpellSlot.E].SetSkillshot(0.25f, 65f, 1250f, false, SkillshotType.SkillshotLine);
             InterrupterGapcloser.OnLoad();
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
+            Obj_AI_Base.OnProcessSpellCast += WindWall.OnProcessSpellCast;
+
         }
 
         public static void Execute(EventArgs args)
