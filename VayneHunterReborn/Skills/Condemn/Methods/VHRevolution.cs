@@ -14,7 +14,7 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
     {
         public static Obj_AI_Base GetTarget(Vector3 fromPosition)
         {
-            return Marksman.GetTarget(fromPosition);
+            return VHReborn.GetTarget(fromPosition);
 
             var HeroList = HeroManager.Enemies.Where(
                                     h =>
