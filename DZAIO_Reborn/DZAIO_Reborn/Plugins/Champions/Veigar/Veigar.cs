@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
+using DZAIO_Reborn.Helpers.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -48,6 +49,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             {
                 extraMenu.AddBool("dzaio.champion.veigar.extra.interrupter", "Interrupter (E)", true);
                 extraMenu.AddBool("dzaio.champion.veigar.extra.antigapcloser", "Antigapcloser (E)", true);
+
             }
 
             Variables.Spells[SpellSlot.Q].SetSkillshot(0.25f, 65f, 1900f, false, SkillshotType.SkillshotLine);
@@ -93,6 +95,11 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
                                     { SpellSlot.E, new Spell(SpellSlot.E, 700f) },
                                     { SpellSlot.R, new Spell(SpellSlot.R, 640f) }
                       };
+        }
+
+        public List<IModule> GetModules()
+        {
+            return new List<IModule>();
         }
 
         public void OnTick()

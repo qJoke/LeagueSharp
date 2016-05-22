@@ -4,6 +4,7 @@ using System.Linq;
 using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
+using DZAIO_Reborn.Helpers.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -89,6 +90,11 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
                                     { SpellSlot.E, new Spell(SpellSlot.E, 1000f) },
                                     { SpellSlot.R, new Spell(SpellSlot.R, 700f) }
                       };
+        }
+
+        public List<IModule> GetModules()
+        {
+            return new List<IModule>();
         }
 
         public void OnTick()
