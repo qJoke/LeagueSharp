@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using DZAIO_Reborn.Core;
+using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -20,7 +22,7 @@ namespace DZAIO_Reborn
             if (Variables.CurrentChampion != null && Variables.Orbwalker != null)
             {
                 Variables.CurrentChampion.OnTick();
-
+               
                 switch (Variables.Orbwalker.ActiveMode)
                 {
                     case Orbwalking.OrbwalkingMode.Combo:
@@ -36,12 +38,20 @@ namespace DZAIO_Reborn
                         Variables.CurrentChampion.OnLaneclear();
                         break;
                 }
+
+                foreach(var module in Variables.CurrentChampion.GetModules().Where(m => m.ShouldGetExecuted() && m.GetModuleType() == DZAIOEnums.ModuleType.OnUpdate))
+                {
+                    module.OnExecute();
+                }
             }
             
         }
         private static void OnAfterAttack(AttackableUnit unit, AttackableUnit target)
         {
-            throw new NotImplementedException();
+            foreach(var module in Variables.CurrentChampion.GetModules().Where(m => m.ShouldGetExecuted() && m.GetModuleType() == DZAIOEnums.ModuleType.OnAfterAA))
+            {
+                module.OnExecute();
+            }
         }
     }
 }
