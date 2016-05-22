@@ -7,6 +7,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Plugins.Champions.Veigar.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -49,6 +50,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             {
                 extraMenu.AddBool("dzaio.champion.veigar.extra.interrupter", "Interrupter (E)", true);
                 extraMenu.AddBool("dzaio.champion.veigar.extra.antigapcloser", "Antigapcloser (E)", true);
+                extraMenu.AddBool("dzaio.champion.veigar.extra.farmQ", "Auto Q Farm", true);
 
             }
 
@@ -99,7 +101,10 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
 
         public List<IModule> GetModules()
         {
-            return new List<IModule>();
+            return new List<IModule>()
+            {
+                new VeigarAutoQ()
+            };
         }
 
         public void OnTick()
