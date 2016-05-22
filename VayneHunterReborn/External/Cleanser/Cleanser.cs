@@ -10,7 +10,7 @@ namespace VayneHunter_Reborn.External.Cleanser
     class Cleanser
     {
         #region Spells & Bufftypes
-        private static readonly BuffType[] Buffs = { BuffType.Blind, BuffType.Charm, BuffType.CombatDehancer, BuffType.Fear, BuffType.Flee, BuffType.Knockback, BuffType.Knockup, BuffType.Polymorph, BuffType.Silence, BuffType.Sleep, BuffType.Snare, BuffType.Stun, BuffType.Suppression, BuffType.Taunt };
+        private static readonly BuffType[] Buffs = { BuffType.Blind, BuffType.Charm, BuffType.CombatDehancer, BuffType.Fear, BuffType.Flee, BuffType.Knockback, BuffType.Knockup, BuffType.Polymorph, BuffType.Silence, BuffType.Snare, BuffType.Stun, BuffType.Suppression, BuffType.Taunt };
 
         private static readonly List<CleanserSpell> CleanserSpells = new List<CleanserSpell>
         {
