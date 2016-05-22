@@ -51,6 +51,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
                 extraMenu.AddBool("dzaio.champion.veigar.extra.interrupter", "Interrupter (E)", true);
                 extraMenu.AddBool("dzaio.champion.veigar.extra.antigapcloser", "Antigapcloser (E)", true);
                 extraMenu.AddBool("dzaio.champion.veigar.extra.farmQ", "Auto Q Farm", true);
+                extraMenu.AddBool("dzaio.champion.veigar.extra.autoW", "Auto W Stunned / Rooted", true);
 
             }
 
@@ -103,7 +104,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
         {
             return new List<IModule>()
             {
-                new VeigarAutoQ()
+                new VeigarAutoQ(),
+                new VeigarAutoW()
             };
         }
 
