@@ -2,6 +2,7 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using VayneHunter_Reborn.External.Evade;
 using VayneHunter_Reborn.Skills.Condemn.Methods;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.MenuUtility;
@@ -22,6 +23,8 @@ namespace VayneHunter_Reborn.Skills.Condemn
             Variables.spells[SpellSlot.E].SetSkillshot(0.25f, 65f, 1250f, false, SkillshotType.SkillshotLine);
             InterrupterGapcloser.OnLoad();
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
+            Obj_AI_Base.OnProcessSpellCast += WindWall.OnProcessSpellCast;
+
         }
 
         public static void Execute(EventArgs args)
@@ -41,6 +44,12 @@ namespace VayneHunter_Reborn.Skills.Condemn
                // {
                //     return;
                // }
+                var targetPosition = CondemnTarget.ServerPosition;
+                var myPosition = ObjectManager.Player.ServerPosition;
+                if (WindWall.CollidesWithWall(myPosition, targetPosition))
+                {
+                    return;
+                }
 
                 E.CastOnUnit(CondemnTarget);
                 TrinketBush(CondemnTarget.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -450f));

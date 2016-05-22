@@ -90,6 +90,7 @@
     <Compile Include="External\Evade\SkillshotDetector.cs" />
     <Compile Include="External\Evade\SpellData.cs" />
     <Compile Include="External\Evade\SpellDatabase.cs" />
+    <Compile Include="External\Evade\WindWall.cs" />
     <Compile Include="External\ProfileSelector\DefaultProfiles\Asuna.cs" />
     <Compile Include="External\ProfileSelector\DefaultProfiles\Eirik.cs" />
     <Compile Include="External\ProfileSelector\DefaultProfiles\IDefaultProfile.cs" />
