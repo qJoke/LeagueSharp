@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
+using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -33,6 +34,32 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar.Modules
         public void OnExecute()
         {
             var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.R].Range, TargetSelector.DamageType.Magical);
+
+            if (target.IsValidTarget() 
+                && TargetSelector.GetPriority(target) > 1 )
+            {
+                if (target.Health + 5 < Variables.Spells[SpellSlot.R].GetDamage(target))
+                {
+                    Variables.Spells[SpellSlot.R].Cast(target);
+                }
+                else
+                {
+                    var nearlyKillableTarget = DZTargetHelper.GetNearlyKillableTarget(Variables.Spells[SpellSlot.R],
+                        new[] { SpellSlot.Q }, TargetSelector.DamageType.Magical);
+                    if (nearlyKillableTarget.IsValidTarget(Variables.Spells[SpellSlot.Q].Range)
+                        && nearlyKillableTarget.IsValidTarget(Variables.Spells[SpellSlot.R].Range)
+                        && TargetSelector.GetPriority(target) > 1)
+                    {
+                        var QPrediction = Variables.Spells[SpellSlot.Q].GetPrediction(nearlyKillableTarget);
+
+                        if (QPrediction.Hitchance >= HitChance.High)
+                        {
+                            Variables.Spells[SpellSlot.Q].Cast(QPrediction.CastPosition);
+                            Variables.Spells[SpellSlot.R].Cast(nearlyKillableTarget);
+                        }
+                    }
+                }
+            }
         }
     }
 }

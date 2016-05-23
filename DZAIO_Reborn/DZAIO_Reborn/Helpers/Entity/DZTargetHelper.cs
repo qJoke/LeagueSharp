@@ -10,7 +10,7 @@ namespace DZAIO_Reborn.Helpers.Entity
 {
     class DZTargetHelper
     {
-        public static Obj_AI_Hero GetNearlyKillableTarget(Spell Spell, TargetSelector.DamageType DamageType)
+        public static Obj_AI_Hero GetNearlyKillableTarget(Spell Spell, SpellSlot[] slots, TargetSelector.DamageType DamageType)
         {
             var targetSelectorTarget = TargetSelector.GetTarget(Spell.Range, TargetSelector.DamageType.Magical);
             var targetSelectorTargetIsKillable = Spell.GetDamage(targetSelectorTarget) > targetSelectorTarget.Health + 5;
@@ -21,14 +21,14 @@ namespace DZAIO_Reborn.Helpers.Entity
                 if (target.Health + 5 > SpellDamage 
                     && target.Health + 5 < SpellDamage 
                     + ObjectManager.Player.GetAutoAttackDamage(target) 
-                    + ObjectManager.Player.GetComboDamage(target, new [] {SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R}
+                    + ObjectManager.Player.GetComboDamage(target, slots
                     .Except(new List<SpellSlot>() { Spell.Slot }).ToList()))
                 {
                     return target;
                 }
             }
 
-            return targetSelectorTarget;
+            return targetSelectorTargetIsKillable ? targetSelectorTarget : null;
         }
     }
 }
