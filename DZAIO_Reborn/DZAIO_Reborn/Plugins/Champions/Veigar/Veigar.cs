@@ -52,7 +52,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
                 extraMenu.AddBool("dzaio.champion.veigar.extra.antigapcloser", "Antigapcloser (E)", true);
                 extraMenu.AddBool("dzaio.champion.veigar.extra.farmQ", "Auto Q Farm", true);
                 extraMenu.AddBool("dzaio.champion.veigar.extra.autoW", "Auto W Stunned / Rooted", true);
-
+                extraMenu.AddBool("dzaio.champion.veigar.extra.autoRKS", "Auto R KS", true);
             }
 
             Variables.Spells[SpellSlot.Q].SetSkillshot(0.25f, 65f, 1900f, false, SkillshotType.SkillshotLine);
