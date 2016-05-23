@@ -105,7 +105,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             return new List<IModule>()
             {
                 new VeigarAutoQ(),
-                new VeigarAutoW()
+                new VeigarAutoW(),
+                new VeigarAutoRKS()
             };
         }
 
