@@ -46,6 +46,10 @@
     <Reference Include="LeagueSharp.Common">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\LeagueSharp.Common.dll</HintPath>
     </Reference>
+    <Reference Include="LeagueSharp.Data, Version=1.1.0.0, Culture=neutral, PublicKeyToken=7b6e8d26eaf0534f, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\LeagueSharp.Data.dll</HintPath>
+    </Reference>
     <Reference Include="LeagueSharp.SDK">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\LeagueSharp.SDK.dll</HintPath>
     </Reference>
