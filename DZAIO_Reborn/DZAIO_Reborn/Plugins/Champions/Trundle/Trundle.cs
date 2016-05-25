@@ -5,6 +5,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Plugins.Champions.Trundle.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -47,7 +48,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
             {
                 extraMenu.AddBool("dzaio.champion.trundle.extra.interrupter", "Interrupter (E)", true);
                 extraMenu.AddBool("dzaio.champion.trundle.extra.antigapcloser", "Antigapcloser (E)", true);
-
+                extraMenu.AddBool("dzaio.champion.trundle.extra.qks", "Q For KS", true);
             }
         }
 
@@ -94,7 +95,10 @@ namespace DZAIO_Reborn.Plugins.Champions.Trundle
 
         public List<IModule> GetModules()
         {
-            return new List<IModule>();
+            return new List<IModule>()
+            {
+                new TrundleQKS()
+            };
         }
 
         public void OnTick()

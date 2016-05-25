@@ -74,6 +74,7 @@
     <Compile Include="Core\MenuHelper\MenuGenerator.cs" />
     <Compile Include="Core\Variables.cs" />
     <Compile Include="DZAIO.cs" />
+    <Compile Include="Helpers\DamageIndicator\HPBarIndicator.cs" />
     <Compile Include="Helpers\DZAIOMenuHelper.cs" />
     <Compile Include="Helpers\DZAIOEnums.cs" />
     <Compile Include="Helpers\Entity\DZTargetHelper.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Helpers\Entity\PlayerMonitor.cs" />
     <Compile Include="Helpers\Modules\IModule.cs" />
     <Compile Include="Helpers\SkillsHelper.cs" />
+    <Compile Include="Plugins\Champions\Trundle\Modules\TrundleQKS.cs" />
     <Compile Include="Plugins\Champions\Trundle\Trundle.cs" />
     <Compile Include="Plugins\Champions\Veigar\Modules\VeigarAutoRKS.cs" />
     <Compile Include="Plugins\Champions\Veigar\Modules\VeigarAutoQ.cs" />
@@ -93,9 +95,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Plugins\Champions\Trundle\Modules\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
