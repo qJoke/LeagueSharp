@@ -40,7 +40,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             {
                 farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Laneclear, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true});
 
-                farmMenu.AddBool("dzaio.champion.veigar.farm.w.kill", "Only Kill Minions with W", false);
+                farmMenu.AddBool("dzaio.champion.veigar.farm.w.kill", "Only Use W to kill Minions", false);
                 farmMenu.AddSlider("dzaio.champion.veigar.farm.w.min", "Min Minions for W", 2, 1, 6);
                 farmMenu.AddSlider("dzaio.champion.veigar.farm.mana", "Min Mana % for Farm", 30, 0, 100);
                 menu.AddSubMenu(farmMenu);

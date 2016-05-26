@@ -82,6 +82,7 @@
     <Compile Include="Helpers\Entity\PlayerMonitor.cs" />
     <Compile Include="Helpers\Modules\IModule.cs" />
     <Compile Include="Helpers\SkillsHelper.cs" />
+    <Compile Include="Plugins\Champions\Ahri\Ahri.cs" />
     <Compile Include="Plugins\Champions\Trundle\Modules\TrundleQKS.cs" />
     <Compile Include="Plugins\Champions\Trundle\Trundle.cs" />
     <Compile Include="Plugins\Champions\Veigar\Modules\VeigarAutoRKS.cs" />
