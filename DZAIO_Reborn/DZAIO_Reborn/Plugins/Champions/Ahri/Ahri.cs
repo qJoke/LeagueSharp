@@ -24,7 +24,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.ahri.combo");
             {
                 comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R }, new[] { true, true, true, true });
-                //comboMenu.AddNoUltiMenu(false);
+                comboMenu.AddBool("dzaio.champion.ahri.combo.waitforE", "Wait for charm", true);
+
                 menu.AddSubMenu(comboMenu);
             }
 
@@ -113,7 +114,26 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
 
         public void OnCombo()
         {
-            
+            var comboTarget = TargetSelector.GetTarget(Variables.Spells[SpellSlot.E].Range, TargetSelector.DamageType.Magical);
+            var charmedUnit = HeroManager.Enemies.Find(h => h.HasBuffOfType(BuffType.Charm) && h.IsValidTarget(Variables.Spells[SpellSlot.Q].Range));
+
+            var finalTarget = charmedUnit ?? comboTarget;
+
+            if (finalTarget.IsValidTarget())
+            {
+
+                if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
+                    Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
+                    !finalTarget.IsCharmed)
+                {
+                    Variables.Spells[SpellSlot.E].CastIfHitchanceEquals(finalTarget, HitChance.High);
+                }
+
+                if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) && (!Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) || ObjectManager.Player.ManaPercent <= 25))
+                {
+                    Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(finalTarget, HitChance.High);
+                }
+            }
         }
 
         public void OnMixed()

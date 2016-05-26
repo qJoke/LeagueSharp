@@ -29,5 +29,10 @@ namespace DZAIO_Reborn.Helpers.Entity
                 .OrderBy(LeagueSharp.Common.TargetSelector.GetPriority).FirstOrDefault();
 
         }
+
+        internal static bool IsCharmed(this Obj_AI_Base target)
+        {
+            return target.HasBuffOfType(BuffType.Charm);
+        }
     }
 }
