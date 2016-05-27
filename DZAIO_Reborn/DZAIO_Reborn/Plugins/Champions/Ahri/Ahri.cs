@@ -121,18 +121,38 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
 
             if (finalTarget.IsValidTarget())
             {
-
-                if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
-                    Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
-                    !finalTarget.IsCharmed)
+                if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.ahri.combo.waitforE"))
                 {
-                    Variables.Spells[SpellSlot.E].CastIfHitchanceEquals(finalTarget, HitChance.High);
+                    //Wait for Charm Combo
+                    if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
+                        Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
+                        !finalTarget.IsCharmed)
+                    {
+                        Variables.Spells[SpellSlot.E].CastIfHitchanceEquals(finalTarget, HitChance.High);
+                    }
+
+                    if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
+                        (!Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) ||
+                         ObjectManager.Player.ManaPercent <= 25))
+                    {
+                        Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(finalTarget, HitChance.High);
+                    }
+
+                    if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
+                        finalTarget.IsValidTarget(Variables.Spells[SpellSlot.W].Range) &&
+                        (finalTarget.IsCharmed ||
+                         (Variables.Spells[SpellSlot.W].GetDamage(finalTarget) +
+                          Variables.Spells[SpellSlot.Q].GetDamage(finalTarget) > finalTarget.Health + 25)))
+                    {
+                        Variables.Spells[SpellSlot.W].Cast();
+                    }
+                }
+                else
+                {
+                    
                 }
 
-                if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) && (!Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) || ObjectManager.Player.ManaPercent <= 25))
-                {
-                    Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(finalTarget, HitChance.High);
-                }
+                
             }
         }
 
