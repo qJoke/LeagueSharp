@@ -181,6 +181,33 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
             {
                 return;
             }
+            var comboTarget = TargetSelector.GetTarget(Variables.Spells[SpellSlot.E].Range, TargetSelector.DamageType.Magical);
+            var charmedUnit = HeroManager.Enemies.Find(h => h.HasBuffOfType(BuffType.Charm) && h.IsValidTarget(Variables.Spells[SpellSlot.Q].Range));
+
+            var finalTarget = charmedUnit ?? comboTarget;
+
+            if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) &&
+                Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) &&
+                !finalTarget.IsCharmed)
+            {
+                Variables.Spells[SpellSlot.E].CastIfHitchanceEquals(finalTarget, HitChance.High);
+            }
+
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) &&
+                (!Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) ||
+                 ObjectManager.Player.ManaPercent <= 25))
+            {
+                Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(finalTarget, HitChance.High);
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) &&
+                finalTarget.IsValidTarget(Variables.Spells[SpellSlot.W].Range) &&
+                (finalTarget.IsCharmed ||
+                 (Variables.Spells[SpellSlot.W].GetDamage(finalTarget) +
+                  Variables.Spells[SpellSlot.Q].GetDamage(finalTarget) > finalTarget.Health + 25)))
+            {
+                Variables.Spells[SpellSlot.W].Cast();
+            }
         }
 
         public void OnLastHit()
