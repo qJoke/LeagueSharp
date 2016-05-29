@@ -7,6 +7,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Plugins.Champions.Ahri.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -49,7 +50,6 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
             {
                 extraMenu.AddBool("dzaio.champion.ahri.extra.interrupter", "Interrupter (E)", true);
                 extraMenu.AddBool("dzaio.champion.ahri.extra.antigapcloser", "Antigapcloser (E)", true);
-                extraMenu.AddBool("dzaio.champion.ahri.extra.farmQ", "Auto Q Farm", true);
                 extraMenu.AddBool("dzaio.champion.ahri.extra.autoQ", "Auto Q Stunned / Rooted", true);
                 extraMenu.AddBool("dzaio.champion.ahri.extra.autoQKS", "Auto Q KS", true);
             }
@@ -102,7 +102,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
         {
             return new List<IModule>()
             {
-               
+               new AhriQKS(),
+               new AhriQRootStun()
             };
         }
 
