@@ -31,7 +31,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
 
             var mixedMenu = new Menu(ObjectManager.Player.ChampionName + ": Mixed", "dzaio.champion.ahri.harrass");
             {
-                mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E }, new[] { true, true, true });
+                mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true });
                 mixedMenu.AddSlider("dzaio.champion.ahri.mixed.mana", "Min Mana % for Harass", 30, 0, 100);
                 menu.AddSubMenu(mixedMenu);
             }
@@ -54,9 +54,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
                 extraMenu.AddBool("dzaio.champion.ahri.extra.autoQKS", "Auto Q KS", true);
             }
 
-            Variables.Spells[SpellSlot.Q].SetSkillshot(0.25f, 65f, 1900f, false, SkillshotType.SkillshotLine);
-            Variables.Spells[SpellSlot.W].SetSkillshot(1.25f, 190f, 0, false, SkillshotType.SkillshotCircle);
-            Variables.Spells[SpellSlot.E].SetSkillshot(0.5f, 335f, 0, false, SkillshotType.SkillshotCircle);
+            Variables.Spells[SpellSlot.Q].SetSkillshot(0.25f, 100, 1600, false, SkillshotType.SkillshotLine);
+            Variables.Spells[SpellSlot.E].SetSkillshot(0.25f, 60, 1200, true, SkillshotType.SkillshotLine);
         }
 
         public void RegisterEvents()
@@ -73,7 +72,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
                 && gapcloser.Sender.IsValidTarget(Variables.Spells[SpellSlot.E].Range)
                 && Variables.Spells[SpellSlot.E].IsReady())
             {
-                Variables.Spells[SpellSlot.E].SPredictionCastRing(gapcloser.Sender, 80f, HitChance.High);
+                Variables.Spells[SpellSlot.E].CastIfHitchanceEquals(gapcloser.Sender, HitChance.Medium);
             }
         }
 
@@ -85,7 +84,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
                 && sender.IsValidTarget(Variables.Spells[SpellSlot.E].Range)
                 && Variables.Spells[SpellSlot.E].IsReady())
             {
-                Variables.Spells[SpellSlot.E].SPredictionCastRing(sender, 80f, HitChance.Medium);
+                Variables.Spells[SpellSlot.E].CastIfHitchanceEquals(sender, HitChance.High);
             }
         }
         public Dictionary<SpellSlot, Spell> GetSpells()
@@ -170,8 +169,17 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
                     }
                 }
 
+                if (Variables.Spells[SpellSlot.R].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+                {
+                    HandleRLogic();
+                }
                 
             }
+        }
+
+        private void HandleRLogic()
+        {
+            throw new NotImplementedException();
         }
 
         public void OnMixed()
@@ -186,24 +194,14 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
 
             var finalTarget = charmedUnit ?? comboTarget;
 
-            if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) &&
-                Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) &&
-                !finalTarget.IsCharmed)
-            {
-                Variables.Spells[SpellSlot.E].CastIfHitchanceEquals(finalTarget, HitChance.High);
-            }
-
-            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) &&
-                (!Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) ||
-                 ObjectManager.Player.ManaPercent <= 25))
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
             {
                 Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(finalTarget, HitChance.High);
             }
 
-            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) &&
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
                 finalTarget.IsValidTarget(Variables.Spells[SpellSlot.W].Range) &&
-                (finalTarget.IsCharmed ||
-                 (Variables.Spells[SpellSlot.W].GetDamage(finalTarget) +
+                ((Variables.Spells[SpellSlot.W].GetDamage(finalTarget) +
                   Variables.Spells[SpellSlot.Q].GetDamage(finalTarget) > finalTarget.Health + 25)))
             {
                 Variables.Spells[SpellSlot.W].Cast();
@@ -221,7 +219,36 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
                 return;
             }
 
-            
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Laneclear))
+            {
+                var positions = MinionManager.GetMinions(Variables.Spells[SpellSlot.Q].Range,
+                    MinionTypes.All, MinionTeam.NotAlly,
+                    MinionOrderTypes.MaxHealth)
+                    .Where(m => Variables.Spells[SpellSlot.Q].GetDamage(m) >= m.Health + 5)
+                    .Select(m => m.ServerPosition.To2D()).ToList();
+
+                var lineFarmLocation = Variables.Spells[SpellSlot.Q].GetLineFarmLocation(positions);
+
+                if (lineFarmLocation.MinionsHit > 6)
+                {
+                    Variables.Spells[SpellSlot.Q].Cast(lineFarmLocation.Position);
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Laneclear))
+            {
+                var positions = MinionManager.GetMinions(Variables.Spells[SpellSlot.W].Range,
+                    MinionTypes.All, MinionTeam.NotAlly,
+                    MinionOrderTypes.MaxHealth)
+                    .Where(m => Variables.Spells[SpellSlot.W].GetDamage(m) >= m.Health + 5)
+                    .Select(m => m.ServerPosition.To2D()).ToList();
+                if (positions.Count() >=
+                    Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.ahri.farm.w.min").Value)
+                {
+                    Variables.Spells[SpellSlot.W].Cast();
+                }
+            }
+
         }
     }
 }
