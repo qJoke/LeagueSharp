@@ -34,5 +34,15 @@ namespace DZAIO_Reborn.Helpers.Entity
         {
             return target.HasBuffOfType(BuffType.Charm);
         }
+
+        internal static bool IsHeavilyImpaired(this Obj_AI_Hero enemy)
+        {
+            return enemy.HasBuffOfType(BuffType.Stun) || enemy.HasBuffOfType(BuffType.Snare) || enemy.HasBuffOfType(BuffType.Charm) || enemy.HasBuffOfType(BuffType.Fear) || enemy.HasBuffOfType(BuffType.Taunt);
+        }
+
+        internal static bool IsLightlyImpaired(this Obj_AI_Hero enemy)
+        {
+            return enemy.HasBuffOfType(BuffType.Slow);
+        }
     }
 }

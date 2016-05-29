@@ -7,7 +7,7 @@ using LeagueSharp.Common;
 
 namespace DZAIO_Reborn.Plugins.Champions.Ahri.Modules
 {
-    class AhriQKS
+    class AhriQKS : IModule
     {
         public void OnLoad()
         {
