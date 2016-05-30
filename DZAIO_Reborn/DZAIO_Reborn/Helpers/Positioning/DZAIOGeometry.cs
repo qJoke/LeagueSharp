@@ -67,11 +67,11 @@ namespace DZAIO_Reborn.Helpers.Positioning
             var polygonsList =
                 PositioningVariables.EnemiesClose.Select(
                     enemy =>
-                        new iSRGeometry.Circle(
+                        new DZAIOGeometry.Circle(
                             enemy.ServerPosition.To2D(),
                             (dynamic ? (enemy.IsMelee ? enemy.AttackRange * 1.5f : enemy.AttackRange) : staticRange) +
                             enemy.BoundingRadius + 20).ToPolygon()).ToList();
-            var pathList = iSRGeometry.ClipPolygons(polygonsList);
+            var pathList = DZAIOGeometry.ClipPolygons(polygonsList);
             var pointList =
                 pathList.SelectMany(path => path, (path, point) => new Vector2(point.X, point.Y))
                     .Where(currentPoint => !currentPoint.IsWall())
