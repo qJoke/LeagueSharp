@@ -81,6 +81,7 @@
     <Compile Include="Helpers\Entity\EntityHelper.cs" />
     <Compile Include="Helpers\Entity\PlayerMonitor.cs" />
     <Compile Include="Helpers\Modules\IModule.cs" />
+    <Compile Include="Helpers\Positioning\Polygon.cs" />
     <Compile Include="Helpers\SkillsHelper.cs" />
     <Compile Include="Plugins\Champions\Ahri\Ahri.cs" />
     <Compile Include="Plugins\Champions\Ahri\Modules\AhriQKS.cs" />
