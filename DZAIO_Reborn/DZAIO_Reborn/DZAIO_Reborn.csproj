@@ -61,6 +61,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,7 +82,9 @@
     <Compile Include="Helpers\Entity\EntityHelper.cs" />
     <Compile Include="Helpers\Entity\PlayerMonitor.cs" />
     <Compile Include="Helpers\Modules\IModule.cs" />
+    <Compile Include="Helpers\Positioning\DZAIOGeometry.cs" />
     <Compile Include="Helpers\Positioning\Polygon.cs" />
+    <Compile Include="Helpers\Positioning\PositioningHelper.cs" />
     <Compile Include="Helpers\Positioning\PositioningVariables.cs" />
     <Compile Include="Helpers\SkillsHelper.cs" />
     <Compile Include="Plugins\Champions\Ahri\Ahri.cs" />
