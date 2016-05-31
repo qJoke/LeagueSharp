@@ -87,6 +87,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscQMenu.AddBool("dz191.vhr.mixed.mirinQ", "Q to Wall when Possible (Mirin Mode)", true).SetTooltip("Will Q to walls when possible for really fast bursts!");
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.smartq", "Try to QE when possible").SetTooltip("Will try to do the Tumble + Condemn combo when possible"); //Done
                     miscQMenu.AddKeybind("dz191.vhr.misc.tumble.noaastealthex", "Don't AA while stealthed", new Tuple<uint, KeyBindType>('K', KeyBindType.Toggle)).SetTooltip("Will not AA while you are in Ult+Q"); //Done
+                    miscQMenu.AddSlider("dz191.vhr.misc.tumble.noaastealthex.hp", "^ Only if HP % < x", new Tuple<int, int, int>(35, 0, 100)).SetTooltip("If true it will not Q into 2 or more enemies"); //done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.noqenemies", "Don't Q into enemies").SetTooltip("If true it will not Q into 2 or more enemies"); //done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.noqenemies.old", "Use Old Don't Q into enemies").SetTooltip("Uses the old algorithm."); //done
                     miscQMenu.AddBool("dz191.vhr.misc.tumble.dynamicqsafety", "Use dynamic Q Safety Distance").SetTooltip("Use the enemy AA range as the 'Don't Q into enemies' safety distance?"); //done
