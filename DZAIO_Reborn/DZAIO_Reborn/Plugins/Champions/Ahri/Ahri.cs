@@ -12,6 +12,7 @@ using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
 using DZLib.MenuExtensions;
+using DZLib.Positioning;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SPrediction;
@@ -180,9 +181,47 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
 
         private void HandleRLogic()
         {
-            throw new NotImplementedException();
+            if (CanUltiSafely())
+            {
+                var mousePosition = Game.CursorPos;
+                var extendedPosition = ObjectManager.Player.ServerPosition.Extend(mousePosition, 450f);
+
+                Variables.Spells[SpellSlot.R].Cast(extendedPosition);
+            }
         }
 
+        private bool CanUltiSafely()
+        {
+            if (ObjectManager.Player.CountEnemiesInRange(550f) > 0)
+            {
+                return true;
+            }
+
+            var mousePosition = Game.CursorPos;
+            var extendedPosition = ObjectManager.Player.ServerPosition.Extend(mousePosition, 450f);
+
+            if (extendedPosition.GetEnemiesInRange(625f).Any())
+            {
+                if (ObjectManager.Player.HasBuff("AhriTumble"))
+                {
+                    return true;
+                }
+
+                var manaCheck = ObjectManager.Player.Mana >
+                                Variables.Spells[SpellSlot.Q].ManaCost + Variables.Spells[SpellSlot.E].ManaCost +
+                                Variables.Spells[SpellSlot.R].ManaCost;
+
+                if (manaCheck && Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
+                    Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+                {
+                    if (extendedPosition.IsSafe(450f))
+                    {
+                        return true;
+                    }
+                }
+
+            }
+        }
         public void OnMixed()
         {
             if (ObjectManager.Player.ManaPercent <
