@@ -221,6 +221,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
                 }
 
             }
+
+            return false;
         }
         public void OnMixed()
         {
