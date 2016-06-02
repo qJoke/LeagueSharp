@@ -27,6 +27,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
             {
                 comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R }, new[] { true, true, true, true });
                 comboMenu.AddBool("dzaio.champion.ahri.combo.waitforE", "Wait for charm", true);
+                comboMenu.AddBool("dzaio.champion.ahri.combo.onlyInitR", "Only use First R (Only to initiate)", true);
 
                 menu.AddSubMenu(comboMenu);
             }
@@ -197,6 +198,12 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
                 return true;
             }
 
+            if (ObjectManager.Player.HasBuff("AhriTumble") &&
+                Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.ahri.combo.onlyInitR"))
+            {
+                return false;
+            }
+
             var mousePosition = Game.CursorPos;
             var extendedPosition = ObjectManager.Player.ServerPosition.Extend(mousePosition, 450f);
 
@@ -271,7 +278,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri
 
                 var lineFarmLocation = Variables.Spells[SpellSlot.Q].GetLineFarmLocation(positions);
 
-                if (lineFarmLocation.MinionsHit > 6)
+                if (lineFarmLocation.MinionsHit >= 6)
                 {
                     Variables.Spells[SpellSlot.Q].Cast(lineFarmLocation.Position);
                 }
