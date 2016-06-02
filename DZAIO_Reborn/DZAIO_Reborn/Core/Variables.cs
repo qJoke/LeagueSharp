@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using DZAIO_Reborn.Plugins.Champions.Ahri;
+using DZAIO_Reborn.Plugins.Champions.Bard;
 using DZAIO_Reborn.Plugins.Champions.Trundle;
+using DZAIO_Reborn.Plugins.Champions.Veigar;
 using DZAIO_Reborn.Plugins.Interface;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -18,8 +21,10 @@ namespace DZAIO_Reborn.Core
 
         public static Dictionary<String, Func<IChampion>> ChampList = new Dictionary<string, Func<IChampion>>
         {
-            //{"Jinx",() => new Jinx()},
-            {"Trundle", () => new  Trundle()}
+            {"Trundle", () => new  Trundle()},
+            {"Veigar", () => new Veigar()},
+            {"Ahri", ()=> new Ahri()},
+            {"Bard", ()=> new Bard()}
         };
 
         public static IChampion CurrentChampion { get; set; }
