@@ -11,7 +11,14 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
     {
         public void OnLoad()
         {
-            Orbwalking.BeforeAttack += OW;
+            if (Variables.Menu.Item("dz191.vhr.misc.tumble.ijava").GetValue<bool>())
+            {
+                Orbwalking.BeforeAttack += iJava;
+            }
+            else
+            {
+                Orbwalking.BeforeAttack += OW;
+            }
         }
 
         private void OW(Orbwalking.BeforeAttackEventArgs args)
@@ -27,6 +34,26 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
 
 
                 args.Process = false;
+            }
+        }
+
+        private void iJava(Orbwalking.BeforeAttackEventArgs args)
+        {
+            if (!ShouldGetExecuted() || !args.Unit.IsMe || !args.Target.IsEnemy)
+                return;
+
+            if (args.Unit.HasBuff("vaynetumblefade"))
+            {
+                var stealthtime = Variables.Menu.Item("dz191.vhr.misc.tumble.noaastealth.duration").GetValue<Slider>().Value;
+                var stealthbuff = args.Unit.GetBuff("vaynetumblefade");
+                if (stealthbuff.EndTime - Game.Time > stealthbuff.EndTime - stealthbuff.StartTime - stealthtime / 1000f)
+                {
+                    args.Process = false;
+                }
+            }
+            else
+            {
+                args.Process = true;
             }
         }
 
