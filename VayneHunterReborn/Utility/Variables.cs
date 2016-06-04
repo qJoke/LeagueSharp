@@ -24,7 +24,7 @@ namespace VayneHunter_Reborn.Utility
         {
             { SpellSlot.Q, new Spell(SpellSlot.Q) },
             { SpellSlot.W, new Spell(SpellSlot.W) },
-            { SpellSlot.E, new Spell(SpellSlot.E, 590f) },
+            { SpellSlot.E, new Spell(SpellSlot.E, 650f) {Width = 1f} },
             { SpellSlot.R, new Spell(SpellSlot.R) }
         };
 

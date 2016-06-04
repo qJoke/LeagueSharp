@@ -30,7 +30,7 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
 
             foreach (var Hero in HeroList)
             {
-                var prediction = Variables.spells[SpellSlot.E].GetSPrediction(Hero);
+                var prediction = Variables.spells[SpellSlot.E].GetPrediction(Hero);
 
                 if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent") &&
                     Hero.NetworkId != Variables.Orbwalker.GetTarget().NetworkId)
@@ -49,8 +49,8 @@ namespace VayneHunter_Reborn.Skills.Condemn.Methods
                 {
                     Hero.ServerPosition,
                     Hero.Position,
-                    prediction.CastPosition.To3D(),
-                    prediction.UnitPosition.To3D()
+                    prediction.CastPosition,
+                    prediction.UnitPosition
                 };
 
                 if (Hero.IsDashing())

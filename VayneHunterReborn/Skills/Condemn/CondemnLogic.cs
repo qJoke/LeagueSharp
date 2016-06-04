@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -20,7 +21,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
 
         public static void OnLoad()
         {
-            Variables.spells[SpellSlot.E].SetSkillshot(0.25f, 65f, 1250f, false, SkillshotType.SkillshotLine);
+            Variables.spells[SpellSlot.E].SetTargetted(0.375f, float.MaxValue);
             InterrupterGapcloser.OnLoad();
             Spellbook.OnCastSpell += Spellbook_OnCastSpell;
             Obj_AI_Base.OnProcessSpellCast += WindWall.OnProcessSpellCast;
@@ -35,6 +36,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
                 return;
             }
 
+            /**
             var CondemnTarget = GetCondemnTarget(ObjectManager.Player.ServerPosition);
             if (CondemnTarget.IsValidTarget())
             {
@@ -53,6 +55,35 @@ namespace VayneHunter_Reborn.Skills.Condemn
 
                 E.CastOnUnit(CondemnTarget);
                 TrinketBush(CondemnTarget.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -450f));
+            }*/
+            var pushDistance = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.pushdistance").Value - 25;
+
+            foreach (var target in HeroManager.Enemies.Where(en => en.IsValidTarget(E.Range)))
+            {
+                var Prediction = Variables.spells[SpellSlot.E].GetPrediction(target);
+
+                if (Prediction.Hitchance >= HitChance.VeryHigh)
+                {
+                    var endPosition = Prediction.UnitPosition.Extend(ObjectManager.Player.ServerPosition, -pushDistance);
+                    if (endPosition.IsWall())
+                    {
+                        E.CastOnUnit(target);
+                    }
+                    else
+                    {
+                        //It's not a wall.
+                        var step = pushDistance / 5f;
+                        for (float i = 0; i < pushDistance; i += step)
+                        {
+                            var endPositionEx = Prediction.UnitPosition.Extend(ObjectManager.Player.ServerPosition, -i);
+                            if (endPositionEx.IsWall())
+                            {
+                                E.CastOnUnit(target);
+                                return;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -74,22 +105,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
         private static void Spellbook_OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
         {
             return;
-            if (sender != null && sender.Owner != null && sender.Owner.IsMe && args.Slot == SpellSlot.E && (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
-            {
-                if (!(args.Target is Obj_AI_Hero))
-                {
-                    args.Process = false;
-                    return;
-                }
-
-                if (GetCondemnTarget(ObjectManager.Player.ServerPosition).IsValidTarget())
-                {
-                    if (!Shine.GetTarget(ObjectManager.Player.ServerPosition).IsValidTarget())
-                    {
-                        args.Process = false;
-                    }
-                }
-            }
+            
         }
 
         public static Obj_AI_Base GetCondemnTarget(Vector3 fromPosition)

@@ -28,8 +28,8 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
         public void OnExecute()
         {
             var target =HeroManager.Enemies.Find(en => en.IsValidTarget(Variables.spells[SpellSlot.E].Range) && en.Has2WStacks());
-            if (target != null && !target.IsInvulnerable 
-                && target.Health + 60 <= (ObjectManager.Player.GetSpellDamage(target, SpellSlot.E) + ObjectManager.Player.GetSpellDamage(target, SpellSlot.W)))
+            if (target.IsValidTarget(Variables.spells[SpellSlot.E].Range)
+                && target.Health + 45 <= (ObjectManager.Player.GetSpellDamage(target, SpellSlot.E) + ObjectManager.Player.GetSpellDamage(target, SpellSlot.W)))
             {
                 Variables.spells[SpellSlot.E].CastOnUnit(target);
             }
