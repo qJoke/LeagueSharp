@@ -1,6 +1,8 @@
-﻿using LeagueSharp;
+﻿using System.Linq;
+using LeagueSharp;
 using LeagueSharp.Common;
 using VayneHunter_Reborn.Modules.ModuleHelpers;
+using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.Helpers;
 using VayneHunter_Reborn.Utility.MenuUtility;
 
@@ -29,6 +31,25 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
             if (target != null)
             {
                 TargetSelector.SetTarget(target);
+                Variables.Orbwalker.ForceTarget(target);
+            }
+
+            if (Game.Time < 25000)
+            {
+                //Before 25 minutes 1437lappa
+                var ADC =
+                    HeroManager.Enemies.Where(m => TargetSelector.GetPriority(m) > 4 && m.IsValidTarget()).OrderBy(m => m.TotalAttackDamage).FirstOrDefault();
+
+                if (ADC != null && Orbwalking.InAutoAttackRange(ADC))
+                {
+                    TargetSelector.SetTarget(target);
+                    Variables.Orbwalker.ForceTarget(target);
+                }
+                else
+                {
+                    TargetSelector.SetTarget(null);
+                    Variables.Orbwalker.ForceTarget(Variables.Orbwalker.GetTarget() as Obj_AI_Base);
+                }
             }
         }
     }
