@@ -70,8 +70,8 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
                             var endPositionEx = Prediction.UnitPosition.Extend(flashPosition, -i);
                             if (endPositionEx.IsWall())
                             {
-                                Flash.Cast(flashPosition);
                                 E.CastOnUnit(target);
+                                Flash.Cast(flashPosition);
                                 return;
                             }
                         }
