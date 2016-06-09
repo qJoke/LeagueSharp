@@ -121,7 +121,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
 
                     miscEMenu.AddItem(
                         new MenuItem("dz191.vhr.misc.condemn.flashcondemn", "Condemn -> Flash").SetValue(
-                            new KeyBind('W', KeyBindType.Toggle)))
+                            new KeyBind('W', KeyBindType.Press)))
                         .SetTooltip("Uses the Condemn -> Flash pro play on an enemy on which it is possible to do so.");
 
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.onlystuncurrent", "Only stun current target").SetTooltip("Only uses E on the current orbwalker target"); //done
