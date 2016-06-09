@@ -58,7 +58,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
             }*/
             var pushDistance = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.pushdistance").Value - 25;
 
-            foreach (var target in HeroManager.Enemies.Where(en => en.IsValidTarget(E.Range)))
+            foreach (var target in HeroManager.Enemies.Where(en => en.IsValidTarget(E.Range) && !en.IsDashing()))
             {
                 var Prediction = Variables.spells[SpellSlot.E].GetPrediction(target);
 

@@ -119,6 +119,11 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                         new MenuItem("dz191.vhr.misc.condemn.enextauto", "E Next Auto").SetValue(
                             new KeyBind('T', KeyBindType.Toggle))).SetTooltip("If On it will fire E after the next Auto Attack is landed");
 
+                    miscEMenu.AddItem(
+                        new MenuItem("dz191.vhr.misc.condemn.flashcondemn", "Condemn -> Flash").SetValue(
+                            new KeyBind('T', KeyBindType.Toggle)))
+                        .SetTooltip("Uses the Condemn -> Flash pro play on an enemy on which it is possible to do so.");
+
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.onlystuncurrent", "Only stun current target").SetTooltip("Only uses E on the current orbwalker target"); //done
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.autoe", "Auto E").SetTooltip("Uses E whenever possible"); //Done
                     miscEMenu.AddBool("dz191.vhr.misc.condemn.eks", "Smart E KS").SetTooltip("Uses E to KS when they have 2 W Stacks and they can be killed by W + E"); //Done
