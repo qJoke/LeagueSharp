@@ -18,6 +18,8 @@ namespace VayneHunter_Reborn.Utility
 
         public static Menu Menu { get; set; }
 
+        public static float LastCondemnFlashTime { get; set; }
+
         public static Orbwalking.Orbwalker Orbwalker { get; set; }
 
         public static Dictionary<SpellSlot, Spell> spells = new Dictionary<SpellSlot, Spell>

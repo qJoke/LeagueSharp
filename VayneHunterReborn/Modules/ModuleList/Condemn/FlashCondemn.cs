@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using VayneHunter_Reborn.Modules.ModuleHelpers;
@@ -58,6 +59,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
                     var endPosition = Prediction.UnitPosition.Extend(flashPosition, -pushDistance);
                     if (endPosition.IsWall())
                     {
+                        Variables.LastCondemnFlashTime = Environment.TickCount;
                         E.CastOnUnit(target);
                         Flash.Cast(flashPosition);
                     }
@@ -70,6 +72,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
                             var endPositionEx = Prediction.UnitPosition.Extend(flashPosition, -i);
                             if (endPositionEx.IsWall())
                             {
+                                Variables.LastCondemnFlashTime = Environment.TickCount;
                                 E.CastOnUnit(target);
                                 Flash.Cast(flashPosition);
                                 return;

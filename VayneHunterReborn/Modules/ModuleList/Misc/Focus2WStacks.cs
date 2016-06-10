@@ -17,7 +17,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
 
         public bool ShouldGetExecuted()
         {
-            return MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.specialfocus");
+            return MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.specialfocus") && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo;
         }
 
         public ModuleType GetModuleType()
@@ -34,9 +34,8 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
                 Variables.Orbwalker.ForceTarget(target);
             }
 
-            if (Game.Time < 25000)
+            if (Game.Time < 25 * 60 * 1000)
             {
-                //Before 25 minutes 1437lappa
                 var ADC =
                     HeroManager.Enemies.Where(m => TargetSelector.GetPriority(m) > 4 && m.IsValidTarget()).OrderBy(m => m.TotalAttackDamage).FirstOrDefault();
 
