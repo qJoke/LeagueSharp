@@ -170,7 +170,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
             }
 
             //CustomAntigapcloser.BuildMenu(RootMenu);
-            DZLib.Core.DZAntigapcloser.BuildMenu(RootMenu, "[VHR] AntiGapclosers List", "dz191.vhr.agplist");
+            DZAntigapcloserVHR.BuildMenu(RootMenu, "[VHR] AntiGapclosers List", "dz191.vhr.agplist");
             Activator.LoadMenu();
             Cleanser.LoadMenu(RootMenu);
             ProfileSelector.OnLoad(RootMenu);

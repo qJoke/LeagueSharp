@@ -6,13 +6,12 @@ using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
-using VayneHunter_Reborn.Utility.MenuUtility;
 
 #endregion
 
 namespace VayneHunter_Reborn.External
 {
-    public delegate void OnGapcloseH(ActiveGapcloser gapcloser);
+    public delegate void OnGapcloseH(ActiveGapcloser gapcloser, SpellSlot skill);
 
     public enum GapcloserType
     {
@@ -39,12 +38,14 @@ namespace VayneHunter_Reborn.External
         public String SpellName;
     }
 
-    public static class CustomAntigapcloser
+    public static class DZAntigapcloserVHR
     {
         public static List<Gapcloser> Spells = new List<Gapcloser>();
         public static List<ActiveGapcloser> ActiveGapclosers = new List<ActiveGapcloser>();
+        private static LeagueSharp.Common.Menu GapMenu;
+        private static string GPMenuName;
 
-        static CustomAntigapcloser()
+        static DZAntigapcloserVHR()
         {
             #region Aatrox
 
@@ -633,9 +634,9 @@ namespace VayneHunter_Reborn.External
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
         }
 
-        public static void BuildMenu(Menu mainMenu)
+        public static void BuildMenu(LeagueSharp.Common.Menu mainMenu, string displayName, string name)
         {
-            var GPMenu = new Menu("[VHR] AntiGapclosers List", "dz191.vhr.agplist");
+            var GPMenu = new LeagueSharp.Common.Menu(displayName, name);
             {
                 var enemyHeroesNames = ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsEnemy).Select(hero => hero.ChampionName).ToList();
 
@@ -646,21 +647,27 @@ namespace VayneHunter_Reborn.External
                         continue;
                     }
 
-                    var ChampMenu = new Menu(champ, string.Format("dz191.vhr.agplist.{0}", champ.ToLowerInvariant()));
+                    var ChampMenu = new LeagueSharp.Common.Menu(champ, $"{name}.{champ.ToLowerInvariant()}");
                     GPMenu.AddSubMenu(ChampMenu);
                 }
 
                 foreach (var gp in Spells.Where(h => enemyHeroesNames.Contains(h.ChampionName)))
                 {
-                    var myMenu = GPMenu.SubMenu(string.Format("dz191.vhr.agplist.{0}", gp.ChampionName.ToLowerInvariant()));
+                    var myMenu = GPMenu.SubMenu($"{name}.{gp.ChampionName.ToLowerInvariant()}");
 
                     myMenu.AddItem(new MenuItem(
-                        string.Format("dz191.vhr.agplist.{0}.{1}",
-                        gp.ChampionName.ToLowerInvariant(), gp.SpellName),
+                        $"{name}.{gp.ChampionName.ToLowerInvariant()}.{gp.SpellName}",
                         gp.ChampionName + " " + gp.Slot + " (" + gp.SpellName + ")").SetValue(true));
+                    myMenu.AddItem(
+                        new MenuItem(
+                            $"{name}.{gp.ChampionName.ToLowerInvariant()}.{gp.SpellName}.skill", "Skill to use")
+                            .SetValue(new StringList(new[] { "Q", "E" }, 1)));
+
                 }
 
             }
+            GapMenu = GPMenu;
+            GPMenuName = name;
 
             mainMenu.AddSubMenu(GPMenu);
         }
@@ -682,10 +689,22 @@ namespace VayneHunter_Reborn.External
                             gapcloser =>
                                 gapcloser.SkillType == GapcloserType.Targeted ||
                                 (gapcloser.SkillType == GapcloserType.Skillshot &&
-                                 ObjectManager.Player.Distance(gapcloser.Sender, true) < 250000) && MenuExtensions.GetItemValue<bool>(
-                            string.Format("dz191.vhr.agplist.{0}.{1}", gapcloser.Sender.ChampionName.ToLowerInvariant(), gapcloser.SpellName)))) // 500 * 500
+                                 ObjectManager.Player.Distance(gapcloser.Sender, true) < 250000))) // 500 * 500
             {
-                OnEnemyGapcloser(gapcloser);
+                if (
+                    GapMenu.Item(
+                        $"{GPMenuName}.{gapcloser.Sender.ChampionName.ToLowerInvariant()}.{gapcloser.SpellName}")
+                        .GetValue<bool>())
+                {
+                    var menuValue =
+                        GapMenu.Item(
+                            $"{GPMenuName}.{gapcloser.Sender.ChampionName.ToLowerInvariant()}.{gapcloser.SpellName}.skill")
+                            .GetValue<StringList>()
+                            .SelectedIndex;
+                    var slot = menuValue == 0 ? SpellSlot.Q : SpellSlot.E;
+
+                      OnEnemyGapcloser(gapcloser, slot);
+                }
             }
         }
 
