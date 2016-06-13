@@ -33,7 +33,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 
         public ModuleType GetModuleType()
         {
-            return ModuleType.OnAfterAA;
+            return ModuleType.OnUpdate; //retard
         }
 
         public void OnExecute()
@@ -48,10 +48,10 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 
                 var flashPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, Flash.Range - ObjectManager.Player.BoundingRadius / 2f);
 
-                if (!flashPosition.IsSafe())
+                /*if (!flashPosition.IsSafe()) Biigger retard, cant make plays iif your checking iiits safe :^)
                 {
                     return;
-                }
+                }*/
 
                 var Prediction = Variables.spells[SpellSlot.E].GetPrediction(target);
 
