@@ -45,9 +45,10 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
             {
                 var canFlashBehind = ObjectManager.Player.Distance(target) <
                                      Flash.Range - ObjectManager.Player.BoundingRadius;
-                var flashPosition = ObjectManager.Player.ServerPosition.Extend(target.ServerPosition, Flash.Range);
 
-                if (!canFlashBehind || !flashPosition.IsSafe())
+                var flashPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, Flash.Range - ObjectManager.Player.BoundingRadius / 2f);
+
+                if (!flashPosition.IsSafe())
                 {
                     return;
                 }
