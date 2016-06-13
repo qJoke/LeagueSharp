@@ -33,31 +33,22 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 
         public ModuleType GetModuleType()
         {
-            return ModuleType.OnUpdate; //retard
+            return ModuleType.OnUpdate; //idk why thiis wwas on after attack m8 pls
         }
 
         public void OnExecute()
         {
-            var pushDistance = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.pushdistance").Value - 25;
-
+            var pushDistance = 450;
 
             foreach (var target in HeroManager.Enemies.Where(en => en.IsValidTarget(E.Range) && !en.IsDashing()))
             {
-                var canFlashBehind = ObjectManager.Player.Distance(target) <
-                                     Flash.Range - ObjectManager.Player.BoundingRadius;
+                var flashPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, Flash.Range);
 
-                var flashPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, Flash.Range - ObjectManager.Player.BoundingRadius / 2f);
+                var prediction = Variables.spells[SpellSlot.E].GetPrediction(target);
 
-                /*if (!flashPosition.IsSafe()) Biigger retard, cant make plays iif your checking iiits safe :^)
+                if (prediction.Hitchance >= HitChance.VeryHigh)
                 {
-                    return;
-                }*/
-
-                var Prediction = Variables.spells[SpellSlot.E].GetPrediction(target);
-
-                if (Prediction.Hitchance >= HitChance.VeryHigh)
-                {
-                    var endPosition = Prediction.UnitPosition.Extend(flashPosition, -pushDistance);
+                    var endPosition = prediction.UnitPosition.Extend(flashPosition, -pushDistance);
                     if (endPosition.IsWall())
                     {
                         Variables.LastCondemnFlashTime = Environment.TickCount;
@@ -70,7 +61,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
                         var step = pushDistance / 5f;
                         for (float i = 0; i < pushDistance; i += step)
                         {
-                            var endPositionEx = Prediction.UnitPosition.Extend(flashPosition, -i);
+                            var endPositionEx = prediction.UnitPosition.Extend(flashPosition, -i);
                             if (endPositionEx.IsWall())
                             {
                                 Variables.LastCondemnFlashTime = Environment.TickCount;
