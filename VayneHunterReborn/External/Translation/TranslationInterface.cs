@@ -23,11 +23,13 @@ namespace VayneHunter_Reborn.External.Translation
                     new MenuItem("dz191.vhr.translations.select", "Translate!").SetValue(false)).ValueChanged +=
                     (sender, args) =>
                     {
-                        if (args.GetNewValue<bool>())
+                        if (!args.GetNewValue<bool>())
                         {
-                            ChangeLanguage(Variables.Menu.Item("dz191.vhr.translations.language").GetValue<StringList>().SelectedValue);
-                            TranslationsMenu.Item("dz191.vhr.translations.select").SetValue(false);
-                        } 
+                            return;
+                        }
+
+                        ChangeLanguage(Variables.Menu.Item("dz191.vhr.translations.language").GetValue<StringList>().SelectedValue);
+                        TranslationsMenu.Item("dz191.vhr.translations.select").SetValue(false);
                     };
                 RootMenu.AddSubMenu(TranslationsMenu);
             }
