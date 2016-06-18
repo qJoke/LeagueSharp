@@ -110,13 +110,26 @@ namespace DZAIO_Reborn.Plugins.Champions.Bard
 
         private void OnGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
         {
-            
+            if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.bard.extra.antigapcloser") 
+                && Variables.Spells[SpellSlot.Q].IsReady()
+                && gapcloser.Sender.IsValidTarget()
+                && gapcloser.End.Distance(ObjectManager.Player.ServerPosition) < gapcloser.Start.Distance(ObjectManager.Player.ServerPosition))
+            {
+                HandleQ(gapcloser.Sender);
+            }
         }
 
         private void OnInterrupter(Obj_AI_Hero sender, DZInterrupter.InterruptableTargetEventArgs args)
         {
-            
+            if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.bard.extra.interrupter") 
+                && Variables.Spells[SpellSlot.Q].IsReady()
+                && sender.IsValidTarget()
+                && args.DangerLevel >= DZInterrupter.DangerLevel.High)
+            {
+                HandleQ(sender);
+            }
         }
+
         public Dictionary<SpellSlot, Spell> GetSpells()
         {
             return new Dictionary<SpellSlot, Spell>
