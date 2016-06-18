@@ -186,11 +186,26 @@ namespace DZAIO_Reborn.Plugins.Champions.Bard
             {
                 HandleQ(ComboTarget);
             }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                HandleW();
+            }
         }
 
         public void OnMixed()
         {
+            var ComboTarget = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range / 1.3f, TargetSelector.DamageType.Magical);
 
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) && ComboTarget.IsValidTarget())
+            {
+                HandleQ(ComboTarget);
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass))
+            {
+                HandleW();
+            }
         }
 
         public void OnLastHit()
@@ -199,6 +214,35 @@ namespace DZAIO_Reborn.Plugins.Champions.Bard
         public void OnLaneclear()
         {
 
+        }
+        private static void HandleW()
+        {
+            var HealthPercent = 30f;
+
+            if (ObjectManager.Player.IsRecalling() || ObjectManager.Player.InShop() || !Variables.Spells[SpellSlot.W].IsReady())
+            {
+                return;
+            }
+
+            if (ObjectManager.Player.HealthPercent <= HealthPercent)
+            {
+                var castPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, ObjectManager.Player.BoundingRadius * 1.3f);
+                Variables.Spells[SpellSlot.W].Cast(castPosition);
+                return;
+            }
+
+            var LHAlly = HeroManager.Allies
+                .Where(ally => ally.IsValidTarget(Variables.Spells[SpellSlot.W].Range, false)
+                    && ally.HealthPercent <= HealthPercent
+                    && TargetSelector.GetPriority(ally) > 3)
+                .OrderBy(ally => ally.Health)
+                .FirstOrDefault();
+
+            if (LHAlly != null)
+            {
+                var movementPrediction = Prediction.GetPrediction(LHAlly, 0.35f);
+                Variables.Spells[SpellSlot.W].Cast(movementPrediction.UnitPosition);
+            }
         }
 
         public void HandleQ(Obj_AI_Hero comboTarget)
