@@ -23,5 +23,58 @@ namespace DZAIO_Reborn.Helpers.Positioning
             return true;
 
         }
+
+        internal static bool DoPositionsCrossWall(Vector3 start, Vector3 end)
+        {
+            double distance = Vector3.Distance(start, end);
+            for (uint i = 0; i < distance; i += 10)
+            {
+                var tempPosition = start.Extend(end, i).To2D();
+                if (tempPosition.IsWall())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal static Vector3 GetFirstWallPoint(Vector3 start, Vector3 end)
+        {
+            double distance = Vector3.Distance(start, end);
+            for (uint i = 0; i < distance; i += 10)
+            {
+                var tempPosition = start.Extend(end, i);
+                if (tempPosition.IsWall())
+                {
+                    return tempPosition.Extend(start, -35);
+                }
+            }
+
+            return Vector3.Zero;
+        }
+
+        internal static float GetWallLength(Vector3 start, Vector3 end)
+        {
+            double distance = Vector3.Distance(start, end);
+            var firstPosition = Vector3.Zero;
+            var lastPosition = Vector3.Zero;
+
+            for (uint i = 0; i < distance; i += 10)
+            {
+                var tempPosition = start.Extend(end, i);
+                if (tempPosition.IsWall() && firstPosition == Vector3.Zero)
+                {
+                    firstPosition = tempPosition;
+                }
+                lastPosition = tempPosition;
+                if (!lastPosition.IsWall() && firstPosition != Vector3.Zero)
+                {
+                    break;
+                }
+            }
+
+            return Vector3.Distance(firstPosition, lastPosition);
+        }
     }
 }

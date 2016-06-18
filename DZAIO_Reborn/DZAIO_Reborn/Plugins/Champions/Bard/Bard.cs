@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Helpers.Positioning;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -15,6 +17,10 @@ namespace DZAIO_Reborn.Plugins.Champions.Bard
 {
     class Bard : IChampion
     {
+        public static int TunnelObjectNetworkID;
+        public static Vector3 TunnelEntrancePosition = Vector3.Zero;
+        public static Vector3 TunnelExitPosition = Vector3.Zero;
+
         public void OnLoad(Menu menu)
         {
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.bard.combo");
@@ -48,6 +54,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Bard
                 extraMenu.AddBool("dzaio.champion.bard.extra.autoQ", "Auto Q Stunned / Rooted", true);
                 extraMenu.AddBool("dzaio.champion.bard.extra.autoQKS", "Auto Q KS", true);
                 extraMenu.AddBool("dzaio.champion.bard.extra.supportmode", "Support Mode", true);
+                extraMenu.AddKeybind("dzaio.champion.bard.extra.fleemode", "Flee Mode", new Tuple<uint, KeyBindType>('Z', KeyBindType.Press));
             }
 
             Variables.Spells[SpellSlot.Q].SetSkillshot(0.25f, 100, 1600, false, SkillshotType.SkillshotLine);
@@ -59,6 +66,32 @@ namespace DZAIO_Reborn.Plugins.Champions.Bard
             DZInterrupter.OnInterruptableTarget += OnInterrupter;
             DZAntigapcloser.OnEnemyGapcloser += OnGapcloser;
             Orbwalking.BeforeAttack += BeforeAttack;
+            GameObject.OnCreate += OnCreateObject;
+            GameObject.OnDelete += OnDeleteObject;
+        }
+
+        private void OnCreateObject(GameObject sender, System.EventArgs args)
+        {
+            if (sender.Name.Contains("BardDoor_EntranceMinion"))
+            {
+                TunnelObjectNetworkID = sender.NetworkId;
+                TunnelEntrancePosition = sender.Position;
+            }
+
+            if (sender.Name.Contains("BardDoor_ExitMinion"))
+            {
+                TunnelExitPosition = sender.Position;
+            }
+        }
+
+        private void OnDeleteObject(GameObject sender, System.EventArgs args)
+        {
+            if (sender.Name.Contains("BardDoor_EntranceMinion") && sender.NetworkId == TunnelObjectNetworkID)
+            {
+                TunnelObjectNetworkID = -1;
+                TunnelEntrancePosition = Vector3.Zero;
+                TunnelExitPosition = Vector3.Zero;
+            }
         }
 
         private void BeforeAttack(Orbwalking.BeforeAttackEventArgs args)
@@ -104,7 +137,45 @@ namespace DZAIO_Reborn.Plugins.Champions.Bard
 
         public void OnTick()
         {
+            if (Variables.AssemblyMenu.GetItemValue<KeyBind>("dzaio.champion.bard.extra.fleemode").Active)
+            {
+                DoFlee();
+            }
+        }
 
+        private void DoFlee()
+        {
+            if (!Variables.Spells[SpellSlot.E].IsReady() || TunnelObjectNetworkID == -1)
+            {
+                Orbwalking.MoveTo(Game.CursorPos);
+            }
+
+            if (PositioningHelper.DoPositionsCrossWall(ObjectManager.Player.ServerPosition, Game.CursorPos)
+                && PositioningHelper.GetWallLength(ObjectManager.Player.ServerPosition,Game.CursorPos) >= 200f)
+            {
+                Orbwalking.MoveTo(PositioningHelper.GetFirstWallPoint(ObjectManager.Player.ServerPosition, Game.CursorPos));
+            }
+
+            //Q
+
+            var ComboTarget = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range / 1.3f, TargetSelector.DamageType.Magical);
+
+            if (Variables.Spells[SpellSlot.Q].IsReady() && ComboTarget.IsValidTarget())
+            {
+                HandleQ(ComboTarget);
+            }
+
+            //E
+
+            var dir = ObjectManager.Player.ServerPosition.To2D() + ObjectManager.Player.Direction.To2D().Perpendicular() * (ObjectManager.Player.BoundingRadius * 2.5f);
+            var Extended = Game.CursorPos;
+
+            if (dir.IsWall() 
+                 && PositioningHelper.GetWallLength(ObjectManager.Player.ServerPosition, Extended) >= 200f 
+                 && PositioningHelper.DoPositionsCrossWall(ObjectManager.Player.ServerPosition, Extended))
+            {
+                 Variables.Spells[SpellSlot.E].Cast(Extended);
+            }
         }
 
         public void OnCombo()
