@@ -39,13 +39,21 @@ namespace VayneHunter_Reborn.Skills.Condemn
                                     var backOut = ObjectManager.Player.ServerPosition.Extend(senderPos, 300f);
                                     if (backOut.IsSafe())
                                     {
-                                        Variables.spells[SpellSlot.Q].Cast(backOut);
+                                        if (gapcloser.Start.Distance(ObjectManager.Player.ServerPosition) >
+                                            gapcloser.End.Distance(ObjectManager.Player.ServerPosition))
+                                        {
+                                            Variables.spells[SpellSlot.Q].Cast(backOut);
+                                        }
                                     }
 
                                     break;
 
                                 case SpellSlot.E:
-                                    Variables.spells[SpellSlot.E].CastOnUnit(gapcloser.Sender);
+                                    if (gapcloser.Start.Distance(ObjectManager.Player.ServerPosition) >
+                                        gapcloser.End.Distance(ObjectManager.Player.ServerPosition))
+                                    {
+                                        Variables.spells[SpellSlot.E].CastOnUnit(gapcloser.Sender);
+                                    }
                                     break;
                             }
                         }
