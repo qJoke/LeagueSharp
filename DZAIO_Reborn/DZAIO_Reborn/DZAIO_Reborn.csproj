@@ -34,30 +34,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="clipper_library">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\clipper_library.dll</HintPath>
+      <HintPath>D:\Programmi\PlaySharp\System\clipper_library.dll</HintPath>
     </Reference>
-    <Reference Include="DZLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\DZLib.dll</HintPath>
+    <Reference Include="DZLib">
+      <HintPath>D:\Programmi\PlaySharp\System\DZLib.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\LeagueSharp.dll</HintPath>
+      <HintPath>D:\Programmi\PlaySharp\System\LeagueSharp.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Common">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\LeagueSharp.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="LeagueSharp.Data, Version=1.1.0.0, Culture=neutral, PublicKeyToken=7b6e8d26eaf0534f, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\LeagueSharp.Data.dll</HintPath>
+      <HintPath>D:\Programmi\PlaySharp\System\LeagueSharp.Common.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.SDK">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\LeagueSharp.SDK.dll</HintPath>
+      <HintPath>D:\Programmi\PlaySharp\System\LeagueSharp.SDK.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\SharpDX.dll</HintPath>
+      <HintPath>D:\Programmi\PlaySharp\System\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SPrediction">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\SPrediction.dll</HintPath>
+      <HintPath>D:\Programmi\PlaySharp\System\SPrediction.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
