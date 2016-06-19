@@ -5,6 +5,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Modules;
 using DZAIO_Reborn.Helpers.Positioning;
+using DZAIO_Reborn.Plugins.Champions.Bard.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -36,15 +37,6 @@ namespace DZAIO_Reborn.Plugins.Champions.Bard
                 mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q}, new[] { true });
                 mixedMenu.AddSlider("dzaio.champion.bard.mixed.mana", "Min Mana % for Harass", 30, 0, 100);
                 menu.AddSubMenu(mixedMenu);
-            }
-
-            var farmMenu = new Menu(ObjectManager.Player.ChampionName + ": Farm", "dzaio.champion.bard.farm");
-            {
-                farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Laneclear, new[] { SpellSlot.Q }, new[] { true });
-
-                farmMenu.AddSlider("dzaio.champion.bard.farm.w.min", "Min Minions for Q", 2, 1, 6);
-                farmMenu.AddSlider("dzaio.champion.bard.farm.mana", "Min Mana % for Farm", 30, 0, 100);
-                menu.AddSubMenu(farmMenu);
             }
 
             var extraMenu = new Menu(ObjectManager.Player.ChampionName + ": Extra", "dzaio.champion.bard.extra");
@@ -144,7 +136,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Bard
         {
             return new List<IModule>()
             {
-
+                new BardAutoQ()
             };
         }
 

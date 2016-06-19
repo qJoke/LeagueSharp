@@ -16,7 +16,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Ahri.Modules
 
         public bool ShouldGetExecuted()
         {
-            return Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.veigar.extra.autoQKS") &&
+            return Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.ahri.extra.autoQKS") &&
                    Variables.Spells[SpellSlot.Q].IsReady();
 
         }
