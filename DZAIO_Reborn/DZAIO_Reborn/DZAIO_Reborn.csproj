@@ -88,6 +88,7 @@
     <Compile Include="Plugins\Champions\Bard\Bard.cs" />
     <Compile Include="Plugins\Champions\Orianna\BallManager\BallStrings.cs" />
     <Compile Include="Plugins\Champions\Orianna\BallManager\CommandQueue.cs" />
+    <Compile Include="Plugins\Champions\Orianna\BallManager\PetManager.cs" />
     <Compile Include="Plugins\Champions\Orianna\Orianna.cs" />
     <Compile Include="Plugins\Champions\Trundle\Modules\TrundleQKS.cs" />
     <Compile Include="Plugins\Champions\Trundle\Trundle.cs" />
