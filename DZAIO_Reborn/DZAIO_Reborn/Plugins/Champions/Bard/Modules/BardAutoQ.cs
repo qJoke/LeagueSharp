@@ -17,7 +17,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Bard.Modules
 
         public bool ShouldGetExecuted()
         {
-            return (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.bard.extra.autoQKS") 
+            return (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.bard.extra.autoQKS")
                 || Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.bard.extra.autoQ"))
                 && Variables.Spells[SpellSlot.Q].IsReady();
 
