@@ -21,7 +21,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
 {
     class Orianna : IChampion
     {
-        public PetHandler 
+        public PetManager BallManager;
+ 
         public void OnLoad(Menu menu)
         {
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.orianna.combo");
@@ -56,7 +57,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
             Variables.Spells[SpellSlot.Q].SetSkillshot(0f, 110f, 1425f, false, SkillshotType.SkillshotLine);
             Variables.Spells[SpellSlot.E].SetSkillshot(0.25f, 80f, 1700f, true, SkillshotType.SkillshotLine);
             CommandQueue.InitEvents();
-
+            BallManager = new PetManager();
+            BallManager.OnLoad();
         }
 
         public void RegisterEvents()
