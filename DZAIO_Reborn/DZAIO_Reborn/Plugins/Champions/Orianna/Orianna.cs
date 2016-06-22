@@ -7,6 +7,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Helpers.Positioning;
 using DZAIO_Reborn.Plugins.Champions.Orianna.BallManager;
 using DZAIO_Reborn.Plugins.Champions.Veigar.Modules;
 using DZAIO_Reborn.Plugins.Interface;
@@ -15,6 +16,7 @@ using DZLib.Menu;
 using DZLib.MenuExtensions;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
 using SPrediction;
 
 namespace DZAIO_Reborn.Plugins.Champions.Orianna
@@ -102,7 +104,49 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
 
         public void OnCombo()
         {
-            
+            var qTarget = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range / 1.5f, TargetSelector.DamageType.Magical);
+
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) && qTarget.IsValidTarget())
+            {
+                var targetPrediction = LeagueSharp.Common.Prediction.GetPrediction(qTarget, 0.75f);
+
+                if (ObjectManager.Player.HealthPercent >= 35)
+                {
+                    var enemyHeroesPositions = HeroManager.Enemies.Select(hero => hero.Position.To2D()).ToList();
+
+                    var Groups = PositioningHelper.GetCombinations(enemyHeroesPositions);
+
+                    foreach (var group in Groups)
+                    {
+                        if (group.Count >= 3)
+                        {
+                            var Circle = MEC.GetMec(group);
+
+                            if (Circle.Center.To3D().CountEnemiesInRange(Variables.Spells[SpellSlot.Q].Range) >= 2 &&
+                                Circle.Center.Distance(ObjectManager.Player) <= Variables.Spells[SpellSlot.Q].Range &&
+                                Circle.Radius <= Variables.Spells[SpellSlot.Q].Width)
+                            {
+                                this.BallManager.ProcessCommand(new Command()
+                                {
+                                    SpellCommand = Commands.Q,
+                                    Where = Circle.Center.To3D()
+                                });
+                                return;
+                            }
+                        }
+                    }
+
+                }
+
+                this.BallManager.ProcessCommand(new Command()
+                {
+                    SpellCommand = Commands.Q,
+                    Where = targetPrediction.UnitPosition
+                });
+
+
+            }
+
         }
 
         public void OnMixed()
@@ -116,6 +160,12 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
         public void OnLaneclear()
         {
             
+        }
+        public static List<Obj_AI_Hero> getEHits(Vector3 endPosition)
+        {
+            return HeroManager.Enemies
+                .Where(enemy => enemy.IsValidTarget(Variables.Spells[SpellSlot.E].Range * 1.45f) && Variables.Spells[SpellSlot.E].WillHit(enemy, endPosition))
+                .ToList();
         }
     }
 }

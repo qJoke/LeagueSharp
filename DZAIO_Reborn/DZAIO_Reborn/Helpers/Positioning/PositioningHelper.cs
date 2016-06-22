@@ -76,5 +76,18 @@ namespace DZAIO_Reborn.Helpers.Positioning
 
             return Vector3.Distance(firstPosition, lastPosition);
         }
+
+        public static IEnumerable<List<Vector2>> GetCombinations(IReadOnlyCollection<Vector2> allValues)
+        {
+            var collection = new List<List<Vector2>>();
+            for (var counter = 0; counter < (1 << allValues.Count); ++counter)
+            {
+                var combination = allValues.Where((t, i) => (counter & (1 << i)) == 0).ToList();
+
+                collection.Add(combination);
+            }
+
+            return collection;
+        }
     }
 }
