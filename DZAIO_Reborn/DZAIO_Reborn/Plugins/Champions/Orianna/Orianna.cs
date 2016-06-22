@@ -147,6 +147,28 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
 
             }
 
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
+                qTarget.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+            {
+                var ballLocation = this.BallManager.BallPosition;
+                var minWEnemies = 2;
+
+                if (ObjectManager.Player.CountEnemiesInRange(Variables.Spells[SpellSlot.Q].Range + 245f) >= 2)
+                {
+                    if (ballLocation.CountEnemiesInRange(Variables.Spells[SpellSlot.W].Range) >= minWEnemies)
+                    {
+                        this.BallManager.ProcessCommand(new Command() { SpellCommand = Commands.W, });
+                    }
+                }
+                else
+                {
+                    if (ballLocation.CountEnemiesInRange(Variables.Spells[SpellSlot.W].Range) >= 1)
+                    {
+                        this.BallManager.ProcessCommand(new Command() { SpellCommand = Commands.W, });
+                    }
+                }
+            }
+
         }
 
         public void OnMixed()
