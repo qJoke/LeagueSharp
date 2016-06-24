@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
-using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
 using DZAIO_Reborn.Helpers.Positioning;
 using DZAIO_Reborn.Plugins.Champions.Orianna.BallManager;
-using DZAIO_Reborn.Plugins.Champions.Veigar.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -167,6 +162,99 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
                         this.BallManager.ProcessCommand(new Command() { SpellCommand = Commands.W, });
                     }
                 }
+            }
+
+
+            if (Variables.Spells[SpellSlot.R].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                if (ObjectManager.Player.CountEnemiesInRange(Variables.Spells[SpellSlot.Q].Range + 250f) > 1)
+                {
+                    var EnemyPositions = HeroManager.Enemies.Select(hero => hero.Position.To2D()).ToList();
+
+                    var Combinations = PositioningHelper.GetCombinations(EnemyPositions);
+
+
+                    foreach (var group in Combinations)
+                    {
+                        if (group.Count >= 2)
+                        {
+                            var Circle = MEC.GetMec(group);
+                            if (Variables.Spells[SpellSlot.Q].IsReady() &&
+                                Circle.Center.Distance(ObjectManager.Player) <= Variables.Spells[SpellSlot.Q].Range &&
+                                Circle.Radius <= Variables.Spells[SpellSlot.R].Range &&
+                                Circle.Center.To3D().CountEnemiesInRange(Variables.Spells[SpellSlot.R].Range) >= 2)
+                            {
+                                Variables.Spells[SpellSlot.Q].Cast(Circle.Center.To3D());
+
+                                var arrivalDelay =
+                                    (int)
+                                        (BallManager.BallPosition.Distance(Circle.Center.To3D()) /
+                                         Variables.Spells[SpellSlot.Q].Speed * 1000f +
+                                         Variables.Spells[SpellSlot.Q].Delay * 1000f + Game.Ping / 2f + 100f);
+
+                                Utility.DelayAction.Add(
+                                    arrivalDelay, () =>
+                                    {
+                                        //Extra check just for safety
+                                        if (
+                                            BallManager.BallPosition.CountEnemiesInRange(
+                                                Variables.Spells[SpellSlot.R].Range) >= 2)
+                                        {
+                                            Variables.Spells[SpellSlot.R].Cast();
+                                        }
+                                    });
+                            }
+                        }
+                    }
+                }
+                else
+                {
+
+                    var targetForQR = TargetSelector.GetTarget(
+                        Variables.Spells[SpellSlot.Q].Range / 1.2f, TargetSelector.DamageType.Magical);
+
+                    if (targetForQR.IsValidTarget())
+                    {
+                        var QWDamage = ObjectManager.Player.GetComboDamage(
+                            targetForQR, new[] { SpellSlot.Q, SpellSlot.W });
+                        var QRDamage = ObjectManager.Player.GetComboDamage(
+                            targetForQR, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.R });
+
+                        var healthCheck = targetForQR.Health + 10f < QRDamage && !(targetForQR.Health + 10f < QWDamage);
+
+                        if (!healthCheck)
+                        {
+                            return;
+                        }
+
+                        var rPosition = targetForQR.ServerPosition.Extend(
+                            ObjectManager.Player.ServerPosition, Variables.Spells[SpellSlot.R].Range / 2f);
+
+                        if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) &&
+                            rPosition.Distance(ObjectManager.Player.ServerPosition) <=
+                            Variables.Spells[SpellSlot.Q].Range)
+                        {
+                            Variables.Spells[SpellSlot.Q].Cast(rPosition);
+
+                            var actionDelay =
+                                (int)
+                                    (BallManager.BallPosition.Distance(rPosition) / Variables.Spells[SpellSlot.Q].Speed *
+                                     1000f + Variables.Spells[SpellSlot.Q].Delay * 1000f + Game.Ping / 2f + 100f);
+
+                            Utility.DelayAction.Add(
+                                actionDelay, () =>
+                                {
+                                    if (
+                                        BallManager.BallPosition.CountEnemiesInRange(
+                                            Variables.Spells[SpellSlot.R].Range) >= 1)
+                                    {
+                                        Variables.Spells[SpellSlot.R].Cast();
+                                    }
+                                });
+                        }
+                    }
+                }
+
             }
 
         }
