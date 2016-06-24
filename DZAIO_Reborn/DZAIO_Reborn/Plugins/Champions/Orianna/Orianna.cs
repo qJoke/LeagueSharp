@@ -31,8 +31,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
 
             var mixedMenu = new Menu(ObjectManager.Player.ChampionName + ": Mixed", "dzaio.champion.orianna.harrass");
             {
-                mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E }, new[] { true, true, true });
-                mixedMenu.AddSlider("dzaio.champion.veigar.mixed.mana", "Min Mana % for Harass", 30, 0, 100);
+                mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true, true });
+                mixedMenu.AddSlider("dzaio.champion.orianna.mixed.mana", "Min Mana % for Harass", 30, 0, 100);
                 menu.AddSubMenu(mixedMenu);
             }
 
@@ -40,9 +40,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
             {
                 farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Laneclear, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true });
 
-                farmMenu.AddBool("dzaio.champion.veigar.farm.w.kill", "Only Use W to kill Minions", false);
-                farmMenu.AddSlider("dzaio.champion.veigar.farm.w.min", "Min Minions for W", 2, 1, 6);
-                farmMenu.AddSlider("dzaio.champion.veigar.farm.mana", "Min Mana % for Farm", 30, 0, 100);
+                farmMenu.AddSlider("dzaio.champion.orianna.farm.w.min", "Min Minions for W", 2, 1, 6);
+                farmMenu.AddSlider("dzaio.champion.orianna.farm.mana", "Min Mana % for Farm", 30, 0, 100);
                 menu.AddSubMenu(farmMenu);
             }
 
@@ -261,7 +260,77 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
 
         public void OnMixed()
         {
-            
+            if (ObjectManager.Player.ManaPercent <
+                Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.orianna.mixed.mana").Value)
+            {
+                return;
+            }
+
+            var qTarget = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range / 1.5f, TargetSelector.DamageType.Magical);
+
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) && qTarget.IsValidTarget())
+            {
+                var targetPrediction = LeagueSharp.Common.Prediction.GetPrediction(qTarget, 0.75f);
+
+                if (ObjectManager.Player.HealthPercent >= 35)
+                {
+                    var enemyHeroesPositions = HeroManager.Enemies.Select(hero => hero.Position.To2D()).ToList();
+
+                    var Groups = PositioningHelper.GetCombinations(enemyHeroesPositions);
+
+                    foreach (var group in Groups)
+                    {
+                        if (group.Count >= 3)
+                        {
+                            var Circle = MEC.GetMec(group);
+
+                            if (Circle.Center.To3D().CountEnemiesInRange(Variables.Spells[SpellSlot.Q].Range) >= 2 &&
+                                Circle.Center.Distance(ObjectManager.Player) <= Variables.Spells[SpellSlot.Q].Range &&
+                                Circle.Radius <= Variables.Spells[SpellSlot.Q].Width)
+                            {
+                                this.BallManager.ProcessCommand(new Command()
+                                {
+                                    SpellCommand = Commands.Q,
+                                    Where = Circle.Center.To3D()
+                                });
+                                return;
+                            }
+                        }
+                    }
+
+                }
+
+                this.BallManager.ProcessCommand(new Command()
+                {
+                    SpellCommand = Commands.Q,
+                    Where = targetPrediction.UnitPosition
+                });
+
+
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) &&
+                qTarget.IsValidTarget(Variables.Spells[SpellSlot.W].Range))
+            {
+                var ballLocation = this.BallManager.BallPosition;
+                var minWEnemies = 2;
+
+                if (ObjectManager.Player.CountEnemiesInRange(Variables.Spells[SpellSlot.Q].Range + 245f) >= 2)
+                {
+                    if (ballLocation.CountEnemiesInRange(Variables.Spells[SpellSlot.W].Range) >= minWEnemies)
+                    {
+                        this.BallManager.ProcessCommand(new Command() { SpellCommand = Commands.W, });
+                    }
+                }
+                else
+                {
+                    if (ballLocation.CountEnemiesInRange(Variables.Spells[SpellSlot.W].Range) >= 1)
+                    {
+                        this.BallManager.ProcessCommand(new Command() { SpellCommand = Commands.W, });
+                    }
+                }
+            }
+
         }
 
         public void OnLastHit()
