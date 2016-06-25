@@ -338,8 +338,38 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
 
         public void OnLaneclear()
         {
-            
+            //
+            if (ObjectManager.Player.ManaPercent <
+                Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.orianna.farm.mana").Value)
+            {
+                return;
+            }
+
+            if (!Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Farm) ||
+                !Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Farm))
+            {
+                return;
+            }
+
+            var farmMinions = MinionManager.GetMinions(Variables.Spells[SpellSlot.Q].Range, MinionTypes.All);
+            var farmLocation = Variables.Spells[SpellSlot.W].GetCircularFarmLocation(farmMinions);
+            if (farmLocation.MinionsHit >= Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.orianna.farm.w.min").Value)
+            {
+                BallManager.ProcessCommandList(new List<Command>()
+                {
+                    new Command()
+                    {
+                        SpellCommand = Commands.Q,
+                        Where = farmLocation.Position.To3D()
+                    },
+                    new Command()
+                    {
+                        SpellCommand = Commands.W,
+                    }
+                });
+            }
         }
+
         public static List<Obj_AI_Hero> getEHits(Vector3 endPosition)
         {
             return HeroManager.Enemies
