@@ -47,7 +47,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
 
             var extraMenu = new Menu(ObjectManager.Player.ChampionName + ": Extra", "dzaio.champion.orianna.extra");
             {
-                extraMenu.AddBool("dzaio.champion.orianna.extra.interrupter", "Interrupter (Q->R)", true);
+                extraMenu.AddStringList("dzaio.champion.orianna.extra.interrupter.mode", "Interrupter Mode", new []{"Q->R", "Only R"});
+                extraMenu.AddBool("dzaio.champion.orianna.extra.interrupter", "Interrupter", true);
             }
 
             Variables.Spells[SpellSlot.Q].SetSkillshot(0f, 110f, 1425f, false, SkillshotType.SkillshotLine);
@@ -75,28 +76,55 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
                 && args.DangerLevel >= DZInterrupter.DangerLevel.High
                 && Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.orianna.extra.interrupter"))
             {
-                this.BallManager.ProcessCommand(new Command()
+                switch (
+                    Variables.AssemblyMenu.GetItemValue<StringList>("dzaio.champion.orianna.extra.interrupter.mode")
+                        .SelectedIndex)
                 {
-                    SpellCommand = Commands.Q,
-                    Where = sender.ServerPosition
-                });
-
-                var actionDelay =
-                    (int)
-                        (BallManager.BallPosition.Distance(sender.ServerPosition) / Variables.Spells[SpellSlot.Q].Speed *
-                         1000f + Variables.Spells[SpellSlot.Q].Delay * 1000f + Game.Ping / 2f + 100f);
-
-                Utility.DelayAction.Add(
-                    actionDelay, () =>
-                    {
-                        var enemiesInRange =
-                            BallManager.BallPosition.GetEnemiesInRange(Variables.Spells[SpellSlot.R].Range);
-
-                        if (enemiesInRange.Count >= 1 && enemiesInRange.Any(n => n.NetworkId == sender.NetworkId))
+                    case 0:
+                        this.BallManager.ProcessCommand(new Command()
                         {
-                            Variables.Spells[SpellSlot.R].Cast();
+                            SpellCommand = Commands.Q,
+                            Where = sender.ServerPosition
+                        });
+
+                        var actionDelay =
+                            (int)
+                                (BallManager.BallPosition.Distance(sender.ServerPosition) /
+                                 Variables.Spells[SpellSlot.Q].Speed * 1000f +
+                                 Variables.Spells[SpellSlot.Q].Delay * 1000f + Game.Ping / 2f + 100f);
+
+                        Utility.DelayAction.Add(
+                            actionDelay, () =>
+                            {
+                                var enemiesInRange =
+                                    BallManager.BallPosition.GetEnemiesInRange(Variables.Spells[SpellSlot.R].Range);
+
+                                if (enemiesInRange.Count >= 1 &&
+                                    enemiesInRange.Any(n => n.NetworkId == sender.NetworkId))
+                                {
+                                    Variables.Spells[SpellSlot.R].Cast();
+                                }
+                            });
+                
+                    break;
+                    case 1:
+                        var ballPosition = BallManager.BallPosition;
+                        if (sender.IsValidTarget(Variables.Spells[SpellSlot.R].Range / 2f, true, ballPosition))
+                        {
+                            var enemiesInRange =
+                                    BallManager.BallPosition.GetEnemiesInRange(Variables.Spells[SpellSlot.R].Range);
+
+                            if (enemiesInRange.Count >= 1 &&
+                                enemiesInRange.Any(n => n.NetworkId == sender.NetworkId))
+                            {
+                                Variables.Spells[SpellSlot.R].Cast();
+                            }
                         }
-                    });
+                    break;
+                }
+                
+
+                
             }
         }
         public Dictionary<SpellSlot, Spell> GetSpells()
