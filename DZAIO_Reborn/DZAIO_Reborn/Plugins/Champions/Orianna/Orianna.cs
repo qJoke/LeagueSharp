@@ -47,7 +47,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
 
             var extraMenu = new Menu(ObjectManager.Player.ChampionName + ": Extra", "dzaio.champion.orianna.extra");
             {
-                extraMenu.AddBool("dzaio.champion.veigar.extra.interrupter", "Interrupter (R)", true);
+                extraMenu.AddBool("dzaio.champion.orianna.extra.interrupter", "Interrupter (Q->R)", true);
             }
 
             Variables.Spells[SpellSlot.Q].SetSkillshot(0f, 110f, 1425f, false, SkillshotType.SkillshotLine);
@@ -70,7 +70,34 @@ namespace DZAIO_Reborn.Plugins.Champions.Orianna
 
         private void OnInterrupter(Obj_AI_Hero sender, DZInterrupter.InterruptableTargetEventArgs args)
         {
-            
+            if (Variables.Spells[SpellSlot.R].IsReady() 
+                && sender.IsValidTarget(Variables.Spells[SpellSlot.Q].Range) 
+                && args.DangerLevel >= DZInterrupter.DangerLevel.High
+                && Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.orianna.extra.interrupter"))
+            {
+                this.BallManager.ProcessCommand(new Command()
+                {
+                    SpellCommand = Commands.Q,
+                    Where = sender.ServerPosition
+                });
+
+                var actionDelay =
+                    (int)
+                        (BallManager.BallPosition.Distance(sender.ServerPosition) / Variables.Spells[SpellSlot.Q].Speed *
+                         1000f + Variables.Spells[SpellSlot.Q].Delay * 1000f + Game.Ping / 2f + 100f);
+
+                Utility.DelayAction.Add(
+                    actionDelay, () =>
+                    {
+                        var enemiesInRange =
+                            BallManager.BallPosition.GetEnemiesInRange(Variables.Spells[SpellSlot.R].Range);
+
+                        if (enemiesInRange.Count >= 1 && enemiesInRange.Any(n => n.NetworkId == sender.NetworkId))
+                        {
+                            Variables.Spells[SpellSlot.R].Cast();
+                        }
+                    });
+            }
         }
         public Dictionary<SpellSlot, Spell> GetSpells()
         {
