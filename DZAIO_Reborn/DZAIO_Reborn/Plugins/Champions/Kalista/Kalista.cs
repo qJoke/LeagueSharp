@@ -14,12 +14,15 @@ using DZLib.Menu;
 using DZLib.MenuExtensions;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
 using SPrediction;
 
 namespace DZAIO_Reborn.Plugins.Champions.Kalista
 {
     class Kalista : IChampion
     {
+        private static float LastQCastTick = 0f;
+
         public void OnLoad(Menu menu)
         {
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.kalista.combo");
@@ -100,6 +103,43 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
         public void OnCombo()
         {
 
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var qRangeReduction = 0.75f;
+
+                var target = TargetSelector.GetTarget(
+                    Variables.Spells[SpellSlot.Q].Range * qRangeReduction, TargetSelector.DamageType.Physical);
+
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range * qRangeReduction))
+                {
+                    //Calculate the dash End Position and update the prediction accordingly
+                    var dashEndPos = ObjectManager.Player.GetDashInfo().EndPos;
+                    var QPrediction = Variables.Spells[SpellSlot.Q].GetPrediction(target);
+
+                    if (dashEndPos != Vector2.Zero)
+                    {
+                        Variables.Spells[SpellSlot.Q].UpdateSourcePosition(dashEndPos.To3D());
+                        QPrediction = Variables.Spells[SpellSlot.Q].GetPrediction(target);
+                        Variables.Spells[SpellSlot.Q].UpdateSourcePosition(ObjectManager.Player.ServerPosition);
+                    }
+
+                    if (QPrediction.Hitchance >= HitChance.High)
+                    {
+                        if (IsPlayerNotBusy() && (Environment.TickCount - LastQCastTick >= 500f))
+                        {
+                            Variables.Spells[SpellSlot.Q].Cast(QPrediction.CastPosition);
+                            LastQCastTick = Environment.TickCount;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public bool IsPlayerNotBusy()
+        {
+            return !ObjectManager.Player.IsDashing() &&
+                   (!ObjectManager.Player.Spellbook.IsAutoAttacking || ObjectManager.Player.IsWindingUp);
         }
 
         public void OnMixed()
