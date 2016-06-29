@@ -21,13 +21,8 @@ namespace DZAIO_Reborn.Core.ChampionHelper
                 Variables.CurrentChampion.RegisterEvents();
                 Game.PrintChat("<b><font color='#FF0000'>[DZAIO: Reborn] </font></b><font color='#FFFFFF'>Loaded</font> <b><font color='#FF0000'>{0}</font></b> plugin!", ObjectManager.Player.ChampionName);
 
-                var champString = "<b>Also try it with: </b>";
+                var champString = Variables.ChampList.Where(n => n.Key != ObjectManager.Player.ChampionName).Aggregate("<b>Also try it with: </b>", (current, champKvp) => current + ("<b><font color='" + GetRandomColor() + "'>" + champKvp.Key + "</font></b><font color='#FFFFFF'>, </font>"));
 
-                foreach (var champKvp in Variables.ChampList.Where(n => n.Key != ObjectManager.Player.ChampionName))
-                {
-                    champString += "<b><font color='" + GetRandomColor() +"'>" + champKvp.Key + "</font></b><font color='#FFFFFF'>, </font>";
-                }
-                    
                 Game.PrintChat(champString);
             }
         }
