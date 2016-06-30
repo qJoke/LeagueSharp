@@ -106,6 +106,9 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
             if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
             {
                 var qRangeReduction = 0.75f;
+                var qJumpRange = 280f;
+                var qTickInterval = 500f;
+
 
                 var target = TargetSelector.GetTarget(
                     Variables.Spells[SpellSlot.Q].Range * qRangeReduction, TargetSelector.DamageType.Physical);
@@ -125,13 +128,23 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
 
                     if (QPrediction.Hitchance >= HitChance.High)
                     {
-                        if (IsPlayerNotBusy() && (Environment.TickCount - LastQCastTick >= 500f))
+                        if (IsPlayerNotBusy() && (Environment.TickCount - LastQCastTick >= qTickInterval))
+                        {
+                            Variables.Spells[SpellSlot.Q].Cast(QPrediction.CastPosition);
+                            LastQCastTick = Environment.TickCount;
+                        }
+                    }
+                    else if (target.CanBeRendKilled() && !target.IsValidTarget(Variables.Spells[SpellSlot.E].Range)
+                      && target.IsValidTarget(Variables.Spells[SpellSlot.E].Range + qJumpRange))
+                    {
+                        if (IsPlayerNotBusy() && (Environment.TickCount - LastQCastTick >= qTickInterval))
                         {
                             Variables.Spells[SpellSlot.Q].Cast(QPrediction.CastPosition);
                             LastQCastTick = Environment.TickCount;
                         }
                     }
                 }
+                
             }
 
         }
