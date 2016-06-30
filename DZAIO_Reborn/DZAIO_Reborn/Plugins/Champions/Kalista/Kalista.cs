@@ -22,12 +22,14 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
     class Kalista : IChampion
     {
         private static float LastQCastTick = 0f;
+        private static float LastECastTick = 0f;
 
         public void OnLoad(Menu menu)
         {
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.kalista.combo");
             {
                 comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.E, SpellSlot.R }, new[] { true, true, true });
+                comboMenu.AddSlider("dzaio.champion.kalista.combo.e.stacks", "Min E Stacks", 6, 1, 10);
                 //comboMenu.AddNoUltiMenu(false);
                 menu.AddSubMenu(comboMenu);
             }
@@ -103,6 +105,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
         public void OnCombo()
         {
 
+            /** Q Logic */
+
             if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
             {
                 var qRangeReduction = 0.75f;
@@ -144,9 +148,23 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
                         }
                     }
                 }
-                
             }
 
+            /** E Logic */
+            if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                foreach (
+                var hero in
+                    HeroManager.Enemies.Where(
+                        h =>  h.HasRend() && h.IsValidTarget(Variables.Spells[SpellSlot.E].Range)))
+                {
+                    if (hero.CanBeRendKilled() 
+                        || hero.GetRendBuff().Count >= Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.kalista.combo.e.stacks").Value)
+                    {
+                        Variables.Spells[SpellSlot.E].Cast();
+                    }
+                }
+            }
         }
 
         public bool IsPlayerNotBusy()
