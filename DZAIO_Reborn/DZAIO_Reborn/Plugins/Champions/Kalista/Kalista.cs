@@ -52,7 +52,6 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
 
             var extraMenu = new Menu(ObjectManager.Player.ChampionName + ": Extra", "dzaio.champion.kalista.extra");
             {
-                extraMenu.AddBool("dzaio.champion.kalista.extra.interrupter", "Interrupter (Q)", true);
                 extraMenu.AddBool("dzaio.champion.kalista.extra.antigapcloser", "Antigapcloser (Q)", true);
                 extraMenu.AddBool("dzaio.champion.kalista.extra.autoQ", "Auto Q Stunned / Rooted", true);
                 extraMenu.AddBool("dzaio.champion.kalista.kalista.autoEKS", "Auto E KS", true);
@@ -71,13 +70,22 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
 
         private void OnGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
         {
-           
+            if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.kalista.extra.antigapcloser") 
+                && Variables.Spells[SpellSlot.Q].IsReady())
+            {
+                Variables.Spells[SpellSlot.Q].Cast(gapcloser.End);
+                Utility.DelayAction.Add(260, () =>
+                {
+                    ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                });
+            }
         }
 
         private void OnInterrupter(Obj_AI_Hero sender, DZInterrupter.InterruptableTargetEventArgs args)
         {
             
         }
+
         public Dictionary<SpellSlot, Spell> GetSpells()
         {
             return new Dictionary<SpellSlot, Spell>
