@@ -57,6 +57,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
                 extraMenu.AddBool("dzaio.champion.kalista.extra.autoQ", "Auto Q Stunned / Rooted", true);
                 extraMenu.AddBool("dzaio.champion.kalista.kalista.autoEKS", "Auto E KS", true);
                 extraMenu.AddBool("dzaio.champion.kalista.kalista.autoESlow", "Auto E for Slow (With Reset on Minion)", true);
+                extraMenu.AddBool("dzaio.champion.kalista.kalista.autoEDeath", "Auto E when about to die", true);
 
             }
 
@@ -104,7 +105,9 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
         {
             return new List<IModule>()
             {
-                new KalistaEKS()
+                new KalistaEKS(),
+                new KalistaESlow(),
+                new KalistaEDeath()
             };
         }
 
