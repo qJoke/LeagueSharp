@@ -50,5 +50,4 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista.Modules
                 }
             }
         }
-    }
 }
