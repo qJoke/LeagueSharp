@@ -7,6 +7,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Plugins.Champions.Kalista.Modules;
 using DZAIO_Reborn.Plugins.Champions.Veigar.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
@@ -55,6 +56,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
                 extraMenu.AddBool("dzaio.champion.kalista.extra.antigapcloser", "Antigapcloser (Q)", true);
                 extraMenu.AddBool("dzaio.champion.kalista.extra.autoQ", "Auto Q Stunned / Rooted", true);
                 extraMenu.AddBool("dzaio.champion.kalista.kalista.autoEKS", "Auto E KS", true);
+                extraMenu.AddBool("dzaio.champion.kalista.kalista.autoESlow", "Auto E for Slow (With Reset on Minion)", true);
+
             }
 
             Variables.Spells[SpellSlot.Q].SetSkillshot(0.25f, 40f, 1200f, true, SkillshotType.SkillshotLine);
@@ -74,7 +77,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
                 && Variables.Spells[SpellSlot.Q].IsReady())
             {
                 Variables.Spells[SpellSlot.Q].Cast(gapcloser.End);
-                Utility.DelayAction.Add(260, () =>
+                Utility.DelayAction.Add((int)(250f + Game.Ping / 2f + 30), () =>
                 {
                     ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
                 });
@@ -101,7 +104,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
         {
             return new List<IModule>()
             {
-
+                new KalistaEKS()
             };
         }
 

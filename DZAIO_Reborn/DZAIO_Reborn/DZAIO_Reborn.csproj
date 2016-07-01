@@ -89,6 +89,8 @@
     <Compile Include="Plugins\Champions\Bard\Modules\BardAutoQ.cs" />
     <Compile Include="Plugins\Champions\Kalista\Kalista.cs" />
     <Compile Include="Plugins\Champions\Kalista\KalistaHelper.cs" />
+    <Compile Include="Plugins\Champions\Kalista\Modules\KalistaEKS.cs" />
+    <Compile Include="Plugins\Champions\Kalista\Modules\KalistaESlow.cs" />
     <Compile Include="Plugins\Champions\Orianna\BallManager\BallStrings.cs" />
     <Compile Include="Plugins\Champions\Orianna\BallManager\CommandQueue.cs" />
     <Compile Include="Plugins\Champions\Orianna\BallManager\PetManager.cs" />
@@ -106,9 +108,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Plugins\Champions\Kalista\Modules\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
