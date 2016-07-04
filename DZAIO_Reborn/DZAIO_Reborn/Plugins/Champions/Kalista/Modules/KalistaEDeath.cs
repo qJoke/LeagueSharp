@@ -40,6 +40,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista.Modules
                     && ObjectManager.Player.GetEnemiesInRange(Orbwalking.GetRealAutoAttackRange(null)).Any(h => h.HealthPercent > 4 * ObjectManager.Player.HealthPercent))
                     )
                 {
+                    
                     if ((Environment.TickCount - LastECastTime >= 250f) 
                         && HeroManager.Enemies.Any(m => m.IsValidTarget(Variables.Spells[SpellSlot.E].Range) && m.HasRend())
                         )

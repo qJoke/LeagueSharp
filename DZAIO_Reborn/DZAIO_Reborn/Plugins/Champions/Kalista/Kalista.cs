@@ -58,6 +58,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
                 extraMenu.AddBool("dzaio.champion.kalista.kalista.autoEKS", "Auto E KS", true);
                 extraMenu.AddBool("dzaio.champion.kalista.kalista.autoESlow", "Auto E for Slow (With Reset on Minion)", true);
                 extraMenu.AddBool("dzaio.champion.kalista.kalista.autoEDeath", "Auto E when about to die", true);
+                extraMenu.AddBool("dzaio.champion.kalista.kalista.autoESteal", "Auto E to steal Drake and Baron", true);
 
             }
 
@@ -107,7 +108,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
             {
                 new KalistaEKS(),
                 new KalistaESlow(),
-                new KalistaEDeath()
+                new KalistaEDeath(),
+                new KalistaEDrakeBaron()
             };
         }
 

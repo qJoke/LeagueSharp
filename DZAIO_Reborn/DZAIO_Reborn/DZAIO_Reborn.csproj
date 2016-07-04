@@ -90,6 +90,7 @@
     <Compile Include="Plugins\Champions\Kalista\Kalista.cs" />
     <Compile Include="Plugins\Champions\Kalista\KalistaHelper.cs" />
     <Compile Include="Plugins\Champions\Kalista\Modules\KalistaEDeath.cs" />
+    <Compile Include="Plugins\Champions\Kalista\Modules\KalistaEDrakeBaron.cs" />
     <Compile Include="Plugins\Champions\Kalista\Modules\KalistaEKS.cs" />
     <Compile Include="Plugins\Champions\Kalista\Modules\KalistaESlow.cs" />
     <Compile Include="Plugins\Champions\Orianna\BallManager\BallStrings.cs" />

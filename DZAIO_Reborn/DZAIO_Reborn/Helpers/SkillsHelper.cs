@@ -43,5 +43,33 @@ namespace DZAIO_Reborn.Helpers
                     return "unk";
             }
         }
+
+        /// <summary>
+        /// Gets the baron reduction.
+        /// </summary>
+        /// <param name="spell">The Spell</param>
+        /// <param name="target">The target.</param>
+        /// <returns></returns>
+        public static float GetBaronReduction(this Spell spell, Obj_AI_Base target)
+        {
+            return ObjectManager.Player.HasBuff("barontarget")
+                       ? spell.GetDamage(target) * 0.5f
+                       : spell.GetDamage(target);
+        }
+
+
+        /// <summary>
+        /// Gets the dragon reduction.
+        /// </summary>
+        /// <param name="spell">The Spell</param>
+        /// <param name="target">The target.</param>
+        /// <returns></returns>
+        public static float GetDragonReduction(this Spell spell, Obj_AI_Base target)
+        {
+            return ObjectManager.Player.HasBuff("s5test_dragonslayerbuff")
+                       ? spell.GetDamage(target)
+                         * (1 - (.07f * ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff")))
+                       : spell.GetDamage(target);
+        }
     }
 }
