@@ -60,7 +60,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
                 extraMenu.AddBool("dzaio.champion.kalista.kalista.autoEDeath", "Auto E when about to die", true);
                 extraMenu.AddBool("dzaio.champion.kalista.kalista.autoESteal", "Auto E to steal Drake and Baron", true);
                 extraMenu.AddBool("dzaio.champion.kalista.kalista.autoRSoul", "Auto R to save Soulbound", true);
-
+                extraMenu.AddKeybind("dzaio.champion.kalista.kalista.wallJump", "Wall Jump", new Tuple<uint, KeyBindType>('Z', KeyBindType.Press));
             }
 
             Variables.Spells[SpellSlot.Q].SetSkillshot(0.25f, 40f, 1200f, true, SkillshotType.SkillshotLine);
@@ -111,7 +111,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
                 new KalistaESlow(),
                 new KalistaEDeath(),
                 new KalistaEDrakeBaron(),
-                new KalistaSoulboundSaver()
+                new KalistaSoulboundSaver(),
+                new KalistaWallJump()
             };
         }
 
