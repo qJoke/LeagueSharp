@@ -46,6 +46,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             var extraMenu = new Menu(ObjectManager.Player.ChampionName + ": Extra", "dzaio.champion.sivir.extra");
             {
                 extraMenu.AddBool("dzaio.champion.sivir.extra.autoE", "E Shield", true);
+                extraMenu.AddSlider("dzaio.champion.sivir.extra.autoE.Delay", "E Shield Delay", 120, 0, 350);
                 extraMenu.AddBool("dzaio.champion.sivir.extra.autoQKS", "Q KS", true);
                 extraMenu.AddBool("dzaio.champion.sivir.extra.autoQRoot", "Q Root/Slow/Dash", true);
             }
@@ -58,6 +59,18 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             DZInterrupter.OnInterruptableTarget += OnInterrupter;
             DZAntigapcloser.OnEnemyGapcloser += OnGapcloser;
             Orbwalking.AfterAttack += AfterAttack;
+            Obj_AI_Base.OnProcessSpellCast += OnSpellCast;
+        }
+
+        private void OnSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (sender is Obj_AI_Hero && !args.SData.IsAutoAttack() && sender.IsEnemy &&
+                (args.Target != null && args.Target.IsMe) && Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.sivir.extra.autoE"))
+            {
+                Utility.DelayAction.Add(Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.sivir.extra.autoE.Delay").Value,
+                    () =>
+                    { Variables.Spells[SpellSlot.E].Cast(); });
+            }
         }
 
         private void AfterAttack(AttackableUnit unit, AttackableUnit target)
