@@ -67,7 +67,9 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
                 return;
             }
 
-            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) 
+                || (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) 
+                && ObjectManager.Player.ManaPercent >= Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.sivir.mixed.mana").Value))
             {
                 if (target.IsValid<Obj_AI_Hero>() && target.IsValidTarget())
                 {
@@ -133,7 +135,18 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
                 return;
             }
 
-            
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass))
+            {
+                var qTarget = Variables.Spells[SpellSlot.Q].GetTarget();
+                if (qTarget.IsValidTarget())
+                {
+                    var qPrediction = Variables.Spells[SpellSlot.Q].GetPrediction(qTarget);
+                    if (qPrediction.Hitchance >= HitChance.High)
+                    {
+                        Variables.Spells[SpellSlot.Q].Cast(qPrediction.CastPosition);
+                    }
+                }
+            }
         }
 
         public void OnLastHit()
