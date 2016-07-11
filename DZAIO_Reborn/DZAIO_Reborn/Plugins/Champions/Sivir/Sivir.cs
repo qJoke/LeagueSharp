@@ -46,17 +46,34 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             var extraMenu = new Menu(ObjectManager.Player.ChampionName + ": Extra", "dzaio.champion.sivir.extra");
             {
                 extraMenu.AddBool("dzaio.champion.sivir.extra.autoE", "E Shield", true);
+                extraMenu.AddBool("dzaio.champion.sivir.extra.autoQKS", "Q KS", true);
+                extraMenu.AddBool("dzaio.champion.sivir.extra.autoQRoot", "Q Root/Slow/Dash", true);
             }
 
-            Variables.Spells[SpellSlot.Q].SetSkillshot(0.25f, 65f, 1900f, false, SkillshotType.SkillshotLine);
-            Variables.Spells[SpellSlot.W].SetSkillshot(1.25f, 190f, 0, false, SkillshotType.SkillshotCircle);
-            Variables.Spells[SpellSlot.E].SetSkillshot(0.5f, 335f, 0, false, SkillshotType.SkillshotCircle);
+            Variables.Spells[SpellSlot.Q].SetSkillshot(0.25f, 90f, 1350f, false, SkillshotType.SkillshotLine);
         }
 
         public void RegisterEvents()
         {
             DZInterrupter.OnInterruptableTarget += OnInterrupter;
             DZAntigapcloser.OnEnemyGapcloser += OnGapcloser;
+            Orbwalking.AfterAttack += AfterAttack;
+        }
+
+        private void AfterAttack(AttackableUnit unit, AttackableUnit target)
+        {
+            if (!unit.IsMe || !unit.IsValid<Obj_AI_Base>())
+            {
+                return;
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                if (target.IsValid<Obj_AI_Hero>() && target.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.W].Cast();
+                }
+            }
         }
 
         private void OnGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
@@ -94,7 +111,18 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
 
         public void OnCombo()
         {
-           
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var qTarget = Variables.Spells[SpellSlot.Q].GetTarget();
+                if (qTarget.IsValidTarget())
+                {
+                    var qPrediction = Variables.Spells[SpellSlot.Q].GetPrediction(qTarget);
+                    if (qPrediction.Hitchance >= HitChance.High)
+                    {
+                        Variables.Spells[SpellSlot.Q].Cast(qPrediction.CastPosition);
+                    }
+                }
+            }
         }
 
         public void OnMixed()
