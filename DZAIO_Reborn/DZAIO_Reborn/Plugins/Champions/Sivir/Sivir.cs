@@ -38,7 +38,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             var farmMenu = new Menu(ObjectManager.Player.ChampionName + ": Farm", "dzaio.champion.sivir.farm");
             {
                 farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Laneclear, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true });
-                farmMenu.AddSlider("dzaio.champion.sivir.farm.w.min", "Min Minions for Q", 3, 1, 6);
+                farmMenu.AddSlider("dzaio.champion.sivir.farm.q.min", "Min Minions for Q", 4, 1, 6);
                 farmMenu.AddSlider("dzaio.champion.sivir.farm.mana", "Min Mana % for Farm", 30, 0, 100);
                 menu.AddSubMenu(farmMenu);
             }
@@ -172,7 +172,31 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
             {
                 return;
             }
+            var positions = MinionManager.GetMinions(Variables.Spells[SpellSlot.Q].Range,
+                    MinionTypes.All, MinionTeam.NotAlly,
+                    MinionOrderTypes.MaxHealth)
+                    .Select(m => m.ServerPosition.To2D()).ToList();
 
+
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Farm))
+            {
+                
+                var lineFarmLocation = Variables.Spells[SpellSlot.Q].GetLineFarmLocation(positions);
+
+                if (lineFarmLocation.MinionsHit >= Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.sivir.farm.q.min").Value)
+                {
+                    Variables.Spells[SpellSlot.Q].Cast(lineFarmLocation.Position);
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Farm))
+            {
+                if (positions.Count() >= Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.sivir.farm.q.min").Value)
+                {
+                    Variables.Spells[SpellSlot.W].Cast();
+                }
+            }
+            
         }
     }
 }
