@@ -7,6 +7,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Plugins.Champions.Sivir.Modules;
 using DZAIO_Reborn.Plugins.Champions.Veigar.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
@@ -115,7 +116,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
         {
             return new List<IModule>()
             {
-                
+                new SivirQKS(),
+                new SivirQRoot()
             };
         }
 
