@@ -26,20 +26,21 @@ namespace DZAIO_Reborn.Plugins.Champions.Ezreal
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.ezreal.combo");
             {
                 comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.R }, new[] { true, true, true });
+                comboMenu.AddSlider("dzaio.champion.ezreal.combo.r.min", "Min Enemies for R", 2, 1, 5);
                 menu.AddSubMenu(comboMenu);
             }
 
             var mixedMenu = new Menu(ObjectManager.Player.ChampionName + ": Mixed", "dzaio.champion.ezreal.harrass");
             {
                 mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true });
-                mixedMenu.AddSlider("dzaio.champion.sivir.mixed.mana", "Min Mana % for Harass", 30, 0, 100);
+                mixedMenu.AddSlider("dzaio.champion.ezreal.mixed.mana", "Min Mana % for Harass", 30, 0, 100);
                 menu.AddSubMenu(mixedMenu);
             }
 
             var farmMenu = new Menu(ObjectManager.Player.ChampionName + ": Farm", "dzaio.champion.ezreal.farm");
             {
                 farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Laneclear, new[] { SpellSlot.Q }, new[] { true });
-                farmMenu.AddSlider("dzaio.champion.sivir.farm.mana", "Min Mana % for Farm", 30, 0, 100);
+                farmMenu.AddSlider("dzaio.champion.ezreal.farm.mana", "Min Mana % for Farm", 30, 0, 100);
                 menu.AddSubMenu(farmMenu);
             }
 
@@ -131,6 +132,23 @@ namespace DZAIO_Reborn.Plugins.Champions.Ezreal
                     }
                 }
             }
+
+            if (Variables.Spells[SpellSlot.R].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var target = TargetSelector.GetTarget(2300f, TargetSelector.DamageType.Physical);
+
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.R].Range)
+                    && ObjectManager.Player.Distance(target) >= Orbwalking.GetRealAutoAttackRange(null) * 0.85f
+                    && !(target.Health + 5 <
+                      ObjectManager.Player.GetAutoAttackDamage(target) * 2f +
+                      Variables.Spells[SpellSlot.Q].GetDamage(target))
+                    && HeroManager.Enemies.Count(m => m.Distance(target.ServerPosition) < 200f) >= Variables.AssemblyMenu.Item("dzaio.champion.ezreal.combo.r.min").GetValue<Slider>().Value
+                    && CanExecuteTarget(target))
+                {
+                    Variables.Spells[SpellSlot.R].CastIfHitchanceEquals(
+                        target, target.IsMoving ? HitChance.VeryHigh : HitChance.High);
+                }
+            }
         }
 
         public void OnMixed()
@@ -166,6 +184,27 @@ namespace DZAIO_Reborn.Plugins.Champions.Ezreal
                 return;
             }
 
+        }
+
+        private bool CanExecuteTarget(Obj_AI_Base target)
+        {
+            double damage = 1f;
+
+            var prediction = Variables.Spells[SpellSlot.R].GetPrediction(target);
+            var count = prediction.CollisionObjects.Count;
+
+            damage += ObjectManager.Player.GetSpellDamage(target, SpellSlot.R);
+
+            if (count >= 7)
+            {
+                damage = damage * .3f;
+            }
+            else if (count != 0)
+            {
+                damage = damage * (10 - count / 10f);
+            }
+
+            return damage >= target.Health + 10f;
         }
     }
 }
