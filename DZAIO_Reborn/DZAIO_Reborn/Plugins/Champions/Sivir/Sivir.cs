@@ -17,7 +17,7 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using SPrediction;
 
-namespace DZAIO_Reborn.Plugins.Champions.Veigar
+namespace DZAIO_Reborn.Plugins.Champions.Sivir
 {
     class Sivir : IChampion
     {
@@ -25,7 +25,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Veigar
         {
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.sivir.combo");
             {
-                comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.R }, new[] { true, true, true });
+                comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true });
                 menu.AddSubMenu(comboMenu);
             }
 

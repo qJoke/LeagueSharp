@@ -87,6 +87,7 @@
     <Compile Include="Plugins\Champions\Ahri\Modules\AhriQRootStun.cs" />
     <Compile Include="Plugins\Champions\Bard\Bard.cs" />
     <Compile Include="Plugins\Champions\Bard\Modules\BardAutoQ.cs" />
+    <Compile Include="Plugins\Champions\Ezreal\Ezreal.cs" />
     <Compile Include="Plugins\Champions\Kalista\Kalista.cs" />
     <Compile Include="Plugins\Champions\Kalista\KalistaHelper.cs" />
     <Compile Include="Plugins\Champions\Kalista\Modules\KalistaEDeath.cs" />
