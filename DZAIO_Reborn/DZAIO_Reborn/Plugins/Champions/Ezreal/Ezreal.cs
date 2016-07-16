@@ -83,6 +83,16 @@ namespace DZAIO_Reborn.Plugins.Champions.Ezreal
                     Variables.Spells[SpellSlot.Q].CastIfHitchanceEquals(target as Obj_AI_Hero, HitChance.High);
                 }
             }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo)
+                || (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass)
+                && ObjectManager.Player.ManaPercent >= Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.extra.mixed.mana").Value))
+            {
+                if (target.IsValid<Obj_AI_Hero>() && target.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.W].CastIfHitchanceEquals(target as Obj_AI_Hero, HitChance.High);
+                }
+            }
         }
 
         private void OnGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
@@ -133,6 +143,15 @@ namespace DZAIO_Reborn.Plugins.Champions.Ezreal
                 }
             }
 
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) && ObjectManager.Player.ManaPercent > 45)
+            {
+                var wTarget = Variables.Spells[SpellSlot.W].GetTarget();
+                if (wTarget.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.W].CastIfHitchanceEquals(wTarget, HitChance.High);
+                }
+            }
+
             if (Variables.Spells[SpellSlot.R].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
             {
                 var target = TargetSelector.GetTarget(2300f, TargetSelector.DamageType.Physical);
@@ -169,6 +188,15 @@ namespace DZAIO_Reborn.Plugins.Champions.Ezreal
                     {
                         Variables.Spells[SpellSlot.Q].Cast(qPrediction.CastPosition);
                     }
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) && ObjectManager.Player.ManaPercent > 45)
+            {
+                var wTarget = Variables.Spells[SpellSlot.W].GetTarget();
+                if (wTarget.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.W].CastIfHitchanceEquals(wTarget, HitChance.High);
                 }
             }
         }
