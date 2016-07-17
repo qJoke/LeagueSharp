@@ -90,6 +90,7 @@
     <Compile Include="Plugins\Champions\Ezreal\Ezreal.cs" />
     <Compile Include="Plugins\Champions\Ezreal\Modules\EzrealQKS.cs" />
     <Compile Include="Plugins\Champions\Ezreal\Modules\EzrealQRoot.cs" />
+    <Compile Include="Plugins\Champions\Ezreal\Modules\EzrealRKS.cs" />
     <Compile Include="Plugins\Champions\Kalista\Kalista.cs" />
     <Compile Include="Plugins\Champions\Kalista\KalistaHelper.cs" />
     <Compile Include="Plugins\Champions\Kalista\Modules\KalistaEDeath.cs" />

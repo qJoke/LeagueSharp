@@ -7,6 +7,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Plugins.Champions.Ezreal.Modules;
 using DZAIO_Reborn.Plugins.Champions.Sivir.Modules;
 using DZAIO_Reborn.Plugins.Champions.Veigar.Modules;
 using DZAIO_Reborn.Plugins.Interface;
@@ -119,7 +120,9 @@ namespace DZAIO_Reborn.Plugins.Champions.Ezreal
         {
             return new List<IModule>()
             {
-
+                new EzrealQKS(),
+                new EzrealQRoot(),
+                new EzrealRKS()
             };
         }
 
