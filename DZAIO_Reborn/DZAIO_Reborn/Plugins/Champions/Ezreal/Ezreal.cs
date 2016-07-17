@@ -14,6 +14,7 @@ using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
 using DZLib.MenuExtensions;
+using DZLib.Positioning;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SPrediction;
@@ -98,7 +99,24 @@ namespace DZAIO_Reborn.Plugins.Champions.Ezreal
 
         private void OnGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
         {
+            if (!Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.ezreal.extra.antigapcloser"))
+            {
+                return;
+            }
 
+            if (!gapcloser.Sender.IsValidTarget() ||
+                !(gapcloser.End.Distance(ObjectManager.Player.ServerPosition) <= 350f))
+            {
+                return;
+            }
+
+            var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
+                Game.CursorPos, Variables.Spells[SpellSlot.E].Range);
+            if (extendedPosition.IsSafe(Variables.Spells[SpellSlot.E].Range) &&
+                extendedPosition.CountAlliesInRange(650f) >= 0)
+            {
+                Variables.Spells[SpellSlot.E].Cast(extendedPosition);
+            }
         }
 
         private void OnInterrupter(Obj_AI_Hero sender, DZInterrupter.InterruptableTargetEventArgs args)
