@@ -109,14 +109,18 @@ namespace DZAIO_Reborn.Plugins.Champions.Ezreal
             {
                 return;
             }
+            Utility.DelayAction.Add(Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.ezreal.extra.e.antigpdelay").Value,
+                () =>
+                {
+                    var extendedPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, Variables.Spells[SpellSlot.E].Range);
 
-            var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
-                Game.CursorPos, Variables.Spells[SpellSlot.E].Range);
-            if (extendedPosition.IsSafe(Variables.Spells[SpellSlot.E].Range) &&
-                extendedPosition.CountAlliesInRange(650f) >= 0)
-            {
-                Variables.Spells[SpellSlot.E].Cast(extendedPosition);
-            }
+                    if (extendedPosition.IsSafe(Variables.Spells[SpellSlot.E].Range) &&
+                        extendedPosition.CountAlliesInRange(650f) >= 0)
+                    {
+                        Variables.Spells[SpellSlot.E].Cast(extendedPosition);
+                    }
+                });
+            
         }
 
         private void OnInterrupter(Obj_AI_Hero sender, DZInterrupter.InterruptableTargetEventArgs args)

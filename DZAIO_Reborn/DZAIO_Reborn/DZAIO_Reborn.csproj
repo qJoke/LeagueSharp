@@ -112,6 +112,7 @@
     <Compile Include="Plugins\Champions\Veigar\Modules\VeigarAutoQ.cs" />
     <Compile Include="Plugins\Champions\Veigar\Modules\VeigarAutoW.cs" />
     <Compile Include="Plugins\Champions\Veigar\Veigar.cs" />
+    <Compile Include="Plugins\Champions\Vladimir\Vladimir.cs" />
     <Compile Include="Plugins\Interface\IChampion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
