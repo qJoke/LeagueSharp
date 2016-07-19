@@ -103,7 +103,23 @@ namespace DZAIO_Reborn.Plugins.Champions.Vladimir
 
         public void OnCombo()
         {
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var qTarget = Variables.Spells[SpellSlot.Q].GetTarget();
+                if (qTarget.IsValidTarget())
+                {
+                        Variables.Spells[SpellSlot.Q].CastOnUnit(qTarget);
+                }
+            }
 
+            if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var eTarget = Variables.Spells[SpellSlot.E].GetTarget();
+                if (eTarget.IsValidTarget() && ObjectManager.Player.Distance(eTarget) >= Variables.Spells[SpellSlot.E].Range / 2f)
+                {
+                    Variables.Spells[SpellSlot.E].CastOnUnit(eTarget);
+                }
+            }
         }
 
         public void OnMixed()
