@@ -24,14 +24,14 @@ namespace DZAIO_Reborn.Plugins.Champions.Vladimir
         {
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.vladimir.combo");
             {
-                comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.R }, new[] { true, true, true });
+                comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R }, new[] { true, true, true, true });
                 comboMenu.AddSlider("dzaio.champion.vladimir.combo.r.min", "Min Enemies for R", 2, 1, 5);
                 menu.AddSubMenu(comboMenu);
             }
 
             var mixedMenu = new Menu(ObjectManager.Player.ChampionName + ": Mixed", "dzaio.champion.vladimir.harrass");
             {
-                mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true });
+                mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q, SpellSlot.E }, new[] { true, true });
                 mixedMenu.AddSlider("dzaio.champion.vladimir.mixed.mana", "Min Mana % for Harass", 30, 0, 100);
                 menu.AddSubMenu(mixedMenu);
             }
@@ -130,7 +130,23 @@ namespace DZAIO_Reborn.Plugins.Champions.Vladimir
                 return;
             }
 
-            
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass))
+            {
+                var qTarget = Variables.Spells[SpellSlot.Q].GetTarget();
+                if (qTarget.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.Q].CastOnUnit(qTarget);
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass))
+            {
+                var eTarget = Variables.Spells[SpellSlot.E].GetTarget();
+                if (eTarget.IsValidTarget() && ObjectManager.Player.Distance(eTarget) >= Variables.Spells[SpellSlot.E].Range / 2f)
+                {
+                    Variables.Spells[SpellSlot.E].CastOnUnit(eTarget);
+                }
+            }
         }
 
         public void OnLastHit()
