@@ -17,7 +17,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
 
         public bool ShouldGetExecuted()
         {
-            return MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.specialfocus") && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo;
+            return (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.specialfocus") && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) || (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed && Variables.Orbwalker.GetTarget() is Obj_AI_Hero);
         }
 
         public ModuleType GetModuleType()
@@ -27,27 +27,35 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
 
         public void OnExecute()
         {
-            var target = HeroManager.Enemies.Find(en => en.IsValidTarget(ObjectManager.Player.AttackRange + 65f + 65f) && en.Has2WStacks());
-            if (target != null)
-            {
-                TargetSelector.SetTarget(target);
-                Variables.Orbwalker.ForceTarget(target);
-            }
-
             if (Game.Time < 25 * 60 * 1000)
             {
                 var ADC =
-                    HeroManager.Enemies.Where(m => TargetSelector.GetPriority(m) > 4 && m.IsValidTarget()).OrderBy(m => m.TotalAttackDamage).FirstOrDefault();
+                    HeroManager.Enemies.Where(m => TargetSelector.GetPriority(m) > 4 && m.IsValidTarget() || (m.Has2WStacks() && TargetSelector.GetPriority(m) > 1))
+                        .OrderBy(m => m.TotalAttackDamage)
+                        .FirstOrDefault();
 
                 if (ADC != null && Orbwalking.InAutoAttackRange(ADC))
                 {
-                    TargetSelector.SetTarget(target);
-                    Variables.Orbwalker.ForceTarget(target);
+                    TargetSelector.SetTarget(ADC);
+                    Variables.Orbwalker.ForceTarget(ADC);
                 }
                 else
                 {
-                    TargetSelector.SetTarget(null);
-                    Variables.Orbwalker.ForceTarget(Variables.Orbwalker.GetTarget() as Obj_AI_Base);
+                    if (Variables.Orbwalker.GetTarget() is Obj_AI_Hero)
+                    {
+                        TargetSelector.SetTarget(Variables.Orbwalker.GetTarget() as Obj_AI_Hero);
+                        Variables.Orbwalker.ForceTarget(Variables.Orbwalker.GetTarget() as Obj_AI_Base);
+                    }
+                }
+            }
+            else
+            {
+                var target = HeroManager.Enemies.Find(en => en.IsValidTarget(ObjectManager.Player.AttackRange + 65f + 65f) && en.Has2WStacks());
+
+                if (target != null)
+                {
+                    TargetSelector.SetTarget(target);
+                    Variables.Orbwalker.ForceTarget(target);
                 }
             }
         }
