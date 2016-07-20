@@ -120,6 +120,27 @@ namespace DZAIO_Reborn.Plugins.Champions.Vladimir
                     Variables.Spells[SpellSlot.E].CastOnUnit(eTarget);
                 }
             }
+
+            if (Variables.Spells[SpellSlot.R].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var qTarget = Variables.Spells[SpellSlot.Q].GetTarget();
+
+                if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) && qTarget.IsValidTarget()
+                       && Variables.Spells[SpellSlot.Q].IsKillable(qTarget))
+                {
+                    Variables.Spells[SpellSlot.Q].CastOnUnit(qTarget);
+                    return;
+                }
+
+                if (Variables.Spells[SpellSlot.R].GetDamage(qTarget) >= qTarget.Health && qTarget.IsValidTarget(Variables.Spells[SpellSlot.R].Range))
+                {
+                    var prediction = Variables.Spells[SpellSlot.R].GetPrediction(qTarget);
+                    if (prediction.Hitchance >= HitChance.VeryHigh)
+                    {
+                        Variables.Spells[SpellSlot.R].Cast(prediction.CastPosition);
+                    }
+                }
+            }
         }
 
         public void OnMixed()
