@@ -7,6 +7,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Plugins.Champions.Vladimir.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -70,7 +71,22 @@ namespace DZAIO_Reborn.Plugins.Champions.Vladimir
 
         private void OnGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
         {
-            
+            if (!Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.vladimir.extra.antigapcloser"))
+            {
+                return;
+            }
+
+            if (!gapcloser.Sender.IsValidTarget() ||
+                !(gapcloser.End.Distance(ObjectManager.Player.ServerPosition) <= 350f) || !(ObjectManager.Player.HealthPercent > 25))
+            {
+                return;
+            }
+            Utility.DelayAction.Add(Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.vladimir.extra.w.antigpdelay").Value,
+                () =>
+                {
+                    var extendedPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, Variables.Spells[SpellSlot.E].Range);
+                    Variables.Spells[SpellSlot.W].Cast(extendedPosition);
+                });
         }
 
         private void OnInterrupter(Obj_AI_Hero sender, DZInterrupter.InterruptableTargetEventArgs args)
@@ -92,7 +108,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Vladimir
         {
             return new List<IModule>()
             {
-
+                new VladimirQKS()
             };
         }
 
@@ -179,6 +195,14 @@ namespace DZAIO_Reborn.Plugins.Champions.Vladimir
                 Variables.AssemblyMenu.GetItemValue<Slider>("dzaio.champion.vladimir.farm.mana").Value)
             {
                 return;
+            }
+
+            var minionTarget =
+                MinionManager
+                    .GetMinions(Variables.Spells[SpellSlot.Q].Range, MinionTypes.All).FirstOrDefault(m => Variables.Spells[SpellSlot.Q].IsKillable(m));
+            if (minionTarget.IsValidTarget(Variables.Spells[SpellSlot.Q].Range))
+            {
+                Variables.Spells[SpellSlot.Q].Cast(minionTarget);
             }
 
         }
