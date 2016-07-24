@@ -107,7 +107,19 @@ namespace DZAIO_Reborn.Plugins.Champions.Warwick
 
         public void OnCombo()
         {
-            
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var qTarget = Variables.Spells[SpellSlot.Q].GetTarget();
+                if (qTarget.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.Q].CastOnUnit(qTarget);
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo) && ObjectManager.Player.CountEnemiesInRange(Variables.Spells[SpellSlot.W].Range) > 0)
+            {
+                    Variables.Spells[SpellSlot.W].Cast();
+            }
         }
 
         public void OnMixed()
@@ -118,7 +130,20 @@ namespace DZAIO_Reborn.Plugins.Champions.Warwick
                 return;
             }
 
-           
+            if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass))
+            {
+                var qTarget = Variables.Spells[SpellSlot.Q].GetTarget();
+                if (qTarget.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.Q].CastOnUnit(qTarget);
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass) 
+                && ObjectManager.Player.CountEnemiesInRange(Variables.Spells[SpellSlot.W].Range) > 0)
+            {
+                Variables.Spells[SpellSlot.W].Cast();
+            }
         }
 
         public void OnLastHit()
