@@ -7,6 +7,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Helpers.Positioning;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -47,7 +48,11 @@ namespace DZAIO_Reborn.Plugins.Champions.Warwick
 
             var extraMenu = new Menu(ObjectManager.Player.ChampionName + ": Extra", "dzaio.champion.warwick.extra");
             {
+                extraMenu.AddBool("dzaio.champion.warwick.extra.interruptR", "R Interrupt", true);
                 extraMenu.AddBool("dzaio.champion.warwick.extra.autoQKS", "Q KS", true);
+                extraMenu.AddBool("dzaio.champion.warwick.extra.QUnderTurret", "Q Under Turret", true);
+                extraMenu.AddBool("dzaio.champion.warwick.extra.smiteR", "Use Smite Before R", true);
+
             }
 
             Variables.Spells[SpellSlot.Q].SetTargetted(0.25f, 2000f);
@@ -75,7 +80,16 @@ namespace DZAIO_Reborn.Plugins.Champions.Warwick
 
         private void OnInterrupter(Obj_AI_Hero sender, DZInterrupter.InterruptableTargetEventArgs args)
         {
-
+            if (Variables.Spells[SpellSlot.R].IsReady() &&
+                Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.warwick.extra.interruptR") &&
+                args.DangerLevel >= DZInterrupter.DangerLevel.High)
+            {
+                var interruptPosition = sender.ServerPosition;
+                if (interruptPosition.IsSafe() && sender.IsValidTarget(Variables.Spells[SpellSlot.R].Range))
+                {
+                    Variables.Spells[SpellSlot.R].CastOnUnit(sender);
+                }
+            }
         }
         public Dictionary<SpellSlot, Spell> GetSpells()
         {
@@ -109,6 +123,12 @@ namespace DZAIO_Reborn.Plugins.Champions.Warwick
         {
             if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
             {
+                if (ObjectManager.Player.UnderTurret(true) &&
+                    !Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.warwick.extra.QUnderTurret"))
+                {
+                    return;
+                }
+
                 var qTarget = Variables.Spells[SpellSlot.Q].GetTarget();
                 if (qTarget.IsValidTarget())
                 {
@@ -132,6 +152,12 @@ namespace DZAIO_Reborn.Plugins.Champions.Warwick
 
             if (Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Harrass))
             {
+                if (ObjectManager.Player.UnderTurret(true) &&
+                    !Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.warwick.extra.QUnderTurret"))
+                {
+                    return;
+                }
+
                 var qTarget = Variables.Spells[SpellSlot.Q].GetTarget();
                 if (qTarget.IsValidTarget())
                 {
