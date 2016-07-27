@@ -57,8 +57,14 @@ namespace VayneHunter_Reborn.Skills.Condemn
                 E.CastOnUnit(CondemnTarget);
                 TrinketBush(CondemnTarget.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -450f));
             }*/
+
             var pushDistance = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.pushdistance").Value - 25;
 
+             if (pushDistance >= 410)
+            {
+                var PushEx = pushDistance;
+                pushDistance -= (10 + (PushEx - 410)/2);
+            }
             foreach (var target in HeroManager.Enemies.Where(en => en.IsValidTarget(E.Range) && !en.IsDashing()))
             {
                 var Prediction = Variables.spells[SpellSlot.E].GetPrediction(target);
@@ -68,7 +74,13 @@ namespace VayneHunter_Reborn.Skills.Condemn
                 {
                     if (endPosition.IsWall())
                     {
-                        E.CastOnUnit(target);
+                        var condemnRectangle = new VHRPolygon(VHRPolygon.Rectangle(target.ServerPosition.To2D(), endPosition.To2D(), target.BoundingRadius));
+
+                        if (condemnRectangle.Points
+                            .Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle.Points.Count() * (20 / 100f))
+                        {
+                            E.CastOnUnit(target);
+                        }
                     }
                     else
                     {
@@ -80,8 +92,12 @@ namespace VayneHunter_Reborn.Skills.Condemn
                             if (endPositionEx.IsWall())
                             {
                                 var condemnRectangle = new VHRPolygon(VHRPolygon.Rectangle(target.ServerPosition.To2D(), endPosition.To2D(), target.BoundingRadius));
-
-                                E.CastOnUnit(target);
+                                
+                                if (condemnRectangle.Points
+                                    .Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle.Points.Count() * (20 / 100f))
+                                {
+                                        E.CastOnUnit(target);
+                                }
                                 return;
                             }
                         }
