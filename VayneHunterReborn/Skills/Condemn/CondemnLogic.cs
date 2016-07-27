@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using iSeriesReborn.Utility.Positioning;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -61,10 +62,10 @@ namespace VayneHunter_Reborn.Skills.Condemn
             foreach (var target in HeroManager.Enemies.Where(en => en.IsValidTarget(E.Range) && !en.IsDashing()))
             {
                 var Prediction = Variables.spells[SpellSlot.E].GetPrediction(target);
+                var endPosition = Prediction.UnitPosition.Extend(ObjectManager.Player.ServerPosition, -pushDistance);
 
                 if (Prediction.Hitchance >= HitChance.VeryHigh)
                 {
-                    var endPosition = Prediction.UnitPosition.Extend(ObjectManager.Player.ServerPosition, -pushDistance);
                     if (endPosition.IsWall())
                     {
                         E.CastOnUnit(target);
@@ -78,6 +79,8 @@ namespace VayneHunter_Reborn.Skills.Condemn
                             var endPositionEx = Prediction.UnitPosition.Extend(ObjectManager.Player.ServerPosition, -i);
                             if (endPositionEx.IsWall())
                             {
+                                var condemnRectangle = new VHRPolygon(VHRPolygon.Rectangle(target.ServerPosition.To2D(), endPosition.To2D(), target.BoundingRadius));
+
                                 E.CastOnUnit(target);
                                 return;
                             }

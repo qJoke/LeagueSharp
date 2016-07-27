@@ -100,6 +100,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscQMenu.AddSlider(
                         "dz191.vhr.misc.tumble.noaa.enemies", "Min Enemies for No AA Stealth",
                         new Tuple<int, int, int>(3, 2, 5));
+                    miscQMenu.AddBool("dz191.vhr.misc.tumble.autoQR", "Automatically use Q after R", true).SetTooltip("Automatically uses Q after R if enabled"); //Done
 
                     miscMenu.AddSubMenu(miscQMenu);
                 }

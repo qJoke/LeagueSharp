@@ -37,13 +37,14 @@ namespace VayneHunter_Reborn.Utility
             new LowLifePeel(),
             new NoAAStealth(),
             new QKS(),
+            new AutoQR(),
             new WallTumble(),
             new Focus2WStacks(),
             new Reveal(),
             new DisableMovement(),
             new CondemnJungleMobs(),
             new FlashRepel(),
-            new FlashCondemn()
+            new FlashCondemn(),
         };
 
         public static List<IVHRLanguage> languageList = new List<IVHRLanguage>()

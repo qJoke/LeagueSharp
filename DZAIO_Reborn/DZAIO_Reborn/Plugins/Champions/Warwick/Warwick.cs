@@ -52,7 +52,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Warwick
                 extraMenu.AddBool("dzaio.champion.warwick.extra.autoQKS", "Q KS", true);
                 extraMenu.AddBool("dzaio.champion.warwick.extra.QUnderTurret", "Q Under Turret", true);
                 extraMenu.AddBool("dzaio.champion.warwick.extra.smiteR", "Use Smite Before R", true);
-
+                extraMenu.AddBool("dzaio.champion.warwick.extra.rPeel", "Use R To Peel", true);
             }
 
             Variables.Spells[SpellSlot.Q].SetTargetted(0.25f, 2000f);
