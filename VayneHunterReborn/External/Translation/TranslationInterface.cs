@@ -29,7 +29,11 @@ namespace VayneHunter_Reborn.External.Translation
                         }
 
                         ChangeLanguage(Variables.Menu.Item("dz191.vhr.translations.language").GetValue<StringList>().SelectedValue);
-                        TranslationsMenu.Item("dz191.vhr.translations.select").SetValue(false);
+
+                        LeagueSharp.Common.Utility.DelayAction.Add(250, () =>
+                        {
+                                                    TranslationsMenu.Item("dz191.vhr.translations.select").SetValue(false);
+                        });
                     };
                 RootMenu.AddSubMenu(TranslationsMenu);
             }
@@ -56,7 +60,8 @@ namespace VayneHunter_Reborn.External.Translation
                         }
                     }
 
-                    Game.PrintChat(string.Format("<font color='#FF0000'><b>[VHR - Rewrite!]</b></font> Loaded language: <font color='#FF0000'><b>{0}</b></font> successfully!", foundLanguage.GetName()));
+                    Game.PrintChat(
+                        $"<font color='#FF0000'><b>[VHR - Rewrite!]</b></font> Loaded language: <font color='#FF0000'><b>{foundLanguage.GetName()}</b></font> successfully!");
                 }
             }
             catch (Exception e)

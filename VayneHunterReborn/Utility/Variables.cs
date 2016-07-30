@@ -54,7 +54,6 @@ namespace VayneHunter_Reborn.Utility
             new French(),
             new German(),
             new Portuguese(),
-            new Korean(),
             new Italian()
         };
 
