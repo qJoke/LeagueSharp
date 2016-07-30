@@ -15,7 +15,6 @@ namespace VayneHunter_Reborn.External.Activator.ActivatorSpells
 
         public void OnLoad()
         {
-            DamagePrediction.OnSpellWillKill += DamagePrediction_OnSpellWillKill;
         }
 
         public void BuildMenu(Menu RootMenu)

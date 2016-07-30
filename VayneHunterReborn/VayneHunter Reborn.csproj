@@ -80,7 +80,6 @@
     <Compile Include="External\Cleanser\Cleanser.cs" />
     <Compile Include="External\Cleanser\CleanserSpell.cs" />
     <Compile Include="External\CustomAntigapcloser.cs" />
-    <Compile Include="External\DamagePrediction.cs" />
     <Compile Include="External\EvadeHelper.cs" />
     <Compile Include="External\Evade\Collision.cs" />
     <Compile Include="External\Evade\EvadeSpellData.cs" />

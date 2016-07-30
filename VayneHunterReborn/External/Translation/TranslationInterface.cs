@@ -48,7 +48,7 @@ namespace VayneHunter_Reborn.External.Translation
             try
             {
                 var foundLanguage =
-                    Variables.languageList.FirstOrDefault(m => m.GetName().ToLower() == Language.ToLower());
+                    Variables.languageList.FirstOrDefault(m => string.Equals(m.GetName(), Language, StringComparison.CurrentCultureIgnoreCase));
                 if (foundLanguage != null)
                 {
                     foreach (var l in foundLanguage.GetTranslations().Where(l => !string.IsNullOrWhiteSpace(l.Key) && !string.IsNullOrWhiteSpace(l.Value)))

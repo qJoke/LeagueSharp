@@ -55,7 +55,6 @@ namespace VayneHunter_Reborn.Skills.Condemn
                 }
 
                 E.CastOnUnit(CondemnTarget);
-                TrinketBush(CondemnTarget.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -450f));
             }*/
 
             var pushDistance = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.pushdistance").Value - 25;
@@ -67,6 +66,12 @@ namespace VayneHunter_Reborn.Skills.Condemn
             }
             foreach (var target in HeroManager.Enemies.Where(en => en.IsValidTarget(E.Range) && !en.IsDashing()))
             {
+                //Yasuo Windwall check
+                if (WindWall.CollidesWithWall(ObjectManager.Player.ServerPosition, target.ServerPosition))
+                {
+                    continue;
+                }
+
                 var Prediction = Variables.spells[SpellSlot.E].GetPrediction(target);
                 var endPosition = Prediction.UnitPosition.Extend(ObjectManager.Player.ServerPosition, -pushDistance);
 
@@ -80,6 +85,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
                             .Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle.Points.Count() * (20 / 100f))
                         {
                             E.CastOnUnit(target);
+                            TrinketBush(target.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -450f));
                         }
                     }
                     else
@@ -97,6 +103,8 @@ namespace VayneHunter_Reborn.Skills.Condemn
                                     .Count(point => NavMesh.GetCollisionFlags(point.X, point.Y).HasFlag(CollisionFlags.Wall)) >= condemnRectangle.Points.Count() * (20 / 100f))
                                 {
                                         E.CastOnUnit(target);
+                                        TrinketBush(target.ServerPosition.Extend(ObjectManager.Player.ServerPosition, -450f));
+
                                 }
                                 return;
                             }
