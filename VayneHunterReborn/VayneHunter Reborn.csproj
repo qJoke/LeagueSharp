@@ -134,7 +134,6 @@
     <Compile Include="Skills\Condemn\Methods\Shine.cs" />
     <Compile Include="Skills\Condemn\Methods\VHReborn.cs" />
     <Compile Include="Skills\Condemn\Methods\VHRevolution.cs" />
-    <Compile Include="Skills\Condemn\Methods\VHRevolution_Old.cs" />
     <Compile Include="Skills\Tumble\TumbleLogic.cs" />
     <Compile Include="Skills\Tumble\TumbleMethods.cs" />
     <Compile Include="Skills\Tumble\TumblePositioning.cs" />

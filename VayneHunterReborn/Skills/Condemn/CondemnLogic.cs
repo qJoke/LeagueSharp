@@ -72,6 +72,18 @@ namespace VayneHunter_Reborn.Skills.Condemn
                     continue;
                 }
 
+                if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.condemn.onlystuncurrent") && Variables.Orbwalker.GetTarget() != null &&
+                            !target.NetworkId.Equals(Variables.Orbwalker.GetTarget().NetworkId))
+                {
+                    continue;
+                }
+
+                if (target.Health + 10 <=
+                    ObjectManager.Player.GetAutoAttackDamage(target) *
+                    MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.noeaa").Value)
+                {
+                    continue;
+                }
                 var Prediction = Variables.spells[SpellSlot.E].GetPrediction(target);
                 var endPosition = Prediction.UnitPosition.Extend(ObjectManager.Player.ServerPosition, -pushDistance);
 
