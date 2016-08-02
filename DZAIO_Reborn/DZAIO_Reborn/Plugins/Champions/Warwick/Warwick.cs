@@ -140,6 +140,26 @@ namespace DZAIO_Reborn.Plugins.Champions.Warwick
             {
                     Variables.Spells[SpellSlot.W].Cast();
             }
+
+            if (Variables.Spells[SpellSlot.R].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var rTarget = Variables.Spells[SpellSlot.R].GetTarget();
+                if (rTarget.IsValidTarget())
+                {
+                    var rPosition = rTarget.ServerPosition;
+                    var targetPriority = TargetSelector.GetPriority(rTarget);
+                    var enemiesAroundPosition = rPosition.GetEnemiesInRange(550f).Count();
+                    var alliesAroundPosition = rPosition.GetAlliesInRange(550f).Count();
+                    if (!rPosition.UnderTurret(true) && ObjectManager.Player.HealthPercent >= 15 &&
+                        ((targetPriority > 4 && enemiesAroundPosition < 3 && alliesAroundPosition > 0) ||
+                         (enemiesAroundPosition < 3 && alliesAroundPosition > 0 &&
+                          Variables.Spells[SpellSlot.R].IsKillable(rTarget))))
+                    {
+                        Variables.Spells[SpellSlot.R].Cast(rTarget);
+                    }
+                   
+                }
+            }
         }
 
         public void OnMixed()
