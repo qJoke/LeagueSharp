@@ -8,6 +8,7 @@ using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
 using DZAIO_Reborn.Helpers.Positioning;
+using DZAIO_Reborn.Plugins.Champions.Warwick.Modules;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -65,6 +66,23 @@ namespace DZAIO_Reborn.Plugins.Champions.Warwick
             DZInterrupter.OnInterruptableTarget += OnInterrupter;
             DZAntigapcloser.OnEnemyGapcloser += OnGapcloser;
             Orbwalking.AfterAttack += AfterAttack;
+            Obj_AI_Base.OnDoCast += OnDoCast;
+        }
+
+        private void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (sender.IsMe && args.Slot == SpellSlot.R && args.Target != null && args.Target.IsValid<Obj_AI_Hero>())
+            {
+                var smiteSlot = ObjectManager.Player.GetSmiteSlot();
+                if (smiteSlot != SpellSlot.Unknown)
+                {
+                    var smiteSpell = ObjectManager.Player.GetSpell(smiteSlot);
+                    if (smiteSpell.IsReady() && args.Target.Position.Distance(ObjectManager.Player.ServerPosition) < 550f)
+                    {
+                        ObjectManager.Player.Spellbook.CastSpell(smiteSlot, args.Target);
+                    }
+                }
+            }
         }
 
 
@@ -106,6 +124,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Warwick
         {
             return new List<IModule>()
             {
+                new WarwickQKS()
             };
         }
 

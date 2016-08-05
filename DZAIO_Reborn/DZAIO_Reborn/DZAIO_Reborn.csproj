@@ -114,6 +114,7 @@
     <Compile Include="Plugins\Champions\Veigar\Veigar.cs" />
     <Compile Include="Plugins\Champions\Vladimir\Modules\VladimirQKS.cs" />
     <Compile Include="Plugins\Champions\Vladimir\Vladimir.cs" />
+    <Compile Include="Plugins\Champions\Warwick\Modules\WarwickQKS.cs" />
     <Compile Include="Plugins\Champions\Warwick\Warwick.cs" />
     <Compile Include="Plugins\Interface\IChampion.cs" />
     <Compile Include="Program.cs" />
