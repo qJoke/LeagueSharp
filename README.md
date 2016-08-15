@@ -7,8 +7,6 @@ DZ191/Asuna's LeagueSharp repo.
 
 There are no TOS, you can do whatever you want, I only write these stuff for fun
 
-Thanks for reading this load of bullshit, now off to serious stuff:
-
 #List of assemblies:
 
 -DZAIO: Reborn -> A Rework of the DZAIO All in one from long ago!
