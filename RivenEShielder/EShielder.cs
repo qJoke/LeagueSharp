@@ -20,6 +20,8 @@ namespace RivenEShielder
             }
 
             Menu.AddBool("dz191.riveneshield.enabled", "Enabled", true);
+            
+            Game.PrintChat("iJabba is a god");
 
             var subMenu = new Menu("Spells", "dz191.riveneshield.spells");
 
