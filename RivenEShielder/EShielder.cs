@@ -30,7 +30,7 @@ namespace RivenEShielder
                     {
                         subMenu.AddBool(
                             string.Format("dz191.riveneshield.spells.{0}", Spell.SData.Name),
-                            hero.ChampionName + " " + Spell.Slot.ToString());
+                            hero.ChampionName + " " + Spell.Slot.ToString(), true);
                     }
                 }
             }
