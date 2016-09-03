@@ -71,6 +71,8 @@ namespace RivenEShielder
             {
                 return true;
             }
+
+            return false;
         }
     }
 }
