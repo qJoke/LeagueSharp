@@ -12,6 +12,7 @@ namespace RivenEShielder
     {
         static void Main(string[] args)
         {
+            
             CustomEvents.Game.OnGameLoad += EShielder.OnLoad;
         }
     }

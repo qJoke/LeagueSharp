@@ -12,6 +12,12 @@ namespace RivenEShielder
 
         public static void OnLoad(EventArgs args)
         {
+
+            if (ObjectManager.Player.ChampionName != "Riven")
+            {
+                return;
+            }
+
             Menu.AddBool("dz191.riveneshield.enabled", "Enabled", true);
 
             var subMenu = new Menu("Spells", "dz191.riveneshield.spells");
