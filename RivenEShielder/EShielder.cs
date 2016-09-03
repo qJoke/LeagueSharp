@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using DZLib.MenuExtensions;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -26,7 +27,7 @@ namespace RivenEShielder
             {
                 foreach (var Spell in hero.Spellbook.Spells)
                 {
-                    if (Spell.SData.TargettingType == SpellDataTargetType.Unit)
+                    if (Spell.SData.TargettingType == SpellDataTargetType.Unit && IsQWER(Spell.Slot))
                     {
                         subMenu.AddBool(
                             string.Format("dz191.riveneshield.spells.{0}", Spell.SData.Name),
@@ -60,6 +61,15 @@ namespace RivenEShielder
                 {
                     E.Cast(extendedPosition);
                 }
+            }
+        }
+
+        private static bool IsQWER(SpellSlot slot)
+        {
+            var slots = new SpellSlot[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R };
+            if (slots.Contains(slot))
+            {
+                return true;
             }
         }
     }
