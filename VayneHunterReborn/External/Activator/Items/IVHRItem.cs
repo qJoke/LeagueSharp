@@ -13,5 +13,11 @@ namespace VayneHunter_Reborn.External.Activator.Items
         bool ShouldRun();
 
         void Run();
+
+        int GetItemId();
+
+        float GetItemRange();
+
+        LeagueSharp.Common.Items.Item GetItemObject();
     }
 }

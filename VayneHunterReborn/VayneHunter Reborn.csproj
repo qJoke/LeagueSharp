@@ -40,22 +40,22 @@
       <HintPath>D:\Programmi\PlaySharp\System\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="DZLib">
-      <HintPath>D:\Programmi\PlaySharp\System\DZLib.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\DZLib.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp">
-      <HintPath>D:\Programmi\PlaySharp\System\LeagueSharp.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\LeagueSharp.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Common">
-      <HintPath>D:\Programmi\PlaySharp\System\LeagueSharp.Common.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\LeagueSharp.Common.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:\Programmi\PlaySharp\System\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>D:\Programmi\PlaySharp\System\SharpDX.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SPrediction">
-      <HintPath>D:\Programmi\PlaySharp\System\SPrediction.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\SPrediction.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
