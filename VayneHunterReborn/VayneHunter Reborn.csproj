@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="clipper_library">
-      <HintPath>D:\Programmi\PlaySharp\System\clipper_library.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="DZLib">
       <HintPath>D:\Programmi\95BhRE2F1\References\DZLib.dll</HintPath>
