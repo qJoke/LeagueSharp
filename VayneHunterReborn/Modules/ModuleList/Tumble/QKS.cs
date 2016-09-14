@@ -27,27 +27,22 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
         public void OnExecute()
         {
                 var currentTarget = TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null) + 240f, TargetSelector.DamageType.Physical);
-                if (!currentTarget.IsValidTarget())
-                {
-                    return;
-                }
 
-                if (currentTarget.ServerPosition.Distance(ObjectManager.Player.ServerPosition) <=
+                if (!currentTarget.IsValidTarget() || currentTarget.ServerPosition.Distance(ObjectManager.Player.ServerPosition) <=
                     Orbwalking.GetRealAutoAttackRange(null))
                 {
                     return;
                 }
 
-                if (HealthPrediction.GetHealthPrediction(currentTarget, (int) (250 + Game.Ping / 2f)) <
+                if (HealthPrediction.GetHealthPrediction(currentTarget, (int) (280f)) <
                     ObjectManager.Player.GetAutoAttackDamage(currentTarget) +
                     Variables.spells[SpellSlot.Q].GetDamage(currentTarget)
-                    && HealthPrediction.GetHealthPrediction(currentTarget, (int)(250 + Game.Ping / 2f)) > 0)
+                    && HealthPrediction.GetHealthPrediction(currentTarget, (int)(280f)) > 0)
                 {
                     var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
                         currentTarget.ServerPosition, 300f);
                     if (extendedPosition.IsSafe())
                     {
-                        Orbwalking.ResetAutoAttackTimer();
                         Variables.spells[SpellSlot.Q].Cast(extendedPosition);
                         TargetSelector.SetTarget(currentTarget);
                     }

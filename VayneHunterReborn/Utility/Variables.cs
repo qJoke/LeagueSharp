@@ -38,7 +38,6 @@ namespace VayneHunter_Reborn.Utility
             new NoAAStealth(),
             new QKS(),
             new AutoQR(),
-            new WallTumble(),
             new Focus2WStacks(),
             new Reveal(),
             new DisableMovement(),

@@ -32,7 +32,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
         public bool ShouldGetExecuted()
         {
             return Variables.Menu.Item("dz191.vhr.misc.tumble.autoQR") != null
-                && Variables.Menu.Item("dz191.vhr.misc.tumble.autoQR").GetValue<bool>() && Variables.spells[SpellSlot.Q].IsReady();
+                && Variables.Menu.Item("dz191.vhr.misc.tumble.autoQR").GetValue<bool>() && Variables.spells[SpellSlot.R].IsReady();
         }
 
         public ModuleType GetModuleType()
