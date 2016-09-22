@@ -28,7 +28,8 @@ namespace VayneHunter_Reborn.External.Evade
     {
         Minion,
         Champion,
-        YasuoWall
+        YasuoWall,
+        Champions
     }
 
     public class FastPredictionResult

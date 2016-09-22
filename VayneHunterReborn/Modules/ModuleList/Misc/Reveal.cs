@@ -22,9 +22,8 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
 
             if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.reveal"))
             {
-                if (obj.IsStealthed 
-                    && obj.Sender.IsEnemy 
-                    && obj.Sender.ServerPosition.Distance(ObjectManager.Player.ServerPosition) <= 600f)
+                if (obj.IsStealthed
+                    && obj.Sender.IsValidTarget(600f))
                 {
                     var objectPosition = obj.Sender.ServerPosition;
                     if (Trinket.IsOwned() && Trinket.IsReady())

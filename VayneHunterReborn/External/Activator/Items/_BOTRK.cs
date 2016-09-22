@@ -35,15 +35,15 @@ namespace VayneHunter_Reborn.External.Activator.Items
 
         public bool ShouldRun()
         {
-            return LeagueSharp.Common.Items.HasItem(3153) && LeagueSharp.Common.Items.CanUseItem(3153);
+            return GetItemObject().IsReady();
         }
 
         public void Run()
         {
             var currentMenuItem =
                 Variables.Menu.Item(
-                    string.Format("dz191.vhr.activator.offensive.botrk.{0}", Variables.Orbwalker.ActiveMode.ToString().ToLower()));
-            var currentValue = currentMenuItem != null ? currentMenuItem.GetValue<bool>() : false;
+                    $"dz191.vhr.activator.offensive.botrk.{Variables.Orbwalker.ActiveMode.ToString().ToLower()}");
+            var currentValue = currentMenuItem?.GetValue<bool>() ?? false;
 
             if (currentValue || MenuExtensions.GetItemValue<bool>("dz191.vhr.activator.offensive.botrk.always"))
             {
@@ -57,10 +57,25 @@ namespace VayneHunter_Reborn.External.Activator.Items
                         (tg.Health / tg.MaxHealth) * 100 >=
                         MenuExtensions.GetItemValue<Slider>("dz191.vhr.activator.offensive.botrk.enemy").Value)
                     {
-                        LeagueSharp.Common.Items.UseItem(3153, tg);
+                        GetItemObject().Cast(tg);
                     }
                 }
             }
+        }
+
+        public int GetItemId()
+        {
+            return 3153;
+        }
+
+        public float GetItemRange()
+        {
+            return 450;
+        }
+
+        public LeagueSharp.Common.Items.Item GetItemObject()
+        {
+            return new LeagueSharp.Common.Items.Item(GetItemId(), GetItemRange());
         }
     }
 }

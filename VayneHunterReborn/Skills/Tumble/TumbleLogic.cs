@@ -55,6 +55,12 @@ namespace VayneHunter_Reborn.Skills.Tumble
                     case Orbwalking.OrbwalkingMode.Mixed:
                         if (target is Obj_AI_Hero)
                         {
+                            if (MenuExtensions.GetItemValue<bool>("dz191.vhr.mixed.q.2wstacks") &&
+                                !(target as Obj_AI_Hero).Has2WStacks())
+                            {
+                                return;
+                            }
+
                             TumbleMethods.PreCastTumble(target);
                         }
                         break;

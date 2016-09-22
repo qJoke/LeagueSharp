@@ -44,5 +44,26 @@ namespace DZAIO_Reborn.Helpers.Entity
         {
             return enemy.HasBuffOfType(BuffType.Slow);
         }
+
+        internal static SpellSlot GetSmiteSlot(this Obj_AI_Hero entity)
+        {
+            string[] smiteNames =
+            {
+                "SummonerSmite", "s5_summonersmiteduel", "s5_summonersmiteplayerganker",
+                "s5_summonersmitequick", "itemsmiteaoe"
+            };
+
+            foreach (var name in smiteNames)
+            {
+                var slot = Utility.GetSpellSlot(entity, name);
+
+                if(slot != SpellSlot.Unknown)
+                {
+                    return slot;
+                }
+            }
+
+            return SpellSlot.Unknown;
+        }
     }
 }

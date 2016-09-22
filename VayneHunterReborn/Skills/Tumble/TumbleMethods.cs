@@ -35,10 +35,9 @@ namespace VayneHunter_Reborn.Skills.Tumble
             }
 
             var menuOption =
-                Variables.Menu.Item(
-                    string.Format("dz191.vhr.{0}.q.2wstacks", Variables.Orbwalker.ActiveMode.ToString().ToLower()));
+                Variables.Menu.Item($"dz191.vhr.{Variables.Orbwalker.ActiveMode.ToString().ToLower()}.q.2wstacks");
     
-            var TwoWQ = menuOption != null ? menuOption.GetValue<bool>() : false;
+            var TwoWQ = menuOption?.GetValue<bool>() ?? false;
 
             if (target is Obj_AI_Hero)
             {
@@ -91,7 +90,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
         {
             var afterTumblePosition = ObjectManager.Player.ServerPosition.Extend(position, 300f);
             var distanceToTarget = afterTumblePosition.Distance(target.ServerPosition, true);
-            if ((distanceToTarget < Math.Pow(ObjectManager.Player.AttackRange + 65, 2) && distanceToTarget > 110*110)
+            if ((distanceToTarget < Math.Pow(ObjectManager.Player.AttackRange + 65f + 65f, 2) && distanceToTarget > Math.Pow(110f, 2))
                 || MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.qspam"))
             {
                 switch (MenuExtensions.GetItemValue<StringList>("dz191.vhr.misc.condemn.qlogic").SelectedIndex)

@@ -37,25 +37,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="clipper_library">
-      <HintPath>D:\Programmi\PlaySharp\System\clipper_library.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="DZLib">
-      <HintPath>D:\Programmi\PlaySharp\System\DZLib.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\DZLib.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp">
-      <HintPath>D:\Programmi\PlaySharp\System\LeagueSharp.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\LeagueSharp.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Common">
-      <HintPath>D:\Programmi\PlaySharp\System\LeagueSharp.Common.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\LeagueSharp.Common.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:\Programmi\PlaySharp\System\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>D:\Programmi\PlaySharp\System\SharpDX.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SPrediction">
-      <HintPath>D:\Programmi\PlaySharp\System\SPrediction.dll</HintPath>
+      <HintPath>D:\Programmi\95BhRE2F1\References\SPrediction.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -80,7 +80,6 @@
     <Compile Include="External\Cleanser\Cleanser.cs" />
     <Compile Include="External\Cleanser\CleanserSpell.cs" />
     <Compile Include="External\CustomAntigapcloser.cs" />
-    <Compile Include="External\DamagePrediction.cs" />
     <Compile Include="External\EvadeHelper.cs" />
     <Compile Include="External\Evade\Collision.cs" />
     <Compile Include="External\Evade\EvadeSpellData.cs" />
@@ -106,7 +105,6 @@
     <Compile Include="External\Translation\Languages\German.cs" />
     <Compile Include="External\Translation\Languages\Italian.cs" />
     <Compile Include="External\Translation\Languages\IVHRLanguage.cs" />
-    <Compile Include="External\Translation\Languages\Korean.cs" />
     <Compile Include="External\Translation\Languages\Portuguese.cs" />
     <Compile Include="External\Translation\Languages\Spanish.cs" />
     <Compile Include="External\Translation\TranslationInterface.cs" />
@@ -123,9 +121,9 @@
     <Compile Include="Modules\ModuleList\Misc\DisableMovement.cs" />
     <Compile Include="Modules\ModuleList\Misc\Focus2WStacks.cs" />
     <Compile Include="Modules\ModuleList\Misc\Reveal.cs" />
+    <Compile Include="Modules\ModuleList\Tumble\AutoQR.cs" />
     <Compile Include="Modules\ModuleList\Tumble\NoAAStealth.cs" />
     <Compile Include="Modules\ModuleList\Tumble\QKS.cs" />
-    <Compile Include="Modules\ModuleList\Tumble\Walltumble.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\Condemn\CondemnExtensions.cs" />
@@ -135,7 +133,6 @@
     <Compile Include="Skills\Condemn\Methods\Shine.cs" />
     <Compile Include="Skills\Condemn\Methods\VHReborn.cs" />
     <Compile Include="Skills\Condemn\Methods\VHRevolution.cs" />
-    <Compile Include="Skills\Condemn\Methods\VHRevolution_Old.cs" />
     <Compile Include="Skills\Tumble\TumbleLogic.cs" />
     <Compile Include="Skills\Tumble\TumbleMethods.cs" />
     <Compile Include="Skills\Tumble\TumblePositioning.cs" />

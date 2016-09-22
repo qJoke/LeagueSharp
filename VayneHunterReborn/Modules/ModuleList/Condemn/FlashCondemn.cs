@@ -46,6 +46,11 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 
             var prediction = E.GetPrediction(target);
 
+            if (!target.IsValidTarget())
+            {
+                return;
+            }
+
             if (target.IsDashing() || !E.IsReady()) return;
 
             if (prediction.Hitchance >= HitChance.VeryHigh)
