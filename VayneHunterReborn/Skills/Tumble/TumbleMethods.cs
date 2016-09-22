@@ -120,7 +120,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                             var whereToQ = Closest.ServerPosition.Extend(
                                 ObjectManager.Player.ServerPosition, Closest.Distance(ObjectManager.Player) + 300f);
 
-                            if (whereToQ.IsSafe())
+                            if (whereToQ.IsGoodEndPosition())
                             {
                                 CastQ(whereToQ);
                             }
@@ -146,7 +146,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                             var whereToQ = Closest.ServerPosition.Extend(
                                 ObjectManager.Player.ServerPosition, Closest.Distance(ObjectManager.Player) + 300f);
 
-                            if (whereToQ.IsSafe())
+                            if (whereToQ.IsGoodEndPosition())
                             {
                                 CastQ(whereToQ);
                             }
@@ -165,7 +165,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
                         if (path.Count() > 0)
                         {
                             var TumblePosition = path.MinOrDefault(x => x.Distance(Game.CursorPos)).To3D();
-                            if (!TumblePosition.IsSafe(true))
+                            if (!TumblePosition.IsGoodEndPosition())
                             {
                                 CastQ(TumblePosition);
                             }
@@ -184,7 +184,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
             var afterTumblePosition = PlayerHelper.GetAfterTumblePosition(Game.CursorPos);
             var CursorPos = Game.CursorPos;
             var EnemyPoints = TumblePositioning.GetEnemyPoints();
-            if (afterTumblePosition.IsSafe(true) || (!EnemyPoints.Contains(Game.CursorPos.To2D())) || (Variables.EnemiesClose.Count() == 1))
+            if (afterTumblePosition.IsGoodEndPosition() || (!EnemyPoints.Contains(Game.CursorPos.To2D())) || (Variables.EnemiesClose.Count() == 1))
             {
                 if (afterTumblePosition.Distance(Target.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(Target))
                 {
@@ -225,7 +225,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
 
             foreach (var position in positions)
             {
-                if (position.IsWall() && position.IsSafe(true))
+                if (position.IsWall() && position.IsGoodEndPosition())
                 {
                     return position;
                 }

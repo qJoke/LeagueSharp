@@ -45,7 +45,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
                 {
                     var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
                         currentTarget.ServerPosition, 300f);
-                    if (extendedPosition.IsSafe())
+                    if (extendedPosition.IsGoodEndPosition())
                     {
                         Orbwalking.ResetAutoAttackTimer();
                         Variables.spells[SpellSlot.Q].Cast(extendedPosition);
