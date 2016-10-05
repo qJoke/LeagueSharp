@@ -121,7 +121,7 @@ namespace SoloVayne.Skills.Tumble
                         var firstMinion = minionsInRange.OrderBy(m => m.HealthPercent).First();
                         var afterTumblePosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, 300f);
                         if (afterTumblePosition.Distance(firstMinion.ServerPosition) <= Orbwalking.GetRealAutoAttackRange(null) 
-                            && afterTumblePosition.IsSafe())
+                            && !afterTumblePosition.UnderTurret(true))
                         {
                             CastTumble(Game.CursorPos, firstMinion);
                             Variables.Orbwalker.ForceTarget(firstMinion);
@@ -138,6 +138,7 @@ namespace SoloVayne.Skills.Tumble
         /// <param name="target">The target.</param>
         private void CastTumble(Vector3 Position, Obj_AI_Base target)
         {
+            
             var WallQPosition = TumbleHelper.GetQBurstModePosition();
             if (WallQPosition != null && ObjectManager.Player.ServerPosition.IsSafeEx() && !(ObjectManager.Player.ServerPosition.UnderTurret(true)))
             {

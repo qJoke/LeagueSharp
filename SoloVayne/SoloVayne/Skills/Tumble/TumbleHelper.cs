@@ -133,18 +133,9 @@ namespace SoloVayne.Skills.Tumble
         /// <returns></returns>
         public static Vector3? GetQBurstModePosition()
         {
-            var positions =
-                GetWallQPositions(70).ToList().OrderBy(pos => pos.Distance(ObjectManager.Player.ServerPosition, true));
+            var positions = GetWallQPositions(ObjectManager.Player.BoundingRadius - 2.5f).ToList();
 
-            foreach (var position in positions)
-            {
-                if (position.IsWall() && position.IsSafe())
-                {
-                    return position;
-                }
-            }
-
-            return null;
+            return positions.FirstOrDefault(position => position.IsWall() && position.IsSafe());
         }
 
         /// <summary>
@@ -154,6 +145,7 @@ namespace SoloVayne.Skills.Tumble
         /// <returns></returns>
         public static Vector3[] GetWallQPositions(float Range)
         {
+            //Gets the position at the left and right of the players
             Vector3[] vList =
             {
                 (ObjectManager.Player.ServerPosition.To2D() + Range * ObjectManager.Player.Direction.To2D()).To3D(),
