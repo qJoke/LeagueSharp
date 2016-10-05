@@ -41,7 +41,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
                 {
                     var extendedPosition = ObjectManager.Player.ServerPosition.Extend(
                         currentTarget.ServerPosition, 300f);
-                    if (extendedPosition.IsSafe())
+                    if (extendedPosition.IsGoodEndPosition())
                     {
                         Variables.spells[SpellSlot.Q].Cast(extendedPosition);
                         TargetSelector.SetTarget(currentTarget);
