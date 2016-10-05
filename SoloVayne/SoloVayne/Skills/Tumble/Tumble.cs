@@ -99,7 +99,7 @@ namespace SoloVayne.Skills.Tumble
         /// <param name="target">The target.</param>
         public void ExecuteFarm(Obj_AI_Base target)
         {
-            if (Environment.TickCount - this.lastLaneclearTick < 80)
+            if (Environment.TickCount - this.lastLaneclearTick < 700)
             {
                 return;
             }
@@ -111,21 +111,7 @@ namespace SoloVayne.Skills.Tumble
 
                 if (currentTarget is Obj_AI_Minion)
                 {
-                    /**
-                    if (GameObjects.JungleLarge.Contains(currentTarget) || GameObjects.JungleLegendary.Contains(currentTarget))
-                    {
-                        //It's a jungle minion, so we Q sideways.
-                        var sidewaysPosition =
-                            (ObjectManager.Player.ServerPosition.To2D() + 300f * ObjectManager.Player.Direction.To2D())
-                                .To3D();
-                        if (sidewaysPosition.IsSafe())
-                        {
-                            CastTumble(sidewaysPosition, currentTarget);
-                            Variables.Orbwalker.ForceTarget(currentTarget);
-                            return;
-                        }
-                    }
-                    */
+                   
                     var minionsInRange = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, ObjectManager.Player.AttackRange + 65)
                         .Where(m => m.Health + 5 <= ObjectManager.Player.GetAutoAttackDamage(m) + Variables.spells[SpellSlot.Q].GetDamage(m))
                         .ToList();
