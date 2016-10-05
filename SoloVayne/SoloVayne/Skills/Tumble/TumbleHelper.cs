@@ -10,6 +10,9 @@ namespace SoloVayne.Skills.Tumble
 {
     class TumbleHelper
     {
+
+        private static float range = 1000f;
+
         /// <summary>
         /// Gets the rotated q positions.
         /// </summary>
@@ -21,7 +24,7 @@ namespace SoloVayne.Skills.Tumble
             var direction = (Game.CursorPos - ObjectManager.Player.ServerPosition).Normalized().To2D();
 
             var list = new List<Vector3>();
-            for (var i = -105; i <= 105; i += currentStep)
+            for (var i = -95; i <= 95; i += currentStep)
             {
                 var angleRad = Geometry.DegreeToRadian(i);
                 var rotatedPosition = ObjectManager.Player.Position.To2D() + (300f * direction.Rotated(angleRad));
@@ -77,7 +80,7 @@ namespace SoloVayne.Skills.Tumble
         public static bool IsSafeEx(Vector3 position)
         {
             var closeEnemies =
-                    HeroManager.Enemies.FindAll(en => en.IsValidTarget(1500f) && !(en.Distance(ObjectManager.Player.ServerPosition) < en.AttackRange + 65f))
+                    HeroManager.Enemies.FindAll(en => en.IsValidTarget(range) && !(en.Distance(ObjectManager.Player.ServerPosition) < en.AttackRange + 65f))
                     .OrderBy(en => en.Distance(position));
 
             return closeEnemies.All(
@@ -92,16 +95,16 @@ namespace SoloVayne.Skills.Tumble
         /// <returns></returns>
         public static float GetAvgDistance(Vector3 from)
         {
-            var numberOfEnemies = from.CountEnemiesInRange(1200f);
+            var numberOfEnemies = from.CountEnemiesInRange(range);
             if (numberOfEnemies != 0)
             {
-                var enemies = HeroManager.Enemies.Where(en => en.IsValidTarget(1200f, true, from)
+                var enemies = HeroManager.Enemies.Where(en => en.IsValidTarget(range, true, from)
                                                     &&
                                                     en.Health >
                                                     ObjectManager.Player.GetAutoAttackDamage(en) * 3 +
                                                     Variables.spells[SpellSlot.W].GetDamage(en) +
                                                     Variables.spells[SpellSlot.Q].GetDamage(en)).ToList();
-                var enemiesEx = HeroManager.Enemies.Where(en => en.IsValidTarget(1200f, true, from)).ToList();
+                var enemiesEx = HeroManager.Enemies.Where(en => en.IsValidTarget(range, true, from)).ToList();
                 var LHEnemies = enemiesEx.Count() - enemies.Count();
 
                 var totalDistance = (LHEnemies > 1 && enemiesEx.Count() > 2) ?
@@ -120,7 +123,8 @@ namespace SoloVayne.Skills.Tumble
         /// <returns></returns>
         public static List<Vector2> GetEnemyPoints(bool dynamic = true)
         {
-            var staticRange = 360f;
+            //Static Melee range
+            var staticRange = 380f;
             var polygonsList = TumbleVariables.EnemiesClose.Select(enemy => new SOLOGeometry.Circle(enemy.ServerPosition.To2D(), (dynamic ? (enemy.IsMelee ? enemy.AttackRange * 1.5f : enemy.AttackRange) : staticRange) + enemy.BoundingRadius + 20).ToPolygon()).ToList();
             var pathList = SOLOGeometry.ClipPolygons(polygonsList);
             var pointList = pathList.SelectMany(path => path, (path, point) => new Vector2(point.X, point.Y)).Where(currentPoint => !currentPoint.IsWall()).ToList();
