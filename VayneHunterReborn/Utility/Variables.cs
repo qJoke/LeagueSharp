@@ -44,6 +44,7 @@ namespace VayneHunter_Reborn.Utility
             new CondemnJungleMobs(),
             new FlashRepel(),
             new FlashCondemn(),
+            new TurnAround()
         };
 
         public static List<IVHRLanguage> languageList = new List<IVHRLanguage>()

@@ -29,7 +29,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 
         public ModuleType GetModuleType()
         {
-            return ModuleType.OnUpdate; // idk why thiis wwas on after attack m8 pls
+            return ModuleType.OnUpdate;
         }
 
         public void OnExecute()
