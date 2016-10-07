@@ -13,20 +13,18 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
 {
     using Utility = LeagueSharp.Common.Utility;
 
-    class FlashCondemn : IModule
+    internal class FlashCondemn : IModule
     {
         private static Spell E => Variables.spells[SpellSlot.E];
 
         private static Spell Flash => new Spell(ObjectManager.Player.GetSpellSlot("SummonerFlash"), 425f);
 
-        public void OnLoad()
-        {
-        }
+        public void OnLoad() {}
 
         public bool ShouldGetExecuted()
         {
-            return MenuExtensions.GetItemValue<KeyBind>("dz191.vhr.misc.condemn.flashcondemn").Active
-                   && Variables.spells[SpellSlot.E].IsReady() && Flash.Slot != SpellSlot.Unknown && Flash.IsReady();
+            return MenuExtensions.GetItemValue<KeyBind>("dz191.vhr.misc.condemn.flashcondemn").Active &&
+                   Variables.spells[SpellSlot.E].IsReady() && Flash.Slot != SpellSlot.Unknown && Flash.IsReady();
         }
 
         public ModuleType GetModuleType()
@@ -39,8 +37,8 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
             var pushDistance = 450;
 
             var target = TargetSelector.SelectedTarget != null
-                             ? TargetSelector.GetSelectedTarget()
-                             : TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
+                ? TargetSelector.GetSelectedTarget()
+                : TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
 
             var flashPosition = ObjectManager.Player.ServerPosition.Extend(Game.CursorPos, Flash.Range);
 
@@ -51,7 +49,8 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
                 return;
             }
 
-            if (target.IsDashing() || !E.IsReady()) return;
+            if (target.IsDashing() || !E.IsReady())
+                return;
 
             if (prediction.Hitchance >= HitChance.VeryHigh)
             {
@@ -60,12 +59,14 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
                 {
                     Variables.LastCondemnFlashTime = Environment.TickCount;
                     E.CastOnUnit(target);
-                    Utility.DelayAction.Add((int)(E.Delay + Game.Ping / 2f), () => {
-                                    if (!E.IsReady())
-                                    {
-                                        Flash.Cast(flashPosition);
-                                    }
-                                });
+                    Utility.DelayAction.Add(
+                        (int) (E.Delay + Game.Ping / 2f), () =>
+                        {
+                            if (!E.IsReady())
+                            {
+                                Flash.Cast(flashPosition);
+                            }
+                        });
                 }
                 else
                 {
@@ -86,11 +87,11 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
                                         Flash.Cast(flashPosition);
                                     }
                                 });
-                        };
-
-                            // Flash.Cast(flashPosition);
-                            return;
                         }
+                        ;
+
+                        // Flash.Cast(flashPosition);
+                        return;
                     }
                 }
             }
