@@ -60,7 +60,12 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
                 {
                     Variables.LastCondemnFlashTime = Environment.TickCount;
                     E.CastOnUnit(target);
-                    Utility.DelayAction.Add((int)(E.Delay + Game.Ping / 2f), () => Flash.Cast(flashPosition));
+                    Utility.DelayAction.Add((int)(E.Delay + Game.Ping / 2f), () => {
+                                    if (!E.IsReady())
+                                    {
+                                        Flash.Cast(flashPosition);
+                                    }
+                                });
                 }
                 else
                 {
@@ -73,7 +78,15 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
                         {
                             Variables.LastCondemnFlashTime = Environment.TickCount;
                             E.CastOnUnit(target);
-                            Utility.DelayAction.Add((int)(E.Delay + Game.Ping / 2f), () => Flash.Cast(flashPosition));
+                            Utility.DelayAction.Add(
+                                (int) (E.Delay + Game.Ping / 2f), () =>
+                                {
+                                    if (!E.IsReady())
+                                    {
+                                        Flash.Cast(flashPosition);
+                                    }
+                                });
+                        };
 
                             // Flash.Cast(flashPosition);
                             return;
