@@ -154,6 +154,8 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.disablemovement", "Disable Orbwalker Movement").SetTooltip("Disables the Orbwalker movements as long as it's active");
                     miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.disableattk", "Disable Orbwalker Attack").SetTooltip("Disables the Orbwalker attacks as long as it's active");
                     miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.turnaround", "Use Turnaround against Cassio R / Trynda W").SetTooltip("Turns around to prevent Slows / Stuns from Cassio R and Trynda W");
+                    miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.threshCatch", "Catch Thresh Lantern").SetTooltip("Turns around to prevent Slows / Stuns from Cassio R and Trynda W");
+                    miscGeneralSubMenu.AddSlider("dz191.vhr.misc.general.hpThresh", "^ When HP Below %", new Tuple<int, int, int>(20, 0, 100)).SetTooltip("Autocatches Thresh Lantern");
 
                     miscMenu.AddSubMenu(miscGeneralSubMenu);
                 }

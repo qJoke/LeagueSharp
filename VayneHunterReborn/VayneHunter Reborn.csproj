@@ -121,6 +121,7 @@
     <Compile Include="Modules\ModuleList\Misc\DisableMovement.cs" />
     <Compile Include="Modules\ModuleList\Misc\Focus2WStacks.cs" />
     <Compile Include="Modules\ModuleList\Misc\Reveal.cs" />
+    <Compile Include="Modules\ModuleList\Misc\ThreshLanternCatcher.cs" />
     <Compile Include="Modules\ModuleList\Misc\TurnAround.cs" />
     <Compile Include="Modules\ModuleList\Tumble\AutoQR.cs" />
     <Compile Include="Modules\ModuleList\Tumble\NoAAStealth.cs" />
