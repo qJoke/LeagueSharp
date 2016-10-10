@@ -45,7 +45,8 @@ namespace VayneHunter_Reborn.Utility
             new FlashRepel(),
             new FlashCondemn(),
             new TurnAround(),
-            new ThreshLanternCatcher()
+            new ThreshLanternCatcher(),
+            new BuyBlueTrinket()
         };
 
         public static List<IVHRLanguage> languageList = new List<IVHRLanguage>()

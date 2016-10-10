@@ -118,6 +118,7 @@
     <Compile Include="Modules\ModuleList\Condemn\FlashCondemn.cs" />
     <Compile Include="Modules\ModuleList\Condemn\FlashRepel.cs" />
     <Compile Include="Modules\ModuleList\Condemn\LowLifePeel.cs" />
+    <Compile Include="Modules\ModuleList\Misc\BuyBlueTrinket.cs" />
     <Compile Include="Modules\ModuleList\Misc\DisableMovement.cs" />
     <Compile Include="Modules\ModuleList\Misc\Focus2WStacks.cs" />
     <Compile Include="Modules\ModuleList\Misc\Reveal.cs" />
