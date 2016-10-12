@@ -40,7 +40,7 @@
       <HintPath>D:\Programmi\95BhRE2F1\References\clipper_library.dll</HintPath>
     </Reference>
     <Reference Include="DZLib">
-      <HintPath>D:\Programmi\95BhRE2F1\References\DZLib.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\DZLib.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp">
       <HintPath>D:\Programmi\95BhRE2F1\References\LeagueSharp.dll</HintPath>
@@ -55,7 +55,7 @@
       <HintPath>D:\Programmi\95BhRE2F1\References\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SPrediction">
-      <HintPath>D:\Programmi\95BhRE2F1\References\SPrediction.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\LeagueSharp\System\SPrediction.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -150,6 +150,7 @@
     <Compile Include="Utility\Helpers\VHRPolygon.cs" />
     <Compile Include="Utility\MenuUtility\MenuExtensions.cs" />
     <Compile Include="Utility\MenuUtility\MenuGenerator.cs" />
+    <Compile Include="Utility\TrapAvoid\TrapAvoider.cs" />
     <Compile Include="Utility\Variables.cs" />
     <Compile Include="Utility\VHRBootstrap.cs" />
     <Compile Include="VHR.cs" />

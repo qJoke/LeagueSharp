@@ -157,7 +157,6 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                     miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.threshCatch", "Catch Thresh Lantern", true).SetTooltip("Autocatches Thresh Lantern");
                     miscGeneralSubMenu.AddSlider("dz191.vhr.misc.general.hpThresh", "^ When HP Below %", new Tuple<int, int, int>(20, 0, 100)).SetTooltip("Autocatches Thresh Lantern at % HP < Value only");
                     miscGeneralSubMenu.AddBool("dz191.vhr.misc.general.blueTrinket", "Buy Blue Trinket").SetTooltip("Buys Blue trinket automagically at Level 9");
-
                     miscMenu.AddSubMenu(miscGeneralSubMenu);
                 }
 
@@ -170,6 +169,7 @@ namespace VayneHunter_Reborn.Utility.MenuUtility
                 drawMenu.AddBool("dz191.vhr.draw.range", "Draw Enemy Ranges", true);
                 drawMenu.AddBool("dz191.vhr.draw.condemn", "Draw Condemn Rectangles", true);
                 drawMenu.AddBool("dz191.vhr.draw.qpos", "Reborn Q Position (Debug)");
+                drawMenu.AddBool("dz191.vhr.draw.trapDraw", "Draw Traps (Teemo / Jinx / Cait)").SetTooltip("Draws Traps for Teemo / Jinx / Cait");
 
                 RootMenu.AddSubMenu(drawMenu);
             }

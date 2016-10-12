@@ -7,6 +7,7 @@ using VayneHunter_Reborn.Skills.Condemn;
 using VayneHunter_Reborn.Skills.Tumble;
 using VayneHunter_Reborn.Skills.Tumble.VHRQ;
 using VayneHunter_Reborn.Utility;
+using VayneHunter_Reborn.Utility.TrapAvoid;
 using Activator = VayneHunter_Reborn.External.Activator.Activator;
 
 namespace VayneHunter_Reborn
@@ -17,12 +18,12 @@ namespace VayneHunter_Reborn
         {
             TumbleLogic.OnLoad();
             CondemnLogic.OnLoad();
+            TrapAvoider.OnLoad();
 
             foreach (var module in Variables.moduleList)
             {
                 module.OnLoad();
             }
-
             Game.OnUpdate += OnUpdate;
         }
 
