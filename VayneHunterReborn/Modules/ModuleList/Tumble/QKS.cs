@@ -44,7 +44,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Tumble
                     if (extendedPosition.IsGoodEndPosition())
                     {
                         Variables.spells[SpellSlot.Q].Cast(extendedPosition);
-                        TargetSelector.SetTarget(currentTarget);
+                        //TargetSelector.SetTarget(currentTarget);
                     }
                 }
         }

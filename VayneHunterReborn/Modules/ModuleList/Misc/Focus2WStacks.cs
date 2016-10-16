@@ -8,16 +8,16 @@ using VayneHunter_Reborn.Utility.MenuUtility;
 
 namespace VayneHunter_Reborn.Modules.ModuleList.Misc
 {
-    class Focus2WStacks : IModule
+    internal class Focus2WStacks : IModule
     {
-        public void OnLoad()
-        {
-
-        }
+        public void OnLoad() {}
 
         public bool ShouldGetExecuted()
         {
-            return (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.specialfocus") && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) || (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed && Variables.Orbwalker.GetTarget() is Obj_AI_Hero);
+            return (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.specialfocus") &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
+                   (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed &&
+                    Variables.Orbwalker.GetTarget() is Obj_AI_Hero);
         }
 
         public ModuleType GetModuleType()
@@ -29,6 +29,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
         {
             if (Game.Time < 25 * 60 * 1000)
             {
+                /**
                 var ADC =
                     HeroManager.Enemies.Where(m => TargetSelector.GetPriority(m) > 4 && m.IsValidTarget() || (m.Has2WStacks() && TargetSelector.GetPriority(m) > 1))
                         .OrderBy(m => m.TotalAttackDamage)
@@ -57,6 +58,8 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
                     TargetSelector.SetTarget(target);
                     Variables.Orbwalker.ForceTarget(target);
                 }
+            }*/
+
             }
         }
     }
