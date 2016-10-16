@@ -89,7 +89,38 @@ namespace DZAIO_Reborn.Plugins.Champions.Kalista
 
         private void OnInterrupter(Obj_AI_Hero sender, DZInterrupter.InterruptableTargetEventArgs args)
         {
-            
+            if (args.DangerLevel > DZInterrupter.DangerLevel.Medium)
+            {
+                var qRangeReduction = 0.75f;
+                var qJumpRange = 280f;
+                var qTickInterval = 500f;
+
+
+                var target = sender;
+
+                if (target.IsValidTarget(Variables.Spells[SpellSlot.Q].Range*qRangeReduction))
+                {
+                    //Calculate the dash End Position and update the prediction accordingly
+                    var dashEndPos = ObjectManager.Player.GetDashInfo().EndPos;
+                    var QPrediction = Variables.Spells[SpellSlot.Q].GetPrediction(target);
+
+                    if (dashEndPos != Vector2.Zero)
+                    {
+                        Variables.Spells[SpellSlot.Q].UpdateSourcePosition(dashEndPos.To3D());
+                        QPrediction = Variables.Spells[SpellSlot.Q].GetPrediction(target);
+                        Variables.Spells[SpellSlot.Q].UpdateSourcePosition(ObjectManager.Player.ServerPosition);
+                    }
+
+                    if (QPrediction.Hitchance >= HitChance.High && Variables.Spells[SpellSlot.Q].IsKillable(target))
+                    {
+                        if (IsPlayerNotBusy() && (Environment.TickCount - LastQCastTick >= qTickInterval))
+                        {
+                            Variables.Spells[SpellSlot.Q].Cast(QPrediction.CastPosition);
+                            LastQCastTick = Environment.TickCount;
+                        }
+                    }
+                }
+            }
         }
 
         public Dictionary<SpellSlot, Spell> GetSpells()
