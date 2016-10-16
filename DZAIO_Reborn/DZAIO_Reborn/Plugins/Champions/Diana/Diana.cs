@@ -25,9 +25,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.diana.combo");
             {
                 comboMenu.AddModeMenu(ModesMenuExtensions.Mode.Combo, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R }, new[] { true, true, true, true });
-                comboMenu.AddBool("dzaio.champion.diana.combo.waitforE", "Wait for charm", true);
-                comboMenu.AddBool("dzaio.champion.diana.combo.onlyInitR", "Only use First R (Only to initiate)", true);
-
+                comboMenu.AddBool("dzaio.champion.diana.combo.qr", "Use QR Combo", true);
                 menu.AddSubMenu(comboMenu);
             }
 
@@ -113,7 +111,21 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
 
         public void OnCombo()
         {
-           
+            var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range, TargetSelector.DamageType.Magical);
+
+            if (target.IsValidTarget())
+            {
+                var prediction = SPrediction.ArcPrediction.GetPrediction(target, Variables.Spells[SpellSlot.Q].Width,
+                    Variables.Spells[SpellSlot.Q].Delay, Variables.Spells[SpellSlot.Q].Speed,
+                    Variables.Spells[SpellSlot.Q].Range, false);
+
+                if (prediction.HitChance > HitChance.Medium)
+                {
+                    var endPosition = prediction.CastPosition;
+
+                    Variables.Spells[SpellSlot.Q].Cast(endPosition);
+                }
+            }
         }
 
         public void OnMixed()
@@ -138,5 +150,41 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
             }
 
         }
+
+        public void QR(Obj_AI_Hero target)
+        {
+            if (!target.IsValidTarget(Variables.Spells[SpellSlot.R].Range))
+            {
+                return;
+            }
+
+            if (Variables.Spells[SpellSlot.Q].IsReady() && Variables.Spells[SpellSlot.R].IsReady())
+            {
+                var targetMinion = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Spells[SpellSlot.R].Range).OrderBy(x => x.Distance(target))
+                        .FirstOrDefault(minion => !Variables.Spells[SpellSlot.Q].IsKillable(minion));
+
+                if (targetMinion.IsValidTarget())
+                {
+                    Variables.Spells[SpellSlot.Q].Cast(targetMinion);
+                    if (HasQBuff(targetMinion))
+                    {
+                        Variables.Spells[SpellSlot.R].Cast(targetMinion);
+                    }
+                }
+            }
+        }
+
+        public double GetComboDamage(Obj_AI_Hero Target)
+        {
+            var IgniteDamage = ObjectManager.Player.GetSummonerSpellDamage(Target, Damage.SummonerSpell.Ignite);
+            return ObjectManager.Player.GetComboDamage(Target,
+                new[] {SpellSlot.Q, SpellSlot.W, SpellSlot.E, SpellSlot.R}) + IgniteDamage;
+        }
+
+        private static bool HasQBuff(Obj_AI_Base target)
+        {
+            return target.HasBuff("dianamoonlight");
+        }
+
     }
 }
