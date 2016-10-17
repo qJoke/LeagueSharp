@@ -7,6 +7,7 @@ using DZAIO_Reborn.Core;
 using DZAIO_Reborn.Helpers;
 using DZAIO_Reborn.Helpers.Entity;
 using DZAIO_Reborn.Helpers.Modules;
+using DZAIO_Reborn.Helpers.Positioning;
 using DZAIO_Reborn.Plugins.Interface;
 using DZLib.Core;
 using DZLib.Menu;
@@ -113,7 +114,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
         {
             var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range, TargetSelector.DamageType.Magical);
 
-            if (target.IsValidTarget())
+            if (target.IsValidTarget() && Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
             {
                 var prediction = SPrediction.ArcPrediction.GetPrediction(target, Variables.Spells[SpellSlot.Q].Width,
                     Variables.Spells[SpellSlot.Q].Delay, Variables.Spells[SpellSlot.Q].Speed,
@@ -126,6 +127,46 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
                     Variables.Spells[SpellSlot.Q].Cast(endPosition);
                 }
             }
+
+            if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.diana.combo.qr"))
+            {
+                var killableTarget =
+                   HeroManager.Enemies.FirstOrDefault(enemy => Variables.Spells[SpellSlot.R].IsKillable(enemy) 
+                           && enemy.IsValidTarget(Variables.Spells[SpellSlot.R].Range * 2f));
+
+                if (killableTarget != null)
+                {
+                    QR(killableTarget);
+                }
+            }
+
+            if (target.IsValidTarget() && Variables.Spells[SpellSlot.R].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                if (HasQBuff(target) && !target.UnderTurret(true) && target.ServerPosition.IsSafe())
+                {
+                    Variables.Spells[SpellSlot.R].Cast(target);
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                if (!target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(ObjectManager.Player))
+                    && !ObjectManager.Player.IsDashing())
+                {
+                    Variables.Spells[SpellSlot.W].Cast(); ;
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                if (!target.IsValidTarget(Variables.Spells[SpellSlot.E].Range)
+                    && !ObjectManager.Player.IsDashing())
+                {
+                    Variables.Spells[SpellSlot.E].Cast(); ;
+                }
+            }
+
+
         }
 
         public void OnMixed()
