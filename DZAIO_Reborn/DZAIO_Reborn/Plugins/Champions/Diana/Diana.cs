@@ -32,14 +32,14 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
 
             var mixedMenu = new Menu(ObjectManager.Player.ChampionName + ": Mixed", "dzaio.champion.diana.harrass");
             {
-                mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true });
+                mixedMenu.AddModeMenu(ModesMenuExtensions.Mode.Harrass, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E }, new[] { true, true, true });
                 mixedMenu.AddSlider("dzaio.champion.diana.mixed.mana", "Min Mana % for Harass", 30, 0, 100);
                 menu.AddSubMenu(mixedMenu);
             }
 
             var farmMenu = new Menu(ObjectManager.Player.ChampionName + ": Farm", "dzaio.champion.diana.farm");
             {
-                farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Laneclear, new[] { SpellSlot.Q, SpellSlot.W }, new[] { true, true });
+                farmMenu.AddModeMenu(ModesMenuExtensions.Mode.Laneclear, new[] { SpellSlot.Q, SpellSlot.W, SpellSlot.E }, new[] { true, true, true });
 
                 farmMenu.AddSlider("dzaio.champion.diana.farm.w.min", "Min Minions for W", 2, 1, 6);
                 farmMenu.AddSlider("dzaio.champion.diana.farm.mana", "Min Mana % for Farm", 30, 0, 100);
@@ -176,7 +176,39 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
             {
                 return;
             }
-           
+            var target = TargetSelector.GetTarget(Variables.Spells[SpellSlot.Q].Range, TargetSelector.DamageType.Magical);
+
+            if (target.IsValidTarget() && Variables.Spells[SpellSlot.Q].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                var prediction = SPrediction.ArcPrediction.GetPrediction(target, Variables.Spells[SpellSlot.Q].Width,
+                    Variables.Spells[SpellSlot.Q].Delay, Variables.Spells[SpellSlot.Q].Speed,
+                    Variables.Spells[SpellSlot.Q].Range, false);
+
+                if (prediction.HitChance > HitChance.Medium)
+                {
+                    var endPosition = prediction.CastPosition;
+
+                    Variables.Spells[SpellSlot.Q].Cast(endPosition);
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                if (!target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(ObjectManager.Player))
+                    && !ObjectManager.Player.IsDashing())
+                {
+                    Variables.Spells[SpellSlot.W].Cast(); ;
+                }
+            }
+
+            if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Combo))
+            {
+                if (!target.IsValidTarget(Variables.Spells[SpellSlot.E].Range)
+                    && !ObjectManager.Player.IsDashing())
+                {
+                    Variables.Spells[SpellSlot.E].Cast(); ;
+                }
+            }
         }
 
         public void OnLastHit()
