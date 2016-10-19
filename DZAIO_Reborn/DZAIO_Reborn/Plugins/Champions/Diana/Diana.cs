@@ -52,6 +52,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
             {
                 extraMenu.AddBool("dzaio.champion.diana.extra.interrupter", "Interrupter (E)", true);
                 extraMenu.AddBool("dzaio.champion.diana.extra.antigapcloser", "Antigapcloser (E)", true);
+                extraMenu.AddBool("dzaio.champion.diana.extra.dashBlocker", "Dash Stopper (E)", true);
                 extraMenu.AddBool("dzaio.champion.diana.extra.autoQ", "Auto Q Stunned / Rooted", true);
                 extraMenu.AddBool("dzaio.champion.diana.extra.autoQKS", "Auto Q KS", true);
             }
@@ -63,6 +64,21 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
         {
             DZInterrupter.OnInterruptableTarget += OnInterrupter;
             DZAntigapcloser.OnEnemyGapcloser += OnGapcloser;
+            CustomEvents.Unit.OnDash += OnDash;
+        }
+
+        private void OnDash(Obj_AI_Base sender, Dash.DashItem args)
+        {
+ 	         if (!sender.IsValidTarget())
+             {
+                  return;
+             }
+
+             if (!args.IsBlink && Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.diana.extra.dashBlocker")
+                        && spells[SpellSlot.E].IsReady() && spells[SpellSlot.E].Range >= ObjectManager.Player.Distance(sender))
+             {
+                  spells[SpellSlot.E].Cast();
+             }
         }
 
         private void OnGapcloser(DZLib.Core.ActiveGapcloser gapcloser)
