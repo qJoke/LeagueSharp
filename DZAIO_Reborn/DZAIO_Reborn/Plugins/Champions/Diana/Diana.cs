@@ -21,6 +21,8 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
 {
     class Diana : IChampion
     {
+        private Dictionary<SpellSlot, Spell> spells => Variables.Spells;
+ 
         public void OnLoad(Menu menu)
         {
             var comboMenu = new Menu(ObjectManager.Player.ChampionName + ": Combo", "dzaio.champion.diana.combo");
@@ -222,6 +224,28 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
                 return;
             }
 
+            var minions = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Spells[SpellSlot.Q].Range, MinionTypes.All,  MinionTeam.NotAlly);
+
+            var qMinGroups = minions.FindAll(m => m.IsValidTarget(Variables.Spells[SpellSlot.Q].Range));
+            var qMinion = qMinGroups.Find(m => m.IsValidTarget());
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Laneclear)
+                && spells[SpellSlot.Q].GetCircularFarmLocation(minions).MinionsHit >= 2)
+            {
+                spells[SpellSlot.Q].Cast(qMinion);
+            }
+
+            if (Variables.Spells[SpellSlot.W].IsEnabledAndReady(ModesMenuExtensions.Mode.Laneclear)
+                && spells[SpellSlot.W].GetCircularFarmLocation(minions).MinionsHit >= 2)
+            {
+                spells[SpellSlot.W].Cast();
+            }
+
+            if (Variables.Spells[SpellSlot.E].IsEnabledAndReady(ModesMenuExtensions.Mode.Laneclear) && qMinion.IsValidTarget(200f)
+                && spells[SpellSlot.E].GetCircularFarmLocation(minions).MinionsHit >= 3)
+            {
+                spells[SpellSlot.E].Cast();
+            }
         }
 
         public void QR(Obj_AI_Hero target)
