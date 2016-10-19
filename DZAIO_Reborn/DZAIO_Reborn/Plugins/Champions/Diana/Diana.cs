@@ -69,11 +69,11 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
         {
             if (Variables.AssemblyMenu.GetItemValue<bool>("dzaio.champion.diana.extra.antigapcloser")
                 && ObjectManager.Player.ManaPercent > 20
-                && gapcloser.End.Distance(ObjectManager.Player.ServerPosition) < 400
+                && gapcloser.End.Distance(ObjectManager.Player.ServerPosition) < spells[SpellSlot.E].Range
                 && gapcloser.Sender.IsValidTarget(Variables.Spells[SpellSlot.E].Range)
                 && Variables.Spells[SpellSlot.E].IsReady())
             {
-                Variables.Spells[SpellSlot.E].CastIfHitchanceEquals(gapcloser.Sender, HitChance.Medium);
+                Variables.Spells[SpellSlot.E].Cast();
             }
         }
 
@@ -85,7 +85,7 @@ namespace DZAIO_Reborn.Plugins.Champions.Diana
                 && sender.IsValidTarget(Variables.Spells[SpellSlot.E].Range)
                 && Variables.Spells[SpellSlot.E].IsReady())
             {
-                Variables.Spells[SpellSlot.E].CastIfHitchanceEquals(sender, HitChance.High);
+                Variables.Spells[SpellSlot.E].Cast();
             }
         }
         public Dictionary<SpellSlot, Spell> GetSpells()
