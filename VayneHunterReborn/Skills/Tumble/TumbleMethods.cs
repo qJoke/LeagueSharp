@@ -29,7 +29,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
 
         public static void PreCastTumble(Obj_AI_Base target)
         {
-            if (!target.IsValidTarget(ObjectManager.Player.AttackRange + 65f + 65f + 300f))
+            if (!target.IsValidTarget(ObjectManager.Player.AttackRange + 65f + 45f + 300f))
             {
                 return;
             }
@@ -42,8 +42,6 @@ namespace VayneHunter_Reborn.Skills.Tumble
             if (target is Obj_AI_Hero)
             {
                 var tg = target as Obj_AI_Hero;
-                //TargetSelector.SetTarget(tg); //<---- TODO
-
                 if (TwoWQ && (tg.GetWBuff() != null && tg.GetWBuff().Count < 1) && Variables.spells[SpellSlot.W].Level > 0)
                 {
                     return;
@@ -58,9 +56,10 @@ namespace VayneHunter_Reborn.Skills.Tumble
 
         public static void HandleFarmTumble(Obj_AI_Base target)
         {
-            if (MobNames.Contains(target.CharData.BaseSkinName) && MenuExtensions.GetItemValue<bool>("dz191.vhr.farm.qjungle"))
+            if (MobNames.ToList().Any(m => m.ToLower().Equals(target.CharData.BaseSkinName.ToLower(), StringComparison.InvariantCultureIgnoreCase)) 
+                && MenuExtensions.GetItemValue<bool>("dz191.vhr.farm.qjungle"))
             {
-                DefaultQCast(Game.CursorPos, target);
+                DefaultQCast(target.ServerPosition, target);
                 return;
             }
             
@@ -70,7 +69,10 @@ namespace VayneHunter_Reborn.Skills.Tumble
             }
 
             var minionsInRange = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, ObjectManager.Player.AttackRange + 65)
-                .Where(m => m.Health <= ObjectManager.Player.GetAutoAttackDamage(m) + Variables.spells[SpellSlot.Q].GetDamage(m))
+                .Where(m => m.Health <= ObjectManager.Player.GetAutoAttackDamage(m) 
+                    + Variables.spells[SpellSlot.Q].GetDamage(m) 
+                    + (((20 + 10 * Variables.spells[SpellSlot.Q].Level) / 100f) * ObjectManager.Player.GetAutoAttackDamage(target) 
+                    - 40f))
                 .ToList();
 
             if (minionsInRange.Count() > 1)
@@ -90,7 +92,7 @@ namespace VayneHunter_Reborn.Skills.Tumble
         {
             var afterTumblePosition = ObjectManager.Player.ServerPosition.Extend(position, 300f);
             var distanceToTarget = afterTumblePosition.Distance(target.ServerPosition, true);
-            if ((distanceToTarget < Math.Pow(ObjectManager.Player.AttackRange + 65f + 65f, 2) && distanceToTarget > Math.Pow(110f, 2))
+            if ((distanceToTarget < Math.Pow(ObjectManager.Player.AttackRange + 45f + 65f, 2) && distanceToTarget > Math.Pow(120f, 2))
                 || MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.tumble.qspam"))
             {
                 switch (MenuExtensions.GetItemValue<StringList>("dz191.vhr.misc.condemn.qlogic").SelectedIndex)
@@ -138,7 +140,10 @@ namespace VayneHunter_Reborn.Skills.Tumble
                     case 2:
                         //Away from melee enemies
                         if (Variables.MeleeEnemiesTowardsMe.Any() &&
-                            !Variables.MeleeEnemiesTowardsMe.All(m => m.HealthPercent <= 15))
+                            Variables.MeleeEnemiesTowardsMe.Any(m => m.Health 
+                                < ObjectManager.Player.GetAutoAttackDamage(m) * 3 
+                                + Variables.spells[SpellSlot.W].GetDamage(m) 
+                                + Variables.spells[SpellSlot.Q].GetDamage(m)))
                         {
                             var Closest =
                                 Variables.MeleeEnemiesTowardsMe.OrderBy(m => m.Distance(ObjectManager.Player)).First();
