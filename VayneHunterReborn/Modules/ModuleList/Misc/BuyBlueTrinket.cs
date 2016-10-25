@@ -33,7 +33,7 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
 
             LastCheckTick = Environment.TickCount;
 
-            if (ObjectManager.Player.IsDead || ObjectManager.Player.InShop())
+            if (ObjectManager.Player.IsDead || ObjectManager.Player.InShop() && ObjectManager.Player.Level > 6)
             {
                 if (!ItemData.Farsight_Alteration.GetItem().IsOwned())
                 {

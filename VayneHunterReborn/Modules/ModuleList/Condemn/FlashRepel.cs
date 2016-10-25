@@ -18,7 +18,8 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Condemn
         {
             if (sender is Obj_AI_Hero && sender.IsValidTarget())
             {
-                if (args.SData.Name.ToLower().Equals("summonerflash") && args.End.Distance(ObjectManager.Player.ServerPosition) <= 365f)
+                if (args.SData.Name.ToLower().Equals("summonerflash") 
+                    && args.End.Distance(ObjectManager.Player.ServerPosition) <= Variables.spells[SpellSlot.E].Range - 75f)
                 {
                     Variables.spells[SpellSlot.E].CastOnUnit((Obj_AI_Hero)sender);
                 }
