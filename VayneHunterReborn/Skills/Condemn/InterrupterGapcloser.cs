@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Linq;
 using DZLib.Core;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
 using VayneHunter_Reborn.External;
 using VayneHunter_Reborn.Skills.Tumble.VHRQ;
 using VayneHunter_Reborn.Utility;
 using VayneHunter_Reborn.Utility.MenuUtility;
 using ActiveGapcloser = VayneHunter_Reborn.External.ActiveGapcloser;
+using GapcloserType = VayneHunter_Reborn.External.GapcloserType;
 
 namespace VayneHunter_Reborn.Skills.Condemn
 {
     class InterrupterGapcloser
     {
+        static float flashQRange = 450 + 300f;
+
         public static void OnLoad()
         {
             Interrupter2.OnInterruptableTarget += OnInterruptableTarget;
@@ -22,6 +27,24 @@ namespace VayneHunter_Reborn.Skills.Condemn
 
         private static void OnEnemyGapcloser(ActiveGapcloser gapcloser, SpellSlot slot)
         {
+            if (ObjectManager.Player.Position.Distance(gapcloser.End) > 365f) return;
+           
+            SpellSlot FlashSlot = ObjectManager.Player.GetSpellSlot("summonerflash");
+
+            if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.antigp")  &&
+                gapcloser.Sender.IsEnemy && gapcloser.SkillType == GapcloserType.Targeted &&
+                gapcloser.Sender.ChampionName == "Alistar" && Variables.spells[SpellSlot.E].IsReady())
+            {
+                if(FlashSlot.IsReady()
+                    && ObjectManager.Player.GetEnemiesInRange(1500f).Count >= 3 && ObjectManager.Player.HealthPercent< 40)
+                {
+                    ObjectManager.Player.Spellbook.CastSpell(FlashSlot, GetSelectedPosition(gapcloser.Sender.Position, 450, 0));
+                    Variables.spells[SpellSlot.E].CastOnUnit(gapcloser.Sender);
+                    return;
+                }
+            }
+
+
             if (MenuExtensions.GetItemValue<bool>("dz191.vhr.misc.general.antigp") && Variables.spells[slot].IsReady())
             {
                 LeagueSharp.Common.Utility.DelayAction.Add(MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.general.antigpdelay").Value,
@@ -104,6 +127,25 @@ namespace VayneHunter_Reborn.Skills.Condemn
                     }
                 }
             }
+        }
+
+        public static Vector3 GetSelectedPosition(Vector3 pos, float range, int type)
+        {
+            switch (type)
+            {
+                case 0: // backwards
+                    return ObjectManager.Player.ServerPosition.Extend(pos, -range);
+                case 1: // teammates
+                    var teammate = ObjectManager.Player.GetAlliesInRange(1500f).FirstOrDefault();
+                    return ObjectManager.Player.Position.Extend(teammate?.Position ?? Game.CursorPos, range);
+                case 2: // turret
+                    var closestTurret =
+                        ObjectManager.Get<Obj_AI_Turret>()
+                            .FirstOrDefault(x => x.IsAlly && x.Health > 1 && x.Distance(ObjectManager.Player) < 1500f);
+                    return ObjectManager.Player.Position.Extend(closestTurret?.Position ?? Game.CursorPos, range);
+            }
+
+            return ObjectManager.Player.ServerPosition.Extend(pos, -range);
         }
     }
 }
