@@ -49,7 +49,9 @@ namespace VayneHunter_Reborn.Modules.ModuleList.Misc
 
         public void OnExecute()
         {
-            if (ObjectManager.Player.ServerPosition.Distance(LanternObject.Position) <= 500f)
+            if (LanternObject != null 
+                && LanternObject.IsValid 
+                && ObjectManager.Player.ServerPosition.Distance(LanternObject.Position) <= 500f)
             {
                 //Cast Interact spell
                 ObjectManager.Player.Spellbook.CastSpell((SpellSlot) 62, LanternObject);
