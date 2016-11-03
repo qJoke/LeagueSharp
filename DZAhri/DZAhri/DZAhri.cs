@@ -73,7 +73,7 @@ namespace DZAhri
                         }
                         break;
                     case 1:
-                        if (!target.IsCharmed() && Helpers.IsMenuEnabled("dz191.ahri.combo.usee") && _spells[SpellSlot.E].IsReady() && _spells[SpellSlot.Q].IsReady())
+                        if (!target.IsCharmed() && Helpers.IsMenuEnabled("dz191.ahri.combo.usee") && _spells[SpellSlot.E].IsReady())
                         {
                             _spells[SpellSlot.E].CastIfHitchanceEquals(target, HitChance.High);
                         }
@@ -260,7 +260,10 @@ namespace DZAhri
         }
         static void Interrupter2_OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
-            if (Helpers.IsMenuEnabled("dz191.ahri.misc.eint") && args.DangerLevel >= Interrupter2.DangerLevel.Medium && _spells[SpellSlot.E].IsReady())
+            if (Helpers.IsMenuEnabled("dz191.ahri.misc.eint") 
+                && args.DangerLevel >= Interrupter2.DangerLevel.Medium 
+                && _spells[SpellSlot.E].IsReady() 
+                && sender.IsValidTarget(_spells[SpellSlot.E].Range))
             {
                 _spells[SpellSlot.E].Cast(sender.ServerPosition);
             }
