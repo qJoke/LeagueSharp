@@ -58,7 +58,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
                             {
                                 case SpellSlot.Q:
                                     var senderPos = gapcloser.End;
-                                    var backOut = ObjectManager.Player.ServerPosition.Extend(senderPos, 300f);
+                                    var backOut = ObjectManager.Player.ServerPosition.Extend(senderPos, -300f);
                                     if (backOut.IsSafe())
                                     {
                                         if (gapcloser.Start.Distance(ObjectManager.Player.ServerPosition) >
@@ -74,7 +74,13 @@ namespace VayneHunter_Reborn.Skills.Condemn
                                     if (gapcloser.Start.Distance(ObjectManager.Player.ServerPosition) >
                                         gapcloser.End.Distance(ObjectManager.Player.ServerPosition))
                                     {
-                                        Variables.spells[SpellSlot.E].CastOnUnit(gapcloser.Sender);
+                                        var predictedEndPost = gapcloser.End.Extend(
+                                            ObjectManager.Player.ServerPosition, -425f);
+                                        if (predictedEndPost.Distance(ObjectManager.Player.ServerPosition)
+                                            > gapcloser.End.Distance(ObjectManager.Player.ServerPosition))
+                                        {
+                                            Variables.spells[SpellSlot.E].CastOnUnit(gapcloser.Sender);
+                                        }
                                     }
                                     break;
                             }
