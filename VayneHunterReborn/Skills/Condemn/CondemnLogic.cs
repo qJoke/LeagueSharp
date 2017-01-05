@@ -37,7 +37,7 @@ namespace VayneHunter_Reborn.Skills.Condemn
                 return;
             }
 
-            /**
+            
             var CondemnTarget = GetCondemnTarget(ObjectManager.Player.ServerPosition);
             if (CondemnTarget.IsValidTarget())
             {
@@ -55,7 +55,8 @@ namespace VayneHunter_Reborn.Skills.Condemn
                 }
 
                 E.CastOnUnit(CondemnTarget);
-            }*/
+            }
+            return;
 
             var pushDistance = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.pushdistance").Value - 25;
 
