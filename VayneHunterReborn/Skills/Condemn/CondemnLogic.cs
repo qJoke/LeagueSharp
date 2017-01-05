@@ -41,12 +41,13 @@ namespace VayneHunter_Reborn.Skills.Condemn
             var CondemnTarget = GetCondemnTarget(ObjectManager.Player.ServerPosition);
             if (CondemnTarget.IsValidTarget())
             {
-               // var AAForE = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.noeaa").Value;
+               var AAForE = MenuExtensions.GetItemValue<Slider>("dz191.vhr.misc.condemn.noeaa").Value;
 
-               // if (CondemnTarget.Health / ObjectManager.Player.GetAutoAttackDamage(CondemnTarget, true) < AAForE)
-               // {
-               //     return;
-               // }
+                if (Math.Ceiling(CondemnTarget.Health / ObjectManager.Player.GetAutoAttackDamage(CondemnTarget, true)) < AAForE)
+                {
+                   return;
+                }
+
                 var targetPosition = CondemnTarget.ServerPosition;
                 var myPosition = ObjectManager.Player.ServerPosition;
                 if (WindWall.CollidesWithWall(myPosition, targetPosition))
